@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Problems of Setup</title>
+    <link href="/2020/10/28/Problems-of-Setup/"/>
+    <url>/2020/10/28/Problems-of-Setup/</url>
+    
+    <content type="html"><![CDATA[<h3 id="git多SSH-Key配置"><a href="#git多SSH-Key配置" class="headerlink" title="git多SSH Key配置"></a>git多SSH Key配置</h3><p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p><pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;此处填邮箱&quot;</span><span class="hljs-comment">#输入文件名，按两次回车</span><span class="hljs-comment">#ssh-agent -s 无效，则用下面这条</span><span class="hljs-built_in">eval</span> $(ssh-agent -s)ssh-add ~/.ssh/id_rsa</code></pre><p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p><p>但本人用来存放数据的分区为NTFS格式，linux的权限管理对其无法起作用，所以平时git操作经常要用<code>sudo</code>强制执行</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>环境配置</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(译)因循的四象限</title>
     <link href="/2020/10/28/The-Four-Quadrants-of-Conformism/"/>
     <url>/2020/10/28/The-Four-Quadrants-of-Conformism/</url>
