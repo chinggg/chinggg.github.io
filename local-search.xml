@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>CSAPP</title>
+    <link href="/2020/10/28/CSAPP/"/>
+    <url>/2020/10/28/CSAPP/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Ch1-A-Tour-of-Computer-Systems"><a href="#Ch1-A-Tour-of-Computer-Systems" class="headerlink" title="Ch1  A Tour of Computer Systems"></a>Ch1  A Tour of Computer Systems</h2><h4 id="Information-Is-Bits-Context"><a href="#Information-Is-Bits-Context" class="headerlink" title="Information Is Bits+Context"></a><strong>Information Is Bits+Context</strong></h4><p><em>text files</em> consist exclusively of ASCII characters<br>All other files are known as <em>binary files</em></p><h3 id="Compilation-system"><a href="#Compilation-system" class="headerlink" title="Compilation system"></a>Compilation system</h3><ul><li><p>preprocessor</p><p>insert header file to program text, creating another file <em>program.i</em></p></li><li><p>compiler</p><p>text file <em>program.i</em> to <em>program.s</em>(assembly program)</p></li><li><p>assembler</p><p><em>program.s</em> to machine-language instructions, packaged in a form called <em>relocatable object program</em></p></li><li><p>linker</p><p>merge .o files to <em>executable</em></p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>专业书籍</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>计算机理论</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Now</title>
+    <link href="/2020/10/28/Now/"/>
+    <url>/2020/10/28/Now/</url>
+    
+    <content type="html"><![CDATA[<h3 id="秋季课程"><a href="#秋季课程" class="headerlink" title="秋季课程"></a>秋季课程</h3><p>OOP：尚未开始</p><p>离散数学：尚未开始</p><p>大学物理：尚未开始</p><p>马原论文：尚未开始</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>长期更新</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Problems of Setup</title>
     <link href="/2020/10/28/Problems-of-Setup/"/>
     <url>/2020/10/28/Problems-of-Setup/</url>
