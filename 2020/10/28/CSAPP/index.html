@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      67 字
+      256 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      5
        分钟
     </span>
   
@@ -229,24 +229,63 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：October 28, 2020 am
+                  本文最后更新于：October 29, 2020 pm
                 
               </p>
             
             <div class="markdown-body" id="post-body">
-              <h2 id="Ch1-A-Tour-of-Computer-Systems"><a href="#Ch1-A-Tour-of-Computer-Systems" class="headerlink" title="Ch1  A Tour of Computer Systems"></a>Ch1  A Tour of Computer Systems</h2><h4 id="Information-Is-Bits-Context"><a href="#Information-Is-Bits-Context" class="headerlink" title="Information Is Bits+Context"></a><strong>Information Is Bits+Context</strong></h4><p><em>text files</em> consist exclusively of ASCII characters<br>All other files are known as <em>binary files</em></p>
-<h3 id="Compilation-system"><a href="#Compilation-system" class="headerlink" title="Compilation system"></a>Compilation system</h3><ul>
+              <p><a target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/">https://csapp.cs.cmu.edu/</a></p>
+<p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/students.html">Site</a>  <a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/labs.html">Labs</a>  <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd">Lecture</a></p>
+<h2 id="Ch1-A-Tour-of-Computer-Systems"><a href="#Ch1-A-Tour-of-Computer-Systems" class="headerlink" title="Ch1  A Tour of Computer Systems"></a>Ch1  A Tour of Computer Systems</h2><h4 id="Information-Is-Bits-Context"><a href="#Information-Is-Bits-Context" class="headerlink" title="Information Is Bits+Context"></a><strong>Information Is Bits+Context</strong></h4><p><strong>text files</strong> consist exclusively of ASCII characters<br>All other files are known as <strong>binary files</strong></p>
+<h4 id="Compilation-system"><a href="#Compilation-system" class="headerlink" title="Compilation system"></a>Compilation system</h4><ul>
 <li><p>preprocessor</p>
 <p>insert header file to program text, creating another file <em>program.i</em></p>
 </li>
 <li><p>compiler</p>
-<p>text file <em>program.i</em> to <em>program.s</em>(assembly program)</p>
+<p>text file <em>program.i</em> to <em>program.s</em> (assembly program)</p>
 </li>
 <li><p>assembler</p>
-<p><em>program.s</em> to machine-language instructions, packaged in a form called <em>relocatable object program</em></p>
+<p><em>program.s</em> to machine-language instructions, packaged in a form called <strong>relocatable</strong> object program</p>
 </li>
 <li><p>linker</p>
-<p>merge .o files to <em>executable</em></p>
+<p>merge .o files to <strong>executable</strong></p>
+</li>
+</ul>
+<h4 id="Hardware-Organization"><a href="#Hardware-Organization" class="headerlink" title="Hardware Organization"></a>Hardware Organization</h4><ul>
+<li><p>Buses</p>
+<ul>
+<li>carry information between components</li>
+<li>chunks of bytes in fixed-size are called <strong>word</strong></li>
+<li><strong>word size</strong> varies across systems (commonly 4 bytes or 8 bytes)</li>
+</ul>
+</li>
+<li><p>I/O Devices</p>
+<ul>
+<li>connected to the I/O bus by <strong>controller</strong> or <strong>adapter</strong><ul>
+<li>controllers are chip sets in the device itself or on the system’s main printed circuit board(<strong>motherboard</strong>)</li>
+<li>adapter is a card that plugs into a slot on the motherboard</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Main Memory</p>
+<ul>
+<li>consist of a collection of <strong>DRAM</strong>(dynamic random access memory)</li>
+</ul>
+</li>
+<li><p>Processor</p>
+<ul>
+<li>the engine that interprets instructions stored in main memory</li>
+<li>a word-size storage device called <strong>program counter</strong>(also PC) at its core, always pointing at machine-language instructions </li>
+<li>processor <em>appears</em> to operate according to a simple instruction execution model, defined by its <em>instruction set architecture</em><ul>
+<li>Load: copy from main memory into register</li>
+<li>Store: copy from register to a location in main memory</li>
+<li>Operate: copy contents of two registers to ALU, perform arithmetic operation on the two words, store result in register</li>
+<li>Jump: extract word from instruction itself, copy that word into PC</li>
+<li>(This kind of <code>copy</code> means <strong>overwriting</strong>!)</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 
