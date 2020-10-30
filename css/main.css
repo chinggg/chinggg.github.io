@@ -135,7 +135,7 @@ sup > a::before,
 .footnote-text {
   padding-left: 0.5em;
 }
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   header .h2 {
     font-size: 1.5rem;
   }
@@ -440,7 +440,7 @@ img[srcset] {
     display: block;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   .nopadding-md {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -772,7 +772,7 @@ img[srcset] {
 .navbar-col-show {
   background-color: var(--navbar-bg-color);
 }
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   .navbar {
     font-size: 1rem;
     line-height: 2.5rem;
