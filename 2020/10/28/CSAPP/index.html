@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      683 字
+      709 字
     </span>
   
 
@@ -187,20 +187,12 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13
+      14
        分钟
     </span>
   
 
   
-  
-    
-      <!-- 不蒜子统计文章PV -->
-      <span id="busuanzi_container_page_pv" style="display: none">
-        <i class="iconfont icon-eye" aria-hidden="true"></i>
-        <span id="busuanzi_value_page_pv"></span> 次
-      </span>
-    
   
 </div>
 
@@ -227,56 +219,65 @@
             <!-- SEO header -->
             <h1 style="display: none">CSAPP</h1>
             
-              <p class="note note-info">
-                
-                  本文最后更新于：November 1, 2020 am
-                
-              </p>
-            
             <div class="markdown-body" id="post-body">
-              <p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/students.html">Site</a>  <a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/labs.html">Labs</a> <a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/figures.html">Figures</a> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd">Lecture</a> </p>
-<h2 id="Ch1-A-Tour-of-Computer-Systems"><a href="#Ch1-A-Tour-of-Computer-Systems" class="headerlink" title="Ch1  A Tour of Computer Systems"></a>Ch1  A Tour of Computer Systems</h2><h4 id="Information-Is-Bits-Context"><a href="#Information-Is-Bits-Context" class="headerlink" title="Information Is Bits+Context"></a><strong>Information Is Bits+Context</strong></h4><p><strong>text files</strong> consist exclusively of ASCII characters<br>All other files are known as <strong>binary files</strong></p>
-<h4 id="Compilation-system"><a href="#Compilation-system" class="headerlink" title="Compilation system"></a>Compilation system</h4><ul>
-<li><p>preprocessor</p>
+              <p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/students.html">Site</a>  <a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/labs.html">Labs</a> <a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/figures.html">Figures</a> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd">Lecture</a></p>
+<h2 id="ch1-a-tour-of-computer-systems"><a class="markdownIt-Anchor" href="#ch1-a-tour-of-computer-systems"></a> Ch1  A Tour of Computer Systems</h2>
+<h3 id="information-is-bitscontext"><a class="markdownIt-Anchor" href="#information-is-bitscontext"></a> Information Is Bits+Context</h3>
+<p><strong>text files</strong> consist exclusively of ASCII characters<br />
+All other files are known as <strong>binary files</strong></p>
+<h3 id="compilation-system"><a class="markdownIt-Anchor" href="#compilation-system"></a> Compilation system</h3>
+<ul>
+<li>
+<p>preprocessor</p>
 <p>insert header file to program text, creating another file <em>program.i</em></p>
 </li>
-<li><p>compiler</p>
+<li>
+<p>compiler</p>
 <p>text file <em>program.i</em> to <em>program.s</em> (assembly program)</p>
 </li>
-<li><p>assembler</p>
+<li>
+<p>assembler</p>
 <p><em>program.s</em> to machine-language instructions, packaged in a form called <strong>relocatable</strong> object program</p>
 </li>
-<li><p>linker</p>
+<li>
+<p>linker</p>
 <p>merge .o files to <strong>executable</strong></p>
 </li>
 </ul>
-<h4 id="Hardware-Organization"><a href="#Hardware-Organization" class="headerlink" title="Hardware Organization"></a>Hardware Organization</h4><ul>
-<li><p>Buses</p>
+<h3 id="hardware-organization"><a class="markdownIt-Anchor" href="#hardware-organization"></a> Hardware Organization</h3>
+<ul>
+<li>
+<p>Buses</p>
 <ul>
 <li>carry information between components</li>
 <li>chunks of bytes in fixed-size are called <strong>word</strong></li>
 <li><strong>word size</strong> varies across systems (commonly 4 bytes or 8 bytes)</li>
 </ul>
 </li>
-<li><p>I/O Devices</p>
+<li>
+<p>I/O Devices</p>
 <ul>
-<li>connected to the I/O bus by <strong>controller</strong> or <strong>adapter</strong><ul>
+<li>connected to the I/O bus by <strong>controller</strong> or <strong>adapter</strong>
+<ul>
 <li>controllers are chip sets in the device itself or on the system’s main printed circuit board(<strong>motherboard</strong>)</li>
 <li>adapter is a card that plugs into a slot on the motherboard</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Main Memory</p>
+<li>
+<p>Main Memory</p>
 <ul>
 <li>consist of a collection of <strong>DRAM</strong>(dynamic random access memory)</li>
 </ul>
 </li>
-<li><p>Processor</p>
+<li>
+<p>Processor</p>
 <ul>
 <li>the engine that interprets instructions stored in main memory</li>
-<li>a word-size storage device called <strong>program counter</strong>(also PC) at its core, always pointing at machine-language instructions </li>
-<li>processor <em>appears</em> to operate according to a simple instruction execution model, defined by its <strong>instruction set architecture</strong><ul>
+<li>a word-size storage device called <strong>program counter</strong>(also PC) at its core, always pointing at machine-language instructions</li>
+<li>processor <em>appears</em> to operate according to a simple instruction execution model, defined by its <strong>instruction set architecture</strong>
+<ul>
 <li>Load: copy from main memory into register</li>
 <li>Store: copy from register to a location in main memory</li>
 <li>Operate: copy contents of two registers to ALU, perform arithmetic operation on the two words, store result in register</li>
@@ -287,55 +288,74 @@
 </ul>
 </li>
 </ul>
-<h4 id="Caches-Matter"><a href="#Caches-Matter" class="headerlink" title="Caches Matter"></a>Caches Matter</h4><p>the <em>processor-memory gap</em> : fast+small+expensive VS slow+large+cheap</p>
+<h3 id="caches-matter"><a class="markdownIt-Anchor" href="#caches-matter"></a> Caches Matter</h3>
+<p>the <em>processor-memory gap</em> : fast+small+expensive VS slow+large+cheap</p>
 <p><em>memory hierarchy</em> : storage at one level serves as a cache for storage at the next lower level</p>
 <p>Figure 1.9: Example of a seven-level memory hierarchy</p>
-<h4 id="Operating-System"><a href="#Operating-System" class="headerlink" title="Operating System"></a>Operating System</h4><p>primary purposes of OS : protect (? from ?) and provide (? with ?)</p>
+<h3 id="operating-system"><a class="markdownIt-Anchor" href="#operating-system"></a> Operating System</h3>
+<p>primary purposes of OS : protect (? from ?) and provide (? with ?)</p>
 <p>(like a paradox, P15)</p>
 <p>Figure 1.10: <strong>Layered view</strong> of a computer system</p>
 <p>Figure 1.11: <strong>Abstractions</strong> provided by an operating system</p>
-<h5 id="Processes"><a href="#Processes" class="headerlink" title="Processes"></a>Processes</h5><p>Why can multiple processes run concurrently?  Instructions of processes are <strong>interleaved</strong>.</p>
+<h5 id="processes"><a class="markdownIt-Anchor" href="#processes"></a> Processes</h5>
+<p>Why can multiple processes run concurrently?  Instructions of processes are <strong>interleaved</strong>.</p>
 <p>Figure 1.12: Process <strong>context switching</strong></p>
 <p>What is <em>context</em>? (P16)</p>
-<p>user : ask -&gt; pass control by invoking <em>system call</em><br>kernel : -&gt; save -&gt; restore -&gt; pass control<br>program : -&gt; run -&gt; terminate -&gt; return<br>system : restore -&gt; pass control back</p>
+<p>user : ask -&gt; pass control by invoking <em>system call</em><br />
+kernel : -&gt; save -&gt; restore -&gt; pass control<br />
+program : -&gt; run -&gt; terminate -&gt; return<br />
+system : restore -&gt; pass control back</p>
 <p>Kernel is not a separate process but what? (P17)</p>
-<h5 id="Threads"><a href="#Threads" class="headerlink" title="Threads"></a>Threads</h5><p>Although we normally think of a process as having a single control flow,in modern systems, a process can actually consist of <strong>multiple execution units</strong>, called <em>threads</em>, each running in the context of the process and sharing the same code and global data.</p>
+<h5 id="threads"><a class="markdownIt-Anchor" href="#threads"></a> Threads</h5>
+<p>Although we normally think of a process as having a single control flow,in modern systems, a process can actually consist of <strong>multiple execution units</strong>, called <em>threads</em>, each running in the context of the process and sharing the same code and global data.</p>
 <p>Easier to share data, more efficient, faster under multiprocesser than process</p>
-<h5 id="Virtual-Memory"><a href="#Virtual-Memory" class="headerlink" title="Virtual Memory"></a>Virtual Memory</h5><p>abstraction .. process .. illusion .. exclusive use of main memory</p>
+<h5 id="virtual-memory"><a class="markdownIt-Anchor" href="#virtual-memory"></a> Virtual Memory</h5>
+<p>abstraction … process … illusion … exclusive use of main memory</p>
 <p>Figure 1.13: Process virtual address space</p>
 <ul>
-<li>Program code and data<ul>
+<li>Program code and data
+<ul>
 <li>begins at same fixed address for all processes, followed by data locations</li>
 </ul>
 </li>
-<li>Heap<ul>
+<li>Heap
+<ul>
 <li>expand and contract dynamically <strong>at run time</strong> when <code>malloc</code> and <code>free</code></li>
 </ul>
 </li>
 <li>Shared libraries</li>
-<li>Stack<ul>
+<li>Stack
+<ul>
 <li>expand when call function, contract when return from function</li>
 </ul>
 </li>
-<li>Kernel virtual memory<ul>
+<li>Kernel virtual memory
+<ul>
 <li>not allowed to r/w by applications</li>
 </ul>
 </li>
 </ul>
-<h5 id="Files"><a href="#Files" class="headerlink" title="Files"></a>Files</h5><p>a sequence of bytes</p>
+<h5 id="files"><a class="markdownIt-Anchor" href="#files"></a> Files</h5>
+<p>a sequence of bytes</p>
 <p>The notion of file providing a uniform view of varied I/O devices for applications.</p>
 <p>Figure 1.14: A network is another I/O device</p>
-<h4 id="Amdahl’s-Law"><a href="#Amdahl’s-Law" class="headerlink" title="Amdahl’s Law"></a>Amdahl’s Law</h4><p>$S=\frac{T_{old}}{T_{new}}=\frac{1}{(1-ɑ)+ɑ/k}$</p>
-<h4 id="Concurrency-and-Parallelism"><a href="#Concurrency-and-Parallelism" class="headerlink" title="Concurrency and Parallelism"></a>Concurrency and Parallelism</h4><p>two constant demands : do more, run faster</p>
+<h3 id="amdahls-law"><a class="markdownIt-Anchor" href="#amdahls-law"></a> Amdahl’s Law</h3>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mo>=</mo><mfrac><msub><mi>T</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><msub><mi>T</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub></mfrac><mo>=</mo><mfrac><mn>1</mn><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">ɑ</mi><mo stretchy="false">)</mo><mo>+</mo><mi mathvariant="normal">ɑ</mi><mi mathvariant="normal">/</mi><mi>k</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">S=\frac{T_{old}}{T_{new}}=\frac{1}{(1-ɑ)+ɑ/k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.3392909999999998em;vertical-align:-0.44509999999999994em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.894191em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.41586em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3487714285714287em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15122857142857138em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.44509999999999994em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.365108em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mtight">ɑ</span><span class="mclose mtight">)</span><span class="mbin mtight">+</span><span class="mord mtight">ɑ</span><span class="mord mtight">/</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<h3 id="concurrency-and-parallelism"><a class="markdownIt-Anchor" href="#concurrency-and-parallelism"></a> Concurrency and Parallelism</h3>
+<p>two constant demands : do more, run faster</p>
 <p><em>concurrency</em> for more, <em>parallelism</em> for faster</p>
-<h5 id="Thread-Level-Concurrency"><a href="#Thread-Level-Concurrency" class="headerlink" title="Thread-Level Concurrency"></a>Thread-Level Concurrency</h5><p><em>concurrency</em> = multiple+simultaneous</p>
+<h4 id="thread-level-concurrency"><a class="markdownIt-Anchor" href="#thread-level-concurrency"></a> Thread-Level Concurrency</h4>
+<p><em>concurrency</em> = multiple+simultaneous</p>
 <p>Uniprocessor system can only <em>simulate</em> concurrent execution.</p>
 <p><strong>Hyperthreading</strong> (<em>simultaneous multi-threading</em>) allows a single CPU to execute multiple flows of control, which involves multiple copies of some CPU hardware and only single copies of other parts.</p>
 <p>Multiprocessing improve both multiple tasks (reduce simulation of concurrency) and single program (only if expressed in terms of multiple threads).</p>
-<h5 id="Instruction-Level-Parallelism"><a href="#Instruction-Level-Parallelism" class="headerlink" title="Instruction-Level Parallelism"></a>Instruction-Level Parallelism</h5><p><em>pipelining</em> partition the instructions into different steps and processor is organized as a series of stages that can operate in parallel, each performing one of these steps.</p>
+<h4 id="instruction-level-parallelism"><a class="markdownIt-Anchor" href="#instruction-level-parallelism"></a> Instruction-Level Parallelism</h4>
+<p><em>pipelining</em> partition the instructions into different steps and processor is organized as a series of stages that can operate in parallel, each performing one of these steps.</p>
 <p><em>superscalar</em> processors can sustain execution rates faster than 1 instruction per cycle</p>
-<h5 id="SIMD-Parallelism"><a href="#SIMD-Parallelism" class="headerlink" title="SIMD Parallelism"></a>SIMD Parallelism</h5><p>single-instruction, multiple data</p>
-<h4 id="Abstractions"><a href="#Abstractions" class="headerlink" title="Abstractions"></a>Abstractions</h4><p>add <em>virtual machine</em> to Figure 1.11</p>
+<h4 id="simd-parallelism"><a class="markdownIt-Anchor" href="#simd-parallelism"></a> SIMD Parallelism</h4>
+<p>single-instruction, multiple data</p>
+<h3 id="abstractions"><a class="markdownIt-Anchor" href="#abstractions"></a> Abstractions</h3>
+<p>add <em>virtual machine</em> to Figure 1.11</p>
 <p>Figure 1.18: Some abstractions provided by a computer system</p>
 <p>(Remember it!)</p>
 
@@ -347,7 +367,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%93%E4%B8%9A%E4%B9%A6%E7%B1%8D/">专业书籍</a>
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">计算机理论</a>
                     
                   </div>
                 
@@ -355,7 +375,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">计算机理论</a>
+                      <a class="hover-with-bg" href="/tags/CSAPP/">CSAPP</a>
                     
                   </div>
                 
@@ -478,8 +498,6 @@
   <script  src="/js/clipboard-use.js" ></script>
 
 
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 

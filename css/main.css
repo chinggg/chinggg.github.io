@@ -135,7 +135,7 @@ sup > a::before,
 .footnote-text {
   padding-left: 0.5em;
 }
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   header .h2 {
     font-size: 1.5rem;
   }
@@ -229,7 +229,7 @@ sup > a::before,
 html,
 body {
   font-size: 16px;
-  font-family: Verdana, Arial, Helvetica, sans-serif;;
+  font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
 }
 html,
 body,
@@ -440,7 +440,7 @@ img[srcset] {
     display: block;
   }
 }
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   .nopadding-md {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -772,7 +772,7 @@ img[srcset] {
 .navbar-col-show {
   background-color: var(--navbar-bg-color);
 }
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   .navbar {
     font-size: 1rem;
     line-height: 2.5rem;
@@ -789,7 +789,7 @@ img[srcset] {
 .markdown-body {
   font-size: 1rem;
   margin-bottom: 2rem;
-  font-family: Verdana, Arial, Helvetica, sans-serif;;
+  font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   color: var(--post-text-color);
 }
 .markdown-body h1,
@@ -1155,13 +1155,13 @@ input[type=checkbox]:checked:after {
   padding-left: 10%;
   padding-right: 10%;
 }
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   .post-content {
     padding-left: 2rem;
     padding-right: 2rem;
   }
 }
-@media (max-width: 450px) {
+@media (max-width: 424px) {
   .post-content {
     padding-left: 1rem;
     padding-right: 1rem;

@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>Problems of Setup - Ching</title>
+  <title>Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -165,8 +165,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-10-28 04:45" pubdate>
-        October 28, 2020 am
+      <time datetime="2020-11-01 18:13" pubdate>
+        November 1, 2020 pm
       </time>
     </span>
   
@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      348 字
+      463 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      9
        分钟
     </span>
   
@@ -217,19 +217,166 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Problems of Setup</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="git多ssh-key配置"><a class="markdownIt-Anchor" href="#git多ssh-key配置"></a> git多SSH Key配置</h3>
-<p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
-<pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;此处填邮箱&quot;</span>
-<span class="hljs-comment">#输入文件名，按两次回车</span>
-<span class="hljs-comment">#ssh-agent -s 无效，则用下面这条</span>
-<span class="hljs-built_in">eval</span> $(ssh-agent -s)
-ssh-add ~/.ssh/id_rsa</code></pre>
-<p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
-<p>但本人用来存放数据的分区为NTFS格式，linux的权限管理对其无法起作用，所以平时git操作经常要用<code>sudo</code>强制执行。但<code>ssh-keygen</code> <code>ssh-add</code>命令似乎与权限密切相关，是否<code>sudo</code>会对结果产生重大影响，其中包括<code>id_rsa</code>文件的读写权限，权限应该是越低越安全，但又会导致ssh无法使用该key进行验证。而有时明明用<code>ssh -vT git@github.com</code>连接成功，却仍然提示<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/authenticating-to-github/error-permission-denied-publickey"><code>Error: Permission denied (publickey)</code></a>，时灵时不灵又不知问题出在哪，实在叫人疑惑。</p>
-<p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">附上一篇参考文章</a>，虽仍不能解决我的问题，但已经是较为全面的了</p>
+              <h2 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h2>
+<p><strong>distributed system</strong> VS <strong>computer networks</strong></p>
+<p>key distinction : <strong>middleware</strong></p>
+<p>a distributed system is a <em>software</em> system built on top of a network</p>
+<h3 id="uses"><a class="markdownIt-Anchor" href="#uses"></a> Uses</h3>
+<h4 id="business-applications"><a class="markdownIt-Anchor" href="#business-applications"></a> Business Applications</h4>
+<p><strong>resource sharing</strong></p>
+<ul>
+<li>VPNs</li>
+<li>client-server model</li>
+</ul>
+<p><strong>commuinication medium</strong></p>
+<ul>
+<li>email</li>
+<li>VoIP</li>
+<li>desktop sharing</li>
+</ul>
+<p><strong>e-commerce</strong></p>
+<h4 id="home-applications"><a class="markdownIt-Anchor" href="#home-applications"></a> Home Applications</h4>
+<p><strong>Metcalfe’s law</strong> hypothesizes the value of a network</p>
+<ul>
+<li>P2P communication</li>
+<li>social network</li>
+<li>access information</li>
+</ul>
+<h4 id="mobile-users"><a class="markdownIt-Anchor" href="#mobile-users"></a> Mobile Users</h4>
+<ul>
+<li>RFID</li>
+<li>Sensor networks</li>
+<li>Wearable computers</li>
+</ul>
+<p>Wireless? * Mobile? = 4 types</p>
+<h3 id="network-hardware"><a class="markdownIt-Anchor" href="#network-hardware"></a> Network Hardware</h3>
+<p>two dimensions to classify: <strong>transmission technology</strong> and <strong>scale</strong></p>
+<p>By transmission technology : <strong>broadcast</strong> links and <strong>point-to-point</strong> links</p>
+<ul>
+<li>
+<p>broadcast</p>
+<ul>
+<li>channel shared by all machines on network</li>
+<li>any packets received by all</li>
+<li>address field within packet specifies intended recipient</li>
+</ul>
+</li>
+<li>
+<p>point-to-point</p>
+<ul>
+<li>first visit intermediate machines</li>
+<li>multiple routes of different lengths</li>
+</ul>
+</li>
+</ul>
+<p>By scale : PAN, LAN, MAN, WAN, internetwork</p>
+<h4 id="peronal-area-network"><a class="markdownIt-Anchor" href="#peronal-area-network"></a> Peronal Area Network</h4>
+<ul>
+<li>Bluetooth</li>
+<li>RFID</li>
+</ul>
+<h4 id="local-area-network"><a class="markdownIt-Anchor" href="#local-area-network"></a> Local Area Network</h4>
+<ul>
+<li>
+<p>Wireless LANs</p>
+<ul>
+<li>Device : AP (Access Point), wireless router,  base station
+<ul>
+<li>relay packets between computers</li>
+</ul>
+</li>
+<li>Standard : IEEE 802.11 (WiFi)
+<ul>
+<li>Speed: from 11 to hundreds of Mbps</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Wired LANs</p>
+<ul>
+<li>Device : copper wires or optical fiber</li>
+<li>Standard : IEEE 802.3 (Ethernet)
+<ul>
+<li>switched Ethernet</li>
+<li>topology built from P2P links
+<ul>
+<li>a switch has multiple ports</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>VLAN</p>
+<ul>
+<li>divide one physical LAN into two smaller logical LANs</li>
+</ul>
+</li>
+</ul>
+<p>Both wireless and wired broadcast networks can be divided into <strong>static</strong> and <strong>dynamic</strong> designs, depending on how the channel is located.</p>
+<p><strong>Power-line network</strong> : reuse electronic wires already installed, carry both power and data signals simultaneously, using different frequency bands</p>
+<h4 id="metropolitan-area-network"><a class="markdownIt-Anchor" href="#metropolitan-area-network"></a> Metropolitan Area Network</h4>
+<ul>
+<li>cable television networks</li>
+<li>IEEE 802.16 (<strong>WiMAX</strong>)</li>
+</ul>
+<h4 id="wide-area-network"><a class="markdownIt-Anchor" href="#wide-area-network"></a> Wide Area Network</h4>
+<ul>
+<li>
+<p><strong>hosts</strong></p>
+</li>
+<li>
+<p><strong>communication subnet</strong></p>
+<ul>
+<li><strong>subnet</strong> here only means <u>a collection of lines and routers</u></li>
+<li>transmission lines
+<ul>
+<li>move bits between machines</li>
+<li>made of copper wire, optical fiber or radio links</li>
+</ul>
+</li>
+<li>switching elements (<strong>router</strong>)
+<ul>
+<li>specialized computers connecting transmission lines</li>
+</ul>
+</li>
+</ul>
+<p>WAN is not a large wired LAN ! Differences:</p>
+<ul>
+<li>In a WAN, hosts and subnet are owned and operated by different people, leading to <u>seperation of communication aspects(subnet) from application aspects(hosts)</u>, which simplifies the overall network design</li>
+<li>Many WANs are actually <strong>internetworks</strong> because routers usually <u>connect different kinds of networking technology</u>.</li>
+</ul>
+<p>Varieties of WANs</p>
+<ul>
+<li>VPN
+<ul>
+<li>link via Internet rather than lease dedicated lines</li>
+<li>Pro : flexible reuse of resource</li>
+<li>Con : lack of control over underlying resources</li>
+</ul>
+</li>
+<li>ISP network</li>
+</ul>
+<p><strong>routing algorithm</strong> : which path to use</p>
+<p><strong>forwarding algorithm</strong> : where to send a packet next</p>
+<p>cellular telephone network and its three generations</p>
+<ul>
+<li>1st : analog + voice only</li>
+<li>2nd : digital + voice only</li>
+<li>3rd : digital + voice and data</li>
+</ul>
+</li>
+</ul>
+<h4 id="internetworks"><a class="markdownIt-Anchor" href="#internetworks"></a> Internetworks</h4>
+<p>subnets, networks and internetworks are often confused.</p>
+<p>network = a subnet + its hosts</p>
+<p><strong>gateway</strong> : the gernal name for a machine making connections between networks and providing necessary translation, both in terms of hardware and software</p>
+<p>Gateway cannot be too low-level or too high-level (Why? P51). It is in the middle level called network layer. A router is a gateway swithing packets at the network layer.</p>
 
             </div>
             <hr>
@@ -239,7 +386,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%B0%E5%BD%95/">记录</a>
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">计算机理论</a>
                     
                   </div>
                 
@@ -247,7 +394,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>
+                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
                     
                   </div>
                 
@@ -260,18 +407,12 @@ ssh-add ~/.ssh/id_rsa</code></pre>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/10/28/Now/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Now</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/28/The-Four-Quadrants-of-Conformism/">
-                        <span class="hidden-mobile">(译)因循的四象限</span>
+                      <a href="/2020/10/30/Discrete-Math/">
+                        <span class="hidden-mobile">Discrete Math</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -407,7 +548,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Problems of Setup&nbsp;",
+        "&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
