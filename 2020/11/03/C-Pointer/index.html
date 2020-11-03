@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>Now - Ching</title>
+  <title>C指针复盘 - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -165,8 +165,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-10-28 09:24" pubdate>
-        October 28, 2020 am
+      <time datetime="2020-11-03 21:17" pubdate>
+        November 3, 2020 pm
       </time>
     </span>
   
@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      264 字
+      1.1k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      11
        分钟
     </span>
   
@@ -217,27 +217,62 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Now</h1>
+            <h1 style="display: none">C指针复盘</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="秋季课程"><a class="markdownIt-Anchor" href="#秋季课程"></a> 秋季课程</h3>
-<p>离散数学：刚跟上课程进度</p>
-<p>OOP：尚未开始</p>
-<p>大学物理：尚未跟上课程进度</p>
-<p>马原论文：尚未开始</p>
-<p>毛概论文：尚未开始</p>
-<p>实训课报告：尚未开始</p>
-<p>所有报告预计利用中近纲和马原课完成</p>
-<p>大物实验考试</p>
-<h3 id="每日反省"><a class="markdownIt-Anchor" href="#每日反省"></a> 每日反省</h3>
-<p>10.31 又是被院士们拉开差距的一天，先是睡到中午，再是下午低效率学(抄)物理，晚上熬夜摸鱼</p>
-<p>11.1 早上一直在睡觉，下午拖拖拉拉跟上离散进度，历年卷还是没做，晚上用文科方式学计网，不敲代码可能是假计院学生</p>
-<p>11.2-11.3 怎么感觉还是什么都没做，还莫名奇妙多了一些ddl，代码量没有一切免谈</p>
-<h3 id="封鱼榜"><a class="markdownIt-Anchor" href="#封鱼榜"></a> 封鱼榜</h3>
-<p>纠结各种字体效果然后去知乎瞎逛看各路大神分析，看了很久仍然云里雾里，看完就忘</p>
-<p>百度右侧热搜</p>
-<p>油管推荐视频</p>
-<p>QQ空间和闲聊群</p>
+              <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>指针是学习C语言时无法绕过的概念，但由于其在算法竞赛中绝少使用，导致本人对指针的理解仍有许多模糊之处，学习Python、JavaScript等编程语言时，也从未遇到过指针，只有对象、引用这些更为抽象的概念。而要深入理解指针的本质和意义，必须对计算机内存模型和寻址方式先作了解，这无疑又得费番工夫。水平所限，本文无法对C的指针给出精妙的见解，仅是尝试帮助大一新生更好地准备考试，若文中出现错误，还望尽快指出。若要严谨地讨论C语言，得求教SSS学长。</p>
+<p>约定本文中出现的<code>p</code>均表示指针变量，<code>a</code>表示数组名，其他字母(如<code>x</code>,<code>y</code>一律假设为<code>int</code>型变量。</p>
+<h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
+<blockquote>
+<p>指针（pointer）是一个值为内存地址的变量（或数据对象）</p>
+</blockquote>
+<p>分析主谓宾，将原句拆成两句话即</p>
+<ul>
+<li>指针是一个变量</li>
+<li>指针的值是内存地址</li>
+</ul>
+<p>“变量”这一概念，学习过C语言基本数据类型使用的人都不会陌生，既然是变量，那么有声明、赋值等一系列常规操作，概念在书上讲得更为系统，这里就从略，只重点介绍一下<code>*</code>和<code>&amp;</code>这两个初学者容易混淆的运算符。</p>
+<p>在C语言中，同一个符号可以承载多种含义，需要根据前后所操作变量的个数和类型来判断。</p>
+<p><code>&amp;</code>，学到现在可以看到两种形态</p>
+<ul>
+<li>按位与运算符<code>x&amp;y</code>，对数字的二进制形式进行按位与操作，认识即可。</li>
+<li>取地址运算符(<code>&amp;x</code>)，后面跟着一个变量，作用是取出该变量在内存中的地址。
+<ul>
+<li><code>printf()</code>输出时格式化字符为<code>%p</code></li>
+<li>但是不能直接对<code>&amp;x</code>赋值，因为<code>&amp;x</code>只是临时的数据，而不是<em>左值</em>，所以需要请出指针</li>
+</ul>
+</li>
+<li>其实在C++中还有<em>引用</em>这一形态，这里略去不讲</li>
+</ul>
+<p><code>*</code>，学到现在可以看到三种形态</p>
+<ul>
+<li>乘法运算符(<code>x*y</code>)：最初的形态，就是将前后两个数相乘，很容易看出它是二元操作符，需要两个操作对象，而下面两种用法都只跟着一个变量。</li>
+<li>解引用运算符(<code>*p</code>)：后面跟着一个指针(由于单从变量的名字上看不出它是不是指针，所以可能容易迷惑)，作用是给出指针所指向地址上的值，比如指针<code>p</code>的值是变量<code>x</code>的地址(即<code>&amp;x</code>)，那<code>*p</code>就是<code>x</code>
+<ul>
+<li>大概可以理解成取地址运算符的逆运算</li>
+<li>但<code>*p</code>是<em>左值</em>，可以被赋值；而<code>&amp;x</code>不是<em>左值</em>，不可被赋值</li>
+</ul>
+</li>
+<li>声明指针(<code>int * p = &amp;x;</code>)：前面接着数据类型(如<code>int</code>,<code>double</code>，后面跟着指针的名字。注意这是在<strong>声明</strong>一个指针变量，不要和上面的解引用运算符混淆。
+<ul>
+<li><code>*</code>本身不是指针名的一部分</li>
+<li><code>*</code>前的数据类型是指针所指变量的类型</li>
+<li><code>*</code>和指针名之间的空格可有可无。通常，程序员在声明时使用空格，在解引用变量时省略空格。
+<ul>
+<li>实际经过尝试在现代编译器下，<code>*</code>前后有无空格都能编译通过。一行只定义一个指针变量时，一般也不会造成误解。但考试给的代码中会出现一行中同时声明指针变量和其他变量的情况，需要注意只有<code>*</code>跟着的变量才是指针。</li>
+<li>所以遇到题目的代码里声明指针时，<code>*</code>后紧贴指针名也正常，要能辨认出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>若觉赘述太多，陷入了概念的迷宫，也不想花太多时间在指针上，可以强记以下形式：声明(定义、初始化)变量时<code>int * p = &amp;x;</code>赋值时<code>p=&amp;x</code>，<code>*p=x</code>，以及同类型变量互相赋值，这些选项是正确的。</p>
+<h3 id="指针和数组"><a class="markdownIt-Anchor" href="#指针和数组"></a> 指针和数组</h3>
+<p>C语言中很多特性都共享相似的形式，指针和数组就是这样。数组名其实就是指向数组首元素的指针，即<code>a=&amp;a[0]</code>,<code>*a=a[0]</code></p>
+<h3 id="深入阅读"><a class="markdownIt-Anchor" href="#深入阅读"></a> 深入阅读</h3>
+<p>《C Primer Plus》(微信读书即可方便阅读)</p>
+<p><a target="_blank" rel="noopener" href="https://nettee.github.io/posts/2018/Understanding-lvalues-and-rvalues-in-C-and-C">理解 C/C++ 中的左值和右值</a></p>
 
             </div>
             <hr>
@@ -247,7 +282,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%B0%E5%BD%95/">记录</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
                     
                   </div>
                 
@@ -255,7 +290,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/">长期更新</a>
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
                     
                   </div>
                 
@@ -268,18 +303,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/10/28/CSAPP/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CSAPP</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/28/Problems-of-Setup/">
-                        <span class="hidden-mobile">Problems of Setup</span>
+                      <a href="/2020/11/01/Network/">
+                        <span class="hidden-mobile">Computer Networks</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -415,7 +444,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Now&nbsp;",
+        "C指针复盘&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
