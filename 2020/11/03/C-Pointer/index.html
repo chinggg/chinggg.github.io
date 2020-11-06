@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.3k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      13
        分钟
     </span>
   
@@ -248,7 +248,7 @@
 <p><code>*</code>，学到现在可以看到三种形态</p>
 <ul>
 <li>乘法运算符(<code>x*y</code>)：最初的形态，就是将前后两个数相乘，很容易看出它是二元操作符，需要两个操作对象，而下面两种用法都只跟着一个变量。</li>
-<li>解引用运算符(<code>*p</code>)：后面跟着一个指针(由于单从变量的名字上看不出它是不是指针，所以可能容易迷惑)，作用是给出指针所指向地址上的值，比如指针<code>p</code>的值是变量<code>x</code>的地址(即<code>&amp;x</code>)，那<code>*p</code>就是<code>x</code>
+<li>解引用运算符(<code>*p</code>)：又叫间接运算符，后面跟着一个指针(由于单从变量的名字上看不出它是不是指针，所以可能容易迷惑)，作用是给出指针所指向地址上的值，比如指针<code>p</code>的值是变量<code>x</code>的地址(即<code>&amp;x</code>)，那<code>*p</code>就是<code>x</code>
 <ul>
 <li>大概可以理解成取地址运算符的逆运算</li>
 <li>但<code>*p</code>是<em>左值</em>，可以被赋值；而<code>&amp;x</code>不是<em>左值</em>，不可被赋值</li>
@@ -267,9 +267,23 @@
 </ul>
 </li>
 </ul>
+<p>运算符的优先级：<code>()</code>&gt;<code>[]</code>&gt;<code>*</code></p>
+<p>区分：“指针的类型”和“指针所指向的类型”</p>
+<ul>
+<li>指针的类型：把指针名(不含<code>*</code>)去掉，剩下部分就是指针的类型</li>
+<li>指针所指向的类型：把指针名和它左边的<code>*</code>去掉，剩下部分就是指针所指向的类型</li>
+</ul>
 <p>若觉赘述太多，陷入了概念的迷宫，也不想花太多时间在指针上，可以强记以下形式：声明(定义、初始化)变量时<code>int * p = &amp;x;</code>赋值时<code>p=&amp;x</code>，<code>*p=x</code>，以及同类型变量互相赋值，这些选项是正确的。</p>
 <h3 id="指针和数组"><a class="markdownIt-Anchor" href="#指针和数组"></a> 指针和数组</h3>
-<p>C语言中很多特性都共享相似的形式，指针和数组就是这样。数组名其实就是指向数组首元素的指针，即<code>a=&amp;a[0]</code>,<code>*a=a[0]</code></p>
+<p>C语言中很多特性都共享相似的形式，指针和数组就是这样。</p>
+<p>一般而言数组名<code>a</code>代表数组本身，类型是<code>int [SIZE]</code>，但把若<code>a</code>看作指针，则它指向数组的第0个单元，指针类型是<code>int *</code>，指针所指向的类型是数组单元的类型，即<code>int</code>，可以记住以下等式<code>a=&amp;a[0]</code>,<code>*a=a[0]</code>。</p>
+<h3 id="指针和函数"><a class="markdownIt-Anchor" href="#指针和函数"></a> 指针和函数</h3>
+<ul>
+<li>参数为指针</li>
+<li>参数为数组</li>
+<li>函数返回值为指针</li>
+</ul>
+<h3 id="指针和字符串"><a class="markdownIt-Anchor" href="#指针和字符串"></a> 指针和字符串</h3>
 <h3 id="深入阅读"><a class="markdownIt-Anchor" href="#深入阅读"></a> 深入阅读</h3>
 <p>《C Primer Plus》(微信读书即可方便阅读)</p>
 <p><a target="_blank" rel="noopener" href="https://nettee.github.io/posts/2018/Understanding-lvalues-and-rvalues-in-C-and-C">理解 C/C++ 中的左值和右值</a></p>
