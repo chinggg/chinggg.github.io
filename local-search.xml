@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>ByteCTF2020复盘</title>
+    <link href="/2020/11/06/ByteCTF2020/"/>
+    <url>/2020/11/06/ByteCTF2020/</url>
+    
+    <content type="html"><![CDATA[<h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> MISC</h2><h3 id="hardcore-watermark-01"><a class="markdownIt-Anchor" href="#hardcore-watermark-01"></a> Hardcore Watermark 01</h3><blockquote><p>厌烦了用工具解图片题？那么来点硬核的～</p><p>链接: <a href="https://pan.baidu.com/s/1lKNYV4_X2Aqx8-qPB2Z_uw">https://pan.baidu.com/s/1lKNYV4_X2Aqx8-qPB2Z_uw</a> 密码: 6597<br />（备用下载：<a href="https://drive.google.com/drive/folders/1MsAZfHq2G61AQQCv_CBajmjnPUXlIBIo?usp=sharing%EF%BC%89">https://drive.google.com/drive/folders/1MsAZfHq2G61AQQCv_CBajmjnPUXlIBIo?usp=sharing）</a></p></blockquote><p>方法1：</p><p>官方解题思路：将图片从RGB通道转为YCrCb通道（虽然题目没有给出任何提示，但可能是图片隐写题常规操作）</p><p>调用opencv库，通过 <code>cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)</code>，对 img 图片数据进行色彩空间转换，得到三个通道对应的图片，呈现出的效果是三张灰色的图片，此处就不贴了，到此仍然没有任何曙光出现。</p><p>然后官方解法让我们对三个通道中的数据根据奇偶做二值化处理，二值化后的数据分别代表二维码的黑和白，并且每个通道可得到部分二维码图片。最后只需将三个通道数据结合到一幅图中即可复现二维码。</p><p><img src="/img/ByteFlag0.png" alt="ByteFlag0" /><br /><img src="/img/ByteFlag1.png" alt="ByteFlag1" /><br /><img src="/img/ByteFlag2.png" alt="ByteFlag2" /></p><p>官方题解只给出了二值化处理的一行核心代码<code>dst_value = (src_value % 2) * 255</code>，我在查阅opencv相关资料后，具体实现的处理图片完整的代码如下：</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2img_raw=cv2.imread(<span class="hljs-string">&quot;ByteRaw.png&quot;</span>)img=cv2.cvtColor(img_raw, cv2.COLOR_BGR2YCrCb)<span class="hljs-comment">#img=cv2.resize(img,None,fx=1,fy=1)</span>cv2.imshow(<span class="hljs-string">&quot;img&quot;</span>, img)img0=(img[:,:,<span class="hljs-number">0</span>]%<span class="hljs-number">2</span>)*<span class="hljs-number">255</span>img1=(img[:,:,<span class="hljs-number">1</span>]%<span class="hljs-number">2</span>)*<span class="hljs-number">255</span>img2=(img[:,:,<span class="hljs-number">2</span>]%<span class="hljs-number">2</span>)*<span class="hljs-number">255</span><span class="hljs-comment">#以下三行尝试手动切割出1/3的有效二维码长度，但结果不如直接用位图编辑器裁切</span><span class="hljs-comment">#img0=img0[0:int(img0.shape[0]/3)]</span><span class="hljs-comment">#img1=img1[0:int(img1.shape[0]/3)]</span><span class="hljs-comment">#img2=img2[0:int(img2.shape[0]/3)]</span>cv2.imshow(<span class="hljs-string">&quot;img0&quot;</span>,img0)cv2.imshow(<span class="hljs-string">&quot;img1&quot;</span>,img1)cv2.imshow(<span class="hljs-string">&quot;img2&quot;</span>,img2)cv2.imwrite(<span class="hljs-string">&quot;ByteFlag0.png&quot;</span>,img0)cv2.imwrite(<span class="hljs-string">&quot;ByteFlag1.png&quot;</span>,img1)cv2.imwrite(<span class="hljs-string">&quot;ByteFlag2.png&quot;</span>,img2)cv2.waitKey()</code></pre><p>方法2(非预期解)：先搜到原图</p><p><img src="http://image.tech.china.cn//upload/images/2020/0622/141832/209_367168_60428c03ed5c75e0d6185b1bb55a7ff3.png" alt="原图" /></p><p>使用 stegsolve 里的 image combiner 进行 sub 运算，再反色得到：</p><p><img src="https://md.byr.moe/uploads/upload_d64c50093170764e146f5f9dda54e79f.png" alt="sub后" /></p><h3 id="网络wp"><a class="markdownIt-Anchor" href="#网络wp"></a> 网络WP</h3><p><a href="https://y4tacker.blog.csdn.net/article/details/109372670">CSDN_Web</a></p><p><a href="http://www.fzwjscj.xyz/index.php/archives/39/">MISC_Watermark</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>比赛</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CTF</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>C指针复盘</title>
     <link href="/2020/11/03/C-Pointer/"/>
     <url>/2020/11/03/C-Pointer/</url>
@@ -108,7 +133,7 @@
     <link href="/2020/10/28/Now/"/>
     <url>/2020/10/28/Now/</url>
     
-    <content type="html"><![CDATA[<h3 id="秋季课程"><a class="markdownIt-Anchor" href="#秋季课程"></a> 秋季课程</h3><p>大物实验考试：放弃，希望飘过</p><p>离散数学：刚跟上课程进度</p><p>OOP：尚未开始</p><p>大学物理：尚未跟上课程进度</p><p>毛概论文：尚未开始</p><p>实训课报告：尚未开始</p><h3 id="每日反省"><a class="markdownIt-Anchor" href="#每日反省"></a> 每日反省</h3><p>10.31 又是被院士们拉开差距的一天，先是睡到中午，再是下午低效率学(抄)物理，晚上熬夜摸鱼</p><p>11.1 早上一直在睡觉，下午拖拖拉拉跟上离散进度，历年卷还是没做，晚上用文科方式学计网，不敲代码可能是假计院学生</p><p>11.2-11.3 怎么感觉还是什么都没做，还莫名奇妙多了一些ddl，代码量没有一切免谈</p><p>11.4-11.5 仍然零代码，重温《提纲》《形态》，写完马原报告，学用<code>nodeppt</code>准备讲指针</p><h3 id="封鱼榜"><a class="markdownIt-Anchor" href="#封鱼榜"></a> 封鱼榜</h3><p>纠结各种字体效果然后去知乎瞎逛看各路大神分析，看了很久仍然云里雾里，看完就忘</p><p>百度右侧热搜</p><p>油管推荐视频</p><p>QQ空间和闲聊群 * 3 天 准备卸载</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="秋季课程"><a class="markdownIt-Anchor" href="#秋季课程"></a> 秋季课程</h3><p>大物实验考试：放弃，希望飘过</p><p>离散数学：刚跟上课程进度</p><p>OOP：尚未开始</p><p>大学物理：尚未跟上课程进度</p><p>毛概论文：尚未开始</p><p>实训课报告：尚未开始</p><h3 id="每日反省"><a class="markdownIt-Anchor" href="#每日反省"></a> 每日反省</h3><p>10.31 又是被院士们拉开差距的一天，先是睡到中午，再是下午低效率学(抄)物理，晚上熬夜摸鱼</p><p>11.1 早上一直在睡觉，下午拖拖拉拉跟上离散进度，历年卷还是没做，晚上用文科方式学计网，不敲代码可能是假计院学生</p><p>11.2-11.3 怎么感觉还是什么都没做，还莫名奇妙多了一些ddl，代码量没有一切免谈</p><p>11.4-11.5 仍然零代码，重温《提纲》《形态》，写完马原报告，学用<code>nodeppt</code>准备讲指针</p><p>11.6-11.8 眼睛肿了，又被拉开差距。搞了一道简单的MISC</p><h3 id="封鱼榜"><a class="markdownIt-Anchor" href="#封鱼榜"></a> 封鱼榜</h3><p>纠结各种字体效果然后去知乎瞎逛看各路大神分析，看了很久仍然云里雾里，看完就忘</p><p>百度右侧热搜</p><p>油管推荐视频</p><p>QQ空间和闲聊群 * 3 天 准备卸载</p>]]></content>
     
     
     <categories>
