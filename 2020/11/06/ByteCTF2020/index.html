@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      476 字
+      557 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      7
        分钟
     </span>
   
@@ -231,9 +231,9 @@
 <p>官方解题思路：将图片从RGB通道转为YCrCb通道（虽然题目没有给出任何提示，但可能是图片隐写题常规操作）</p>
 <p>调用opencv库，通过 <code>cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)</code>，对 img 图片数据进行色彩空间转换，得到三个通道对应的图片，呈现出的效果是三张灰色的图片，此处就不贴了，到此仍然没有任何曙光出现。</p>
 <p>然后官方解法让我们对三个通道中的数据根据奇偶做二值化处理，二值化后的数据分别代表二维码的黑和白，并且每个通道可得到部分二维码图片。最后只需将三个通道数据结合到一幅图中即可复现二维码。</p>
-<p><img src="/img/ByteFlag0.png" srcset="/img/loading.gif" alt="ByteFlag0" /><br />
-<img src="/img/ByteFlag1.png" srcset="/img/loading.gif" alt="ByteFlag1" /><br />
-<img src="/img/ByteFlag2.png" srcset="/img/loading.gif" alt="ByteFlag2" /></p>
+<p><img src="/img/ByteCTF2020/wm01_0.png" srcset="/img/loading.gif" alt="Flag0" /><br />
+<img src="/img/ByteCTF2020/wm01_1.png" srcset="/img/loading.gif" alt="Flag1" /><br />
+<img src="/img/ByteCTF2020/wm01_2.png" srcset="/img/loading.gif" alt="Flag2" /></p>
 <p>官方题解只给出了二值化处理的一行核心代码<code>dst_value = (src_value % 2) * 255</code>，我在查阅opencv相关资料后，具体实现的处理图片完整的代码如下：</p>
 <pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2
 
@@ -255,11 +255,14 @@ cv2.imwrite(<span class="hljs-string">&quot;ByteFlag0.png&quot;</span>,img0)
 cv2.imwrite(<span class="hljs-string">&quot;ByteFlag1.png&quot;</span>,img1)
 cv2.imwrite(<span class="hljs-string">&quot;ByteFlag2.png&quot;</span>,img2)
 cv2.waitKey()</code></pre>
-<p>方法2(非预期解)：先搜到原图</p>
-<p><img src="http://image.tech.china.cn//upload/images/2020/0622/141832/209_367168_60428c03ed5c75e0d6185b1bb55a7ff3.png" srcset="/img/loading.gif" alt="原图" /></p>
+<p>执行代码后得到三张图片，分别可裁切出二维码的上中下三部分，即得完整的二维码</p>
+<p><img src="/img/ByteCTF2020/wm01_flag.png" srcset="/img/loading.gif" alt="Flag" /></p>
+<p>方法2(非预期解)：先搜到<a target="_blank" rel="noopener" href="http://image.tech.china.cn//upload/images/2020/0622/141832/209_367168_60428c03ed5c75e0d6185b1bb55a7ff3.png">原图</a></p>
 <p>使用 stegsolve 里的 image combiner 进行 sub 运算，再反色得到：</p>
 <p><img src="https://md.byr.moe/uploads/upload_d64c50093170764e146f5f9dda54e79f.png" srcset="/img/loading.gif" alt="sub后" /></p>
-<h3 id="网络wp"><a class="markdownIt-Anchor" href="#网络wp"></a> 网络WP</h3>
+<p>猜测是某一个色域的像素值确定一个二维码，然后再用脚本提取RGB色域再经PS操作同样可得完整二维码</p>
+<h3 id="wp合集"><a class="markdownIt-Anchor" href="#wp合集"></a> WP合集</h3>
+<p><a target="_blank" rel="noopener" href="https://bytectf.feishu.cn/docs/doccnqzpGCWH1hkDf5ljGdjOJYg">官方WP</a></p>
 <p><a target="_blank" rel="noopener" href="https://y4tacker.blog.csdn.net/article/details/109372670">CSDN_Web</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.fzwjscj.xyz/index.php/archives/39/">MISC_Watermark</a></p>
 
