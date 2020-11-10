@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      352 字
+      547 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      6
        分钟
     </span>
   
@@ -231,6 +231,39 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
 <p>但本人用来存放数据的分区为NTFS格式，linux的权限管理对其无法起作用，所以平时git操作经常要用<code>sudo</code>强制执行。但<code>ssh-keygen</code> <code>ssh-add</code>命令似乎与权限密切相关，是否<code>sudo</code>会对结果产生重大影响，其中包括<code>id_rsa</code>文件的读写权限，权限应该是越低越安全，但又会导致ssh无法使用该key进行验证。而有时明明用<code>ssh -vT git@github.com</code>连接成功，却仍然提示<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/authenticating-to-github/error-permission-denied-publickey"><code>Error: Permission denied (publickey)</code></a>，时灵时不灵又不知问题出在哪，实在叫人疑惑。</p>
 <p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">附上一篇参考文章</a>，虽仍不能解决我的问题，但已经是较为全面的了</p>
+<h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
+<ol>
+<li>
+<p>kde桌面崩溃</p>
+<pre><code class="hljs bash">kquitapp5 plasmashell
+kstart5 plasmashell</code></pre>
+</li>
+<li>
+<p>触摸板突然失灵</p>
+<p>先卸载模块<code>sudo modprobe -r psmouse(或i2c_hid)</code></p>
+<p>再装上模块</p>
+<p>刷新系统服务<code>sudo systemctl daemon-reload</code></p>
+<p>再次休眠唤醒</p>
+</li>
+<li>
+<p>VMWare报错</p>
+<p>先检查是否装对应kernel版本的linux-headers</p>
+<p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
+<p>上述命令亦无效则是kernel版本太新尚无module可用，参见<a target="_blank" rel="noopener" href="https://communities.vmware.com/thread/638824">此贴</a>中的步骤，下载<a target="_blank" rel="noopener" href="https://github.com/mkubecek/vmware-host-modules">该仓库</a>中对应版本执行<code>make</code>即可编译完成</p>
+<p>vmnet8报错无法联网：<code>sudo systemctl start vmware-networks.service</code></p>
+</li>
+<li>
+<p>挂载NTFS分区</p>
+<p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
+<p>该命令仅限一次开机，永久生效需编辑<code>/etc/fstab</code></p>
+</li>
+<li>
+<p>中文字体选择</p>
+<p><a target="_blank" rel="noopener" href="https://feeshy.github.io/tech/web_safe_fonts.html">常用Web字体</a></p>
+<p><a target="_blank" rel="noopener" href="http://tool.pfan.cn/font">网页字体测试</a></p>
+<p><a target="_blank" rel="noopener" href="http://edyfox.codecarver.org/html/debian_testing_chinese.html">KDE中文字体美化</a></p>
+</li>
+</ol>
 
             </div>
             <hr>
