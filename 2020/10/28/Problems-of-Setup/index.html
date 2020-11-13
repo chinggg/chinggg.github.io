@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      547 字
+      692 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      7
        分钟
     </span>
   
@@ -231,6 +231,17 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
 <p>但本人用来存放数据的分区为NTFS格式，linux的权限管理对其无法起作用，所以平时git操作经常要用<code>sudo</code>强制执行。但<code>ssh-keygen</code> <code>ssh-add</code>命令似乎与权限密切相关，是否<code>sudo</code>会对结果产生重大影响，其中包括<code>id_rsa</code>文件的读写权限，权限应该是越低越安全，但又会导致ssh无法使用该key进行验证。而有时明明用<code>ssh -vT git@github.com</code>连接成功，却仍然提示<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/authenticating-to-github/error-permission-denied-publickey"><code>Error: Permission denied (publickey)</code></a>，时灵时不灵又不知问题出在哪，实在叫人疑惑。</p>
 <p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">附上一篇参考文章</a>，虽仍不能解决我的问题，但已经是较为全面的了</p>
+<h3 id="linux电源管理"><a class="markdownIt-Anchor" href="#linux电源管理"></a> Linux电源管理</h3>
+<p>合盖的不同设定：</p>
+<ul>
+<li>poweroff和halt均是关机（具体实现有区别）</li>
+<li>hybernate是休眠，设备断电（同关机状态），内容保存在硬盘中</li>
+<li>hybrid-sleep是混合睡眠，设备通电，内容保存在硬盘和内存中</li>
+<li>supspend(或sleep)是挂起（睡眠），设备通电，内容保存在内存中</li>
+<li>lock是锁屏</li>
+<li>kexec是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
+<li>ignore是忽略该动作，即不进行任何电源事件响应</li>
+</ul>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
 <ol>
 <li>

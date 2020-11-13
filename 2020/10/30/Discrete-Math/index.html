@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      353 字
+      856 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      9
        分钟
     </span>
   
@@ -222,12 +222,14 @@
             <div class="markdown-body" id="post-body">
               <h2 id="集合"><a class="markdownIt-Anchor" href="#集合"></a> 集合</h2>
 <p>空集的理解，属于和包含于</p>
-<h2 id="命题"><a class="markdownIt-Anchor" href="#命题"></a> 命题</h2>
+<h2 id="命题逻辑"><a class="markdownIt-Anchor" href="#命题逻辑"></a> 命题逻辑</h2>
 <h4 id="理解"><a class="markdownIt-Anchor" href="#理解"></a> 理解</h4>
+<p>命题的概念（时空可知、未知量）</p>
 <p>复合命题注意语法陷阱</p>
 <h4 id="运用"><a class="markdownIt-Anchor" href="#运用"></a> 运用</h4>
 <p>主范式演算证明</p>
-<h2 id="谓词"><a class="markdownIt-Anchor" href="#谓词"></a> 谓词</h2>
+<p>推理的三种方法</p>
+<h2 id="谓词逻辑"><a class="markdownIt-Anchor" href="#谓词逻辑"></a> 谓词逻辑</h2>
 <h4 id="理解-2"><a class="markdownIt-Anchor" href="#理解-2"></a> 理解</h4>
 <p>个体词、谓词、量词 常项变项</p>
 <p>单独的谓词不是完整命题，谓词填式：谓词字母后填以客体所得式</p>
@@ -250,7 +252,7 @@
 <p>哈斯图</p>
 <h4 id="运用-3"><a class="markdownIt-Anchor" href="#运用-3"></a> 运用</h4>
 <p>求 自反/对称闭包</p>
-<p>Warshall算法求传递闭包t®的关系矩阵</p>
+<p>Warshall算法求传递闭包t®的关系矩阵（第i行加在第i列中1所在行上）</p>
 <p>画偏序集的哈斯图，求最大(小)元、极大(小)、上(下)确界</p>
 <h2 id="函数"><a class="markdownIt-Anchor" href="#函数"></a> 函数</h2>
 <h4 id="理解-4"><a class="markdownIt-Anchor" href="#理解-4"></a> 理解</h4>
@@ -258,6 +260,21 @@
 <p>是否具有传递性</p>
 <p>前域、值域、共域</p>
 <h2 id="图"><a class="markdownIt-Anchor" href="#图"></a> 图</h2>
+<h2 id="代数系统"><a class="markdownIt-Anchor" href="#代数系统"></a> 代数系统</h2>
+<h2 id="概念复盘"><a class="markdownIt-Anchor" href="#概念复盘"></a> 概念复盘</h2>
+<p>析取式(p或q)，合取式(p且q)</p>
+<p>简单析/合取式：由有限个文字构成的析/合取式</p>
+<p>析取范式：由有限个简单合取式构成的析取式<br />
+合取范式：由有限个简单析取式构成的合取式<br />
+（求范式：1.化联结词 2.双重否定消去否+德摩根律内移否 3.分配律）</p>
+<p>极大项：含n个命题变项的简单析取式，每个命题变项和其否定不同时出现，二者之一必出现且仅出现一次，第i个命题变项或其否定出现在从左算起第i位上<br />
+极小项：含n个命题变项的简单合取式，每个命题变项和其否定不同时出现，二者之一必出现且仅出现一次，第i个命题变项或其否定出现在从左算起第i位上<br />
+(记忆：极大项只有一个成假赋值，所以是析取式)</p>
+<p>主析取范式：n个命题变项构成的析取范式中所有简单合取式都是极小项<br />
+主合取范式：n个命题变项构成的析取范式中所有简单合取式都是极大项<br />
+(求主范式：1.先求范式 2.所有简单式展开长度为n 3.消重复 4.按角标从小到大排序)<br />
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∑</mo><mo stretchy="false">(</mo><mn>1</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">)</mo><mi mathvariant="normal">表</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">主</mi><mi mathvariant="normal">析</mi><mi mathvariant="normal">取</mi><mi mathvariant="normal">范</mi><mi mathvariant="normal">式</mi><msub><mi>m</mi><mn>1</mn></msub><mo>∨</mo><msub><mi>m</mi><mn>3</mn></msub><mo>∨</mo><msub><mi>m</mi><mn>5</mn></msub><mspace width="1em"/><mo>∏</mo><mo stretchy="false">(</mo><mn>2</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">)</mo><mi mathvariant="normal">表</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">主</mi><mi mathvariant="normal">合</mi><mi mathvariant="normal">取</mi><mi mathvariant="normal">范</mi><mi mathvariant="normal">式</mi><msub><mi>m</mi><mn>2</mn></msub><mo>∧</mo><msub><mi>m</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">\sum(1,3,5)表示主析取范式m_1\vee m_3\vee m_5\quad\prod(2,4)表示主合取范式 m_2\wedge m_4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">5</span><span class="mclose">)</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">示</span><span class="mord cjk_fallback">主</span><span class="mord cjk_fallback">析</span><span class="mord cjk_fallback">取</span><span class="mord cjk_fallback">范</span><span class="mord cjk_fallback">式</span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7055600000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="mopen">(</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">4</span><span class="mclose">)</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">示</span><span class="mord cjk_fallback">主</span><span class="mord cjk_fallback">合</span><span class="mord cjk_fallback">取</span><span class="mord cjk_fallback">范</span><span class="mord cjk_fallback">式</span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br />
+主析取范式中极小项的个数即为成真赋值的个数，主合取范式中极大项的个数即为成假赋值的个数</p>
 
             </div>
             <hr>
