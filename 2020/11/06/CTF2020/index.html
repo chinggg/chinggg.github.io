@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>ByteCTF2020复盘 - Ching</title>
+  <title>2020年CTF赛事复盘 - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.7k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      24
+      26
        分钟
     </span>
   
@@ -217,11 +217,12 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">ByteCTF2020复盘</h1>
+            <h1 style="display: none">2020年CTF赛事复盘</h1>
             
             <div class="markdown-body" id="post-body">
-              <h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> MISC</h2>
-<h3 id="hardcore-watermark-01"><a class="markdownIt-Anchor" href="#hardcore-watermark-01"></a> Hardcore Watermark 01</h3>
+              <h2 id="bytectf2020"><a class="markdownIt-Anchor" href="#bytectf2020"></a> ByteCTF2020</h2>
+<h3 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> Misc</h3>
+<h4 id="hardcore-watermark-01"><a class="markdownIt-Anchor" href="#hardcore-watermark-01"></a> Hardcore Watermark 01</h4>
 <blockquote>
 <p>厌烦了用工具解图片题？那么来点硬核的～</p>
 <p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1lKNYV4_X2Aqx8-qPB2Z_uw">https://pan.baidu.com/s/1lKNYV4_X2Aqx8-qPB2Z_uw</a> 密码: 6597<br />
@@ -261,8 +262,8 @@ cv2.waitKey()</code></pre>
 <p>使用 stegsolve 里的 image combiner 进行 sub 运算，再反色得到：</p>
 <p><img src="https://md.byr.moe/uploads/upload_d64c50093170764e146f5f9dda54e79f.png" srcset="/img/loading.gif" alt="sub后" /></p>
 <p>猜测是某一个色域的像素值确定一个二维码，然后再用脚本提取RGB色域再经PS操作同样可得完整二维码</p>
-<h2 id="re"><a class="markdownIt-Anchor" href="#re"></a> RE</h2>
-<h3 id="crackme"><a class="markdownIt-Anchor" href="#crackme"></a> CrackMe</h3>
+<h3 id="re"><a class="markdownIt-Anchor" href="#re"></a> RE</h3>
+<h4 id="crackme"><a class="markdownIt-Anchor" href="#crackme"></a> CrackMe</h4>
 <blockquote>
 <p>“This is a Ciphertext of the flag:”“2d186a3e172a14673789f499cd6cfbcd29b6c73f4b4a27c23464776825af90b2&quot;”. You can decrypt it directly or input a password to get the flag.&quot;<br />
 hint1: Is it a real SHA256?</p>
@@ -457,13 +458,29 @@ buf[len + append + i] = (bits_len &gt;&gt; ((<span class="hljs-number">7</span> 
 &#125;</code></pre>
 <p>为了避免输出出现问题，将解密后的flag输出为hex字符串&quot;427974654354467b34316d5f6630725f7468655f686939686535747d04040404&quot;</p>
 <p>解码后即得flag：ByteCTF{41m_f0r_the_hi9he5t}</p>
-<h2 id="wp合集"><a class="markdownIt-Anchor" href="#wp合集"></a> WP合集</h2>
+<h3 id="wp合集"><a class="markdownIt-Anchor" href="#wp合集"></a> WP合集</h3>
 <p><a target="_blank" rel="noopener" href="https://bytectf.feishu.cn/docs/doccnqzpGCWH1hkDf5ljGdjOJYg">官方WP</a></p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/4OVC10crL1rBFrNf9wyUTg">WP By W&amp;M</a></p>
 <p><a target="_blank" rel="noopener" href="https://northity.com/2020/10/30/ByteCTF%E5%88%9D%E8%B5%9B%E5%87%BA%E9%A2%98%E7%AC%94%E8%AE%B0/">easy_scrapy出题笔记</a></p>
 <p><a target="_blank" rel="noopener" href="https://y4tacker.blog.csdn.net/article/details/109372670">CSDN_Web</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.fzwjscj.xyz/index.php/archives/39/">MISC_Watermark</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.fzwjscj.xyz/index.php/archives/39/">Misc_Watermark</a></p>
 <p><a target="_blank" rel="noopener" href="https://ca0y1h.top/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0/">easy_scrapy复现</a></p>
+<h2 id="第6届上海市大学生网络安全大赛"><a class="markdownIt-Anchor" href="#第6届上海市大学生网络安全大赛"></a> 第6届上海市大学生网络安全大赛</h2>
+<h3 id="misc-2"><a class="markdownIt-Anchor" href="#misc-2"></a> Misc</h3>
+<h4 id="签到"><a class="markdownIt-Anchor" href="#签到"></a> 签到</h4>
+<p>base64解码，搜索<code>tr</code>命令，理解意图即得</p>
+<h4 id="pcap"><a class="markdownIt-Anchor" href="#pcap"></a> pcap</h4>
+<p>分析附件中的dnp3协议</p>
+<h4 id="可乐加冰"><a class="markdownIt-Anchor" href="#可乐加冰"></a> 可乐加冰</h4>
+<p>一张PNG图片，虽然能打开，但是不显示缩略图，好像末尾的DATx块有问题，但改过后仍然不知道如何继续，谷歌搜图无法处理该图片。</p>
+<h3 id="web"><a class="markdownIt-Anchor" href="#web"></a> Web</h3>
+<h4 id="千毒网盘"><a class="markdownIt-Anchor" href="#千毒网盘"></a> 千毒网盘</h4>
+<p>默认提取码为114154，似乎是一个梗，但我不知道它在提示什么，这个提取码只能下载到<a href="gamectf.com">永信至诚</a>官网上的一张图片，只是广告。</p>
+<p><img src="http://gamectf.com/p/CGBU.png" srcset="/img/loading.gif" alt="" /></p>
+<p>尝试爆破6位纯数字提取码，但单线程实在破不出，感觉方向不对。</p>
+<p>其实是一道布尔盲注</p>
+<h4 id="trytologin"><a class="markdownIt-Anchor" href="#trytologin"></a> TryToLogin</h4>
+<p>一个登录界面，输入用户名admin，密码password会显示成功登录，但不知道如何继续。</p>
 
             </div>
             <hr>
@@ -635,7 +652,7 @@ buf[len + append + i] = (bits_len &gt;&gt; ((<span class="hljs-number">7</span> 
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "ByteCTF2020复盘&nbsp;",
+        "2020年CTF赛事复盘&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
