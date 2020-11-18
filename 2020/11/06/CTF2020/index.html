@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      1.9k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      26
+      28
        分钟
     </span>
   
@@ -471,6 +471,10 @@ buf[len + append + i] = (bits_len &gt;&gt; ((<span class="hljs-number">7</span> 
 <p>base64解码，搜索<code>tr</code>命令，理解意图即得</p>
 <h4 id="pcap"><a class="markdownIt-Anchor" href="#pcap"></a> pcap</h4>
 <p>分析附件中的dnp3协议</p>
+<p>然而这种非主流协议根本不会，幸好解法也不是真的要去分析网络</p>
+<p>虽然数据包很多，但可以发现长度范围是一组离散的值，可以按长度排序，发现相同长度的包部分位置的数据永远相同，尝试找规律，长按方向键像播放幻灯片一样，运气好可以在长度为91的Response里看到flag等关键字符在同一位置闪现</p>
+<h4 id="pcap-analysis"><a class="markdownIt-Anchor" href="#pcap-analysis"></a> pcap analysis</h4>
+<p>从解答人数可以看出比上一道pcap更简单，筛选协议后任选一个包追踪TCP流即可显示。可惜比赛时对上一道题尝试了追踪TCP流，这题反而没想到</p>
 <h4 id="可乐加冰"><a class="markdownIt-Anchor" href="#可乐加冰"></a> 可乐加冰</h4>
 <p>一张PNG图片，虽然能打开，但是不显示缩略图，好像末尾的DATx块有问题，但改过后仍然不知道如何继续，谷歌搜图无法处理该图片。</p>
 <h3 id="web"><a class="markdownIt-Anchor" href="#web"></a> Web</h3>
