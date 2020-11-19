@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      713 字
+      882 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      9
        分钟
     </span>
   
@@ -317,6 +317,19 @@
 <p>百度右侧热搜</p>
 <p>油管推荐视频，键政</p>
 <p>QQ空间和闲聊群 看了十几天，实在无法控制，直接卸载</p>
+<h3 id="编程小结"><a class="markdownIt-Anchor" href="#编程小结"></a> 编程小结</h3>
+<h4 id="细枝末节"><a class="markdownIt-Anchor" href="#细枝末节"></a> 细枝末节</h4>
+<p>Python常忽略类型，尤其是<code>input</code>期望为整数但默认<code>str</code></p>
+<p>正则表达式中单词别打错</p>
+<p><code>re.findall()</code>直接返回列表(多目标则嵌套元组)</p>
+<p><code>re.match()</code>, <code>re.search()</code>返回Match对象，还需<code>group()</code></p>
+<p>List转String不是直接<code>str()</code></p>
+<p><strong>自定义变量不要和内置函数重名！</strong></p>
+<h4 id="设计方案"><a class="markdownIt-Anchor" href="#设计方案"></a> 设计方案</h4>
+<p>输入数字范围并解析</p>
+<p>修改<code>re.findall()</code>返回的列表套元组，加上索引</p>
+<p>复合类型变量的设计尽量简洁，少画蛇添足加参数（如索引）</p>
+<p>字符的转换，包括编码互转，特殊字符的表示，空白换行等样式，以及HTML形表示</p>
 
             </div>
             <hr>

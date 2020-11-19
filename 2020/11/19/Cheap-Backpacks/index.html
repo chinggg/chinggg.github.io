@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>Problems of Setup - Ching</title>
+  <title>打工人双肩包选购清单 - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -165,8 +165,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-10-28 04:45" pubdate>
-        October 28, 2020 am
+      <time datetime="2020-11-19 21:28" pubdate>
+        November 19, 2020 pm
       </time>
     </span>
   
@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      792 字
+      505 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      5
        分钟
     </span>
   
@@ -217,70 +217,56 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Problems of Setup</h1>
+            <h1 style="display: none">打工人双肩包选购清单</h1>
             
             <div class="markdown-body" id="post-body">
-              <p><a target="_blank" rel="noopener" href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/">Manjaro踩坑记</a></p>
-<h3 id="git多ssh-key配置"><a class="markdownIt-Anchor" href="#git多ssh-key配置"></a> git多SSH Key配置</h3>
-<p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
-<pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;此处填邮箱&quot;</span>
-<span class="hljs-comment">#输入文件名，按两次回车</span>
-<span class="hljs-comment">#ssh-agent -s 无效，则用下面这条</span>
-<span class="hljs-built_in">eval</span> $(ssh-agent -s)
-ssh-add ~/.ssh/id_rsa</code></pre>
-<p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
-<p>但本人用来存放数据的分区为NTFS格式，linux的权限管理对其无法起作用，所以平时git操作经常要用<code>sudo</code>强制执行。但<code>ssh-keygen</code> <code>ssh-add</code>命令似乎与权限密切相关，是否<code>sudo</code>会对结果产生重大影响，其中包括<code>id_rsa</code>文件的读写权限，权限应该是越低越安全，但又会导致ssh无法使用该key进行验证。而有时明明用<code>ssh -vT git@github.com</code>连接成功，却仍然提示<a target="_blank" rel="noopener" href="https://docs.github.com/cn/free-pro-team@latest/github/authenticating-to-github/error-permission-denied-publickey"><code>Error: Permission denied (publickey)</code></a>，时灵时不灵又不知问题出在哪，实在叫人疑惑。</p>
-<p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">附上一篇参考文章</a>，虽仍不能解决我的问题，但已经是较为全面的了</p>
-<h3 id="linux电源管理"><a class="markdownIt-Anchor" href="#linux电源管理"></a> Linux电源管理</h3>
-<p>合盖的不同设定：</p>
+              <p>买荣耀笔记本电脑送的双肩包一年后出现开裂现象，且感觉容量太小，厚度不足，急需更换双肩包，可惜双十一已过，否则本打工人还能省点钱。预期价格在百元左右，像国家地理这种设计独特的包是别想了。</p>
+<h3 id="国内品牌"><a class="markdownIt-Anchor" href="#国内品牌"></a> 国内品牌</h3>
+<p>如小米、90分、京东京造等</p>
+<p>共同特点：外形简约时尚，但基础款容量略小，尤其厚度不足</p>
+<p>注意各品牌产品可能有些硬伤，如京东京造基础款背包无侧袋放水杯</p>
+<h3 id="瑞士威戈wenger京东自营"><a class="markdownIt-Anchor" href="#瑞士威戈wenger京东自营"></a> 瑞士威戈Wenger京东自营</h3>
+<p>网上都说是程序员经典款型，就是背后有瑞士徽章的那种。</p>
+<p>似乎正宗外国品牌就是威戈Wenger、维氏Victorinox和Victorinox Swiss Army这三个，而Swissgear只是Wenger在北美一个廉价产品系列的名字，产品上会注有“Swissgear BY Wenger”的标志，但Swissgear本身不是商标，而国内厂商钻空子抢注了“瑞士军刀Swissgear”。</p>
+<p>大概京东上这个Wenger算是得到了品牌授权，但也要认清它的设计和制造都是全部由国内代工，毕竟廉价产品，不可能真有什么“瑞士品质”。</p>
+<p>由于其低端产品线较混乱，故在这里列举商品清单方便查找</p>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/100014405346.html">99元经典爆款611591</a></p>
 <ul>
-<li>poweroff和halt均是关机（具体实现有区别）</li>
-<li>hybernate是休眠，设备断电（同关机状态），内容保存在硬盘中</li>
-<li>hybrid-sleep是混合睡眠，设备通电，内容保存在硬盘和内存中</li>
-<li>supspend(或sleep)是挂起（睡眠），设备通电，内容保存在内存中</li>
-<li>lock是锁屏</li>
-<li>kexec是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
-<li>ignore是忽略该动作，即不进行任何电源事件响应</li>
+<li>0.7kg 29L</li>
+<li>330×470×190 mm</li>
 </ul>
-<h3 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h3>
-<h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> vim</h4>
-<p>fail to install plugins</p>
-<h5 id="clipboard-inconsistency"><a class="markdownIt-Anchor" href="#clipboard-inconsistency"></a> <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Vim#Clipboard">clipboard inconsistency</a></h5>
-<p>vim does not support Xorg, missing the <code>+clipboard</code> support. replace it with <code>gvim</code></p>
-<p>use <code>&quot;+y</code> to copy to the system clipboard</p>
-<p>to change the default behavior <code>set clipboard=unnamedplus</code></p>
-<h4 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h4>
-<h5 id="vscodevim"><a class="markdownIt-Anchor" href="#vscodevim"></a> vscodevim</h5>
-<p>set a shortcut to “Vim: Toggle Vim Mode”</p>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/311349.html">129元 经典休闲 征程系列SAB87610109037</a></p>
 <ul>
-<li>press <c-K><c-S>,search for it</li>
-<li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
+<li>0.86kg 29L</li>
+<li>330×470×190 mm</li>
+<li>差评较多，有错送现象</li>
 </ul>
-<p>press <code>gcc</code> to comment</p>
-<h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
-<h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
-<pre><code class="hljs bash">kquitapp5 plasmashell
-kstart5 plasmashell</code></pre>
-<h4 id="触摸板突然失灵"><a class="markdownIt-Anchor" href="#触摸板突然失灵"></a> 触摸板突然失灵</h4>
-<p>先卸载模块<code>sudo modprobe -r psmouse(或i2c_hid)</code></p>
-<p>再装上模块</p>
-<p>刷新系统服务<code>sudo systemctl daemon-reload</code></p>
-<p>再次休眠唤醒</p>
-<h4 id="vmware报错"><a class="markdownIt-Anchor" href="#vmware报错"></a> VMWare报错</h4>
-<p>先检查是否装对应kernel版本的linux-headers</p>
-<p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
-<p>上述命令亦无效则是kernel版本太新尚无module可用，参见<a target="_blank" rel="noopener" href="https://communities.vmware.com/thread/638824">此贴</a>中的步骤，下载<a target="_blank" rel="noopener" href="https://github.com/mkubecek/vmware-host-modules">该仓库</a>中对应版本执行<code>make</code>即可编译完成</p>
-<p>vmnet8报错无法联网：<code>sudo systemctl start vmware-networks.service</code></p>
-<h4 id="挂载ntfs分区"><a class="markdownIt-Anchor" href="#挂载ntfs分区"></a> 挂载NTFS分区</h4>
-<p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
-<p>该命令仅限一次开机，永久生效需编辑<code>/etc/fstab</code></p>
-<h4 id="基于qt的软件无法使用fcitx"><a class="markdownIt-Anchor" href="#基于qt的软件无法使用fcitx"></a> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/150387095">基于Qt的软件无法使用fcitx</a></h4>
-<p><code>qmake -query</code>查看qt版本及路径等信息</p>
-<h3 id="中文字体选择"><a class="markdownIt-Anchor" href="#中文字体选择"></a> 中文字体选择</h3>
-<p><a target="_blank" rel="noopener" href="https://feeshy.github.io/tech/web_safe_fonts.html">常用Web字体</a></p>
-<p><a target="_blank" rel="noopener" href="http://tool.pfan.cn/font">网页字体测试</a></p>
-<p><a target="_blank" rel="noopener" href="http://edyfox.codecarver.org/html/debian_testing_chinese.html">KDE中文字体美化</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.echoxu.cn/others/">用心记,放心阅,方便查</a></p>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/100015118614.html">129元瑞士经典611639</a></p>
+<ul>
+<li>0.68kg 21L</li>
+<li>300×465×155 mm</li>
+<li>正面竖开口</li>
+<li>无处放雨伞</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/100003423925.html">99元 轻便通勤</a></p>
+<ul>
+<li>0.65kg 25L</li>
+<li>320×460×165 mm</li>
+<li>轻，但因此单薄，内胆没有粘贴保护电脑，底座没有海绵垫</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/100007218021.html">99元 质简通勤</a></p>
+<ul>
+<li>0.77kg 22L</li>
+<li>300×460×160 mm</li>
+<li>前置横拉链</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://item.jd.com/100005676986.html">89元 时尚简约款</a></p>
+<ul>
+<li>0.55kg 22L</li>
+<li>320×335×155 mm</li>
+<li>似乎没有前拉链袋</li>
+</ul>
+<p>综合价格、容量(尤其是厚度)、重量、买家评价后，决定下单经典爆款</p>
 
             </div>
             <hr>
@@ -298,7 +284,7 @@ kstart5 plasmashell</code></pre>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>
+                      <a class="hover-with-bg" href="/tags/%E7%90%90%E4%BA%8B/">琐事</a>
                     
                   </div>
                 
@@ -311,18 +297,12 @@ kstart5 plasmashell</code></pre>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/10/28/Now/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Now</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/28/The-Four-Quadrants-of-Conformism/">
-                        <span class="hidden-mobile">(译)因循的四象限</span>
+                      <a href="/2020/11/06/CTF2020/">
+                        <span class="hidden-mobile">2020年CTF赛事复盘</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -458,7 +438,7 @@ kstart5 plasmashell</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Problems of Setup&nbsp;",
+        "打工人双肩包选购清单&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
