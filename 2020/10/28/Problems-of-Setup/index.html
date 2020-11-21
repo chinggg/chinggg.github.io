@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      792 字
+      844 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      10
        分钟
     </span>
   
@@ -220,8 +220,7 @@
             <h1 style="display: none">Problems of Setup</h1>
             
             <div class="markdown-body" id="post-body">
-              <p><a target="_blank" rel="noopener" href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/">Manjaro踩坑记</a></p>
-<h3 id="git多ssh-key配置"><a class="markdownIt-Anchor" href="#git多ssh-key配置"></a> git多SSH Key配置</h3>
+              <h3 id="git多ssh-key配置"><a class="markdownIt-Anchor" href="#git多ssh-key配置"></a> git多SSH Key配置</h3>
 <p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
 <pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;此处填邮箱&quot;</span>
 <span class="hljs-comment">#输入文件名，按两次回车</span>
@@ -242,6 +241,9 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <li>kexec是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
 <li>ignore是忽略该动作，即不进行任何电源事件响应</li>
 </ul>
+<h3 id="package-manager"><a class="markdownIt-Anchor" href="#package-manager"></a> Package Manager</h3>
+<h4 id="pacman"><a class="markdownIt-Anchor" href="#pacman"></a> pacman</h4>
+<p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
 <h3 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h3>
 <h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> vim</h4>
 <p>fail to install plugins</p>
@@ -257,6 +259,10 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
 </ul>
 <p>press <code>gcc</code> to comment</p>
+<h3 id="fcitx5"><a class="markdownIt-Anchor" href="#fcitx5"></a> Fcitx5</h3>
+<p><code>&lt;c-7&gt;</code> to remove word from history</p>
+<p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
+<h4 id="unicode-ctrlaltshiftu"><a class="markdownIt-Anchor" href="#unicode-ctrlaltshiftu"></a> UNICODE Ctrl+Alt+Shift+U</h4>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
 <h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
 <pre><code class="hljs bash">kquitapp5 plasmashell
@@ -280,7 +286,9 @@ kstart5 plasmashell</code></pre>
 <p><a target="_blank" rel="noopener" href="https://feeshy.github.io/tech/web_safe_fonts.html">常用Web字体</a></p>
 <p><a target="_blank" rel="noopener" href="http://tool.pfan.cn/font">网页字体测试</a></p>
 <p><a target="_blank" rel="noopener" href="http://edyfox.codecarver.org/html/debian_testing_chinese.html">KDE中文字体美化</a></p>
+<h3 id="總結"><a class="markdownIt-Anchor" href="#總結"></a> 總結</h3>
 <p><a target="_blank" rel="noopener" href="https://www.echoxu.cn/others/">用心记,放心阅,方便查</a></p>
+<p><a target="_blank" rel="noopener" href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/">Manjaro踩坑记</a></p>
 
             </div>
             <hr>
@@ -297,6 +305,8 @@ kstart5 plasmashell</code></pre>
                 
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%95%BF%E6%9C%9F/">长期</a>
                     
                       <a class="hover-with-bg" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>
                     

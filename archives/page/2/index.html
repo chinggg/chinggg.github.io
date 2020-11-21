@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>Tags - 长期更新 - Ching</title>
+  <title>Archives - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -43,7 +43,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -167,19 +167,31 @@
                 
 
 <div class="list-group">
-  <p class="h4">1 posts in total.</p>
+  <p class="h4">11 posts in total.</p>
   <hr>
   
     
       
       <p class="h5">2020</p>
     
-    <a href="/2020/10/28/Now/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Now</span>
+    <a href="/2020/10/28/The-Four-Quadrants-of-Conformism/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">(译)因循的四象限</span>
       <time style="float: right;">10-28</time>
     </a>
   
 </div>
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/archives/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
@@ -269,7 +281,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Tag - 长期更新&nbsp;",
+        "Archive&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
