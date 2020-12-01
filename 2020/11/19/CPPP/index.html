@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      366 字
+      386 字
     </span>
   
 
@@ -220,7 +220,9 @@
             <h1 style="display: none">CPPP</h1>
             
             <div class="markdown-body" id="post-body">
-              <h2 id="const"><a class="markdownIt-Anchor" href="#const"></a> const</h2>
+              <h3 id="pointers-to-functions"><a class="markdownIt-Anchor" href="#pointers-to-functions"></a> Pointers to Functions</h3>
+<p>eg. <code>bool (*pf)(const string &amp;, const string &amp;);//uninitialized</code></p>
+<h2 id="const"><a class="markdownIt-Anchor" href="#const"></a> const</h2>
 <ul>
 <li>Top-level const: indicate that the pointer itself is a const. Top-level const can appear in any <strong>object type</strong>(Reference NO!), i.e., one of the built-in arithmetic types, a class type, or a pointer type.</li>
 <li>Low-level const: a pointer that points to a const object. Low-level const appears in the base type of compound types such as <strong>pointers</strong> or <strong>references</strong>.</li>
@@ -228,13 +230,13 @@
 <p>Note : Pointer types can have both top-level and low-level const independently. Reference types only have low-level const because they are just aliases.</p>
 <p>The distinction between top-level and low-level matters when we copy an object. <strong>When we copy an object, top-level consts are ignored, but low-level const is never ignored.</strong></p>
 <p><strong>Address of a const object is a low-level const.</strong></p>
-<h3 id="pointers-to-functions"><a class="markdownIt-Anchor" href="#pointers-to-functions"></a> Pointers to Functions</h3>
-<p>eg. <code>bool (*pf)(const string &amp;, const string &amp;);//uninitialized</code></p>
+<h2 id="class"><a class="markdownIt-Anchor" href="#class"></a> Class</h2>
 <h3 id="constructors"><a class="markdownIt-Anchor" href="#constructors"></a> Constructors</h3>
 <p>The compiler generates a default constructer automatically only if a class declares no constructors.</p>
 <p><code>A() = default;</code> do exactly the same work as the synthesized default constructor.<br />
 The default constructor works only because we provide initializers for data members with built-in type.<br />
 If your compiler does not support in-class initializers, <strong>constructor initializer list</strong> should be used to initialize members of the class.</p>
+<p>use <code>explicit</code>to avoid behind-the-scene type conversions</p>
 <h3 id="virtual-functions"><a class="markdownIt-Anchor" href="#virtual-functions"></a> Virtual Functions</h3>
 <p>dynamic binding(run-time binding)</p>
 <h2 id="c11"><a class="markdownIt-Anchor" href="#c11"></a> C++11</h2>
@@ -252,12 +254,15 @@ It is worth noting that <code>decltype</code> is the <em>only context</em> in wh
 <p>eg. <code>using pos=std::string::size_type;</code></p>
 <h3 id="range-for"><a class="markdownIt-Anchor" href="#range-for"></a> range for</h3>
 <p><code>for (declaration : expression) statement</code></p>
-<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> c : str)
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> c : str)  <span class="hljs-comment">// just copy!</span>
     
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;c : str)</code></pre>
 <h3 id="final"><a class="markdownIt-Anchor" href="#final"></a> final</h3>
 <h3 id="override"><a class="markdownIt-Anchor" href="#override"></a> override</h3>
 <p>used in function of derived class</p>
+<h3 id="list-initialization"><a class="markdownIt-Anchor" href="#list-initialization"></a> list initialization</h3>
+<p>the idea of uniform initialization</p>
+<h3 id="rvalue-refeence"><a class="markdownIt-Anchor" href="#rvalue-refeence"></a> rvalue refeence</h3>
 
             </div>
             <hr>

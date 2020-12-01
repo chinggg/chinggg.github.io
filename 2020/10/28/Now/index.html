@@ -338,7 +338,8 @@
 <p>正则表达式中单词别打错</p>
 <p><code>re.findall()</code>直接返回列表(多目标则嵌套元组)</p>
 <p><code>re.match()</code>, <code>re.search()</code>返回Match对象，还需<code>group()</code></p>
-<p>List转String不要直接<code>str()</code>，会把方括号加进去！先取出元素啊笨蛋</p>
+<p>List转String：不要直接<code>str()</code>，会把方括号加进去！</p>
+<p>String转List：<code>list()</code>把字符串拆成单个字符的列表</p>
 <p><strong>自定义变量不要和内置函数重名！</strong></p>
 <h4 id="设计方案"><a class="markdownIt-Anchor" href="#设计方案"></a> 设计方案</h4>
 <p>输入数字范围并解析</p>
