@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>CTF-Web - Ching</title>
+  <title>MATLAB - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -165,8 +165,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-11-29 23:35" pubdate>
-        November 29, 2020 pm
+      <time datetime="2020-12-02 15:25" pubdate>
+        December 2, 2020 pm
       </time>
     </span>
   
@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      258 字
+      291 字
     </span>
   
 
@@ -217,35 +217,41 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">CTF-Web</h1>
+            <h1 style="display: none">MATLAB</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="http协议基础"><a class="markdownIt-Anchor" href="#http协议基础"></a> HTTP协议基础</h3>
-<h5 id="自定义请求方式"><a class="markdownIt-Anchor" href="#自定义请求方式"></a> 自定义请求方式</h5>
-<p><code>curl -X &#123;METHOD&#125;</code></p>
-<h5 id="302跳转"><a class="markdownIt-Anchor" href="#302跳转"></a> 302跳转</h5>
-<p>curl or Burp</p>
-<h5 id="http基本认证"><a class="markdownIt-Anchor" href="#http基本认证"></a> HTTP基本认证</h5>
-<p><code>Authorization: Basic &#123;base64 of username:password&#125;</code></p>
-<h3 id="信息泄露"><a class="markdownIt-Anchor" href="#信息泄露"></a> 信息泄露</h3>
-<h5 id="目录遍历"><a class="markdownIt-Anchor" href="#目录遍历"></a> 目录遍历</h5>
-<p><code>dirsearch</code>或手动/半自动</p>
-<h5 id="phpinfo"><a class="markdownIt-Anchor" href="#phpinfo"></a> phpinfo</h5>
-<p><code>phpinfo()</code> 是php中查看相关信息的函数，当在页面中执行<code>phpinfo()</code>函数时，php会将自身的所有信息全部打印出来。在phpinfo中会泄露很多服务端的一些信息</p>
-<p><code>/phpinfo.php</code></p>
-<h5 id="网站源码"><a class="markdownIt-Anchor" href="#网站源码"></a> 网站源码</h5>
-<p>根目录下或有整站源码压缩包</p>
-<pre><code class="hljs python">fname=[<span class="hljs-string">&#x27;web&#x27;</span>,<span class="hljs-string">&#x27;website&#x27;</span>,<span class="hljs-string">&#x27;backup&#x27;</span>,<span class="hljs-string">&#x27;back&#x27;</span>,<span class="hljs-string">&#x27;www&#x27;</span>,<span class="hljs-string">&#x27;wwwroot&#x27;</span>,<span class="hljs-string">&#x27;temp&#x27;</span>]
-suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">&#x27;tar.gz&#x27;</span>,<span class="hljs-string">&#x27;zip&#x27;</span>,<span class="hljs-string">&#x27;rar&#x27;</span>]</code></pre>
-<h5 id="备份缓存文件泄露"><a class="markdownIt-Anchor" href="#备份缓存文件泄露"></a> 备份/缓存文件泄露</h5>
-<p>常见备份文件：<code>/index.php.bak</code></p>
-<p>Vim缓存文件：后缀<code>.swp</code>，隐藏加前点</p>
-<p><code>/.DS_Store</code>：Mac OS 保存文件夹自定义属性的隐藏文件，可泄露目录中文件的清单。<a target="_blank" rel="noopener" href="https://github.com/gehaxelt/Python-dsstore">Py解析工具</a></p>
-<h5 id="git泄露"><a class="markdownIt-Anchor" href="#git泄露"></a> Git泄露</h5>
-<p><code>python GitHacker.py &#123;url&#125;/.git</code></p>
-<p>1.<code>git log</code>   2.<code>git diff XXXX</code> or <code>git reset --hard XXXX</code></p>
-<p>1.<code>git stash list/show</code>  2.<code>git stash pop</code></p>
-
+              <h2 id="矩阵的生成"><a class="markdownIt-Anchor" href="#矩阵的生成"></a> 矩阵的生成</h2>
+<p><strong>直接法</strong></p>
+<pre><code class="hljs matlab">matrix = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>; <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>; <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>]</code></pre>
+<p><strong>冒号生成一维矩阵</strong></p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = 开始数字 ：步长 ：截止数字</span>
+matrix = <span class="hljs-number">1</span> : <span class="hljs-number">2</span> : <span class="hljs-number">10</span></code></pre>
+<p><strong>函数生成</strong></p>
+<p><code>linspace()</code></p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = linspace(起始位置，终止位置，生成个数)</span>
+matrix = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>)</code></pre>
+<p><code>eye()</code>单位矩阵</p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = eye(n) n 为须要生成的单位矩阵的阶数</span>
+matrix = <span class="hljs-built_in">eye</span>(<span class="hljs-number">3</span>)</code></pre>
+<p><code>zeros()</code> 全零矩阵</p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = zeros(行数，列数)</span>
+matrix = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</code></pre>
+<p><code>ones()</code>全一矩阵</p>
+<p><code>rand()</code>数字随机在 0 和 1 之间的矩阵</p>
+<p><code>diag()</code>对角阵</p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = diag(现有的矩阵，主对角线上方第k条斜线) 用行向量生成对角阵</span>
+matrix_1 = <span class="hljs-built_in">diag</span>(matrix, <span class="hljs-number">1</span>)
+matrix_1 = <span class="hljs-built_in">diag</span>(matrix, <span class="hljs-number">0</span>)
+matrix_1 = <span class="hljs-built_in">diag</span>(matrix, <span class="hljs-number">-1</span>)</code></pre>
+<p>函数 <strong>tril</strong> 生成下三角矩阵，或者使用 <strong>triu</strong> 函数生成上三角矩阵，具体使用代码的格式以下：</p>
+<pre><code class="hljs matlab"><span class="hljs-comment">% 矩阵 = tril(现有的矩阵，主对角线上第k条斜线) 让这条斜线上方的元素清零</span>
+<span class="hljs-comment">% 矩阵 = triu(现有的矩阵，主对角线下第k条斜线) 让这条斜线下方的元素清零</span>
+matrix_1 = <span class="hljs-built_in">tril</span>(matrix, <span class="hljs-number">1</span>)
+matrix_1 = <span class="hljs-built_in">tril</span>(matrix, <span class="hljs-number">0</span>)
+matrix_1 = <span class="hljs-built_in">tril</span>(matrix, <span class="hljs-number">-1</span>)
+matrix_1 = <span class="hljs-built_in">triu</span>(matrix, <span class="hljs-number">1</span>)
+matrix_1 = <span class="hljs-built_in">triu</span>(matrix, <span class="hljs-number">0</span>)
+matrix_1 = <span class="hljs-built_in">triu</span>(matrix, <span class="hljs-number">-1</span>)</code></pre>
             </div>
             <hr>
             <div>
@@ -254,7 +260,7 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%AB%9E%E8%B5%9B%EF%BC%8C%E8%AE%B0%E5%BD%95/">竞赛，记录</a>
+                      <a class="hover-with-bg" href="/categories/%E8%AE%B0%E5%BD%95/">记录</a>
                     
                   </div>
                 
@@ -262,9 +268,7 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E9%95%BF%E6%9C%9F/">长期</a>
-                    
-                      <a class="hover-with-bg" href="/tags/CTF/">CTF</a>
+                      <a class="hover-with-bg" href="/tags/MATLAB/">MATLAB</a>
                     
                   </div>
                 
@@ -277,18 +281,12 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/12/02/MATLAB/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MATLAB</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/11/20/DevFest2020/">
-                        <span class="hidden-mobile">GDG Shanghai DevFest2020</span>
+                      <a href="/2020/11/29/CTF-Web/">
+                        <span class="hidden-mobile">CTF-Web</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -424,7 +422,7 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "CTF-Web&nbsp;",
+        "MATLAB&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
