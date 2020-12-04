@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      905 字
+      1.4k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      17
        分钟
     </span>
   
@@ -248,12 +248,31 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <h4 id="pacman"><a class="markdownIt-Anchor" href="#pacman"></a> pacman</h4>
 <p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
 <h3 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h3>
-<h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> vim</h4>
+<h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> Vim</h4>
 <p>fail to install plugins</p>
 <h5 id="clipboard-inconsistency"><a class="markdownIt-Anchor" href="#clipboard-inconsistency"></a> <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Vim#Clipboard">clipboard inconsistency</a></h5>
 <p>vim does not support Xorg, missing the <code>+clipboard</code> support. replace it with <code>gvim</code></p>
 <p>use <code>&quot;+y</code> to copy to the system clipboard</p>
 <p>to change the default behavior <code>set clipboard=unnamedplus</code></p>
+<h5 id="encode"><a class="markdownIt-Anchor" href="#encode"></a> encode</h5>
+<p><code>enc,fenc,fencs,tenc</code></p>
+<ul>
+<li>
+<p><code>enc</code> (<code>encoding</code>) 内部使用的编码</p>
+<p>如buffer，寄存器中的字符串。在Vim打开文本后，如果它的编码方式与它的内部编码不一致，Vim会先把编码转换成内部编码，如果它用的编码中含有没法转换为内部编码的字符，那么这些字符就会丢失掉。默认值是系统的locale来决定。</p>
+</li>
+<li>
+<p><code>fenc</code>( <code>fileencoding</code>) 文件自身的编码</p>
+<p>从磁盘读文件时，Vim会对文件编码检查，如果文件的编码与Vim内部编码（enc）不同，Vim就会对文本做编码转换，将fenc设置为文件的编码。Vim写文件到磁盘时，如果enc与fenc不一样，Vim就做编码转换，转换成编码fenc保存文件。</p>
+</li>
+<li>
+<p><code>fencs</code>( <code>fileencodings</code> ) 字符编码的列表</p>
+<p>编码的自动识别就是通过设置fencs实现的。当打开一个文件时，Vim会按照fencs中编码的顺序进行解码操作，如果匹配成功就用该编码来进行解码，并把这种编码设为fenc的值。这里的匹配成功指的是Vim能正确解码，不会出错，但是不保证没有乱码，所以fencs编码列表的顺序设置很关键。latin1是iso8859-1，属于国际化的标准编码，能表示任何字符，所以放到最后</p>
+</li>
+<li>
+<p><code>tenc</code>( <code>termencoding</code>) 终端使用文本编码，或者说是Vim用于屏幕显示时的编码，显示的时候Vim会把内部编码转换为屏幕编码再输出，也就是说我们从屏幕上看到的字符都是tenc编码的字符，如果为空，默认就是enc。windows平台Gvim会忽略掉tenc。一般就是从一个终端远程登陆到linux系统时候tenc会起作用。</p>
+</li>
+</ul>
 <h4 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h4>
 <h5 id="vscodevim"><a class="markdownIt-Anchor" href="#vscodevim"></a> vscodevim</h5>
 <p>set a shortcut to “Vim: Toggle Vim Mode”</p>
@@ -266,11 +285,45 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p><code>&lt;c-7&gt;</code> to remove word from history</p>
 <p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
 <p>UNICODE: Ctrl+Alt+Shift+U</p>
+<h3 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> SSH</h3>
+<h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
+<ul>
+<li>
+<p>Install from Settings UI : Optional Features</p>
+</li>
+<li>
+<p>Install from PowerShell : <code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></p>
+</li>
+<li>
+<p>Start-Service</p>
+</li>
+</ul>
+<pre><code class="hljs powershell"><span class="hljs-built_in">Start-Service</span> sshd 
+<span class="hljs-comment"># OPTIONAL but recommended: </span>
+<span class="hljs-built_in">Set-Service</span> <span class="hljs-literal">-Name</span> sshd <span class="hljs-literal">-StartupType</span> <span class="hljs-string">&#x27;Automatic&#x27;</span>
+<span class="hljs-comment"># then back to local machine:</span>
+ssh username@servername</code></pre>
 <h3 id="aria2"><a class="markdownIt-Anchor" href="#aria2"></a> Aria2</h3>
 <p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/aria2_perfect_config-faq.html">Aria2常见问题</a></p>
 <h3 id="nfs"><a class="markdownIt-Anchor" href="#nfs"></a> NFS</h3>
 <p><a target="_blank" rel="noopener" href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7安装配置NFS</a><br />
 <a target="_blank" rel="noopener" href="https://qizhanming.com/blog/2018/08/08/how-to-install-nfs-on-centos-7">CentOS 7 下 yum 安装和配置 NFS</a></p>
+<p>Server:</p>
+<ul>
+<li>create folder</li>
+<li>start servers <code>rpcbind</code> <code>nfs-server</code></li>
+<li>edit <code>/etc/exports</code>
+<ul>
+<li><code>exportfs -r</code></li>
+<li><code>showmount -e</code></li>
+</ul>
+</li>
+</ul>
+<p>Client:</p>
+<ul>
+<li><code>rpcbind</code></li>
+<li><code>mount [IP]:/ /path/to/mount</code></li>
+</ul>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
 <h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
 <pre><code class="hljs bash">kquitapp5 plasmashell
