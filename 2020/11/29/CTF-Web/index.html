@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      258 字
+      513 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      7
        分钟
     </span>
   
@@ -228,11 +228,12 @@
 <h5 id="http基本认证"><a class="markdownIt-Anchor" href="#http基本认证"></a> HTTP基本认证</h5>
 <p><code>Authorization: Basic &#123;base64 of username:password&#125;</code></p>
 <h3 id="信息泄露"><a class="markdownIt-Anchor" href="#信息泄露"></a> 信息泄露</h3>
+<p>routine : use tools to download source files , find the flag directly or mdthe filename which can be accessed in browser</p>
 <h5 id="目录遍历"><a class="markdownIt-Anchor" href="#目录遍历"></a> 目录遍历</h5>
 <p><code>dirsearch</code>或手动/半自动</p>
 <h5 id="phpinfo"><a class="markdownIt-Anchor" href="#phpinfo"></a> phpinfo</h5>
 <p><code>phpinfo()</code> 是php中查看相关信息的函数，当在页面中执行<code>phpinfo()</code>函数时，php会将自身的所有信息全部打印出来。在phpinfo中会泄露很多服务端的一些信息</p>
-<p><code>/phpinfo.php</code></p>
+<p><code>using Base::func;//当当当当！看这里！！ 	double func(double a, double b) &#123; return a /phpinfo.php</code></p>
 <h5 id="网站源码"><a class="markdownIt-Anchor" href="#网站源码"></a> 网站源码</h5>
 <p>根目录下或有整站源码压缩包</p>
 <pre><code class="hljs python">fname=[<span class="hljs-string">&#x27;web&#x27;</span>,<span class="hljs-string">&#x27;website&#x27;</span>,<span class="hljs-string">&#x27;backup&#x27;</span>,<span class="hljs-string">&#x27;back&#x27;</span>,<span class="hljs-string">&#x27;www&#x27;</span>,<span class="hljs-string">&#x27;wwwroot&#x27;</span>,<span class="hljs-string">&#x27;temp&#x27;</span>]
@@ -245,6 +246,23 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
 <p><code>python GitHacker.py &#123;url&#125;/.git</code></p>
 <p>1.<code>git log</code>   2.<code>git diff XXXX</code> or <code>git reset --hard XXXX</code></p>
 <p>1.<code>git stash list/show</code>  2.<code>git stash pop</code></p>
+<h5 id="svn泄漏"><a class="markdownIt-Anchor" href="#svn泄漏"></a> SVN泄漏</h5>
+<p><code>rip-svn -v -u &#123;url&#125;/.svn/</code></p>
+<blockquote>
+<p>使用svn checkout后，项目目录下会生成隐藏的.svn文件夹<br />
+svn1.6及以前版本会在项目的每个文件夹下都生成一个.svn文件夹，里面包含了所有文件的备份，文件名为 .svn/text-base/文件名.svn-base<br />
+svn1.7及以后版本则只在项目根目录生成一个.svn文件夹，里面的pristine文件夹里包含了整个项目的所有文件备份</p>
+</blockquote>
+<h5 id="hg泄露"><a class="markdownIt-Anchor" href="#hg泄露"></a> HG泄露</h5>
+<p><code>rip-hg -v -u &#123;url&#125;/.hg</code></p>
+<h3 id="sql注入"><a class="markdownIt-Anchor" href="#sql注入"></a> SQL注入</h3>
+<h5 id="union注入"><a class="markdownIt-Anchor" href="#union注入"></a> UNION注入</h5>
+<p>如何获取字段名和表名？</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span>,<span class="hljs-keyword">group_concat</span>(table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>()</code></pre>
+<h5 id="字符型注入"><a class="markdownIt-Anchor" href="#字符型注入"></a> 字符型注入</h5>
+<p>MySQL中等号两边类型不一致会强制转换。字符串会被转换为数字 eg. ‘1a’=1 ‘a’=0 均为TRUE。以此判断输入点类型</p>
+<p><code>%20</code>,<code># %23</code></p>
+<h5 id="盲注"><a class="markdownIt-Anchor" href="#盲注"></a> 盲注</h5>
 
             </div>
             <hr>
@@ -262,9 +280,9 @@ suf=[<span class="hljs-string">&#x27;tar&#x27;</span>,<span class="hljs-string">
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/CTF/">CTF</a>
-                    
                       <a class="hover-with-bg" href="/tags/%E9%95%BF%E6%9C%9F/">长期</a>
+                    
+                      <a class="hover-with-bg" href="/tags/CTF/">CTF</a>
                     
                   </div>
                 
