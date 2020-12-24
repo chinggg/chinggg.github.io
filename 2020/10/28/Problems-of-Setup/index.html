@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.6k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18
+      21
        分钟
     </span>
   
@@ -247,6 +247,12 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <h3 id="package-manager"><a class="markdownIt-Anchor" href="#package-manager"></a> Package Manager</h3>
 <h4 id="pacman"><a class="markdownIt-Anchor" href="#pacman"></a> pacman</h4>
 <p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
+<p><code>-S</code> <code>-U</code> <code>-Q</code> <code>-R</code></p>
+<h3 id="shell"><a class="markdownIt-Anchor" href="#shell"></a> Shell</h3>
+<h4 id="yakuake"><a class="markdownIt-Anchor" href="#yakuake"></a> Yakuake</h4>
+<p>New Session <code>&lt;c-s-T&gt;</code></p>
+<p>Close Session <code>&lt;c-s-W&gt;</code></p>
+<p>Next Session <code>&lt;s-Right&gt;</code> (’<c-tab>’)</p>
 <h3 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h3>
 <h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> Vim</h4>
 <p>fail to install plugins</p>
@@ -274,6 +280,16 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 </li>
 </ul>
 <h4 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h4>
+<p><code>Window: Title Bar Style</code>  choose <code>custom</code></p>
+<h5 id="shortcuts"><a class="markdownIt-Anchor" href="#shortcuts"></a> Shortcuts</h5>
+<p><code>&lt;c-B&gt;</code> toggle side bar</p>
+<p><code>&lt;c-J&gt;</code> toggle panel</p>
+<p><code>&lt;c-`&gt;</code>toggle integrated terminal</p>
+<p><code>&lt;c-K&gt;</code> leader key</p>
+<ul>
+<li><code>&lt;c-O&gt;</code> Open Folder</li>
+<li><code>&lt;c-S&gt;</code> Keyboard Shortcut</li>
+</ul>
 <h5 id="vscodevim"><a class="markdownIt-Anchor" href="#vscodevim"></a> vscodevim</h5>
 <p>set a shortcut to “Vim: Toggle Vim Mode”</p>
 <ul>
@@ -281,11 +297,24 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
 </ul>
 <p>press <code>gcc</code> to comment</p>
+<h5 id="remote"><a class="markdownIt-Anchor" href="#remote"></a> remote</h5>
+<p><code>Code-OSS</code> does not work</p>
+<h4 id="codeblocks"><a class="markdownIt-Anchor" href="#codeblocks"></a> CodeBlocks</h4>
+<p>Missing <code>api-ms-win-crt-*.dll</code></p>
+<p>Install VC++ 2015 Redistributable</p>
+<p>Fail on Windows Server 2012</p>
 <h3 id="fcitx5"><a class="markdownIt-Anchor" href="#fcitx5"></a> Fcitx5</h3>
 <p><code>&lt;c-7&gt;</code> to remove word from history</p>
 <p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
 <p>UNICODE: Ctrl+Alt+Shift+U</p>
 <h3 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> SSH</h3>
+<h4 id="key-auth"><a class="markdownIt-Anchor" href="#key-auth"></a> Key-Auth</h4>
+<p><code>ssh-keygen -t rsa</code></p>
+<pre><code class="hljs routeros">host &#123;shortName&#125;
+    Hostname &#123;address&#125;
+   <span class="hljs-built_in"> Port </span>22
+   <span class="hljs-built_in"> User </span>&#123;username&#125;
+    IdentityFile &#123;path/<span class="hljs-keyword">to</span>/key&#125;</code></pre>
 <h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
 <ul>
 <li>
@@ -295,7 +324,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p>Install from PowerShell : <code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></p>
 </li>
 <li>
-<p>Start-Service</p>
+<h6 id="start-service"><a class="markdownIt-Anchor" href="#start-service"></a> ===Start-Service</h6>
 </li>
 </ul>
 <pre><code class="hljs powershell"><span class="hljs-built_in">Start-Service</span> sshd 
@@ -307,7 +336,7 @@ ssh username@servername</code></pre>
 <p>更改默认3389端口</p>
 <p><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</strong></p>
 <p><strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</strong></p>
-<p><code>PortNumber</code></p>
+<p><code>PortNumber</code> then restart</p>
 <p>(官方文档只列出第二处)</p>
 <h3 id="aria2"><a class="markdownIt-Anchor" href="#aria2"></a> Aria2</h3>
 <p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/aria2_perfect_config-faq.html">Aria2常见问题</a></p>
@@ -330,15 +359,17 @@ ssh username@servername</code></pre>
 <li><code>rpcbind</code></li>
 <li><code>mount [IP]:/ /path/to/mount</code></li>
 </ul>
+<p>MPICH</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries">https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries</a></p>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
 <h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
 <pre><code class="hljs bash">kquitapp5 plasmashell
 kstart5 plasmashell</code></pre>
 <h4 id="触摸板突然失灵"><a class="markdownIt-Anchor" href="#触摸板突然失灵"></a> 触摸板突然失灵</h4>
-<p>先卸载模块<code>sudo modprobe -r psmouse(或i2c_hid)</code></p>
-<p>再装上模块</p>
-<p>刷新系统服务<code>sudo systemctl daemon-reload</code></p>
-<p>再次休眠唤醒</p>
+<pre><code class="hljs bash">sudo modprobe -r i2c_hid <span class="hljs-comment"># 先卸载模块,或psmouse</span>
+sudo modprobe i2c_hid <span class="hljs-comment"># 再装上模块</span>
+sudo systemctl daemon-reload <span class="hljs-comment">#非必须</span>
+sytemctl <span class="hljs-built_in">suspend</span></code></pre>
 <h4 id="vmware报错"><a class="markdownIt-Anchor" href="#vmware报错"></a> VMWare报错</h4>
 <p>先检查是否装对应kernel版本的linux-headers</p>
 <p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
