@@ -230,6 +230,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
 <p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">Git配置多个SSH Key</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/">多SSH管理技巧与Git多账户登录</a></p>
+<p>undo the first commit: <code>git update-ref -d HEAD</code></p>
 <h3 id="linux电源管理"><a class="markdownIt-Anchor" href="#linux电源管理"></a> Linux电源管理</h3>
 <p>合盖的不同设定：</p>
 <ul>
