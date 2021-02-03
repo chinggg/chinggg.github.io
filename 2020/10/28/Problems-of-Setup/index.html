@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.6k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20
+      23
        分钟
     </span>
   
@@ -321,6 +321,7 @@ ssh-add ~/.ssh/id_rsa</code></pre>
    <span class="hljs-built_in"> Port </span>22
    <span class="hljs-built_in"> User </span>&#123;username&#125;
     IdentityFile &#123;path/<span class="hljs-keyword">to</span>/key&#125;</code></pre>
+<p>do not forget to set private key 600</p>
 <h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
 <ul>
 <li>
@@ -338,6 +339,31 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <span class="hljs-built_in">Set-Service</span> <span class="hljs-literal">-Name</span> sshd <span class="hljs-literal">-StartupType</span> <span class="hljs-string">&#x27;Automatic&#x27;</span>
 <span class="hljs-comment"># then back to local machine:</span>
 ssh username@servername</code></pre>
+<h4 id="win32-openssh"><a class="markdownIt-Anchor" href="#win32-openssh"></a> <a target="_blank" rel="noopener" href="https://github.com/PowerShell/Win32-OpenSSH">Win32-OpenSSH</a></h4>
+<p>PS: <code>Set-ExecutionPolicy RemoteSigned</code><br />
+or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
+<h4 id="ssh-tunnel"><a class="markdownIt-Anchor" href="#ssh-tunnel"></a> SSH-Tunnel</h4>
+<p><a target="_blank" rel="noopener" href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh隧道代理.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
+<h3 id="proxy"><a class="markdownIt-Anchor" href="#proxy"></a> Proxy</h3>
+<pre><code class="hljs shell">export http_proxy=&quot;http://localhost:1082/&quot;
+export https_proxy=&quot;http://localhost:1082/&quot;
+export ftp_proxy=&quot;http://localhost:1082/&quot;
+export socks_proxy=&quot;http://localhost:1080&quot;
+export no_proxy=&quot;127.0.0.1,localhost&quot;
+export ALL_proxy=&quot;socks5://127.0.0.1:1080&quot;</code></pre>
+<p><code>apt</code>: <code>/etc/apt/apt.conf.d/12proxy</code></p>
+<pre><code class="hljs shell">Acquire &#123;
+  HTTP::proxy &quot;http://127.0.0.1:1082&quot;;
+  HTTPS::proxy &quot;socks5h://127.0.0.1:1080&quot;;
+&#125;</code></pre>
+<p><code>git</code>: <code>git config --global http.proxy 127.0.0.1:1082</code></p>
+<p><a target="_blank" rel="noopener" href="https://note.qidong.name/2020/05/docker-proxy/"><code>Docker</code></a></p>
+<h4 id="server"><a class="markdownIt-Anchor" href="#server"></a> Server</h4>
+<p><code>./ew -s ssocksd -l 1080</code></p>
+<h4 id="client"><a class="markdownIt-Anchor" href="#client"></a> Client</h4>
+<p><code>tsocks</code>: <code>/etc/tsocks.conf</code></p>
+<p><code>proxychains</code>: <code>/etc/proxychains.conf</code></p>
 <h3 id="rdp"><a class="markdownIt-Anchor" href="#rdp"></a> RDP</h3>
 <p><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</strong></p>
 <p><strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</strong></p>
