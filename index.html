@@ -19,7 +19,7 @@
   <meta name="keywords" content="">
   <title>Ching</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
 
@@ -37,6 +37,10 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"chinggg.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -136,13 +140,13 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container page-header text-center fade-in-up">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -161,7 +165,7 @@
 
   <main>
     
-      <div class="container nopadding-md">
+      <div class="container nopadding-x-md">
         <div class="py-5" id="board"
           style=margin-top:0>
           
@@ -184,12 +188,7 @@
         <a href="/2021/02/16/SQLi-Labs/">
           
           
-            
           
-           Less-1  Error Based - Single quotes - String
-$sql=&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;
-1' order by 4--+ says Unknown column ‘4’ , so only three columns
--1' UNION SELECT
         </a>
       </p>
 
@@ -235,10 +234,7 @@ $sql=&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;
         <a href="/2021/02/10/MCM2021/">
           
           
-            
           
-           Before the Contest
-Having tried to read some books about mathematical modeling, I found it difficult for me to concentrating on the obscure procedures of mathematical modeling, though I have, or just
         </a>
       </p>
 
@@ -284,13 +280,7 @@ Having tried to read some books about mathematical modeling, I found it difficul
         <a href="/2021/01/17/CTF2021/">
           
           
-            
           
-           *CTF2021
- Crypto
- GuessKey
-题意:随机生成大数,以十进制呈现,但后续变换操作都在二进制下完成,然后自行输入mask值作为变换的一个参数,变换只对key上闭区间[p,q]进行,就是用mask的一位(依次取位,到尾则循环)和原key一位异或后的值代替原值,连续3次正确输入变换后的key即得flag。
-解法:由于p,q随机且未知,所以该段变换必须保持原值不变,使变换后key不
         </a>
       </p>
 
@@ -336,11 +326,7 @@ Having tried to read some books about mathematical modeling, I found it difficul
         <a href="/2020/12/30/Suicide/">
           
           
-            
           
-           《自杀论》读书报告——自杀与晚期资本主义社会
-说到自杀，人们往往把它当成一种心理现象看待，尝试分析自杀者的精神状态和个人经历，从中寻找其自杀的独特原因。然而，涂尔干在他的著作《自杀论》中指出，自杀其实更是一种社会现象，背后有着深层次的社会原因。在最近年轻人自杀频频发生的背景下，我不能不赞同涂尔干从社会学视角解释自杀现象的合理性，读完《自杀论》后，我尝试运用书中理论理解当今社会自杀频发的原因。
-《
         </a>
       </p>
 
@@ -386,12 +372,7 @@ Having tried to read some books about mathematical modeling, I found it difficul
         <a href="/2020/12/16/Early-Work/">
           
           
-            
           
-          原文 : Early Work
-Author : Paul Gramham
-October 2020
-阻碍人们做伟大工作的最大原因之一，就是担心做出蹩脚的东西，这并非杞人忧天。许多伟大的项目在早期都会经历一个阶段，在那时，它们看起来并不令人印象深刻，甚至对它们的创作者自己来说也是如此。你必须挺过这个阶段，才能触及之后的伟大事业，但很多人无法做到。大多数人甚至没有达到做一些他们感到尴尬的东西的阶段，
         </a>
       </p>
 
@@ -439,17 +420,7 @@ October 2020
         <a href="/2020/11/29/CTF-Web/">
           
           
-            
           
-           HTTP协议基础
- 自定义请求方式
-curl -X &#123;METHOD&#125;
- 302跳转
-curl or Burp
- HTTP基本认证
-Authorization: Basic &#123;base64 of username:password&#125;
- 信息泄露
-routine : use tools to download source files , find the f
         </a>
       </p>
 
@@ -499,33 +470,7 @@ routine : use tools to download source files , find the f
         <a href="/2020/11/20/DevFest2020/">
           
           
-            
           
-           概念扫盲
- Hamming分类器
-multishot
- JAX:TensorFlow简化库
- 自定义Keras Layer
- Milvus快速构建AI应用
- 后疫情时代的音频体验
-质量敏感
-
-噪声
-啸叫
-回声
-开关
-
-实时美声
-
-声学
-心理学
-语言学
-
- Rosetta：AI+密码学
-知乎软文
-矛盾：数据多样性和隐私性
- 隐私计算(Privacy-Preserving Computation)
-
         </a>
       </p>
 
@@ -571,13 +516,7 @@ multishot
         <a href="/2020/11/19/CPPP/">
           
           
-            
           
-           Pointers to Functions
-eg. bool (*pf)(const string &amp;, const string &amp;);//uninitialized
- const
-
-Top-level const: indicate that the pointer itself is a const. Top-level const can appear in any ob
         </a>
       </p>
 
@@ -623,15 +562,7 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
         <a href="/2020/11/06/CTF2020/">
           
           
-            
           
-           ByteCTF2020
- Misc
- Hardcore Watermark 01
-
-厌烦了用工具解图片题？那么来点硬核的～
-链接: https://pan.baidu.com/s/1lKNYV4_X2Aqx8-qPB2Z_uw 密码: 6597
-（备用下载：https://drive.google.com/drive/folders/1MsAZfHq2G61AQQCv_CBajmjnPUXlIB
         </a>
       </p>
 
@@ -677,10 +608,7 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
         <a href="/2020/11/03/C-Pointer/">
           
           
-            
           
-           前言
-指针是学习C语言时无法绕过的概念，但由于其在算法竞赛中绝少使用，导致本人对指针的理解仍有许多模糊之处，学习Python、JavaScript等编程语言时，也从未遇到过指针，只有对象、引用这些更为抽象的概念。而要深入理解指针的本质和意义，必须对计算机内存模型和寻址方式先作了解，这无疑又得费番工夫。水平所限，本文无法对C的指针给出精妙的见解，仅是尝试帮助大一新生更好地准备考试，若文中出现错误，
         </a>
       </p>
 
@@ -735,16 +663,15 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
         </div>
       </div>
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -765,9 +692,10 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
     </div>
   </div>
 </div>
-  
+    
 
-  
+    
+  </main>
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
@@ -781,10 +709,24 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
@@ -796,11 +738,8 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
 
 
   
-
-
-
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+    
+  
 
 
 
@@ -810,36 +749,36 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
 
 
 
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
   <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "missed fd, miss fd&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
   </script>
-
-
 
 
 
   <script  src="/js/local-search.js" ></script>
   <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
   </script>
 
 
@@ -855,6 +794,9 @@ Top-level const: indicate that the pointer itself is a const. Top-level const ca
 
 
 
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 

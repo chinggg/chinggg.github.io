@@ -19,21 +19,32 @@
   <meta name="keywords" content="">
   <title>Setup - Ching</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
     
     
       
-      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+      
+        
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.22.0/themes/prism.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.22.0/plugins/line-numbers/prism-line-numbers.min.css" />
+      
     
   
 
   
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -50,6 +61,10 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"chinggg.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -149,13 +164,13 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container page-header text-center fade-in-up">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Setup">
               
             </span>
 
@@ -177,7 +192,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      1.6k 字
     </span>
   
 
@@ -187,7 +202,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      24
+      23
        分钟
     </span>
   
@@ -209,24 +224,24 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
-          <article class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">Setup</h1>
             
-            <div class="markdown-body" id="post-body">
+            <div class="markdown-body">
               <h3 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h3>
 <p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
-<pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;Whatever&quot;</span>
-<span class="hljs-comment">#输入文件名，按两次回车</span>
-<span class="hljs-comment">#ssh-agent -s 无效，则用下面这条</span>
-<span class="hljs-built_in">eval</span> $(ssh-agent -s)
-ssh-add ~/.ssh/id_rsa</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen -t rsa -C <span class="token string">"Whatever"</span>
+<span class="token comment">#输入文件名，按两次回车</span>
+<span class="token comment">#ssh-agent -s 无效，则用下面这条</span>
+<span class="token builtin class-name">eval</span> <span class="token variable"><span class="token variable">$(</span>ssh-agent -s<span class="token variable">)</span></span>
+ssh-add ~/.ssh/id_rsa<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 <p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
 <p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">Git配置多个SSH Key</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/">多SSH管理技巧与Git多账户登录</a></p>
@@ -298,9 +313,9 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <h5 id="remote"><a class="markdownIt-Anchor" href="#remote"></a> remote</h5>
 <p><code>Code-OSS</code> does not work</p>
 <h5 id="large-workspace"><a class="markdownIt-Anchor" href="#large-workspace"></a> large workspace</h5>
-<pre><code class="hljs bash">ls /etc/sysctl.d/*-max_user_watches.conf</code></pre>
-<pre><code class="hljs bash"><span class="hljs-built_in">echo</span> fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/50-max_user_watches.conf &amp;&amp; sudo sysctl --system</code></pre>
-<pre><code class="hljs bash">cat /proc/sys/fs/inotify/max_user_watches</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ls</span> /etc/sysctl.d/*-max_user_watches.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> fs.inotify.max_user_watches<span class="token operator">=</span><span class="token number">524288</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/sysctl.d/50-max_user_watches.conf <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> sysctl --system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /proc/sys/fs/inotify/max_user_watches<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
 <h4 id="codeblocks"><a class="markdownIt-Anchor" href="#codeblocks"></a> CodeBlocks</h4>
 <p>Missing <code>api-ms-win-crt-*.dll</code></p>
 <p>Install VC++ 2015 Redistributable</p>
@@ -320,11 +335,11 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <h3 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> SSH</h3>
 <h4 id="key-auth"><a class="markdownIt-Anchor" href="#key-auth"></a> Key-Auth</h4>
 <p><code>ssh-keygen -t rsa</code></p>
-<pre><code class="hljs routeros">host &#123;shortName&#125;
+<div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">host &#123;shortName&#125;
     Hostname &#123;address&#125;
-   <span class="hljs-built_in"> Port </span>22
-   <span class="hljs-built_in"> User </span>&#123;username&#125;
-    IdentityFile &#123;path/<span class="hljs-keyword">to</span>/key&#125;</code></pre>
+    Port 22
+    User &#123;username&#125;
+    IdentityFile &#123;path&#x2F;to&#x2F;key&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 <p>do not forget to set private key 600</p>
 <h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
 <ul>
@@ -338,11 +353,11 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <h6 id="start-service"><a class="markdownIt-Anchor" href="#start-service"></a> ===Start-Service</h6>
 </li>
 </ul>
-<pre><code class="hljs powershell"><span class="hljs-built_in">Start-Service</span> sshd 
-<span class="hljs-comment"># OPTIONAL but recommended: </span>
-<span class="hljs-built_in">Set-Service</span> <span class="hljs-literal">-Name</span> sshd <span class="hljs-literal">-StartupType</span> <span class="hljs-string">&#x27;Automatic&#x27;</span>
-<span class="hljs-comment"># then back to local machine:</span>
-ssh username@servername</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Start-Service</span> sshd 
+<span class="token comment"># OPTIONAL but recommended: </span>
+<span class="token function">Set-Service</span> <span class="token operator">-</span>Name sshd <span class="token operator">-</span>StartupType <span class="token string">'Automatic'</span>
+<span class="token comment"># then back to local machine:</span>
+ssh username@servername<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 <h4 id="win32-openssh"><a class="markdownIt-Anchor" href="#win32-openssh"></a> <a target="_blank" rel="noopener" href="https://github.com/PowerShell/Win32-OpenSSH">Win32-OpenSSH</a></h4>
 <p>PS: <code>Set-ExecutionPolicy RemoteSigned</code><br />
 or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
@@ -350,17 +365,17 @@ or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
 <p><a target="_blank" rel="noopener" href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh隧道代理.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
 <h3 id="proxy"><a class="markdownIt-Anchor" href="#proxy"></a> Proxy</h3>
-<pre><code class="hljs shell">export http_proxy=&quot;http://localhost:1082/&quot;
-export https_proxy=&quot;http://localhost:1082/&quot;
-export ftp_proxy=&quot;http://localhost:1082/&quot;
-export socks_proxy=&quot;http://localhost:1080&quot;
-export no_proxy=&quot;127.0.0.1,localhost&quot;
-export ALL_proxy=&quot;socks5://127.0.0.1:1080&quot;</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token builtin class-name">export</span> <span class="token assign-left variable">http_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">https_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">ftp_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">socks_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1080"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">no_proxy</span><span class="token operator">=</span><span class="token string">"127.0.0.1,localhost"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">ALL_proxy</span><span class="token operator">=</span><span class="token string">"socks5://127.0.0.1:1080"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 <p><code>apt</code>: <code>/etc/apt/apt.conf.d/12proxy</code></p>
-<pre><code class="hljs shell">Acquire &#123;
-  HTTP::proxy &quot;http://127.0.0.1:1082&quot;;
-  HTTPS::proxy &quot;socks5h://127.0.0.1:1080&quot;;
-&#125;</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Acquire <span class="token punctuation">&#123;</span>
+  HTTP::proxy <span class="token string">"http://127.0.0.1:1082"</span><span class="token punctuation">;</span>
+  HTTPS::proxy <span class="token string">"socks5h://127.0.0.1:1080"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
 <p><code>Git</code>: <code>git config --global http.proxy 127.0.0.1:1082</code></p>
 <p><a target="_blank" rel="noopener" href="https://docs.docker.com/config/daemon/systemd/"><code>Docker</code></a></p>
 <p><a target="_blank" rel="noopener" href="https://note.qidong.name/2020/05/docker-proxy/">https://note.qidong.name/2020/05/docker-proxy/</a></p>
@@ -401,13 +416,13 @@ export ALL_proxy=&quot;socks5://127.0.0.1:1080&quot;</code></pre>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries">https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries</a></p>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
 <h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
-<pre><code class="hljs bash">kquitapp5 plasmashell
-kstart5 plasmashell</code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kquitapp5 plasmashell
+kstart5 plasmashell<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div>
 <h4 id="触摸板突然失灵"><a class="markdownIt-Anchor" href="#触摸板突然失灵"></a> 触摸板突然失灵</h4>
-<pre><code class="hljs bash">sudo modprobe -r i2c_hid <span class="hljs-comment"># 先卸载模块,或psmouse</span>
-sudo modprobe i2c_hid <span class="hljs-comment"># 再装上模块</span>
-sudo systemctl daemon-reload <span class="hljs-comment">#非必须</span>
-sytemctl <span class="hljs-built_in">suspend</span></code></pre>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> modprobe -r i2c_hid <span class="token comment"># 先卸载模块,或psmouse</span>
+<span class="token function">sudo</span> modprobe i2c_hid <span class="token comment"># 再装上模块</span>
+<span class="token function">sudo</span> systemctl daemon-reload <span class="token comment">#非必须</span>
+sytemctl <span class="token function">suspend</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
 <h4 id="vmware报错"><a class="markdownIt-Anchor" href="#vmware报错"></a> VMWare报错</h4>
 <p>先检查是否装对应kernel版本的linux-headers</p>
 <p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
@@ -453,7 +468,7 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -487,7 +502,7 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
-  <div id="tocbot"></div>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
       </div>
@@ -499,16 +514,15 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
 
 
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -529,9 +543,10 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
     </div>
   </div>
 </div>
-  
+    
 
-  
+    
+  </main>
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
@@ -545,10 +560,24 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
@@ -560,106 +589,53 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
 
 
   
+    
+  
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
 
 
 
 
 
 
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
   <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: '#post-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Setup&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
+      typing(title)
+      
+    })(window, document);
   </script>
 
 
 
   <script  src="/js/local-search.js" ></script>
   <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    );
+    })()
   </script>
 
 
@@ -673,6 +649,11 @@ sytemctl <span class="hljs-built_in">suspend</span></code></pre>
 
 
 
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 
