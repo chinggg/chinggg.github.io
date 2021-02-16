@@ -177,7 +177,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      1.7k 字
     </span>
   
 
@@ -187,7 +187,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      23
+      24
        分钟
     </span>
   
@@ -297,6 +297,10 @@ ssh-add ~/.ssh/id_rsa</code></pre>
 <p>press <code>gcc</code> to comment</p>
 <h5 id="remote"><a class="markdownIt-Anchor" href="#remote"></a> remote</h5>
 <p><code>Code-OSS</code> does not work</p>
+<h5 id="large-workspace"><a class="markdownIt-Anchor" href="#large-workspace"></a> large workspace</h5>
+<pre><code class="hljs bash">ls /etc/sysctl.d/*-max_user_watches.conf</code></pre>
+<pre><code class="hljs bash"><span class="hljs-built_in">echo</span> fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/50-max_user_watches.conf &amp;&amp; sudo sysctl --system</code></pre>
+<pre><code class="hljs bash">cat /proc/sys/fs/inotify/max_user_watches</code></pre>
 <h4 id="codeblocks"><a class="markdownIt-Anchor" href="#codeblocks"></a> CodeBlocks</h4>
 <p>Missing <code>api-ms-win-crt-*.dll</code></p>
 <p>Install VC++ 2015 Redistributable</p>

