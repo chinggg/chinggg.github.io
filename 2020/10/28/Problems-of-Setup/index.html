@@ -192,7 +192,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      1.7k 字
     </span>
   
 
@@ -202,7 +202,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      23
+      26
        分钟
     </span>
   
@@ -310,6 +310,37 @@ ssh-add ~/.ssh/id_rsa<span aria-hidden="true" class="line-numbers-rows"><span></
 <li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
 </ul>
 <p>press <code>gcc</code> to comment</p>
+<h5 id="filesexclude"><a class="markdownIt-Anchor" href="#filesexclude"></a> <a target="_blank" rel="noopener" href="https://code.visualstudio.com/Docs/customization/userandworkspace">files.exclude</a></h5>
+<ul>
+<li>
+<p>Go to <strong>File -&gt; Preferences -&gt; Settings</strong> (or on Mac <strong>Code -&gt; Preferences -&gt; Settings</strong>)</p>
+</li>
+<li>
+<p>Pick the <code>workspace settings</code> tab</p>
+</li>
+<li>
+<p>Add this code to the <code>settings.json</code> file displayed on the right side:</p>
+<div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token comment">// Place your settings in this file to overwrite default and user settings.</span>
+
+<span class="token punctuation">&#123;</span>
+    <span class="token property">"settings"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">"files.exclude"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">"**/.git"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>         <span class="token comment">// this is a default value</span>
+            <span class="token property">"**/.DS_Store"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>    <span class="token comment">// this is a default value</span>
+
+            <span class="token property">"**/node_modules"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// this excludes all folders </span>
+                                    <span class="token comment">// named "node_modules" from </span>
+                                    <span class="token comment">// the explore tree</span>
+
+            <span class="token comment">// alternative version</span>
+            <span class="token property">"node_modules"</span><span class="token operator">:</span> <span class="token boolean">true</span>    <span class="token comment">// this excludes the folder </span>
+                                    <span class="token comment">// only from the root of</span>
+                                    <span class="token comment">// your workspace </span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+</li>
+</ul>
 <h5 id="remote"><a class="markdownIt-Anchor" href="#remote"></a> remote</h5>
 <p><code>Code-OSS</code> does not work</p>
 <h5 id="large-workspace"><a class="markdownIt-Anchor" href="#large-workspace"></a> large workspace</h5>
@@ -364,6 +395,8 @@ or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
 <h4 id="ssh-tunnel"><a class="markdownIt-Anchor" href="#ssh-tunnel"></a> SSH-Tunnel</h4>
 <p><a target="_blank" rel="noopener" href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh隧道代理.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
+<h4 id="sshfs"><a class="markdownIt-Anchor" href="#sshfs"></a> SSHFS</h4>
+<p><code>sshfs -C -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 &lt;server&gt;:/path /path</code></p>
 <h3 id="proxy"><a class="markdownIt-Anchor" href="#proxy"></a> Proxy</h3>
 <div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token builtin class-name">export</span> <span class="token assign-left variable">http_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
 <span class="token builtin class-name">export</span> <span class="token assign-left variable">https_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
@@ -393,7 +426,10 @@ or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
 <p><code>mysql -u &#123;user&#125; -p</code> ENTER</p>
 <h3 id="aria2"><a class="markdownIt-Anchor" href="#aria2"></a> Aria2</h3>
 <p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/aria2_perfect_config-faq.html">Aria2常见问题</a></p>
-<h3 id="nfs"><a class="markdownIt-Anchor" href="#nfs"></a> NFS</h3>
+<h3 id="file-system"><a class="markdownIt-Anchor" href="#file-system"></a> File System</h3>
+<h4 id="ntfs"><a class="markdownIt-Anchor" href="#ntfs"></a> NTFS</h4>
+<p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
+<h4 id="nfs"><a class="markdownIt-Anchor" href="#nfs"></a> NFS</h4>
 <p><a target="_blank" rel="noopener" href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7安装配置NFS</a><br />
 <a target="_blank" rel="noopener" href="https://qizhanming.com/blog/2018/08/08/how-to-install-nfs-on-centos-7">CentOS 7 下 yum 安装和配置 NFS</a></p>
 <p>Server:</p>
@@ -428,9 +464,6 @@ sytemctl <span class="token function">suspend</span><span aria-hidden="true" cla
 <p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
 <p>上述命令亦无效则是kernel版本太新尚无module可用，参见<a target="_blank" rel="noopener" href="https://communities.vmware.com/thread/638824">此贴</a>中的步骤，下载<a target="_blank" rel="noopener" href="https://github.com/mkubecek/vmware-host-modules">该仓库</a>中对应版本执行<code>make</code>即可编译完成</p>
 <p>vmnet8报错无法联网：<code>sudo systemctl start vmware-networks.service</code></p>
-<h4 id="挂载ntfs分区"><a class="markdownIt-Anchor" href="#挂载ntfs分区"></a> 挂载NTFS分区</h4>
-<p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
-<p>该命令仅限一次开机，永久生效需编辑<code>/etc/fstab</code></p>
 <h4 id="基于qt的软件无法使用fcitx"><a class="markdownIt-Anchor" href="#基于qt的软件无法使用fcitx"></a> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/150387095">基于Qt的软件无法使用fcitx</a></h4>
 <p><code>qmake -query</code>查看qt版本及路径等信息</p>
 <h3 id="中文字体选择"><a class="markdownIt-Anchor" href="#中文字体选择"></a> 中文字体选择</h3>
