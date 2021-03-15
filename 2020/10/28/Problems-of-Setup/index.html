@@ -202,7 +202,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      26
+      27
        分钟
     </span>
   
@@ -246,17 +246,27 @@ ssh-add ~/.ssh/id_rsa<span aria-hidden="true" class="line-numbers-rows"><span></
 <p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">Git配置多个SSH Key</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/">多SSH管理技巧与Git多账户登录</a></p>
 <p>undo the first commit: <code>git update-ref -d HEAD</code></p>
-<h3 id="linux电源管理"><a class="markdownIt-Anchor" href="#linux电源管理"></a> Linux电源管理</h3>
+<h3 id="linux"><a class="markdownIt-Anchor" href="#linux"></a> Linux</h3>
 <p>合盖的不同设定：</p>
 <ul>
-<li>poweroff和halt均是关机（具体实现有区别）</li>
-<li>hybernate是休眠，设备断电（同关机状态），内容保存在硬盘中</li>
-<li>hybrid-sleep是混合睡眠，设备通电，内容保存在硬盘和内存中</li>
-<li>supspend(或sleep)是挂起（睡眠），设备通电，内容保存在内存中</li>
-<li>lock是锁屏</li>
-<li>kexec是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
-<li>ignore是忽略该动作，即不进行任何电源事件响应</li>
+<li>poweroff 和 halt 均是关机（具体实现有区别）</li>
+<li>hybernate 是休眠，设备断电（同关机状态），内容保存在硬盘中</li>
+<li>hybrid-sleep 是混合睡眠，设备通电，内容保存在硬盘和内存中</li>
+<li>supspend (或 sleep)是挂起（睡眠），设备通电，内容保存在内存中</li>
+<li>lock 是锁屏</li>
+<li>kexec 是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
+<li>ignore 是忽略该动作，即不进行任何电源事件响应</li>
 </ul>
+<h4 id="reisub"><a class="markdownIt-Anchor" href="#reisub"></a> REISUB</h4>
+<ul>
+<li>Add to your grub <code>GRUB_CMDLINE_LINUX_DEFAULT</code> the <code>sysrq_always_enabled=1</code> variable.<br />
+OR</li>
+<li>Execute <code>echo kernel.sysrq=1 | sudo tee --append /etc/sysctl.d/99-sysctl.conf</code><br />
+AND</li>
+<li>Execute <code>sudo update-grub</code></li>
+</ul>
+<p>Laptop: <code>Fn+Alt+PrtSc</code></p>
+<p>Once you’ve located your SysRq key, please <em>keep the</em> Alt <em>key pressed</em>.</p>
 <h3 id="package-manager"><a class="markdownIt-Anchor" href="#package-manager"></a> Package Manager</h3>
 <h4 id="pacman"><a class="markdownIt-Anchor" href="#pacman"></a> pacman</h4>
 <p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
