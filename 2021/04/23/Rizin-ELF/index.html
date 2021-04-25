@@ -192,7 +192,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      2k 字
     </span>
   
 
@@ -202,7 +202,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19
+      38
        分钟
     </span>
   
@@ -236,10 +236,11 @@
             
             <div class="markdown-body">
               <h2 id="types"><a class="markdownIt-Anchor" href="#types"></a> Types</h2>
-<p>从 <code>core/cbin.c</code> 中的函数<code>static int bin_sections(RzCore *r, PJ *pj, int mode, ut64 laddr, int va, ut64 at, const char *name, const char *chksum, bool print_segments)</code> 出发</p>
+<p>从 <code>core/cbin.c</code> 中的函数<code>static int bin_sections(RzCore *r, PJ *pj, int mode, ut64 laddr, int va, ut64 at, const char *name, const char *chksum, bool print_segments)</code> 出发，该函数接受 <code>RzCore *r</code>及其它参数，功能为</p>
 <h3 id="宏定义们"><a class="markdownIt-Anchor" href="#宏定义们"></a> 宏定义们</h3>
 <div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">#define RZ_NEW(x)        (x *)malloc(sizeof(x))<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
-<h3 id="结构体-rzlist"><a class="markdownIt-Anchor" href="#结构体-rzlist"></a> 结构体 RzList</h3>
+<h3 id="general"><a class="markdownIt-Anchor" href="#general"></a> General</h3>
+<h4 id="结构体-rzlist"><a class="markdownIt-Anchor" href="#结构体-rzlist"></a> 结构体 RzList</h4>
 <div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// include/rz_list.h</span>
 <span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">rz_list_t</span> <span class="token punctuation">&#123;</span>
 	RzListIter <span class="token operator">*</span>head<span class="token punctuation">;</span>
@@ -300,7 +301,19 @@ RZ_API RzList <span class="token operator">*</span><span class="token function">
 	<span class="token punctuation">&#125;</span>
 	<span class="token keyword">return</span> l<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h3 id="结构体-rzcore"><a class="markdownIt-Anchor" href="#结构体-rzcore"></a> 结构体 RzCore</h3>
+<h4 id="结构体-rzinterval"><a class="markdownIt-Anchor" href="#结构体-rzinterval"></a> 结构体 RzInterval</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// An interval in 64-bit address space which is aware of address space wraparound</span>
+<span class="token comment">// Precondition: 0 &lt;= size &lt; 2**64 and addr + size &lt;= 2**64</span>
+<span class="token comment">// range is [], [10, 5) => 10 &lt;= x &lt; (10 + 5)</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">rz_interval_t</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// public:</span>
+	ut64 addr<span class="token punctuation">;</span>
+	ut64 size<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> RzInterval<span class="token punctuation">;</span>
+
+<span class="token keyword">typedef</span> RzInterval rz_itv_t<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h3 id="bin"><a class="markdownIt-Anchor" href="#bin"></a> Bin</h3>
+<h4 id="结构体-rzcore"><a class="markdownIt-Anchor" href="#结构体-rzcore"></a> 结构体 RzCore</h4>
 <p>下有<code>RzBin *bin;</code>指向 RzBin 类型的指针</p>
 <div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// include/rz_core.h</span>
 
@@ -409,7 +422,7 @@ RZ_API RzList <span class="token operator">*</span><span class="token function">
 	<span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>rz_main_rz_asm<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span><span class="token punctuation">;</span>
 	<span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>rz_main_rz_ax<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h3 id="结构体-rzbin"><a class="markdownIt-Anchor" href="#结构体-rzbin"></a> 结构体 RzBin</h3>
+<h4 id="结构体-rzbin"><a class="markdownIt-Anchor" href="#结构体-rzbin"></a> 结构体 RzBin</h4>
 <p>下有 <code>RzBinFile *cur;</code> 指向 RzBinFile 类型的指针</p>
 <div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">rz_bin_t</span> <span class="token punctuation">&#123;</span>
 	<span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>file<span class="token punctuation">;</span>
@@ -449,7 +462,7 @@ RZ_API RzList <span class="token operator">*</span><span class="token function">
 	RzStrConstPool constpool<span class="token punctuation">;</span>
 	bool is_reloc_patched<span class="token punctuation">;</span> <span class="token comment">// used to indicate whether relocations were patched or not</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h3 id="结构体-rzbinfile"><a class="markdownIt-Anchor" href="#结构体-rzbinfile"></a> 结构体 RzBinFile</h3>
+<h4 id="结构体-rzbinfile"><a class="markdownIt-Anchor" href="#结构体-rzbinfile"></a> 结构体 RzBinFile</h4>
 <p>上溯来源：</p>
 <div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c">RzCore <span class="token operator">*</span>r
 RzBin <span class="token operator">*</span>rz_core_t<span class="token operator">::</span>bin
@@ -480,7 +493,7 @@ RzBinFile <span class="token operator">*</span>bf <span class="token operator">=
 	Sdb <span class="token operator">*</span>sdb_info<span class="token punctuation">;</span>
 	<span class="token keyword">struct</span> <span class="token class-name">rz_bin_t</span> <span class="token operator">*</span>rbin<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h3 id="结构体-rzbinobject"><a class="markdownIt-Anchor" href="#结构体-rzbinobject"></a> 结构体 RzBinObject</h3>
+<h4 id="结构体-rzbinobject"><a class="markdownIt-Anchor" href="#结构体-rzbinobject"></a> 结构体 RzBinObject</h4>
 <p><code>RzBinFile *bf = r-&gt;bin-&gt;cur;</code></p>
 <p><code>RzBinObject *o = bf ? bf-&gt;o : NULL;</code></p>
 <p>下有 <code>RzList /*&lt;RzBinSection&gt;*/ *sections;</code>  结点为 RzBinSection 类型的 RzList</p>
@@ -520,7 +533,7 @@ RzBinFile <span class="token operator">*</span>bf <span class="token operator">=
 	HtUP <span class="token operator">*</span>addrzklassmethod<span class="token punctuation">;</span>
 	<span class="token keyword">void</span> <span class="token operator">*</span>bin_obj<span class="token punctuation">;</span> <span class="token comment">// internal pointer used by formats</span>
 <span class="token punctuation">&#125;</span> RzBinObject<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h3 id="结构体-rzbinsection"><a class="markdownIt-Anchor" href="#结构体-rzbinsection"></a> 结构体 RzBinSection</h3>
+<h4 id="结构体-rzbinsection"><a class="markdownIt-Anchor" href="#结构体-rzbinsection"></a> 结构体 RzBinSection</h4>
 <div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c">RzList <span class="token comment">/*&lt;RzBinSection>*/</span> <span class="token operator">*</span>sections <span class="token operator">=</span> o <span class="token operator">?</span> o<span class="token operator">-></span>sections <span class="token operator">:</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
 RzBinSection <span class="token operator">*</span>s<span class="token punctuation">;</span>
 <span class="token function">rz_list_foreach</span> <span class="token punctuation">(</span>sections<span class="token punctuation">,</span> iter<span class="token punctuation">,</span> section<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">/*...*/</span> <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div>
@@ -542,6 +555,255 @@ RzBinSection <span class="token operator">*</span>s<span class="token punctuatio
 	bool is_data<span class="token punctuation">;</span>
 	bool is_segment<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span> RzBinSection<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">Elf_</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>        Elf32_</span><span class="token punctuation">##</span><span class="token expression">name</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">ELFOBJ            <span class="token keyword">struct</span> <span class="token class-name">Elf_</span><span class="token punctuation">(</span>rz_bin_elf_obj_t<span class="token punctuation">)</span></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div>
+<h3 id="elf"><a class="markdownIt-Anchor" href="#elf"></a> ELF</h3>
+<h4 id="结构体-elfobj"><a class="markdownIt-Anchor" href="#结构体-elfobj"></a> 结构体 ELFOBJ</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">Elf_</span><span class="token punctuation">(</span>rz_bin_elf_obj_t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Ehdr<span class="token punctuation">)</span> ehdr<span class="token punctuation">;</span>
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Phdr<span class="token punctuation">)</span> <span class="token operator">*</span> phdr<span class="token punctuation">;</span>
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Shdr<span class="token punctuation">)</span> <span class="token operator">*</span> shdr<span class="token punctuation">;</span>
+
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Shdr<span class="token punctuation">)</span> <span class="token operator">*</span> strtab_section<span class="token punctuation">;</span>
+	ut64 strtab_size<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> <span class="token operator">*</span>strtab<span class="token punctuation">;</span>
+
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Shdr<span class="token punctuation">)</span> <span class="token operator">*</span> shstrtab_section<span class="token punctuation">;</span>
+	ut64 shstrtab_size<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> <span class="token operator">*</span>shstrtab<span class="token punctuation">;</span>
+
+	RzBinElfDynamicInfo dyn_info<span class="token punctuation">;</span>
+
+	RzList <span class="token comment">/*&lt;RzBinElfNoteSegment>*/</span> <span class="token operator">*</span>note_segments<span class="token punctuation">;</span>
+
+	ut64 version_info<span class="token punctuation">[</span>DT_VERSIONTAGNUM<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">char</span> <span class="token operator">*</span>dynstr<span class="token punctuation">;</span>
+	ut32 dynstr_size<span class="token punctuation">;</span>
+
+	RzBinImport <span class="token operator">*</span><span class="token operator">*</span>imports_by_ord<span class="token punctuation">;</span>
+	size_t imports_by_ord_size<span class="token punctuation">;</span>
+	RzBinSymbol <span class="token operator">*</span><span class="token operator">*</span>symbols_by_ord<span class="token punctuation">;</span>
+	size_t symbols_by_ord_size<span class="token punctuation">;</span>
+
+	<span class="token keyword">int</span> bss<span class="token punctuation">;</span>
+	ut64 size<span class="token punctuation">;</span>
+	ut64 baddr<span class="token punctuation">;</span>
+	ut64 boffset<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> endian<span class="token punctuation">;</span>
+	bool verbose<span class="token punctuation">;</span>
+	<span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>file<span class="token punctuation">;</span>
+	RzBuffer <span class="token operator">*</span>b<span class="token punctuation">;</span>
+	Sdb <span class="token operator">*</span>kv<span class="token punctuation">;</span>
+	<span class="token comment">/*cache purpose*/</span>
+	RzBinElfSection <span class="token operator">*</span>g_sections<span class="token punctuation">;</span>
+	RzBinElfSymbol <span class="token operator">*</span>g_symbols<span class="token punctuation">;</span>
+	RzBinElfSymbol <span class="token operator">*</span>g_imports<span class="token punctuation">;</span>
+	RzBinElfReloc <span class="token operator">*</span>g_relocs<span class="token punctuation">;</span>
+	ut32 g_reloc_num<span class="token punctuation">;</span>
+	RzBinElfSymbol <span class="token operator">*</span>phdr_symbols<span class="token punctuation">;</span>
+	RzBinElfSymbol <span class="token operator">*</span>phdr_imports<span class="token punctuation">;</span>
+	HtUP <span class="token operator">*</span>rel_cache<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h4 id="结构体-elf32_ehdr"><a class="markdownIt-Anchor" href="#结构体-elf32_ehdr"></a> 结构体 Elf32_Ehdr</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// glibc_elf.h</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">char</span> e_ident<span class="token punctuation">[</span>EI_NIDENT<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">/* Magic number and other info */</span>
+	Elf32_Half e_type<span class="token punctuation">;</span> <span class="token comment">/* Object file type */</span>
+	Elf32_Half e_machine<span class="token punctuation">;</span> <span class="token comment">/* Architecture */</span>
+	Elf32_Word e_version<span class="token punctuation">;</span> <span class="token comment">/* Object file version */</span>
+	Elf32_Addr e_entry<span class="token punctuation">;</span> <span class="token comment">/* Entry point virtual address */</span>
+	Elf32_Off e_phoff<span class="token punctuation">;</span> <span class="token comment">/* Program header table file offset */</span>
+	Elf32_Off e_shoff<span class="token punctuation">;</span> <span class="token comment">/* Section header table file offset */</span>
+	Elf32_Word e_flags<span class="token punctuation">;</span> <span class="token comment">/* Processor-specific flags */</span>
+	Elf32_Half e_ehsize<span class="token punctuation">;</span> <span class="token comment">/* ELF header size in bytes */</span>
+	Elf32_Half e_phentsize<span class="token punctuation">;</span> <span class="token comment">/* Program header table entry size */</span>
+	Elf32_Half e_phnum<span class="token punctuation">;</span> <span class="token comment">/* Program header table entry count */</span>
+	Elf32_Half e_shentsize<span class="token punctuation">;</span> <span class="token comment">/* Section header table entry size */</span>
+	Elf32_Half e_shnum<span class="token punctuation">;</span> <span class="token comment">/* Section header table entry count */</span>
+	Elf32_Half e_shstrndx<span class="token punctuation">;</span> <span class="token comment">/* Section header string table index */</span>
+<span class="token punctuation">&#125;</span> Elf32_Ehdr<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h4 id="结构体-elf32_shdr"><a class="markdownIt-Anchor" href="#结构体-elf32_shdr"></a> 结构体 Elf32_Shdr</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+	Elf32_Word sh_name<span class="token punctuation">;</span> <span class="token comment">/* Section name (string tbl index) */</span>
+	Elf32_Word sh_type<span class="token punctuation">;</span> <span class="token comment">/* Section type */</span>
+	Elf32_Word sh_flags<span class="token punctuation">;</span> <span class="token comment">/* Section flags */</span>
+	Elf32_Addr sh_addr<span class="token punctuation">;</span> <span class="token comment">/* Section virtual addr at execution */</span>
+	Elf32_Off sh_offset<span class="token punctuation">;</span> <span class="token comment">/* Section file offset */</span>
+	Elf32_Word sh_size<span class="token punctuation">;</span> <span class="token comment">/* Section size in bytes */</span>
+	Elf32_Word sh_link<span class="token punctuation">;</span> <span class="token comment">/* Link to another section */</span>
+	Elf32_Word sh_info<span class="token punctuation">;</span> <span class="token comment">/* Additional section information */</span>
+	Elf32_Word sh_addralign<span class="token punctuation">;</span> <span class="token comment">/* Section alignment */</span>
+	Elf32_Word sh_entsize<span class="token punctuation">;</span> <span class="token comment">/* Entry size if section holds table */</span>
+<span class="token punctuation">&#125;</span> Elf32_Shdr<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h4 id="结构体-elf32_phdr"><a class="markdownIt-Anchor" href="#结构体-elf32_phdr"></a> 结构体 Elf32_Phdr</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+	Elf32_Word p_type<span class="token punctuation">;</span> <span class="token comment">/* Segment type */</span>
+	Elf32_Off p_offset<span class="token punctuation">;</span> <span class="token comment">/* Segment file offset */</span>
+	Elf32_Addr p_vaddr<span class="token punctuation">;</span> <span class="token comment">/* Segment virtual address */</span>
+	Elf32_Addr p_paddr<span class="token punctuation">;</span> <span class="token comment">/* Segment physical address */</span>
+	Elf32_Word p_filesz<span class="token punctuation">;</span> <span class="token comment">/* Segment size in file */</span>
+	Elf32_Word p_memsz<span class="token punctuation">;</span> <span class="token comment">/* Segment size in memory */</span>
+	Elf32_Word p_flags<span class="token punctuation">;</span> <span class="token comment">/* Segment flags */</span>
+	Elf32_Word p_align<span class="token punctuation">;</span> <span class="token comment">/* Segment alignment */</span>
+<span class="token punctuation">&#125;</span> Elf32_Phdr<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h3 id="mach-o"><a class="markdownIt-Anchor" href="#mach-o"></a> Mach-O</h3>
+<h4 id="结构体-mach0_obj_t"><a class="markdownIt-Anchor" href="#结构体-mach0_obj_t"></a> 结构体 MACH0_(obj_t)</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>obj_t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>mach_header<span class="token punctuation">)</span> hdr<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>segment_command<span class="token punctuation">)</span> <span class="token operator">*</span> segs<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> <span class="token operator">*</span>intrp<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> <span class="token operator">*</span>compiler<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nsegs<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">rz_dyld_chained_starts_in_segment</span> <span class="token operator">*</span><span class="token operator">*</span>chained_starts<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>section<span class="token punctuation">)</span> <span class="token operator">*</span> sects<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nsects<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>nlist<span class="token punctuation">)</span> <span class="token operator">*</span> symtab<span class="token punctuation">;</span>
+	ut8 <span class="token operator">*</span>symstr<span class="token punctuation">;</span>
+	ut8 <span class="token operator">*</span>func_start<span class="token punctuation">;</span> <span class="token comment">//buffer that hold the data from LC_FUNCTION_STARTS</span>
+	<span class="token keyword">int</span> symstrlen<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nsymtab<span class="token punctuation">;</span>
+	ut32 <span class="token operator">*</span>indirectsyms<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nindirectsyms<span class="token punctuation">;</span>
+
+	RzBinImport <span class="token operator">*</span><span class="token operator">*</span>imports_by_ord<span class="token punctuation">;</span>
+	size_t imports_by_ord_size<span class="token punctuation">;</span>
+	HtPP <span class="token operator">*</span>imports_by_name<span class="token punctuation">;</span>
+
+	<span class="token keyword">struct</span> <span class="token class-name">dysymtab_command</span> dysymtab<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">load_command</span> main_cmd<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">dyld_info_command</span> <span class="token operator">*</span>dyld_info<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">dylib_table_of_contents</span> <span class="token operator">*</span>toc<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> ntoc<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">MACH0_</span><span class="token punctuation">(</span>dylib_module<span class="token punctuation">)</span> <span class="token operator">*</span> modtab<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nmodtab<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">thread_command</span> thread<span class="token punctuation">;</span>
+	ut8 <span class="token operator">*</span>signature<span class="token punctuation">;</span>
+	<span class="token keyword">union</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">x86_thread_state32</span> x86_32<span class="token punctuation">;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">x86_thread_state64</span> x86_64<span class="token punctuation">;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">ppc_thread_state32</span> ppc_32<span class="token punctuation">;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">ppc_thread_state64</span> ppc_64<span class="token punctuation">;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">arm_thread_state32</span> arm_32<span class="token punctuation">;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">arm_thread_state64</span> arm_64<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span> thread_state<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> <span class="token punctuation">(</span><span class="token operator">*</span>libs<span class="token punctuation">)</span><span class="token punctuation">[</span>RZ_BIN_MACH0_STRING_LENGTH<span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> nlibs<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> size<span class="token punctuation">;</span>
+	ut64 baddr<span class="token punctuation">;</span>
+	ut64 entry<span class="token punctuation">;</span>
+	bool big_endian<span class="token punctuation">;</span>
+	<span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>file<span class="token punctuation">;</span>
+	RzBuffer <span class="token operator">*</span>b<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> os<span class="token punctuation">;</span>
+	Sdb <span class="token operator">*</span>kv<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> has_crypto<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> has_canary<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> has_retguard<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> has_sanitizers<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> has_blocks_ext<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> dbg_info<span class="token punctuation">;</span>
+	<span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>lang<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> uuidn<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> func_size<span class="token punctuation">;</span>
+	bool verbose<span class="token punctuation">;</span>
+	ut64 header_at<span class="token punctuation">;</span>
+	<span class="token keyword">void</span> <span class="token operator">*</span>user<span class="token punctuation">;</span>
+	<span class="token function">ut64</span> <span class="token punctuation">(</span><span class="token operator">*</span>va2pa<span class="token punctuation">)</span><span class="token punctuation">(</span>ut64 p<span class="token punctuation">,</span> ut32 <span class="token operator">*</span>offset<span class="token punctuation">,</span> ut32 <span class="token operator">*</span>left<span class="token punctuation">,</span> RzBinFile <span class="token operator">*</span>bf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">symbol_t</span> <span class="token operator">*</span>symbols<span class="token punctuation">;</span>
+	ut64 main_addr<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>original_io_read<span class="token punctuation">)</span><span class="token punctuation">(</span>RzIO <span class="token operator">*</span>io<span class="token punctuation">,</span> RzIODesc <span class="token operator">*</span>fd<span class="token punctuation">,</span> ut8 <span class="token operator">*</span>buf<span class="token punctuation">,</span> <span class="token keyword">int</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	bool rebasing_buffer<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h4 id="结构体-segment_command"><a class="markdownIt-Anchor" href="#结构体-segment_command"></a> 结构体 segment_command</h4>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">segment_command</span> <span class="token punctuation">&#123;</span>
+	uint32_t cmd<span class="token punctuation">;</span>
+	uint32_t cmdsize<span class="token punctuation">;</span>
+	<span class="token keyword">char</span> segname<span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	uint32_t vmaddr<span class="token punctuation">;</span>
+	uint32_t vmsize<span class="token punctuation">;</span>
+	uint32_t fileoff<span class="token punctuation">;</span>
+	uint32_t filesize<span class="token punctuation">;</span>
+	uint32_t maxprot<span class="token punctuation">;</span>
+	uint32_t initprot<span class="token punctuation">;</span>
+	uint32_t nsects<span class="token punctuation">;</span>
+	uint32_t flags<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h2 id="functions"><a class="markdownIt-Anchor" href="#functions"></a> Functions</h2>
+<h3 id="rzbinelfsection-elf_rz_bin_elf_get_sectionselfobj-bin"><a class="markdownIt-Anchor" href="#rzbinelfsection-elf_rz_bin_elf_get_sectionselfobj-bin"></a> RzBinElfSection *Elf_(rz_bin_elf_get_sections)(ELFOBJ *bin)</h3>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c">RzBinElfSection <span class="token operator">*</span><span class="token function">Elf_</span><span class="token punctuation">(</span>rz_bin_elf_get_sections<span class="token punctuation">)</span><span class="token punctuation">(</span>ELFOBJ <span class="token operator">*</span>bin<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	RzBinElfSection <span class="token operator">*</span>ret <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword">char</span> unknown_s<span class="token punctuation">[</span><span class="token number">32</span><span class="token punctuation">]</span><span class="token punctuation">,</span> invalid_s<span class="token punctuation">[</span><span class="token number">32</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> i<span class="token punctuation">,</span> nidx<span class="token punctuation">,</span> unknown_c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> invalid_c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+	<span class="token function">rz_return_val_if_fail</span><span class="token punctuation">(</span>bin<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>bin<span class="token operator">-></span>g_sections<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> bin<span class="token operator">-></span>g_sections<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>bin<span class="token operator">-></span>shdr<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token comment">//we don't give up search in phdr section</span>
+		<span class="token keyword">return</span> <span class="token function">get_sections_from_phdr</span><span class="token punctuation">(</span>bin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>ret <span class="token operator">=</span> <span class="token function">calloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span>bin<span class="token operator">-></span>ehdr<span class="token punctuation">.</span>e_shnum <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>RzBinElfSection<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bin<span class="token operator">-></span>ehdr<span class="token punctuation">.</span>e_shnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>offset <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_offset<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>size <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_size<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>align <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_addralign<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>flags <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_flags<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>link <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_link<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>info <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_info<span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>type <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_type<span class="token punctuation">;</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_bin_etrel</span><span class="token punctuation">(</span>bin<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>rva <span class="token operator">=</span> bin<span class="token operator">-></span>baddr <span class="token operator">+</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_offset<span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+			ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>rva <span class="token operator">=</span> bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_addr<span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+
+		<span class="token keyword">const</span> <span class="token keyword">int</span> SHNAME <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_name<span class="token punctuation">;</span>
+		<span class="token keyword">const</span> <span class="token keyword">int</span> SHSIZE <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>bin<span class="token operator">-></span>shstrtab_size<span class="token punctuation">;</span>
+		nidx <span class="token operator">=</span> SHNAME<span class="token punctuation">;</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span>nidx <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> <span class="token operator">!</span>bin<span class="token operator">-></span>shstrtab_section <span class="token operator">||</span> <span class="token operator">!</span>bin<span class="token operator">-></span>shstrtab_size <span class="token operator">||</span> nidx <span class="token operator">></span> bin<span class="token operator">-></span>shstrtab_size<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			<span class="token function">snprintf</span><span class="token punctuation">(</span>invalid_s<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>invalid_s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"invalid%d"</span><span class="token punctuation">,</span> invalid_c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">strncpy</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">,</span> invalid_s<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			invalid_c<span class="token operator">++</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>bin<span class="token operator">-></span>shstrtab <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>SHNAME <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>SHNAME <span class="token operator">&lt;</span> SHSIZE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			<span class="token function">strncpy</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token operator">&amp;</span>bin<span class="token operator">-></span>shstrtab<span class="token punctuation">[</span>SHNAME<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>bin<span class="token operator">-></span>shdr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>sh_type <span class="token operator">==</span> SHT_NULL<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			<span class="token comment">//to follow the same behaviour as readelf</span>
+			ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'\0'</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+			<span class="token function">snprintf</span><span class="token punctuation">(</span>unknown_s<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>unknown_s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"unknown%d"</span><span class="token punctuation">,</span> unknown_c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">strncpy</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">,</span> unknown_s<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			unknown_c<span class="token operator">++</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">[</span>ELF_STRING_LENGTH <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'\0'</span><span class="token punctuation">;</span>
+		ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>last <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>last <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h3 id="static-rzlist-sectionsrzbinfile-bf"><a class="markdownIt-Anchor" href="#static-rzlist-sectionsrzbinfile-bf"></a> static RzList *sections(RzBinFile *bf)</h3>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// bin/p/bin_elf.inc</span>
+<span class="token keyword">static</span> RzList <span class="token operator">*</span><span class="token function">sections</span><span class="token punctuation">(</span>RzBinFile <span class="token operator">*</span>bf<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Elf_</span><span class="token punctuation">(</span>rz_bin_elf_obj_t<span class="token punctuation">)</span> <span class="token operator">*</span>obj <span class="token operator">=</span> <span class="token punctuation">(</span>bf <span class="token operator">&amp;&amp;</span> bf<span class="token operator">-></span>o<span class="token punctuation">)</span> <span class="token operator">?</span> bf<span class="token operator">-></span>o<span class="token operator">-></span>bin_obj <span class="token operator">:</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">rz_bin_elf_section_t</span> <span class="token operator">*</span>section <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> i<span class="token punctuation">,</span> num<span class="token punctuation">;</span>
+	<span class="token function">Elf_</span><span class="token punctuation">(</span>Phdr<span class="token punctuation">)</span> <span class="token operator">*</span>phdr <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	RzBinSection <span class="token operator">*</span>ptr <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	RzList <span class="token operator">*</span>ret <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>obj <span class="token operator">||</span> <span class="token operator">!</span><span class="token punctuation">(</span>ret <span class="token operator">=</span> <span class="token function">rz_list_newf</span><span class="token punctuation">(</span><span class="token punctuation">(</span>RzListFree<span class="token punctuation">)</span>rz_bin_section_free<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>section <span class="token operator">=</span> <span class="token function">Elf_</span><span class="token punctuation">(</span>rz_bin_elf_get_sections<span class="token punctuation">)</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
             </div>
             <hr>
