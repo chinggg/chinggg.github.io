@@ -192,7 +192,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.8k 字
+      2k 字
     </span>
   
 
@@ -202,7 +202,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      27
+      30
        分钟
     </span>
   
@@ -235,18 +235,70 @@
             <h1 style="display: none">Setup</h1>
             
             <div class="markdown-body">
-              <h3 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h3>
-<p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
-<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen -t rsa -C <span class="token string">"Whatever"</span>
-<span class="token comment">#输入文件名，按两次回车</span>
-<span class="token comment">#ssh-agent -s 无效，则用下面这条</span>
-<span class="token builtin class-name">eval</span> <span class="token variable"><span class="token variable">$(</span>ssh-agent -s<span class="token variable">)</span></span>
-ssh-add ~/.ssh/id_rsa<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
-<p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">Git配置多个SSH Key</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/">多SSH管理技巧与Git多账户登录</a></p>
-<p>undo the first commit: <code>git update-ref -d HEAD</code></p>
-<h3 id="linux"><a class="markdownIt-Anchor" href="#linux"></a> Linux</h3>
+              <h2 id="network"><a class="markdownIt-Anchor" href="#network"></a> Network</h2>
+<h3 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> SSH</h3>
+<h4 id="key-auth"><a class="markdownIt-Anchor" href="#key-auth"></a> Key-Auth</h4>
+<p><code>ssh-keygen -t rsa</code></p>
+<div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">host &#123;shortName&#125;
+    Hostname &#123;address&#125;
+    Port 22
+    User &#123;username&#125;
+    IdentityFile &#123;path&#x2F;to&#x2F;key&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>do not forget to set private key <code>600</code></p>
+<h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
+<ul>
+<li>
+<p>Install from Settings UI : Optional Features</p>
+</li>
+<li>
+<p>Install from PowerShell : <code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></p>
+</li>
+<li>
+<h6 id="start-service"><a class="markdownIt-Anchor" href="#start-service"></a> ===Start-Service</h6>
+</li>
+</ul>
+<div class="code-wrapper"><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Start-Service</span> sshd 
+<span class="token comment"># OPTIONAL but recommended: </span>
+<span class="token function">Set-Service</span> <span class="token operator">-</span>Name sshd <span class="token operator">-</span>StartupType <span class="token string">'Automatic'</span>
+<span class="token comment"># then back to local machine:</span>
+ssh username@servername<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h4 id="win32-openssh"><a class="markdownIt-Anchor" href="#win32-openssh"></a> <a target="_blank" rel="noopener" href="https://github.com/PowerShell/Win32-OpenSSH">Win32-OpenSSH</a></h4>
+<p>PS: <code>Set-ExecutionPolicy RemoteSigned</code><br />
+or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
+<h4 id="ssh-tunnel"><a class="markdownIt-Anchor" href="#ssh-tunnel"></a> SSH-Tunnel</h4>
+<p><a target="_blank" rel="noopener" href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh隧道代理.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
+<h4 id="sshfs"><a class="markdownIt-Anchor" href="#sshfs"></a> SSHFS</h4>
+<p><code>sshfs -C -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 &lt;server&gt;:/path /path</code></p>
+<h3 id="proxy"><a class="markdownIt-Anchor" href="#proxy"></a> Proxy</h3>
+<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">export http_proxy&#x3D;&quot;http:&#x2F;&#x2F;localhost:1082&#x2F;&quot;
+export https_proxy&#x3D;&quot;http:&#x2F;&#x2F;localhost:1082&#x2F;&quot;
+export ftp_proxy&#x3D;&quot;http:&#x2F;&#x2F;localhost:1082&#x2F;&quot;
+export socks_proxy&#x3D;&quot;http:&#x2F;&#x2F;localhost:1080&quot;
+export no_proxy&#x3D;&quot;127.0.0.1,localhost&quot;
+export ALL_proxy&#x3D;&quot;socks5:&#x2F;&#x2F;127.0.0.1:1080&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p><code>apt</code>: <code>/etc/apt/apt.conf.d/12proxy</code></p>
+<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Acquire &#123;
+  HTTP::proxy &quot;http:&#x2F;&#x2F;127.0.0.1:1082&quot;;
+  HTTPS::proxy &quot;socks5h:&#x2F;&#x2F;127.0.0.1:1080&quot;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p><code>Git</code>: <code>git config --global http.proxy 127.0.0.1:1082</code></p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/config/daemon/systemd/"><code>Docker</code></a></p>
+<p><a target="_blank" rel="noopener" href="https://note.qidong.name/2020/05/docker-proxy/">https://note.qidong.name/2020/05/docker-proxy/</a></p>
+<h4 id="server"><a class="markdownIt-Anchor" href="#server"></a> Server</h4>
+<p><code>./ew -s ssocksd -l 1080</code></p>
+<h4 id="client"><a class="markdownIt-Anchor" href="#client"></a> Client</h4>
+<p><code>tsocks</code>: <code>/etc/tsocks.conf</code></p>
+<p><code>proxychains</code>: <code>/etc/proxychains.conf</code></p>
+<h3 id="rdp"><a class="markdownIt-Anchor" href="#rdp"></a> RDP</h3>
+<p><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</strong></p>
+<p><strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</strong></p>
+<p><code>PortNumber</code> then restart</p>
+<p>(官方文档只列出第二处)</p>
+<h3 id="aria2"><a class="markdownIt-Anchor" href="#aria2"></a> Aria2</h3>
+<p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/aria2_perfect_config-faq.html">Aria2常见问题</a></p>
+<h2 id="linux"><a class="markdownIt-Anchor" href="#linux"></a> Linux</h2>
+<h3 id="power"><a class="markdownIt-Anchor" href="#power"></a> Power</h3>
 <p>合盖的不同设定：</p>
 <ul>
 <li>poweroff 和 halt 均是关机（具体实现有区别）</li>
@@ -272,12 +324,34 @@ AND</li>
 <p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
 <p><code>-S</code> <code>-U</code> <code>-Q</code> <code>-R</code></p>
 <h3 id="shell"><a class="markdownIt-Anchor" href="#shell"></a> Shell</h3>
+<h4 id="konsole"><a class="markdownIt-Anchor" href="#konsole"></a> Konsole</h4>
+<p><code>&lt;c-(&gt;</code> <code>&lt;c-)&gt;</code> split</p>
 <h4 id="yakuake"><a class="markdownIt-Anchor" href="#yakuake"></a> Yakuake</h4>
 <p>New Session <code>&lt;c-s-T&gt;</code></p>
 <p>Close Session <code>&lt;c-s-W&gt;</code></p>
 <p>Next Session <code>&lt;s-Right&gt;</code> (’<c-tab>’)</p>
-<h3 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h3>
-<h4 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> Vim</h4>
+<h3 id="kde"><a class="markdownIt-Anchor" href="#kde"></a> KDE</h3>
+<p>Add Panel to the top, <code>Global Menu</code> added by default</p>
+<p>Install widget <code>Active Window Control</code> to hide title bar for maximized windows</p>
+<p>Install <code>latte-dock</code> to imitate OS X. Finally I chose to add widget <code>Icons-Only Task Manager</code> to the right of the panel.</p>
+<p><img src="/img/KDE.png" srcset="/img/loading.gif" alt="KDE" /></p>
+<h3 id="fcitx5"><a class="markdownIt-Anchor" href="#fcitx5"></a> Fcitx5</h3>
+<p><code>&lt;c-7&gt;</code> to remove word from history</p>
+<p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
+<p>UNICODE: <code>Ctrl+Alt+Shift+U</code></p>
+<h2 id="development"><a class="markdownIt-Anchor" href="#development"></a> Development</h2>
+<h3 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h3>
+<p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
+<div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen -t rsa -C <span class="token string">"Whatever"</span>
+<span class="token comment">#输入文件名，按两次回车</span>
+<span class="token comment">#ssh-agent -s 无效，则用下面这条</span>
+<span class="token builtin class-name">eval</span> <span class="token variable"><span class="token variable">$(</span>ssh-agent -s<span class="token variable">)</span></span>
+ssh-add ~/.ssh/id_rsa<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>但若场景要求使用不同的身份进行git操作，则单一的SSH Key就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意Host,HostName即可</p>
+<p><a target="_blank" rel="noopener" href="https://www.awaimai.com/2200.html">Git配置多个SSH Key</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/">多SSH管理技巧与Git多账户登录</a></p>
+<p>undo the first commit: <code>git update-ref -d HEAD</code></p>
+<h3 id="vim"><a class="markdownIt-Anchor" href="#vim"></a> Vim</h3>
 <p>fail to install plugins</p>
 <h5 id="quick-comment"><a class="markdownIt-Anchor" href="#quick-comment"></a> quick comment</h5>
 <ul>
@@ -290,6 +364,8 @@ AND</li>
 <p>vim does not support Xorg, missing the <code>+clipboard</code> support. replace it with <code>gvim</code></p>
 <p>use <code>&quot;+y</code> to copy to the system clipboard</p>
 <p>to change the default behavior <code>set clipboard=unnamedplus</code></p>
+<h5 id="resize-window"><a class="markdownIt-Anchor" href="#resize-window"></a> <a target="_blank" rel="noopener" href="https://harttle.land/2015/11/14/vim-window.html">resize window</a></h5>
+<p><code>&lt;c-W&gt;</code> <code>-/+</code>上下 <code>&lt;&gt;</code>左右</p>
 <h5 id="encode"><a class="markdownIt-Anchor" href="#encode"></a> encode</h5>
 <p><code>enc,fenc,fencs,tenc</code></p>
 <ul>
@@ -309,7 +385,7 @@ AND</li>
 <p><code>tenc</code>( <code>termencoding</code>) 终端使用文本编码，或者说是Vim用于屏幕显示时的编码，显示的时候Vim会把内部编码转换为屏幕编码再输出，也就是说我们从屏幕上看到的字符都是tenc编码的字符，如果为空，默认就是enc。windows平台Gvim会忽略掉tenc。一般就是从一个终端远程登陆到linux系统时候tenc会起作用。</p>
 </li>
 </ul>
-<h4 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h4>
+<h3 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h3>
 <p><code>Window: Title Bar Style</code>  choose <code>custom</code></p>
 <h5 id="shortcuts"><a class="markdownIt-Anchor" href="#shortcuts"></a> Shortcuts</h5>
 <p><code>&lt;c-B&gt;</code> toggle side bar</p>
@@ -367,86 +443,23 @@ AND</li>
 <div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ls</span> /etc/sysctl.d/*-max_user_watches.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
 <div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> fs.inotify.max_user_watches<span class="token operator">=</span><span class="token number">524288</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/sysctl.d/50-max_user_watches.conf <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> sysctl --system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
 <div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /proc/sys/fs/inotify/max_user_watches<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
-<h4 id="codeblocks"><a class="markdownIt-Anchor" href="#codeblocks"></a> CodeBlocks</h4>
+<h3 id="codeblocks"><a class="markdownIt-Anchor" href="#codeblocks"></a> CodeBlocks</h3>
 <p>Missing <code>api-ms-win-crt-*.dll</code></p>
 <p>Install VC++ 2015 Redistributable</p>
 <p>Fail on Windows Server 2012</p>
-<h4 id="win7"><a class="markdownIt-Anchor" href="#win7"></a> Win7</h4>
+<h3 id="win7"><a class="markdownIt-Anchor" href="#win7"></a> Win7</h3>
 <p>only support Python3.8, does not support Docker</p>
 <p>KB3063858 if fail to install Python</p>
-<h3 id="kde"><a class="markdownIt-Anchor" href="#kde"></a> KDE</h3>
-<p>Add Panel to the top, <code>Global Menu</code> added by default</p>
-<p>Install widget <code>Active Window Control</code> to hide titlebar for maxmized windows</p>
-<p>Install <code>latte-dock</code> to imitate OS X. Finally I chose to add widget <code>Icons-Only Task Manager</code> to the right of the panel.</p>
-<p><img src="/img/KDE.png" srcset="/img/loading.gif" alt="KDE" /></p>
-<h3 id="fcitx5"><a class="markdownIt-Anchor" href="#fcitx5"></a> Fcitx5</h3>
-<p><code>&lt;c-7&gt;</code> to remove word from history</p>
-<p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
-<p>UNICODE: Ctrl+Alt+Shift+U</p>
-<h3 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> SSH</h3>
-<h4 id="key-auth"><a class="markdownIt-Anchor" href="#key-auth"></a> Key-Auth</h4>
-<p><code>ssh-keygen -t rsa</code></p>
-<div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">host &#123;shortName&#125;
-    Hostname &#123;address&#125;
-    Port 22
-    User &#123;username&#125;
-    IdentityFile &#123;path&#x2F;to&#x2F;key&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<p>do not forget to set private key 600</p>
-<h4 id="win10-openssh-server"><a class="markdownIt-Anchor" href="#win10-openssh-server"></a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></h4>
-<ul>
-<li>
-<p>Install from Settings UI : Optional Features</p>
-</li>
-<li>
-<p>Install from PowerShell : <code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></p>
-</li>
-<li>
-<h6 id="start-service"><a class="markdownIt-Anchor" href="#start-service"></a> ===Start-Service</h6>
-</li>
-</ul>
-<div class="code-wrapper"><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Start-Service</span> sshd 
-<span class="token comment"># OPTIONAL but recommended: </span>
-<span class="token function">Set-Service</span> <span class="token operator">-</span>Name sshd <span class="token operator">-</span>StartupType <span class="token string">'Automatic'</span>
-<span class="token comment"># then back to local machine:</span>
-ssh username@servername<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<h4 id="win32-openssh"><a class="markdownIt-Anchor" href="#win32-openssh"></a> <a target="_blank" rel="noopener" href="https://github.com/PowerShell/Win32-OpenSSH">Win32-OpenSSH</a></h4>
-<p>PS: <code>Set-ExecutionPolicy RemoteSigned</code><br />
-or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
-<h4 id="ssh-tunnel"><a class="markdownIt-Anchor" href="#ssh-tunnel"></a> SSH-Tunnel</h4>
-<p><a target="_blank" rel="noopener" href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh隧道代理.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
-<h4 id="sshfs"><a class="markdownIt-Anchor" href="#sshfs"></a> SSHFS</h4>
-<p><code>sshfs -C -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 &lt;server&gt;:/path /path</code></p>
-<h3 id="proxy"><a class="markdownIt-Anchor" href="#proxy"></a> Proxy</h3>
-<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token builtin class-name">export</span> <span class="token assign-left variable">http_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
-<span class="token builtin class-name">export</span> <span class="token assign-left variable">https_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
-<span class="token builtin class-name">export</span> <span class="token assign-left variable">ftp_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1082/"</span>
-<span class="token builtin class-name">export</span> <span class="token assign-left variable">socks_proxy</span><span class="token operator">=</span><span class="token string">"http://localhost:1080"</span>
-<span class="token builtin class-name">export</span> <span class="token assign-left variable">no_proxy</span><span class="token operator">=</span><span class="token string">"127.0.0.1,localhost"</span>
-<span class="token builtin class-name">export</span> <span class="token assign-left variable">ALL_proxy</span><span class="token operator">=</span><span class="token string">"socks5://127.0.0.1:1080"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
-<p><code>apt</code>: <code>/etc/apt/apt.conf.d/12proxy</code></p>
-<div class="code-wrapper"><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Acquire <span class="token punctuation">&#123;</span>
-  HTTP::proxy <span class="token string">"http://127.0.0.1:1082"</span><span class="token punctuation">;</span>
-  HTTPS::proxy <span class="token string">"socks5h://127.0.0.1:1080"</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
-<p><code>Git</code>: <code>git config --global http.proxy 127.0.0.1:1082</code></p>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/config/daemon/systemd/"><code>Docker</code></a></p>
-<p><a target="_blank" rel="noopener" href="https://note.qidong.name/2020/05/docker-proxy/">https://note.qidong.name/2020/05/docker-proxy/</a></p>
-<h4 id="server"><a class="markdownIt-Anchor" href="#server"></a> Server</h4>
-<p><code>./ew -s ssocksd -l 1080</code></p>
-<h4 id="client"><a class="markdownIt-Anchor" href="#client"></a> Client</h4>
-<p><code>tsocks</code>: <code>/etc/tsocks.conf</code></p>
-<p><code>proxychains</code>: <code>/etc/proxychains.conf</code></p>
-<h3 id="rdp"><a class="markdownIt-Anchor" href="#rdp"></a> RDP</h3>
-<p><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</strong></p>
-<p><strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</strong></p>
-<p><code>PortNumber</code> then restart</p>
-<p>(官方文档只列出第二处)</p>
 <h3 id="sql"><a class="markdownIt-Anchor" href="#sql"></a> SQL</h3>
 <p><code>mysql -u &#123;user&#125; -p</code> ENTER</p>
-<h3 id="aria2"><a class="markdownIt-Anchor" href="#aria2"></a> Aria2</h3>
-<p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/aria2_perfect_config-faq.html">Aria2常见问题</a></p>
-<h3 id="file-system"><a class="markdownIt-Anchor" href="#file-system"></a> File System</h3>
+<h2 id="file-system"><a class="markdownIt-Anchor" href="#file-system"></a> File System</h2>
+<p><code>lsblk</code></p>
+<p><code>df -hl</code></p>
+<h4 id="lvm"><a class="markdownIt-Anchor" href="#lvm"></a> LVM</h4>
+<p><code>pvs</code>, <code>pvcreate /dev/&lt;foo&gt;</code></p>
+<p><code>vgs</code> <code>vgextend VG PV</code></p>
+<p><code>lvs</code> <code>lvresize -l 100%FREE VG/LV</code></p>
+<p><code>resize2fs VG/LV</code> 别忘了<strong>文件系统扩容</strong></p>
 <h4 id="ntfs"><a class="markdownIt-Anchor" href="#ntfs"></a> NTFS</h4>
 <p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
 <h4 id="nfs"><a class="markdownIt-Anchor" href="#nfs"></a> NFS</h4>
@@ -470,8 +483,18 @@ or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
 </ul>
 <p>MPICH</p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries">https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries</a></p>
+<h2 id="總結"><a class="markdownIt-Anchor" href="#總結"></a> 總結</h2>
+<p><a target="_blank" rel="noopener" href="https://www.echoxu.cn/others/">用心记,放心阅,方便查</a></p>
+<p><a target="_blank" rel="noopener" href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/">Manjaro踩坑记</a></p>
+<p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/906674/accidentally-removed-bin-how-do-i-restore-it">after remove /bin</a></p>
+<p><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/342598/how-to-remove-a-file-without-using-rm">delete file without <code>rm</code></a> <code>shred -u</code> <code>unlink</code></p>
 <h3 id="问题记录"><a class="markdownIt-Anchor" href="#问题记录"></a> 问题记录</h3>
-<h4 id="kde桌面崩溃"><a class="markdownIt-Anchor" href="#kde桌面崩溃"></a> kde桌面崩溃</h4>
+<h4 id="ubuntu-1604-to-1804-断网"><a class="markdownIt-Anchor" href="#ubuntu-1604-to-1804-断网"></a> <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1021884/no-internet-after-upgrade-from-16-04-to-18-04">Ubuntu 16.04 to 18.04 断网</a></h4>
+<p>能 ping 固定 IP 但 ping 不通域名</p>
+<p>edit <code>/etc/systemd/resolved.conf</code>, let <code>DNS=8.8.8.8</code></p>
+<p><code>systemctl restart systemd-resolved</code></p>
+<p>DO NOT EDIT <code>/etc/resolv.conf</code> with <code>127.0.0.53</code> as a **stub resolver **!</p>
+<h4 id="kde-桌面崩溃"><a class="markdownIt-Anchor" href="#kde-桌面崩溃"></a> KDE 桌面崩溃</h4>
 <div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kquitapp5 plasmashell
 kstart5 plasmashell<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div>
 <h4 id="触摸板突然失灵"><a class="markdownIt-Anchor" href="#触摸板突然失灵"></a> 触摸板突然失灵</h4>
@@ -490,11 +513,6 @@ sytemctl <span class="token function">suspend</span><span aria-hidden="true" cla
 <p><a target="_blank" rel="noopener" href="https://feeshy.github.io/tech/web_safe_fonts.html">常用Web字体</a></p>
 <p><a target="_blank" rel="noopener" href="http://tool.pfan.cn/font">网页字体测试</a></p>
 <p><a target="_blank" rel="noopener" href="http://edyfox.codecarver.org/html/debian_testing_chinese.html">KDE中文字体美化</a></p>
-<h3 id="總結"><a class="markdownIt-Anchor" href="#總結"></a> 總結</h3>
-<p><a target="_blank" rel="noopener" href="https://www.echoxu.cn/others/">用心记,放心阅,方便查</a></p>
-<p><a target="_blank" rel="noopener" href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/">Manjaro踩坑记</a></p>
-<p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/906674/accidentally-removed-bin-how-do-i-restore-it">after remove /bin</a></p>
-<p><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/342598/how-to-remove-a-file-without-using-rm">delete file without <code>rm</code></a> <code>shred -u</code> <code>unlink</code></p>
 
             </div>
             <hr>
