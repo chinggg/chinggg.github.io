@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Setup - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="chinggg" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/setup/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Setup" />
+<meta property="og:description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/setup/" />
+<meta property="article:published_time" content="2020-10-28T04:45:41+00:00" />
+<meta property="article:modified_time" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="name" content="Setup">
+<meta itemprop="description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or">
+<meta itemprop="datePublished" content="2020-10-28T04:45:41+00:00" />
+<meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="wordCount" content="3607">
+
+
+
+<meta itemprop="keywords" content="环境配置,长期," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Setup"/>
+<meta name="twitter:description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Setup</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2020-10-28 04:45:41 &#43;0000 UTC"> 2020-10-28 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#network">Network</a>
+          <ul>
+            <li><a href="#ssh">SSH</a>
+              <ul>
+                <li><a href="#key-auth">Key-Auth</a></li>
+                <li><a href="#win10-openssh-serverhttpsdocsmicrosoftcomen-uswindows-serveradministrationopensshopenssh_install_firstuse"><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Win10-OpenSSH-Server</a></a></li>
+                <li><a href="#win32-opensshhttpsgithubcompowershellwin32-openssh"><a href="https://github.com/PowerShell/Win32-OpenSSH">Win32-OpenSSH</a></a></li>
+                <li><a href="#ssh-tunnel">SSH-Tunnel</a></li>
+                <li><a href="#sshfs">SSHFS</a></li>
+              </ul>
+            </li>
+            <li><a href="#proxy">Proxy</a>
+              <ul>
+                <li><a href="#server">Server</a></li>
+                <li><a href="#client">Client</a></li>
+              </ul>
+            </li>
+            <li><a href="#iptables">iptables</a>
+              <ul>
+                <li><a href="#table-chain-和-rule"><strong>Table</strong>, <strong>Chain</strong> 和 <strong>Rule</strong></a></li>
+                <li><a href="#目标">目标</a></li>
+              </ul>
+            </li>
+            <li><a href="#rdp">RDP</a></li>
+            <li><a href="#aria2">Aria2</a></li>
+          </ul>
+        </li>
+        <li><a href="#linux">Linux</a>
+          <ul>
+            <li><a href="#power">Power</a>
+              <ul>
+                <li><a href="#boot">BOOT</a></li>
+                <li><a href="#reisub">REISUB</a></li>
+              </ul>
+            </li>
+            <li><a href="#package-manager">Package Manager</a>
+              <ul>
+                <li><a href="#pacman">pacman</a></li>
+                <li><a href="#yay">yay</a></li>
+              </ul>
+            </li>
+            <li><a href="#terminal">Terminal</a>
+              <ul>
+                <li><a href="#zsh">Zsh</a></li>
+                <li><a href="#konsole">Konsole</a></li>
+                <li><a href="#yakuake">Yakuake</a></li>
+                <li><a href="#tmux">Tmux</a></li>
+              </ul>
+            </li>
+            <li><a href="#kde">KDE</a></li>
+            <li><a href="#fcitx5">Fcitx5</a></li>
+            <li><a href="#scripts">Scripts</a></li>
+          </ul>
+        </li>
+        <li><a href="#development">Development</a>
+          <ul>
+            <li><a href="#git">Git</a></li>
+            <li><a href="#vim">Vim</a>
+              <ul>
+                <li></li>
+              </ul>
+            </li>
+            <li><a href="#vscode">VSCode</a>
+              <ul>
+                <li><a href="#shortcuts">Shortcuts</a></li>
+                <li><a href="#vscodevim">vscodevim</a></li>
+                <li><a href="#filesexcludehttpscodevisualstudiocomdocscustomizationuserandworkspace"><a href="https://code.visualstudio.com/Docs/customization/userandworkspace">files.exclude</a></a></li>
+                <li><a href="#large-workspace">large workspace</a></li>
+              </ul>
+            </li>
+            <li><a href="#codeblocks">CodeBlocks</a></li>
+            <li><a href="#win7">Win7</a></li>
+            <li><a href="#sql">SQL</a>
+              <ul>
+                <li><a href="#postgreshttpswikiarchlinuxorgtitlepostgresql"><a href="https://wiki.archlinux.org/title/PostgreSQL">postgres</a></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#virtualize">Virtualize</a>
+          <ul>
+            <li><a href="#dockerhttpsdocsdockercomconfigdaemonsystemd"><a href="https://docs.docker.com/config/daemon/systemd/">Docker</a></a></li>
+            <li><a href="#k8shttpskubernetesiodocsreferencekubectlcheatsheet"><a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">K8S</a></a></li>
+            <li><a href="#libvirt">libvirt</a></li>
+          </ul>
+        </li>
+        <li><a href="#hardware">Hardware</a>
+          <ul>
+            <li><a href="#wireless">Wireless</a></li>
+            <li><a href="#howdyhttpswikiarchlinuxorgtitlehowdy"><a href="https://wiki.archlinux.org/title/Howdy">howdy</a></a></li>
+            <li><a href="#file-system">File System</a>
+              <ul>
+                <li><a href="#btrfs">BtrFS</a></li>
+                <li><a href="#lvm">LVM</a></li>
+                <li><a href="#ntfs">NTFS</a></li>
+                <li><a href="#nfs">NFS</a></li>
+                <li><a href="#vhd">VHD</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#總結">總結</a>
+          <ul>
+            <li><a href="#问题记录">问题记录</a>
+              <ul>
+                <li><a href="#ubuntu-1604-to-1804-断网httpsaskubuntucomquestions1021884no-internet-after-upgrade-from-16-04-to-18-04"><a href="https://askubuntu.com/questions/1021884/no-internet-after-upgrade-from-16-04-to-18-04">Ubuntu 16.04 to 18.04 断网</a></a></li>
+                <li><a href="#kde-桌面崩溃">KDE 桌面崩溃</a></li>
+                <li><a href="#触摸板突然失灵">触摸板突然失灵</a></li>
+                <li><a href="#vmware报错">VMWare报错</a></li>
+                <li><a href="#基于qt的软件无法使用fcitxhttpszhuanlanzhihucomp150387095"><a href="https://zhuanlan.zhihu.com/p/150387095">基于Qt的软件无法使用fcitx</a></a></li>
+              </ul>
+            </li>
+            <li><a href="#中文字体选择">中文字体选择</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="network">Network</h2>
+<p>For hardware stuff, see <a href="#wireless">Wireless</a></p>
+<h3 id="ssh">SSH</h3>
+<h4 id="key-auth">Key-Auth</h4>
+<p><code>ssh-keygen -t rsa</code></p>
+<pre><code>host {shortName}
+    Hostname {address}
+    Port 22
+    User {username}
+    IdentityFile {path/to/key}
+</code></pre>
+<p>do not forget to set private key <code>600</code></p>
+<h4 id="win10-openssh-serverhttpsdocsmicrosoftcomen-uswindows-serveradministrationopensshopenssh_install_firstuse"><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse" target="_blank">Win10-OpenSSH-Server</a></h4>
+<ul>
+<li>
+<p>Install from Settings UI : Optional Features</p>
+</li>
+<li>
+<p>Install from PowerShell : <code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></p>
+</li>
+<li>
+<h6 id="start-service">===Start-Service</h6>
+</li>
+</ul>
+<pre><code class="language-powershell">Start-Service sshd 
+# OPTIONAL but recommended: 
+Set-Service -Name sshd -StartupType 'Automatic'
+# then back to local machine:
+ssh username@servername
+</code></pre>
+<h4 id="win32-opensshhttpsgithubcompowershellwin32-openssh"><a href="https://github.com/PowerShell/Win32-OpenSSH" target="_blank">Win32-OpenSSH</a></h4>
+<p>PS: <code>Set-ExecutionPolicy RemoteSigned</code>
+or <code>powershell -ExecutionPolicy Bypass -File .\install-sshd.ps1</code></p>
+<h4 id="ssh-tunnel">SSH-Tunnel</h4>
+<p><a href="http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html">http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a></p>
+<h4 id="sshfs">SSHFS</h4>
+<p><code>sshfs -C -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 &lt;server&gt;:/path /path</code></p>
+<h3 id="proxy">Proxy</h3>
+<pre><code class="language-shell">export http_proxy=&quot;http://localhost:1082/&quot;
+export https_proxy=&quot;http://localhost:1082/&quot;
+export ftp_proxy=&quot;http://localhost:1082/&quot;
+export socks_proxy=&quot;http://localhost:1080&quot;
+export no_proxy=&quot;127.0.0.1,localhost&quot;
+export ALL_proxy=&quot;socks5://127.0.0.1:1080&quot;
+</code></pre>
+<p><code>apt</code>: <code>/etc/apt/apt.conf.d/12proxy</code></p>
+<pre><code class="language-shell">Acquire {
+  HTTP::proxy &quot;http://127.0.0.1:1082&quot;;
+  HTTPS::proxy &quot;socks5h://127.0.0.1:1080&quot;;
+}
+</code></pre>
+<p><code>Git</code>: <code>git config --global http.proxy 127.0.0.1:1082</code></p>
+<p><a href="https://note.qidong.name/2020/05/docker-proxy/">https://note.qidong.name/2020/05/docker-proxy/</a></p>
+<h4 id="server">Server</h4>
+<p><code>./ew -s ssocksd -l 1080</code></p>
+<h4 id="client">Client</h4>
+<p><code>tsocks</code>: <code>/etc/tsocks.conf</code></p>
+<p><code>proxychains</code>: <code>/etc/proxychains.conf</code></p>
+<h3 id="iptables">iptables</h3>
+<p>iptables 设计非常灵活，不仅可以当防火墙，还可以进行端口转发，ip 分组过滤等等复杂的功能，甚至可以把它当成微型的编程语言，所以要先俯瞰 iptables 整体的操作逻辑</p>
+<h4 id="table-chain-和-rule"><strong>Table</strong>, <strong>Chain</strong> 和 <strong>Rule</strong></h4>
+<p>最简单的说法就是 Table 由很多个 Chain 组成，而 Chain 由一些 Rule 串起来组成， 所以称之为”链“。</p>
+<p>Rule 就是对于请求一个断言，如果请求满足断言就执行指定的操作（官方文档中称这个操作为目标，Target），举个例子，”如果请求来自 192.168.19.123，就将其拒绝“，这就是一个 Rule，而”拒绝“就是一个目标，常见的目标有接受，拒绝，转发，调用另一个 Chain 等等。</p>
+<p>请求会在 Chain 中自上而下遍历，直到遇到一个匹配的 Rule，然后调用它的目标。</p>
+<p><strong>四表五链</strong>
+iptables 中 Table 的数目是规定死的四个：</p>
+<ul>
+<li>filter: 过滤功能</li>
+<li>nat: 端口映射，地址映射等</li>
+<li>mangle: 用于对特定数据包的修改</li>
+<li>raw: 优先级最高的 Table</li>
+</ul>
+<p>还有五个预定义的 Chain：</p>
+<ul>
+<li>
+<p>PREROUTING: 数据包进入路由表之前</p>
+</li>
+<li>
+<p>INPUT: 通过路由表后目的地为本机</p>
+</li>
+<li>
+<p>FORWARD: 通过路由表后，目的地不为本机</p>
+</li>
+<li>
+<p>OUTPUT: 由本机产生，向外转发</p>
+</li>
+<li>
+<p>POSTROUTIONG: 发送到网卡接口之前。如下图：</p>
+</li>
+</ul>
+<p><img src="https://dqyuan.top/assets/img/iptables/pre-defined-chains.png" alt="Chains"></p>
+<blockquote>
+<p>路由决策是指判断数据包的目的地是否是本机，如果是则进入 INPUT Chain，否则进入 FORWARD Chain</p>
+</blockquote>
+<blockquote>
+<p>PREROUTING ，POSTROUTIONG 和 FORWARD 只有作为路由器使用时才会被调用，正常电脑就只会经过 INPUT 和 OUTPUT</p>
+</blockquote>
+<p>每个 Table 都含有几个预定义 Chain，优先级从高到低：raw &gt; mangle &gt; nat &gt; filter</p>
+<p><img src="https://dqyuan.top/assets/img/iptables/table-chains.png" alt="Table Chains"></p>
+<p>将内置的所有 Chain 串起来看就如下图：</p>
+<p><img src="https://dqyuan.top/assets/img/iptables/entire-chains.png" alt="内置 Chain 总体视图"></p>
+<h4 id="目标">目标</h4>
+<p>比如下面的命令：</p>
+<p><code>iptables -A INPUT -p tcp --dport 80 -j ACCEPT</code>
+表示如果发现目标端口是 80 的 tcp 流量就放行，其中 -p tcp &ndash;dport 80 就是条件，而 ACCEPT 就称作目标（Target）了。</p>
+<p>-A INPUT 表示将这条 Rule 追加到（Append）INPUT Chain 的最后面，这里没有指定 Table，默认就是 filter，也可以通过 -t 指定 Table。</p>
+<p>常见的目标有：</p>
+<ul>
+<li>ACCEPT:接收数据包</li>
+<li>DROP:丢弃数据包</li>
+<li>REJECT:丢弃数据包并且返回一个拒绝</li>
+<li>REDIRECT:将数据包重定向到另一个端口</li>
+</ul>
+<p>匹配条件除了上面两个，还有一些常用的：</p>
+<ul>
+<li>-s 匹配来源 ip</li>
+<li>&ndash;sport 匹配来源端口</li>
+<li>-m state 状态匹配，表示匹配数据包的状态，比如 -m state &ndash;state ESTABLISHED 就表示匹配已经建立了连接的数据包</li>
+</ul>
+<h3 id="rdp">RDP</h3>
+<p><strong>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</strong></p>
+<p><strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</strong></p>
+<p><code>PortNumber</code> then restart</p>
+<p>(官方文档只列出第二处)</p>
+<h3 id="aria2">Aria2</h3>
+<p><a href="https://p3terx.com/archives/aria2_perfect_config-faq.html" target="_blank">Aria2常见问题</a></p>
+<h2 id="linux">Linux</h2>
+<h3 id="power">Power</h3>
+<p>合盖的不同设定：</p>
+<ul>
+<li>poweroff 和 halt 均是关机（具体实现有区别）</li>
+<li>hybernate 是休眠，设备断电（同关机状态），内容保存在硬盘中</li>
+<li>hybrid-sleep 是混合睡眠，设备通电，内容保存在硬盘和内存中</li>
+<li>supspend (或 sleep)是挂起（睡眠），设备通电，内容保存在内存中</li>
+<li>lock 是锁屏</li>
+<li>kexec 是从当前正在运行的内核直接引导到一个新内核（多用于升级了内核的情况下）</li>
+<li>ignore 是忽略该动作，即不进行任何电源事件响应</li>
+</ul>
+<h4 id="boot">BOOT</h4>
+<p>uncomment <code>GRUB_DISABLE_OS_PROBER=false</code> in <code>/etc/default/grub</code></p>
+<h4 id="reisub">REISUB</h4>
+<ul>
+<li>Add <code>GRUB_CMDLINE_LINUX_DEFAULT</code> the <code>sysrq_always_enabled=1</code> variable in <code>/etc/default/grub</code>
+OR</li>
+<li>Execute <code>echo kernel.sysrq=1 | sudo tee --append /etc/sysctl.d/99-sysctl.conf</code>
+AND</li>
+<li>Execute <code>sudo update-grub</code> or <code>sudo grub-mkconfig -o /boot/grub/grub.cfg</code></li>
+</ul>
+<p>Laptop: <code>Fn+Alt+PrtSc</code></p>
+<p>Once you’ve located your SysRq key, please <em>keep the</em> Alt <em>key pressed</em>.</p>
+<h3 id="package-manager">Package Manager</h3>
+<h4 id="pacman">pacman</h4>
+<p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
+<p><code>-S</code> <code>-U</code> <code>-Q</code> <code>-R</code></p>
+<h4 id="yay">yay</h4>
+<p>Arch 不可直接 pacman 装，clone <code>yay-bin</code> from <a href="https://aur.archlinux.org/packages/yay-bin/" target="_blank">AUR</a>, <code>makepkg -si</code></p>
+<h3 id="terminal">Terminal</h3>
+<h4 id="zsh">Zsh</h4>
+<p>move to <code>zinit</code></p>
+<p><code>[[ -f ~/.private.zsh ]] &amp;&amp;s source ~/.private.zsh</code></p>
+<h4 id="konsole">Konsole</h4>
+<p><code>&lt;c-(&gt;</code> <code>&lt;c-)&gt;</code> split</p>
+<h4 id="yakuake">Yakuake</h4>
+<p>New Session <code>&lt;c-s-T&gt;</code></p>
+<p>Close Session <code>&lt;c-s-W&gt;</code></p>
+<p>Next Session <code>&lt;s-Right&gt;</code> ('<c-tab>')</p>
+<h4 id="tmux">Tmux</h4>
+<pre><code class="language-bash">set -g mouse on
+setw -g mode-keys vi
+</code></pre>
+<h3 id="kde">KDE</h3>
+<p>Add Panel to the top, <code>Global Menu</code> added by default</p>
+<p>Install widget <code>Active Window Control</code> to hide title bar for maximized windows</p>
+<p>Install <code>latte-dock</code> to imitate OS X. Finally I chose to add widget <code>Icons-Only Task Manager</code> to the left of the panel.</p>
+<p><img src="/post_img/KDE.png" alt="KDE"></p>
+<p><code>balooctl disable</code></p>
+<p>Settings -&gt; Window Behavior -&gt; Window Actions -&gt; Inner Window 左手按键右手鼠标轻松操纵窗口</p>
+<h3 id="fcitx5">Fcitx5</h3>
+<p><code>&lt;c-7&gt;</code> to remove word from history</p>
+<p><code>&lt;c-;&gt;</code> to show clipboard by default, having been reset to <code>&lt;c-'&gt;</code></p>
+<p>UNICODE: <code>Ctrl+Alt+Shift+U</code></p>
+<h3 id="scripts">Scripts</h3>
+<p>insert <code>\</code> at each EOL: <code>sed -i 's/$/ \\/ FILENAME'</code></p>
+<p>insert text at the beginning: <code>sed -i '1i text' FILENAME</code></p>
+<h2 id="development">Development</h2>
+<h3 id="git">Git</h3>
+<p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
+<pre><code class="language-bash">ssh-keygen -t rsa -C &quot;Whatever&quot;
+#输入文件名，按两次回车
+#ssh-agent -s 无效，则用下面这条
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+</code></pre>
+<p>但若场景要求使用不同的身份进行git操作，则单一的 SSH Key 就不足以应付，需要生成多个SSH Key。而对应不同的远程主机显然需要不同的Key来连接，这种对应规则就在<code>~/.ssh/config</code>这一文件中，注意 Host, HostName 即可</p>
+<p><a href="https://www.awaimai.com/2200.html" target="_blank">Git配置多个SSH Key</a></p>
+<p><a href="https://www.barretlee.com/blog/2016/03/09/config-in-ssh-after-troubling-git-connection/" target="_blank">多SSH管理技巧与Git多账户登录</a></p>
+<p>undo the first commit: <code>git update-ref -d HEAD</code></p>
+<p>clone from computers: <code>git clone ssh://hostname/path/to/git</code></p>
+<p>工作生活两不误之 <code>includeIf</code> 语法：</p>
+<pre><code class="language-tom">[includeIf &quot;gitdir:/path/to/repo&quot;]
+    path = /path/to/.gitconfig-oss
+    
+[includeIf &quot;gitdir:C:/work/&quot;]
+    path = /path/to/.gitconfig-work
+</code></pre>
+<h3 id="vim">Vim</h3>
+<p>fail to install YCM</p>
+<h5 id="quick-comment">quick comment</h5>
+<ul>
+<li><code>&lt;c-V&gt;</code> to enter visual block mode</li>
+<li>move around to select lines to comment</li>
+<li>press <code>&lt;s-I&gt;</code> and insert <code>#</code> or <code>//</code></li>
+<li><code>&lt;Esc&gt;</code> then see changes</li>
+</ul>
+<h5 id="clipboard-inconsistencyhttpswikiarchlinuxorgindexphpvimclipboard"><a href="https://wiki.archlinux.org/index.php/Vim#Clipboard" target="_blank">clipboard inconsistency</a></h5>
+<p>vim does not support Xorg, missing the <code>+clipboard</code> support. replace it with <code>gvim</code></p>
+<p>use <code>&quot;+y</code> to copy to the system clipboard</p>
+<p>to change the default behavior <code>set clipboard=unnamedplus</code></p>
+<h5 id="resize-windowhttpsharttleland20151114vim-windowhtml"><a href="https://harttle.land/2015/11/14/vim-window.html" target="_blank">resize window</a></h5>
+<p><code>&lt;c-W&gt;</code> <code>-/+</code>上下 <code>&lt;&gt;</code>左右</p>
+<h5 id="encode">encode</h5>
+<p><code>enc,fenc,fencs,tenc</code></p>
+<ul>
+<li>
+<p><code>enc</code> (<code>encoding</code>) 内部使用的编码</p>
+<p>如buffer，寄存器中的字符串。在Vim打开文本后，如果它的编码方式与它的内部编码不一致，Vim会先把编码转换成内部编码，如果它用的编码中含有没法转换为内部编码的字符，那么这些字符就会丢失掉。默认值是系统的locale来决定。</p>
+</li>
+<li>
+<p><code>fenc</code>( <code>fileencoding</code>) 文件自身的编码</p>
+<p>从磁盘读文件时，Vim会对文件编码检查，如果文件的编码与Vim内部编码（enc）不同，Vim就会对文本做编码转换，将fenc设置为文件的编码。Vim写文件到磁盘时，如果enc与fenc不一样，Vim就做编码转换，转换成编码fenc保存文件。</p>
+</li>
+<li>
+<p><code>fencs</code>( <code>fileencodings</code> ) 字符编码的列表</p>
+<p>编码的自动识别就是通过设置fencs实现的。当打开一个文件时，Vim会按照fencs中编码的顺序进行解码操作，如果匹配成功就用该编码来进行解码，并把这种编码设为fenc的值。这里的匹配成功指的是Vim能正确解码，不会出错，但是不保证没有乱码，所以fencs编码列表的顺序设置很关键。latin1是iso8859-1，属于国际化的标准编码，能表示任何字符，所以放到最后</p>
+</li>
+<li>
+<p><code>tenc</code>( <code>termencoding</code>) 终端使用文本编码，或者说是Vim用于屏幕显示时的编码，显示的时候Vim会把内部编码转换为屏幕编码再输出，也就是说我们从屏幕上看到的字符都是tenc编码的字符，如果为空，默认就是enc。windows平台Gvim会忽略掉tenc。一般就是从一个终端远程登陆到linux系统时候tenc会起作用。</p>
+</li>
+</ul>
+<h3 id="vscode">VSCode</h3>
+<p><code>Window: Title Bar Style</code>  choose <code>custom</code></p>
+<h4 id="shortcuts">Shortcuts</h4>
+<p><code>&lt;c-B&gt;</code> toggle side bar</p>
+<p><code>&lt;c-J&gt;</code> toggle panel</p>
+<p><code>&lt;c-`&gt;</code>toggle integrated terminal</p>
+<p><code>&lt;c-K&gt;</code> leader key</p>
+<ul>
+<li><code>&lt;c-O&gt;</code> Open Folder</li>
+<li><code>&lt;c-S&gt;</code> Keyboard Shortcut</li>
+</ul>
+<h4 id="vscodevim">vscodevim</h4>
+<p>set a shortcut to &ldquo;Vim: Toggle Vim Mode&rdquo;</p>
+<ul>
+<li>press <code>&lt;c-K&gt;&lt;c-S&gt;</code>,search for it</li>
+<li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
+</ul>
+<p>press <code>gcc</code> to comment</p>
+<h4 id="filesexcludehttpscodevisualstudiocomdocscustomizationuserandworkspace"><a href="https://code.visualstudio.com/Docs/customization/userandworkspace" target="_blank">files.exclude</a></h4>
+<ul>
+<li>
+<p>Go to <strong>File -&gt; Preferences -&gt; Settings</strong> (or on Mac <strong>Code -&gt; Preferences -&gt; Settings</strong>)</p>
+</li>
+<li>
+<p>Pick the <code>workspace settings</code> tab</p>
+</li>
+<li>
+<p>Add this code to the <code>settings.json</code> file displayed on the right side:</p>
+<pre><code class="language-json">// Place your settings in this file to overwrite default and user settings.
+  
+{
+    &quot;settings&quot;: {
+        &quot;files.exclude&quot;: {
+            &quot;**/.git&quot;: true,         // this is a default value
+            &quot;**/.DS_Store&quot;: true,    // this is a default value
+  
+            &quot;**/node_modules&quot;: true, // this excludes all folders 
+                                    // named &quot;node_modules&quot; from 
+                                    // the explore tree
+  
+            // alternative version
+            &quot;node_modules&quot;: true    // this excludes the folder 
+                                    // only from the root of
+                                    // your workspace 
+        }
+    }
+}
+</code></pre>
+</li>
+</ul>
+<h4 id="large-workspace">large workspace</h4>
+<pre><code class="language-bash">cat /proc/sys/fs/inotify/max_user_watches
+echo fs.inotify.max_user_watches=524288 &gt;&gt; /etc/sysctl.conf
+</code></pre>
+<p><a href="https://gist.github.com/tbjgolden/c53ca37f3bc2fab8c930183310918c8c" target="_blank">For Arch</a>:</p>
+<pre><code class="language-bash">ls /etc/sysctl.d/*-max_user_watches.conf
+</code></pre>
+<pre><code class="language-bash">echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/50-max_user_watches.conf &amp;&amp; sudo sysctl --system
+</code></pre>
+<pre><code class="language-bash">cat /proc/sys/fs/inotify/max_user_watches
+</code></pre>
+<h3 id="codeblocks">CodeBlocks</h3>
+<p>Missing <code>api-ms-win-crt-*.dll</code></p>
+<p>Install VC++ 2015 Redistributable</p>
+<p>Fail on Windows Server 2012</p>
+<h3 id="win7">Win7</h3>
+<p>only support Python3.8, does not support Docker</p>
+<p>KB3063858 if fail to install Python</p>
+<h3 id="sql">SQL</h3>
+<p><code>mysql -u {user} -p </code> ENTER</p>
+<h4 id="postgreshttpswikiarchlinuxorgtitlepostgresql"><a href="https://wiki.archlinux.org/title/PostgreSQL" target="_blank">postgres</a></h4>
+<p><code>\i 'path/name.sql'</code> to load SQL script</p>
+<p><code>\! &lt;command&gt;</code>  to run shell command</p>
+<p><strong>should disable CoW with <code>chattr +C /var/lib/postgres</code> on btrfs</strong></p>
+<h2 id="virtualize">Virtualize</h2>
+<p><a href="https://mfcallahan.blog/2020/06/15/booting-a-virtual-machine-from-a-physical-windows-disk-partition/" target="_blank">boot VM from physical windows partition</a>，即利用 VBoxManage 从（整个）物理磁盘创建 vmdk，注意 UEFI 启动。VMWare 会自动识别 vmdk 实际指向物理设备而报错，直接从物理磁盘创建即可。注意不要作死启动宿主机系统自身！</p>
+<h3 id="dockerhttpsdocsdockercomconfigdaemonsystemd"><a href="https://docs.docker.com/config/daemon/systemd/" target="_blank">Docker</a></h3>
+<p><code>sudo groupadd docker</code> <code>sudo usermod -aG docker $USER</code>
+<code>docker-compose</code> on PM may be too old, use <code>pip</code> to install, then add <code>$HOME/.local/bin</code> to PATH</p>
+<p><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices" target="_blank">Dockerfile best practices</a></p>
+<p><a href="https://docs.docker.com/config/pruning/" target="_blank"><code>docker image/container prune [--filter=]</code></a></p>
+<p><code>docker container rm $(docker ps -aq -f &quot;since=删掉这个名字对应容器之后创建的所有容器&quot;)</code></p>
+<p>容器有网络相关错误可能是<code>net.ipv4.ip_forward=0</code> 临时解决 <code>run --network=host</code></p>
+<h3 id="k8shttpskubernetesiodocsreferencekubectlcheatsheet"><a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/" target="_blank">K8S</a></h3>
+<p>一切皆 yaml</p>
+<p>注意 <code>--namespace</code></p>
+<p>一般不直接 ssh node</p>
+<p><code>kubectl port-forward pod-name LocalPort:RemotePort</code></p>
+<h3 id="libvirt">libvirt</h3>
+<p><a href="https://ostechnix.com/solved-cannot-access-storage-file-permission-denied-error-in-kvm-libvirt/">https://ostechnix.com/solved-cannot-access-storage-file-permission-denied-error-in-kvm-libvirt/</a></p>
+<h2 id="hardware">Hardware</h2>
+<h3 id="wireless">Wireless</h3>
+<p><code>lspci</code>, <code>rfkill</code> see if blocked</p>
+<p><a href="https://wiki.archlinux.org/title/bluetooth_headset#Pairing_works,_but_connecting_does_not" target="_blank">蓝牙耳机可配对但无法连接</a>： 安装 <del><code>pulseaudio-bluetooth(怎么 PA15 还不支持高级编码)</code></del>  <code>pulseaudio-modules-bt</code>(<a href="https://aur.archlinux.org/packages/pulseaudio-modules-bt/">https://aur.archlinux.org/packages/pulseaudio-modules-bt/</a>) 再重启 pulseaudio，或者直接上 pipewire</p>
+<h3 id="howdyhttpswikiarchlinuxorgtitlehowdy"><a href="https://wiki.archlinux.org/title/Howdy" target="_blank">howdy</a></h3>
+<p><a href="https://wszqkzqk.github.io/2021/08/17/%E5%9C%A8Manjaro%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/">https://wszqkzqk.github.io/2021/08/17/%E5%9C%A8Manjaro%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</a></p>
+<p>找摄像头路径，<code>sudo howdy config</code> 该配置</p>
+<p>由于 kwallet 原因对 sddm 用处不大</p>
+<p>kde, login, system-local-login 以在锁屏启用，必加 <strong>try_first_pass</strong></p>
+<p>su, sudo 不加 try_first_pass，因为在终端中可 C-c。单独 <code>su</code> 需要在 <code>/usr/lib/security/howdy/models</code> 下<code>ln -s user.dat root.dat</code></p>
+<p><a href="https://github.com/EmixamPP/linux-enable-ir-emitter" target="_blank"><code>linux-enable-ir-emitter</code></a> 开红外，<a href="https://github.com/EmixamPP/linux-enable-ir-emitter/wiki/Issues#the-ir-emitter-do-not-work-at-boot-or-the-sudo-linux-enable-ir-emitter-boot-enable-command-failed" target="_blank">重启后失效的解决方法</a></p>
+<h3 id="file-system">File System</h3>
+<h4 id="btrfs">BtrFS</h4>
+<p>中文博客：https://qsdrqs.site/2021/01/ext4_to_btrfs/
+大概可从 ext4 无损转换，但 grub 等引导项配置需要避坑</p>
+<ul>
+<li>改 fstab 中的 UUID 和 type</li>
+<li>转换根目录，需要 <code>mkinitcpio -P</code></li>
+<li><code>grub-intall</code> 和 <code>grub-mkconfig</code></li>
+</ul>
+<p>新装也需注意，只划整个分区不创子卷意义不大，安装时没注意也可以弥补，只需 chroot 环境下挂载分区，于根目录创建 <code>@name</code> 子卷，再把原来位置的内容移进去，最后分区目录结构如下</p>
+<pre><code>/dev/nvme0n1p4
+├── @
+├── @cache  # /var/cache
+├── @home
+├── @log  # /var/log  
+├── @opt
+├── timeshift-btrfs
+└── @tmp  # /var/tmp
+</code></pre>
+<p><code>snapper</code> 快照</p>
+<h4 id="lvm">LVM</h4>
+<p><code>pvs</code>, <code>pvcreate /dev/&lt;foo&gt;</code></p>
+<p><code>vgs</code> <code>vgextend VG PV</code></p>
+<p><code>lvs</code> <code>lvresize -l 100%FREE VG/LV</code></p>
+<p><code>resize2fs VG/LV </code> 别忘了<strong>文件系统扩容</strong></p>
+<h4 id="ntfs">NTFS</h4>
+<p><code>sudo mount -t ntfs-3g /dev/nvme0n1p4 /path/to/mount</code></p>
+<h4 id="nfs">NFS</h4>
+<p><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/" target="_blank">CentOS 7安装配置NFS</a>
+<a href="https://qizhanming.com/blog/2018/08/08/how-to-install-nfs-on-centos-7" target="_blank">CentOS 7 下 yum 安装和配置 NFS</a></p>
+<p>Server:</p>
+<ul>
+<li>create folder</li>
+<li>start servers <code>rpcbind</code> <code>nfs-server</code></li>
+<li>edit <code>/etc/exports</code>
+<ul>
+<li><code>exportfs -r</code></li>
+<li><code>showmount -e</code></li>
+</ul>
+</li>
+</ul>
+<p>Client:</p>
+<ul>
+<li><code>rpcbind</code></li>
+<li><code>mount [IP]:/ /path/to/mount</code></li>
+</ul>
+<h4 id="vhd">VHD</h4>
+<p>Ventoy 插件可启动 VHD 中的文件，虚拟机和U盘启动两不误</p>
+<p>最简单的方法，在 VBox 创建磁盘格式为 VHD 的虚拟机再复制即可</p>
+<p>MPICH</p>
+<p><a href="https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries">https://stackoverflow.com/questions/14769599/mpi-error-loading-shared-libraries</a></p>
+<h2 id="總結">總結</h2>
+<p><a href="https://www.echoxu.cn/others/" target="_blank">用心记,放心阅,方便查</a></p>
+<p><a href="https://mrswolf.github.io/zh-cn/2019/05/24/manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0/" target="_blank">Manjaro踩坑记</a></p>
+<p><a href="https://askubuntu.com/questions/906674/accidentally-removed-bin-how-do-i-restore-it" target="_blank">after remove /bin</a></p>
+<p><a href="https://unix.stackexchange.com/questions/342598/how-to-remove-a-file-without-using-rm" target="_blank">delete file without <code>rm</code></a> <code>shred -u</code> <code>unlink</code></p>
+<h3 id="问题记录">问题记录</h3>
+<h4 id="ubuntu-1604-to-1804-断网httpsaskubuntucomquestions1021884no-internet-after-upgrade-from-16-04-to-18-04"><a href="https://askubuntu.com/questions/1021884/no-internet-after-upgrade-from-16-04-to-18-04" target="_blank">Ubuntu 16.04 to 18.04 断网</a></h4>
+<p>能 ping 固定 IP 但 ping 不通域名</p>
+<p>edit <code>/etc/systemd/resolved.conf</code>, let <code>DNS=8.8.8.8</code></p>
+<p><code>systemctl restart systemd-resolved</code></p>
+<p>DO NOT EDIT <code>/etc/resolv.conf</code> with <code>127.0.0.53</code> as a **stub resolver **!</p>
+<h4 id="kde-桌面崩溃">KDE 桌面崩溃</h4>
+<pre><code class="language-bash">kquitapp5 plasmashell
+kstart5 plasmashell
+killall ksmserver
+</code></pre>
+<h4 id="触摸板突然失灵">触摸板突然失灵</h4>
+<pre><code class="language-bash">sudo modprobe -r i2c_hid # 先卸载模块,或psmouse
+sudo modprobe i2c_hid # 再装上模块
+sudo systemctl daemon-reload #非必须
+sytemctl suspend
+</code></pre>
+<h4 id="vmware报错">VMWare报错</h4>
+<p>先检查是否装对应kernel版本的linux-headers</p>
+<p>每次开机后再输<code>sudo modprobe -a vmw_vmci vmmon</code></p>
+<p>上述命令亦无效则是kernel版本太新尚无module可用，参见<a href="https://communities.vmware.com/thread/638824" target="_blank">此贴</a>中的步骤，下载<a href="https://github.com/mkubecek/vmware-host-modules" target="_blank">该仓库</a>中对应版本执行<code>make</code>即可编译完成</p>
+<p>vmnet8 报错无法联网：<code>sudo systemctl start vmware-networks.service</code></p>
+<h4 id="基于qt的软件无法使用fcitxhttpszhuanlanzhihucomp150387095"><a href="https://zhuanlan.zhihu.com/p/150387095" target="_blank">基于Qt的软件无法使用fcitx</a></h4>
+<p><code>qmake -query</code>查看qt版本及路径等信息</p>
+<h3 id="中文字体选择">中文字体选择</h3>
+<p><a href="https://feeshy.github.io/tech/web_safe_fonts.html" target="_blank">常用Web字体</a></p>
+<p><a href="http://tool.pfan.cn/font" target="_blank">网页字体测试</a></p>
+<p><a href="http://edyfox.codecarver.org/html/debian_testing_chinese.html" target="_blank">KDE中文字体美化</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8887a97d70f1033978768a3300a9cdafc90a97b6" title="update" target="_blank">(8887a97)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Setup.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>
+          <a href="/tags/%E9%95%BF%E6%9C%9F/">长期</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/suicide/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">自杀研究：读书报告与案例分析</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/the-four-quadrants-of-conformism/">
+            <span class="next-text nav-default">(译)因循的四象限</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Setup - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Setup - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-chinggg', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

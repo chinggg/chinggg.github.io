@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android Hook - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：
+ Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型 Native 层通过 findExportByName 获取函数不够准确，可能还要通过地址 不应发生的 cannot access address &amp;hellip; 问题  https://www.anquanke.com/post/id/195869
+https://kevinspider.github.io/fridahookjava/
+https://kevinspider.github.io/fridahookso/
+https://kevinspider.github.io/zhuabao/
+function map2obj(map) { var res = {}; var keyset = map.keySet(); var it = keyset.iterator(); while (it.hasNext()) { var keystr = it.next().toString(); var valuestr = map.get(keystr).toString(); res[keystr] = valuestr } return res; } function dfs(self, depth) { if (depth &amp;gt; 6) return {} const obj = {} const cls = self.getClass() const fields = cls.getDeclaredFields() // console.log(&amp;quot;-&amp;quot;.repeat(depth), &amp;quot;dfs&amp;quot;, cls, self) // console.log(&amp;quot;-&amp;quot;.repeat(depth), &amp;quot;fields:&amp;quot;, fields) const immediates = [&#39;short&#39;, &#39;int&#39;, &#39;long&#39;, &#39;float&#39;, &#39;double&#39;, &#39;boolean&#39;, &#39;String&#39;] fields.forEach(x =&amp;gt; { x.setAccessible(true) const v = x.get(self) if (v === null) return const s = x.toString() // public type fullname // const type = x.getType() // class java.lang.String // const k = x.getName() // short name // console.warn(x, v, k, type) if (immediates.some(type =&amp;gt; s.includes(type))) { obj[x] = v.toString() } else { // inner class obj[x] = dfs(v, depth&#43;1) } }) return obj } function hookJava() { if (Java.available) { Java.perform(function () { var cls = Java.classFactory.use(&amp;quot;com.package.classname&amp;quot;); cls.methodName.implementation = function (a1, a2, a3, a4) { console.log(&#39;&amp;gt;&#39;.repeat(10), &amp;quot;hookJava begin&amp;quot;) let a2str = JSON.stringify(map2obj(a2), null, 4) console.log(a1, a3, a4) console.warn(a2str) var res = this.methodName(a1, a2, a3, a4) console.warn(&#39;res:&#39;, res) return res console.log(&amp;quot;hookJava end&amp;quot;, &#39;&amp;lt;&#39;.repeat(10)) } }) } } function hookNative() { let m = Process.findModuleByName(&#39;lib.so&#39;) let f = Module.findExportByName(&#39;lib.so&#39;, &#39;Functions_xx&#39;) console.log(m.base, f) // f = m.base.add(0xBDB8C) Interceptor.attach(f, { onEnter: function (args) { console.warn(&amp;quot;args:&amp;quot;, args[1], args[1].readCString()) }, onLeave: function (ret) { console.warn(&amp;quot;ret:&amp;quot;, ret, ret.readCString()) // this.context.r0 = 1 } }) } setImmediate(hookJava) // setImmediate(hookNative) " /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="chinggg" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/android-hook/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Android Hook" />
+<meta property="og:description" content="Frida
+万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：
+
+Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型
+Native 层通过 findExportByName 获取函数不够准确，可能还要通过地址
+不应发生的 cannot access address &hellip; 问题
+
+https://www.anquanke.com/post/id/195869
+https://kevinspider.github.io/fridahookjava/
+https://kevinspider.github.io/fridahookso/
+https://kevinspider.github.io/zhuabao/
+function map2obj(map) {
+   var res = {};
+   var keyset = map.keySet();
+   var it = keyset.iterator();
+   while (it.hasNext()) {
+      var keystr = it.next().toString();
+      var valuestr = map.get(keystr).toString();
+      res[keystr] = valuestr
+   }
+   return res;
+}
+
+function dfs(self, depth) {
+    if (depth &gt; 6) return {}
+    const obj = {}
+    const cls = self.getClass()
+    const fields = cls.getDeclaredFields()
+    // console.log(&quot;-&quot;.repeat(depth), &quot;dfs&quot;, cls, self)
+    // console.log(&quot;-&quot;.repeat(depth), &quot;fields:&quot;, fields)
+    const immediates = [&#39;short&#39;, &#39;int&#39;, &#39;long&#39;, &#39;float&#39;, &#39;double&#39;, &#39;boolean&#39;, &#39;String&#39;]
+    fields.forEach(x =&gt; {
+        x.setAccessible(true)
+        const v = x.get(self)
+        if (v === null) return
+        const s = x.toString()  // public type fullname
+        // const type = x.getType()   // class java.lang.String
+        // const k = x.getName()   // short name
+        // console.warn(x, v, k, type)
+        if (immediates.some(type =&gt; s.includes(type))) {
+            obj[x] = v.toString()
+        } else {  // inner class
+            obj[x] = dfs(v, depth&#43;1)
+        }
+    })
+    return obj
+}
+
+function hookJava() {
+   if (Java.available) {
+      Java.perform(function () {
+         var cls = Java.classFactory.use(&quot;com.package.classname&quot;);
+         cls.methodName.implementation = function (a1, a2, a3, a4) {
+            console.log(&#39;&gt;&#39;.repeat(10), &quot;hookJava begin&quot;)
+            let a2str = JSON.stringify(map2obj(a2), null, 4)
+            console.log(a1, a3, a4)
+            console.warn(a2str)
+            var res = this.methodName(a1, a2, a3, a4)
+            console.warn(&#39;res:&#39;, res)
+            return res
+            console.log(&quot;hookJava end&quot;, &#39;&lt;&#39;.repeat(10))
+         }
+      })
+   }
+}
+
+function hookNative() {
+   let m = Process.findModuleByName(&#39;lib.so&#39;)
+   let f = Module.findExportByName(&#39;lib.so&#39;, &#39;Functions_xx&#39;)
+   console.log(m.base, f)
+   // f = m.base.add(0xBDB8C)
+   Interceptor.attach(f, {
+      onEnter: function (args) {
+         console.warn(&quot;args:&quot;, args[1], args[1].readCString())
+      },
+      onLeave: function (ret) {
+         console.warn(&quot;ret:&quot;, ret, ret.readCString())
+         // this.context.r0 = 1
+      }
+   })
+}
+
+setImmediate(hookJava)
+// setImmediate(hookNative)
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/android-hook/" />
+<meta property="article:published_time" content="2021-11-17T16:38:08+08:00" />
+<meta property="article:modified_time" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="name" content="Android Hook">
+<meta itemprop="description" content="Frida
+万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：
+
+Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型
+Native 层通过 findExportByName 获取函数不够准确，可能还要通过地址
+不应发生的 cannot access address &hellip; 问题
+
+https://www.anquanke.com/post/id/195869
+https://kevinspider.github.io/fridahookjava/
+https://kevinspider.github.io/fridahookso/
+https://kevinspider.github.io/zhuabao/
+function map2obj(map) {
+   var res = {};
+   var keyset = map.keySet();
+   var it = keyset.iterator();
+   while (it.hasNext()) {
+      var keystr = it.next().toString();
+      var valuestr = map.get(keystr).toString();
+      res[keystr] = valuestr
+   }
+   return res;
+}
+
+function dfs(self, depth) {
+    if (depth &gt; 6) return {}
+    const obj = {}
+    const cls = self.getClass()
+    const fields = cls.getDeclaredFields()
+    // console.log(&quot;-&quot;.repeat(depth), &quot;dfs&quot;, cls, self)
+    // console.log(&quot;-&quot;.repeat(depth), &quot;fields:&quot;, fields)
+    const immediates = [&#39;short&#39;, &#39;int&#39;, &#39;long&#39;, &#39;float&#39;, &#39;double&#39;, &#39;boolean&#39;, &#39;String&#39;]
+    fields.forEach(x =&gt; {
+        x.setAccessible(true)
+        const v = x.get(self)
+        if (v === null) return
+        const s = x.toString()  // public type fullname
+        // const type = x.getType()   // class java.lang.String
+        // const k = x.getName()   // short name
+        // console.warn(x, v, k, type)
+        if (immediates.some(type =&gt; s.includes(type))) {
+            obj[x] = v.toString()
+        } else {  // inner class
+            obj[x] = dfs(v, depth&#43;1)
+        }
+    })
+    return obj
+}
+
+function hookJava() {
+   if (Java.available) {
+      Java.perform(function () {
+         var cls = Java.classFactory.use(&quot;com.package.classname&quot;);
+         cls.methodName.implementation = function (a1, a2, a3, a4) {
+            console.log(&#39;&gt;&#39;.repeat(10), &quot;hookJava begin&quot;)
+            let a2str = JSON.stringify(map2obj(a2), null, 4)
+            console.log(a1, a3, a4)
+            console.warn(a2str)
+            var res = this.methodName(a1, a2, a3, a4)
+            console.warn(&#39;res:&#39;, res)
+            return res
+            console.log(&quot;hookJava end&quot;, &#39;&lt;&#39;.repeat(10))
+         }
+      })
+   }
+}
+
+function hookNative() {
+   let m = Process.findModuleByName(&#39;lib.so&#39;)
+   let f = Module.findExportByName(&#39;lib.so&#39;, &#39;Functions_xx&#39;)
+   console.log(m.base, f)
+   // f = m.base.add(0xBDB8C)
+   Interceptor.attach(f, {
+      onEnter: function (args) {
+         console.warn(&quot;args:&quot;, args[1], args[1].readCString())
+      },
+      onLeave: function (ret) {
+         console.warn(&quot;ret:&quot;, ret, ret.readCString())
+         // this.context.r0 = 1
+      }
+   })
+}
+
+setImmediate(hookJava)
+// setImmediate(hookNative)
+">
+<meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
+<meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="wordCount" content="399">
+
+
+
+<meta itemprop="keywords" content="Android,逆向," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android Hook"/>
+<meta name="twitter:description" content="Frida
+万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：
+
+Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型
+Native 层通过 findExportByName 获取函数不够准确，可能还要通过地址
+不应发生的 cannot access address &hellip; 问题
+
+https://www.anquanke.com/post/id/195869
+https://kevinspider.github.io/fridahookjava/
+https://kevinspider.github.io/fridahookso/
+https://kevinspider.github.io/zhuabao/
+function map2obj(map) {
+   var res = {};
+   var keyset = map.keySet();
+   var it = keyset.iterator();
+   while (it.hasNext()) {
+      var keystr = it.next().toString();
+      var valuestr = map.get(keystr).toString();
+      res[keystr] = valuestr
+   }
+   return res;
+}
+
+function dfs(self, depth) {
+    if (depth &gt; 6) return {}
+    const obj = {}
+    const cls = self.getClass()
+    const fields = cls.getDeclaredFields()
+    // console.log(&quot;-&quot;.repeat(depth), &quot;dfs&quot;, cls, self)
+    // console.log(&quot;-&quot;.repeat(depth), &quot;fields:&quot;, fields)
+    const immediates = [&#39;short&#39;, &#39;int&#39;, &#39;long&#39;, &#39;float&#39;, &#39;double&#39;, &#39;boolean&#39;, &#39;String&#39;]
+    fields.forEach(x =&gt; {
+        x.setAccessible(true)
+        const v = x.get(self)
+        if (v === null) return
+        const s = x.toString()  // public type fullname
+        // const type = x.getType()   // class java.lang.String
+        // const k = x.getName()   // short name
+        // console.warn(x, v, k, type)
+        if (immediates.some(type =&gt; s.includes(type))) {
+            obj[x] = v.toString()
+        } else {  // inner class
+            obj[x] = dfs(v, depth&#43;1)
+        }
+    })
+    return obj
+}
+
+function hookJava() {
+   if (Java.available) {
+      Java.perform(function () {
+         var cls = Java.classFactory.use(&quot;com.package.classname&quot;);
+         cls.methodName.implementation = function (a1, a2, a3, a4) {
+            console.log(&#39;&gt;&#39;.repeat(10), &quot;hookJava begin&quot;)
+            let a2str = JSON.stringify(map2obj(a2), null, 4)
+            console.log(a1, a3, a4)
+            console.warn(a2str)
+            var res = this.methodName(a1, a2, a3, a4)
+            console.warn(&#39;res:&#39;, res)
+            return res
+            console.log(&quot;hookJava end&quot;, &#39;&lt;&#39;.repeat(10))
+         }
+      })
+   }
+}
+
+function hookNative() {
+   let m = Process.findModuleByName(&#39;lib.so&#39;)
+   let f = Module.findExportByName(&#39;lib.so&#39;, &#39;Functions_xx&#39;)
+   console.log(m.base, f)
+   // f = m.base.add(0xBDB8C)
+   Interceptor.attach(f, {
+      onEnter: function (args) {
+         console.warn(&quot;args:&quot;, args[1], args[1].readCString())
+      },
+      onLeave: function (ret) {
+         console.warn(&quot;ret:&quot;, ret, ret.readCString())
+         // this.context.r0 = 1
+      }
+   })
+}
+
+setImmediate(hookJava)
+// setImmediate(hookNative)
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android Hook</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-11-17 16:38:08 &#43;0800 &#43;0800"> 2021-11-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#frida">Frida</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="frida">Frida</h3>
+<p>万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：</p>
+<ul>
+<li>Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型</li>
+<li>Native 层通过 <code>findExportByName</code> 获取函数不够准确，可能还要通过地址</li>
+<li>不应发生的 cannot access address &hellip; 问题</li>
+</ul>
+<p><a href="https://www.anquanke.com/post/id/195869">https://www.anquanke.com/post/id/195869</a></p>
+<p><a href="https://kevinspider.github.io/fridahookjava/">https://kevinspider.github.io/fridahookjava/</a></p>
+<p><a href="https://kevinspider.github.io/fridahookso/">https://kevinspider.github.io/fridahookso/</a></p>
+<p><a href="https://kevinspider.github.io/zhuabao/">https://kevinspider.github.io/zhuabao/</a></p>
+<pre><code class="language-javascript">function map2obj(map) {
+   var res = {};
+   var keyset = map.keySet();
+   var it = keyset.iterator();
+   while (it.hasNext()) {
+      var keystr = it.next().toString();
+      var valuestr = map.get(keystr).toString();
+      res[keystr] = valuestr
+   }
+   return res;
+}
+
+function dfs(self, depth) {
+    if (depth &gt; 6) return {}
+    const obj = {}
+    const cls = self.getClass()
+    const fields = cls.getDeclaredFields()
+    // console.log(&quot;-&quot;.repeat(depth), &quot;dfs&quot;, cls, self)
+    // console.log(&quot;-&quot;.repeat(depth), &quot;fields:&quot;, fields)
+    const immediates = ['short', 'int', 'long', 'float', 'double', 'boolean', 'String']
+    fields.forEach(x =&gt; {
+        x.setAccessible(true)
+        const v = x.get(self)
+        if (v === null) return
+        const s = x.toString()  // public type fullname
+        // const type = x.getType()   // class java.lang.String
+        // const k = x.getName()   // short name
+        // console.warn(x, v, k, type)
+        if (immediates.some(type =&gt; s.includes(type))) {
+            obj[x] = v.toString()
+        } else {  // inner class
+            obj[x] = dfs(v, depth+1)
+        }
+    })
+    return obj
+}
+
+function hookJava() {
+   if (Java.available) {
+      Java.perform(function () {
+         var cls = Java.classFactory.use(&quot;com.package.classname&quot;);
+         cls.methodName.implementation = function (a1, a2, a3, a4) {
+            console.log('&gt;'.repeat(10), &quot;hookJava begin&quot;)
+            let a2str = JSON.stringify(map2obj(a2), null, 4)
+            console.log(a1, a3, a4)
+            console.warn(a2str)
+            var res = this.methodName(a1, a2, a3, a4)
+            console.warn('res:', res)
+            return res
+            console.log(&quot;hookJava end&quot;, '&lt;'.repeat(10))
+         }
+      })
+   }
+}
+
+function hookNative() {
+   let m = Process.findModuleByName('lib.so')
+   let f = Module.findExportByName('lib.so', 'Functions_xx')
+   console.log(m.base, f)
+   // f = m.base.add(0xBDB8C)
+   Interceptor.attach(f, {
+      onEnter: function (args) {
+         console.warn(&quot;args:&quot;, args[1], args[1].readCString())
+      },
+      onLeave: function (ret) {
+         console.warn(&quot;ret:&quot;, ret, ret.readCString())
+         // this.context.r0 = 1
+      }
+   })
+}
+
+setImmediate(hookJava)
+// setImmediate(hookNative)
+</code></pre>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8887a97d70f1033978768a3300a9cdafc90a97b6" title="update" target="_blank">(8887a97)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android/">Android</a>
+          <a href="/tags/%E9%80%86%E5%90%91/">逆向</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/btrfs/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Btrfs 踩坑记录</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/fart/">
+            <span class="next-text nav-default">FART</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Android%20Hook - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Android%20Hook - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-chinggg', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

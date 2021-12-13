@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>AppRE - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="App 逆向基础 国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。
+抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。
+抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。
+所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 build.gradle 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。
+逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？
+bstr = b&#39;feiwu&#39; fstr = f&#39;woshi {bstr}&#39; print(fstr) # woshi b&#39;feiwu&#39;  不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。
+实战案例复盘 某品会 edata 参数(AES 加密)
+仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。
+首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 gsigds 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。
+但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。
+某品会 api_sign 验证头(SHA1 摘要)
+每一个请求头都会带上 Authorization: OAuth api_sign={}，全局搜索定位到 native 函数 gsNav，是从 TreeMap&amp;lt;String, String&amp;gt;(也就是 query params) 得到一串 SHA1 摘要。
+进 IDA 分析，发现仍然调用了 gsigds 函数获取字符串，传入 getByteHash 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。
+import base6 import hashlib import json import random from urllib.parse import unquote, parse_qsl, urlencode from Crypto.Cipher import AES from Crypto.Util.Padding import pad def gen_sign(paramstr: str) -&amp;gt; str: &amp;quot;&amp;quot;&amp;quot;paramstr will unquoted automatically&amp;quot;&amp;quot;&amp;quot; paramstr = unquote(paramstr).encode() salt = b&amp;quot;da19a1b93059ff3609fc1ed2e04b0141&amp;quot; # True salt = b&amp;quot;aee4c425dbb2288b80c71347cc37d04b&amp;quot; # False h1 = hashlib.sha1(salt &#43; paramstr) cipher1 = h1.hexdigest().encode() h2 = hashlib.sha1(salt &#43; cipher1) return h2.hexdigest() def gen_edata(paramstr: str) -&amp;gt; str: &amp;quot;&amp;quot;&amp;quot;paramstr: app_name=...&amp;amp;dinfo=...&amp;quot;&amp;quot;&amp;quot; paramstr = paramstr.encode() paramstr = pad(paramstr, 16) key = bytearray.fromhex(&amp;quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&amp;quot;) # True key = bytearray.fromhex(&amp;quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&amp;quot;) # False key = bytes(key) ran16b = &#39;&#39;.join(random.choices(&#39;0123456789abcdef&#39;, k=16)).encode() cipher = AES.new(key, AES.MODE_CBC, iv=ran16b) enctext = cipher.encrypt(paramstr) ans = base64.b64encode(ran16b &#43; enctext) return ans.decode() def dec_edata(b64s: str) -&amp;gt; str: enctext = base64.b64decode(b64s.encode()) key = bytearray.fromhex(&amp;quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&amp;quot;) # True key = bytearray.fromhex(&amp;quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&amp;quot;) # False key = bytes(key) iv = enctext[:16] cipher = AES.new(key, AES.MODE_CBC, iv=iv) raw = cipher.decrypt(enctext[16:]) try: return raw.decode() except: return raw " /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="chinggg" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/appre/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="AppRE" />
+<meta property="og:description" content="App 逆向基础
+国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。
+抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。
+抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。
+所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 build.gradle 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。
+逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？
+bstr = b&#39;feiwu&#39;
+fstr = f&#39;woshi {bstr}&#39;
+print(fstr)
+# woshi b&#39;feiwu&#39;
+
+不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。
+实战案例复盘
+某品会 edata 参数(AES 加密)
+仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。
+首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 gsigds 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。
+但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。
+某品会 api_sign 验证头(SHA1 摘要)
+每一个请求头都会带上 Authorization: OAuth api_sign={}，全局搜索定位到 native 函数 gsNav，是从 TreeMap&lt;String, String&gt;(也就是 query params) 得到一串 SHA1 摘要。
+进 IDA 分析，发现仍然调用了 gsigds 函数获取字符串，传入 getByteHash 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。
+import base6
+import hashlib
+import json
+import random
+from urllib.parse import unquote, parse_qsl, urlencode
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+def gen_sign(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr will unquoted automatically&quot;&quot;&quot;
+    paramstr = unquote(paramstr).encode()
+    salt = b&quot;da19a1b93059ff3609fc1ed2e04b0141&quot;  # True
+    salt = b&quot;aee4c425dbb2288b80c71347cc37d04b&quot;  # False
+    h1 = hashlib.sha1(salt &#43; paramstr)
+    cipher1 = h1.hexdigest().encode()
+    h2 = hashlib.sha1(salt &#43; cipher1)
+    return h2.hexdigest()
+
+def gen_edata(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr: app_name=...&amp;dinfo=...&quot;&quot;&quot;
+    paramstr = paramstr.encode()
+    paramstr = pad(paramstr, 16)
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    ran16b = &#39;&#39;.join(random.choices(&#39;0123456789abcdef&#39;, k=16)).encode()
+    cipher = AES.new(key, AES.MODE_CBC, iv=ran16b)
+    enctext = cipher.encrypt(paramstr)
+    ans = base64.b64encode(ran16b &#43; enctext)
+    return ans.decode()
+
+def dec_edata(b64s: str) -&gt; str:
+    enctext = base64.b64decode(b64s.encode())
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    iv = enctext[:16]
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    raw = cipher.decrypt(enctext[16:])
+    try:
+        return raw.decode()
+    except:
+        return raw
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/appre/" />
+<meta property="article:published_time" content="2021-11-30T14:36:28+08:00" />
+<meta property="article:modified_time" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="name" content="AppRE">
+<meta itemprop="description" content="App 逆向基础
+国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。
+抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。
+抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。
+所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 build.gradle 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。
+逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？
+bstr = b&#39;feiwu&#39;
+fstr = f&#39;woshi {bstr}&#39;
+print(fstr)
+# woshi b&#39;feiwu&#39;
+
+不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。
+实战案例复盘
+某品会 edata 参数(AES 加密)
+仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。
+首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 gsigds 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。
+但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。
+某品会 api_sign 验证头(SHA1 摘要)
+每一个请求头都会带上 Authorization: OAuth api_sign={}，全局搜索定位到 native 函数 gsNav，是从 TreeMap&lt;String, String&gt;(也就是 query params) 得到一串 SHA1 摘要。
+进 IDA 分析，发现仍然调用了 gsigds 函数获取字符串，传入 getByteHash 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。
+import base6
+import hashlib
+import json
+import random
+from urllib.parse import unquote, parse_qsl, urlencode
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+def gen_sign(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr will unquoted automatically&quot;&quot;&quot;
+    paramstr = unquote(paramstr).encode()
+    salt = b&quot;da19a1b93059ff3609fc1ed2e04b0141&quot;  # True
+    salt = b&quot;aee4c425dbb2288b80c71347cc37d04b&quot;  # False
+    h1 = hashlib.sha1(salt &#43; paramstr)
+    cipher1 = h1.hexdigest().encode()
+    h2 = hashlib.sha1(salt &#43; cipher1)
+    return h2.hexdigest()
+
+def gen_edata(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr: app_name=...&amp;dinfo=...&quot;&quot;&quot;
+    paramstr = paramstr.encode()
+    paramstr = pad(paramstr, 16)
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    ran16b = &#39;&#39;.join(random.choices(&#39;0123456789abcdef&#39;, k=16)).encode()
+    cipher = AES.new(key, AES.MODE_CBC, iv=ran16b)
+    enctext = cipher.encrypt(paramstr)
+    ans = base64.b64encode(ran16b &#43; enctext)
+    return ans.decode()
+
+def dec_edata(b64s: str) -&gt; str:
+    enctext = base64.b64decode(b64s.encode())
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    iv = enctext[:16]
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    raw = cipher.decrypt(enctext[16:])
+    try:
+        return raw.decode()
+    except:
+        return raw
+">
+<meta itemprop="datePublished" content="2021-11-30T14:36:28+08:00" />
+<meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="wordCount" content="1555">
+
+
+
+<meta itemprop="keywords" content="逆向," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AppRE"/>
+<meta name="twitter:description" content="App 逆向基础
+国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。
+抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。
+抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。
+所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 build.gradle 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。
+逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？
+bstr = b&#39;feiwu&#39;
+fstr = f&#39;woshi {bstr}&#39;
+print(fstr)
+# woshi b&#39;feiwu&#39;
+
+不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。
+实战案例复盘
+某品会 edata 参数(AES 加密)
+仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。
+首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 gsigds 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。
+但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。
+某品会 api_sign 验证头(SHA1 摘要)
+每一个请求头都会带上 Authorization: OAuth api_sign={}，全局搜索定位到 native 函数 gsNav，是从 TreeMap&lt;String, String&gt;(也就是 query params) 得到一串 SHA1 摘要。
+进 IDA 分析，发现仍然调用了 gsigds 函数获取字符串，传入 getByteHash 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。
+import base6
+import hashlib
+import json
+import random
+from urllib.parse import unquote, parse_qsl, urlencode
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+def gen_sign(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr will unquoted automatically&quot;&quot;&quot;
+    paramstr = unquote(paramstr).encode()
+    salt = b&quot;da19a1b93059ff3609fc1ed2e04b0141&quot;  # True
+    salt = b&quot;aee4c425dbb2288b80c71347cc37d04b&quot;  # False
+    h1 = hashlib.sha1(salt &#43; paramstr)
+    cipher1 = h1.hexdigest().encode()
+    h2 = hashlib.sha1(salt &#43; cipher1)
+    return h2.hexdigest()
+
+def gen_edata(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr: app_name=...&amp;dinfo=...&quot;&quot;&quot;
+    paramstr = paramstr.encode()
+    paramstr = pad(paramstr, 16)
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    ran16b = &#39;&#39;.join(random.choices(&#39;0123456789abcdef&#39;, k=16)).encode()
+    cipher = AES.new(key, AES.MODE_CBC, iv=ran16b)
+    enctext = cipher.encrypt(paramstr)
+    ans = base64.b64encode(ran16b &#43; enctext)
+    return ans.decode()
+
+def dec_edata(b64s: str) -&gt; str:
+    enctext = base64.b64decode(b64s.encode())
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    iv = enctext[:16]
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    raw = cipher.decrypt(enctext[16:])
+    try:
+        return raw.decode()
+    except:
+        return raw
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">AppRE</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-11-30 14:36:28 &#43;0800 &#43;0800"> 2021-11-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#app-逆向基础">App 逆向基础</a></li>
+        <li><a href="#实战案例复盘">实战案例复盘</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="app-逆向基础">App 逆向基础</h2>
+<p>国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。</p>
+<p>抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。</p>
+<p>抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。</p>
+<p>所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 <code>build.gradle</code> 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。</p>
+<p>逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？</p>
+<pre><code class="language-python">bstr = b'feiwu'
+fstr = f'woshi {bstr}'
+print(fstr)
+# woshi b'feiwu'
+</code></pre>
+<p>不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。</p>
+<h2 id="实战案例复盘">实战案例复盘</h2>
+<p><a href="https://www.qinless.com/341" target="_blank">某品会 edata 参数(AES 加密)</a></p>
+<p>仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。</p>
+<p>首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 <code>gsigds</code> 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。</p>
+<p>但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。</p>
+<p><a href="https://www.qinless.com/139" target="_blank">某品会 api_sign 验证头(SHA1 摘要)</a></p>
+<p>每一个请求头都会带上 <code>Authorization: OAuth api_sign={}</code>，全局搜索定位到 native 函数 gsNav，是从 <code>TreeMap&lt;String, String&gt;</code>(也就是 query params) 得到一串 SHA1 摘要。</p>
+<p>进 IDA 分析，发现仍然调用了 <code>gsigds</code> 函数获取字符串，传入 <code>getByteHash</code> 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。</p>
+<pre><code class="language-python">import base6
+import hashlib
+import json
+import random
+from urllib.parse import unquote, parse_qsl, urlencode
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+def gen_sign(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr will unquoted automatically&quot;&quot;&quot;
+    paramstr = unquote(paramstr).encode()
+    salt = b&quot;da19a1b93059ff3609fc1ed2e04b0141&quot;  # True
+    salt = b&quot;aee4c425dbb2288b80c71347cc37d04b&quot;  # False
+    h1 = hashlib.sha1(salt + paramstr)
+    cipher1 = h1.hexdigest().encode()
+    h2 = hashlib.sha1(salt + cipher1)
+    return h2.hexdigest()
+
+def gen_edata(paramstr: str) -&gt; str:
+    &quot;&quot;&quot;paramstr: app_name=...&amp;dinfo=...&quot;&quot;&quot;
+    paramstr = paramstr.encode()
+    paramstr = pad(paramstr, 16)
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    ran16b = ''.join(random.choices('0123456789abcdef', k=16)).encode()
+    cipher = AES.new(key, AES.MODE_CBC, iv=ran16b)
+    enctext = cipher.encrypt(paramstr)
+    ans = base64.b64encode(ran16b + enctext)
+    return ans.decode()
+
+def dec_edata(b64s: str) -&gt; str:
+    enctext = base64.b64decode(b64s.encode())
+    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
+    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
+    key = bytes(key)
+    iv = enctext[:16]
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    raw = cipher.decrypt(enctext[16:])
+    try:
+        return raw.decode()
+    except:
+        return raw
+</code></pre>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8887a97d70f1033978768a3300a9cdafc90a97b6" title="update" target="_blank">(8887a97)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/AppRE.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%80%86%E5%90%91/">逆向</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/btrfs/">
+            <span class="next-text nav-default">Btrfs 踩坑记录</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"AppRE - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=AppRE - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-chinggg', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

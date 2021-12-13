@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>在 Docker 中运行 Linux 性能分析工具 perf - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="perf 简介 性能调优基本原理 在了解具体的工具之前，我们首先应该问自己，性能分析要追踪和优化什么。我们都知道程序的运行会占用包括 CPU，内存，文件描" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="chinggg" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/docker-perf/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="在 Docker 中运行 Linux 性能分析工具 perf" />
+<meta property="og:description" content="perf 简介 性能调优基本原理 在了解具体的工具之前，我们首先应该问自己，性能分析要追踪和优化什么。我们都知道程序的运行会占用包括 CPU，内存，文件描" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/docker-perf/" />
+<meta property="article:published_time" content="2021-09-09T15:46:57+00:00" />
+<meta property="article:modified_time" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="name" content="在 Docker 中运行 Linux 性能分析工具 perf">
+<meta itemprop="description" content="perf 简介 性能调优基本原理 在了解具体的工具之前，我们首先应该问自己，性能分析要追踪和优化什么。我们都知道程序的运行会占用包括 CPU，内存，文件描">
+<meta itemprop="datePublished" content="2021-09-09T15:46:57+00:00" />
+<meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
+<meta itemprop="wordCount" content="2034">
+
+
+
+<meta itemprop="keywords" content="调试技巧,Docker," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Docker 中运行 Linux 性能分析工具 perf"/>
+<meta name="twitter:description" content="perf 简介 性能调优基本原理 在了解具体的工具之前，我们首先应该问自己，性能分析要追踪和优化什么。我们都知道程序的运行会占用包括 CPU，内存，文件描"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">在 Docker 中运行 Linux 性能分析工具 perf</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-09 15:46:57 &#43;0000 UTC"> 2021-09-09 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#perf-简介">perf 简介</a>
+          <ul>
+            <li><a href="#性能调优基本原理">性能调优基本原理</a></li>
+            <li><a href="#安装和使用">安装和使用</a></li>
+          </ul>
+        </li>
+        <li><a href="#docker-中运行-perf">Docker 中运行 perf</a></li>
+        <li><a href="#扩展阅读">扩展阅读</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="perf-简介">perf 简介</h2>
+<h3 id="性能调优基本原理">性能调优基本原理</h3>
+<p>在了解具体的工具之前，我们首先应该问自己，性能分析要追踪和优化什么。我们都知道程序的运行会占用包括 CPU，内存，文件描述符，锁，磁盘，网络等等在内的各种操作系统资源。根据 Amdahl 定律，当其中的某一个或多个资源出现瓶颈的时候，我们需要找到程序中最耗费资源的地方，并对其优化。</p>
+<p>那么我们可能需要做如下这些事情:</p>
+<ul>
+<li>对系统资源持续进行观测以及时发现哪些资源出现了瓶颈</li>
+<li>统计各个程序(进程)，确定哪个或哪些进程占用了过多的资源</li>
+<li>分析问题进程，找出其占用过量资源的原因</li>
+</ul>
+<p>很多工具都可以用来要想获取这些信息，但它们本质上都是从操作系统提供的观测源查询数据，Linux 中的观测源被称为 event ，是不同内核工具框架的统一接口，大致有如下几种:</p>
+<ul>
+<li>Hardware Events: 基于 CPU 性能监视计数器 PMC</li>
+<li>Software Events: 基于内核计数器的低级事件。例如，CPU 迁移、主次缺页异常等等</li>
+<li>Kernel Tracepoint Events: 硬编码在内核中的静态内核级的检测点，即静态探针</li>
+<li>User Statically-Defined Tracing (USDT): 这些是用户级程序和应用程序的静态跟踪点</li>
+<li>Dynamic Tracing: 可以被放置在任何地方的动态探针。对于内核和用户级软件，分别使用 kprobes 和 uprobes 框架</li>
+<li>Timed Profiling: 以指定频率收集的快照。这通常用于CPU使用情况分析，其工作原理是周期性的产生时钟中断事件</li>
+</ul>
+<p><img src="/post_img/docker-perf/perf_events_map.png" alt="perf_events_map"></p>
+<p>而 perf 就是一个 Linux 系统中的性能分析工具，它可以利用 Hardware Events, Software Events, Tracepoint, Dynamic Tracing 来对应用程序进行性能分析，从开发者的角度来讲，它可以分析如下各种问题：</p>
+<ul>
+<li>为什么内核消耗 CPU 高, 代码的位置在哪里？</li>
+<li>什么代码引起了 CPU 2级缓存未命中？</li>
+<li>CPU 是否消耗在内存 I/O 上？</li>
+<li>哪些代码分配内存，分配了多少？</li>
+<li>什么触发了 TCP 重传？</li>
+<li>某个内核函数是否正在被调用，调用频率有多少？</li>
+<li>线程释放 CPU 的原因？</li>
+</ul>
+<h3 id="安装和使用">安装和使用</h3>
+<p>由于和内核的紧密关系，perf 的安装需要与内核版本相匹配，一般来讲使用发行版自带的包管理器安装即可，注意不同发行版下的包名称：</p>
+<ul>
+<li>Alpine: <code>perf</code>，v3.12 以上才可安装</li>
+<li>Debian: <code>linux-perf</code>，注意 Debian 10 的软件源中默认只有 4.19 版本，若需 5.10 版本，可使用 buster-backports 源</li>
+<li>Ubuntu: <code>linux-tools-*</code>，星号为内核版本号或 <code>generic</code></li>
+</ul>
+<p>如果确实无法用包管理器安装或版本不匹配，可以下载对应版本内核源码并解压，在 <code>tools/perf</code> 目录下自行编译。</p>
+<p>安装好 perf 后，可以用 <code>perf --help</code> 或 <code>man perf</code> 查看相应的帮助信息，下面仅介绍使用 perf 对应用进程进行分析的基本流程。</p>
+<p><img src="/post_img/docker-perf/perf_events_flow.png" alt="perf_events_flow"></p>
+<p>首先使用 <code>perf record -p &lt;pid&gt; -g</code> 来跟踪指定进程，此时 <code>perf</code> 会在前台进行性能监测，并在当前目录生成 <code>perf.data</code> 文件，当需要终止监测时，按 <code>C-c</code> 等待 perf 退出。</p>
+<p>数据生成完毕后，可使用 <code>perf report</code> 在命令行下查看，如果想要可视化分析，可以结合 <a href="https://github.com/brendangregg/FlameGraph" target="_blank">FlameGraph</a> 这款工具生成 SVG 火焰图，命令如下：</p>
+<pre><code class="language-bash">git clone --depth=1 https://github.com/BrendanGregg/FlameGraph
+sudo perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; flamegraph.svg
+</code></pre>
+<p><img src="https://docs.microsoft.com/en-us/dotnet/core/diagnostics/media/flamegraph.jpg" alt="flamegraph"></p>
+<p>PS: <code>perf timechart</code> 本身也提供了导出 SVG 图片的功能，但需要 <code>perf timechart record</code> 来记录，而且输出的是进程运行过程中系统调度的情况，无法对程序的具体代码段进行性能分析。</p>
+<h2 id="docker-中运行-perf">Docker 中运行 perf</h2>
+<p>实际场景中应用可能运行在 Docker 容器中，这时我们可以指定 PID 命名空间另开一个容器，使目标容器中的进程对其可见，然后在新开的容器中使用 perf 对应用进程进行分析，命令如下：
+<code>docker run -it --pid=container:&lt;目标容器ID&gt; --network=container:&lt;目标容器ID&gt; &lt;perf容器名&gt;</code></p>
+<p>但由于 Docker 出于安全考虑对系统调用 <code>perf_event_open</code> 进行了限制，在执行 perf 的过程中可能出现如下 Permission Error：</p>
+<pre><code class="language-plaintext">perf_event_open(..., PERF_FLAG_FD_CLOEXEC) failed with unexpected error 1 (Operation not permitted)
+perf_event_open(..., 0) failed unexpectedly with error 1 (Operation not permitted)
+You may not have permission to collect stats.
+Consider tweaking /proc/sys/kernel/perf_event_paranoid:
+ -1 - Not paranoid at all
+  0 - Disallow raw tracepoint access for unpriv
+  1 - Disallow cpu events for unpriv
+  2 - Disallow kernel profiling for unpriv
+</code></pre>
+<p>一般可以通过三种方式解决：</p>
+<ul>
+<li>查看宿主机 <code>/proc/sys/kernel/perf_event_paranoid</code> 的值，设为 -1，这样非特权用户也能调用 <code>perf_event_open</code> 了</li>
+<li>在 <code>docker run</code> 时加上参数 <code>--cap-add CAP_SYS_ADMIN</code> 及 <code>--privileged</code>，赋予容器特权</li>
+<li>下载一份 <a href="https://github.com/moby/moby/blob/master/profiles/seccomp/default.json" target="_blank">seccomp 默认配置文件</a> ，在其中给 <code>perf_event_open</code> 放行，保存为 <code>custom.json</code>，在 <code>docker run</code> 时加上参数 <code>--security-opt seccomp=custom.json</code></li>
+</ul>
+<p>在容器本身来源可靠的情况下，第二种方式应该是较为安全且方便的，下面就给出 Dockerfile 样例：</p>
+<pre><code class="language-dockerfile">FROM alpine:latest
+RUN sed -i.bak 's/dl-cdn.alpinelinux.org/mirrors.cloud.tencent.com/g' /etc/apk/repositories
+RUN apk add --update bash vim git perf perl thttpd
+RUN git clone --depth=1 https://github.com/BrendanGregg/FlameGraph
+RUN echo 'perf record -g -p $1' &gt;  record.sh &amp;&amp; \
+    echo 'perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; $1' &gt; plot.sh &amp;&amp; \
+    chmod +x *.sh
+
+ENTRYPOINT [&quot;bash&quot;]
+</code></pre>
+<p>为方便使用编写了一键运行脚本：</p>
+<pre><code class="language-bash">#!/bin/bash
+
+set -x
+
+target_container_id=&quot;$1&quot;
+version=&quot;$(uname -r)&quot;
+version=&quot;${version%%-*}&quot;
+version=&quot;${version%.*}&quot;
+tag=&quot;v${2-$version}&quot;
+if [[ $tag != &quot;v5.4&quot; &amp;&amp; $tag != &quot;v5.10&quot; ]]; then
+    tag=&quot;latest&quot;
+fi
+image=${3-&quot;perf&quot;}
+
+docker run \
+    --cap-add CAP_SYS_ADMIN \
+    --privileged \
+    -ti \
+    --rm \
+    --pid=container:$target_container_id \
+    --network=container:$target_container_id \
+    $image:$tag
+</code></pre>
+<p>复制以上代码保存为 <code>attach.sh</code>，执行 <code>attach.sh &lt;目标容器ID&gt;</code> 就进入了 perf 容器，此时可以使用 <code>ps</code> 查看目标容器中的进程，记下 pid 后执行 <code>record.sh &lt;pid&gt;</code> 开始记录，记录完成后运行 <code>plot.sh &lt;图片名.svg&gt;</code> 生成火焰图。</p>
+<p>导出图片一般可使用 <code>docker cp</code> 和 <code>docker exec</code> 或挂载 volume，为方便预览和复制文件，容器内置了轻量网页服务，执行 <code>thttpd -p &lt;端口号&gt;</code> 即可。由于脚本中没有设置端口转发，需要 <code>docker inspect &lt;目标容器ID&gt; | grep IPAdress</code> 查看目标容器的 IP，然后在浏览器中访问即可。若需要更灵活的操作，可不用以上脚本手动添加参数运行容器。</p>
+<h2 id="扩展阅读">扩展阅读</h2>
+<p>perf 及 Linux 性能调优：</p>
+<ul>
+<li><a href="https://www.brendangregg.com/perf.html" target="_blank">Linux perf examples</a>，FlameGraph 作者 Brendan Gregg 本人撰写，非常全面</li>
+<li><a href="https://hotttao.github.io/tags/Linux%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" target="_blank">Linux 性能调优系列中文博客</a>，其中有两篇博文分别介绍 perf 的原理和使用</li>
+<li><a href="https://hackmd.io/@sysprog/B11109rdg?type=view" target="_blank">perf 原理和實務</a></li>
+<li><a href="http://walkerdu.com/2018/09/13/perf-event/" target="_blank">性能分析利器之perf浅析</a></li>
+<li><a href="https://unix.stackexchange.com/questions/462981/why-perf-needs-to-match-the-exact-running-linux-kernel-version" target="_blank">Why &lsquo;perf&rsquo; needs to match the exact running Linux kernel version?</a></li>
+</ul>
+<p>Docker 中使用 perf:</p>
+<ul>
+<li><a href="https://gendignoux.com/blog/2019/11/09/profiling-rust-docker-perf.html" target="_blank">Tutorial: Profiling Rust applications in Docker with perf</a> 详细可操作的教程，调试目标为 Rust 程序</li>
+<li><a href="https://medium.com/@geekidea_81313/running-perf-in-docker-kubernetes-7eb878afcd42" target="_blank">running <code>perf</code> in docker &amp; kubernetes</a></li>
+</ul>
+<p>分析 .NET 应用：</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/core/diagnostics/debug-highcpu?tabs=linux" target="_blank">Debug high CPU usage in .NET Core</a></li>
+<li><a href="https://codeblog.dotsandbrackets.com/profiling-net-core-app-linux/" target="_blank">Profiling .NET Core app on Linux</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8887a97d70f1033978768a3300a9cdafc90a97b6" title="update" target="_blank">(8887a97)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Docker-perf.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/">调试技巧</a>
+          <a href="/tags/docker/">Docker</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/fart/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">FART</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/ml-leaks/">
+            <span class="next-text nav-default">ML-Leaks</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e5%9c%a8%20Docker%20%e4%b8%ad%e8%bf%90%e8%a1%8c%20Linux%20%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7%20perf - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e5%9c%a8%20Docker%20%e4%b8%ad%e8%bf%90%e8%a1%8c%20Linux%20%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7%20perf - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-chinggg', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
