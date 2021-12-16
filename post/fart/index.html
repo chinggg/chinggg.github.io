@@ -51,7 +51,7 @@
 <meta itemprop="description" content="安卓脱壳 FART 速成 环境准备 Pixel 3a XL 一台，代号 bonito，先恢复出厂系统 ，再准备相应源码， android-9.0.0_r47 对应 版本号 PQ3B.190801.002 对应，android-10.0.0_r2 对">
 <meta itemprop="datePublished" content="2021-11-05T23:04:43+08:00" />
 <meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
-<meta itemprop="wordCount" content="973">
+<meta itemprop="wordCount" content="1110">
 
 
 
@@ -228,7 +228,7 @@ m
 <p>App 加固</p>
 <p>应用启动会从 ActivityThread 进入，在方法 <code>performLaunchActivity</code> 的最后执行 <code>fartthread()</code></p>
 <h3 id="youpk-源码解读">Youpk 源码解读</h3>
-<p>自定义的代码几乎都封装在了 Unpacker 这个类里，可读性好，可惜基于 <code>android-7.1.2_r33</code>，会有一些大区别</p>
+<p>自定义的代码几乎都封装在了 Unpacker 这个类里，额外添加 <code>cJSON</code> 和 <code>unpacker</code> 的 <code>.h</code> 和 <code>.cc</code> 共四个文件，可读性好，可惜基于 <code>android-7.1.2_r33</code>，会有一些大区别</p>
 <p>Art 部分改动的文件：</p>
 <ul>
 <li><em><code>dex2oat.cc</code></em>
@@ -241,7 +241,7 @@ m
 </li>
 </ul>
 </li>
-<li><code>Android.mk</code>(Nougat) -&gt; <code>Android.bp</code>(Pie)
+<li><em><code>Android.mk</code>(Nougat) -&gt; <code>Android.bp</code>(Pie)</em>
 <ul>
 <li>添加新文件至列表</li>
 </ul>
@@ -274,7 +274,30 @@ m
 </ul>
 </li>
 </ul>
-<p>然后添加 <code>cJSON</code> 和 <code>unpacker</code> 的 <code>.h</code> 和 <code>.cc</code> 共四个文件</p>
+<p>从 Android 7 到 Android 9 导致 unpacker.cc 的改动</p>
+<ul>
+<li>字段名与命名空间
+<ul>
+<li><code>StringPrintf</code> 在 <code>android::base::</code> 下</li>
+<li><code>art:🪞:Class</code> 下的 Status 被移到 <code>art::ClassStatus</code></li>
+<li>以 <code>enum class PointerSize</code> 代替 <code>size_t</code>，区分 32/64 位</li>
+</ul>
+</li>
+<li>DexFile 大变
+<ul>
+<li>文件移至新目录 <code>art/libdexfile</code> 下</li>
+<li>DexFile 派生成 standard 和 compact</li>
+<li><code>CodeItem</code> 原本 public 属性变 private，无法 offset</li>
+<li>安卓 9 提供了 <code>DexFile::GetCodeItemSize</code></li>
+</ul>
+</li>
+<li>ObjPtr
+<ul>
+<li><code>ClassLinker</code> 类许多方法均返回了 <code>ObjPtr</code>，需调整</li>
+<li><code>soa.Decode()</code> 返回 <code>ObjPtr</code>，需 <code>.Ptr()</code></li>
+</ul>
+</li>
+</ul>
 <h3 id="技术进展">技术进展</h3>
 <p><a href="https://www.freebuf.com/articles/endpoint/166307.html" target="_blank">修改安卓源码：Art 模式下的通用脱壳方法</a></p>
 <p><a href="https://forum.90sec.com/t/topic/842" target="_blank">脱壳原理及如何实现脱壳机</a></p>
@@ -314,7 +337,7 @@ m
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/1b854c3327e325d0aba4724dae11737e1c29fffe" title="update" target="_blank">(1b854c3)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/26d4f6e5de20dbfb0ac319c0d47e15be0b4161f6" title="update" target="_blank">(26d4f6e)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FART.md" target="_blank">更新历史</a>
     </span>
   </p>

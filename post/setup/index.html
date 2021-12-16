@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or">
 <meta itemprop="datePublished" content="2020-10-28T04:45:41+00:00" />
 <meta itemprop="dateModified" content="2021-10-12T14:06:20+08:00" />
-<meta itemprop="wordCount" content="3607">
+<meta itemprop="wordCount" content="3611">
 
 
 
@@ -443,6 +443,7 @@ AND</li>
 <h4 id="pacman">pacman</h4>
 <p>speed up : <code>XferCommand = /usr/bin/aria2c -x 8 -s 8 --dir $(dirname %o) -o $(basename %o) %u</code></p>
 <p><code>-S</code> <code>-U</code> <code>-Q</code> <code>-R</code></p>
+<p><code>pacman -Qoq /usr/lib/python3.9</code></p>
 <h4 id="yay">yay</h4>
 <p>Arch 不可直接 pacman 装，clone <code>yay-bin</code> from <a href="https://aur.archlinux.org/packages/yay-bin/" target="_blank">AUR</a>, <code>makepkg -si</code></p>
 <h3 id="terminal">Terminal</h3>
@@ -542,8 +543,8 @@ ssh-add ~/.ssh/id_rsa
 <h4 id="vscodevim">vscodevim</h4>
 <p>set a shortcut to &ldquo;Vim: Toggle Vim Mode&rdquo;</p>
 <ul>
-<li>press <code>&lt;c-K&gt;&lt;c-S&gt;</code>,search for it</li>
-<li>bind it to <code>Ctrl+;</code> (then change the shortcut of fcitx5 clipboard, eg.<code>Ctrl+'</code>)</li>
+<li>press <code>&lt;c-K&gt;&lt;c-S&gt;</code>, search for it</li>
+<li>bind it to <code>Ctrl+'</code> (the default shortcut of fcitx5 clipboard is <code>Ctrl+;</code>)</li>
 </ul>
 <p>press <code>gcc</code> to comment</p>
 <h4 id="filesexcludehttpscodevisualstudiocomdocscustomizationuserandworkspace"><a href="https://code.visualstudio.com/Docs/customization/userandworkspace" target="_blank">files.exclude</a></h4>
@@ -725,7 +726,7 @@ sytemctl suspend
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-10-12 14:06:20 &#43;0800 &#43;0800">2021-10-12</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/1b854c3327e325d0aba4724dae11737e1c29fffe" title="update" target="_blank">(1b854c3)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/26d4f6e5de20dbfb0ac319c0d47e15be0b4161f6" title="update" target="_blank">(26d4f6e)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Setup.md" target="_blank">更新历史</a>
     </span>
   </p>
