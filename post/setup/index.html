@@ -46,12 +46,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/setup/" />
 <meta property="article:published_time" content="2020-10-28T04:45:41+00:00" />
-<meta property="article:modified_time" content="2021-12-18T11:46:48+08:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="Setup">
 <meta itemprop="description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or">
 <meta itemprop="datePublished" content="2020-10-28T04:45:41+00:00" />
-<meta itemprop="dateModified" content="2021-12-18T11:46:48+08:00" />
-<meta itemprop="wordCount" content="3611">
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="3653">
 
 
 
@@ -220,6 +220,12 @@
             <li><a href="#scripts">Scripts</a></li>
           </ul>
         </li>
+        <li><a href="#windows">Windows</a>
+          <ul>
+            <li><a href="#快速配置">快速配置</a></li>
+            <li><a href="#win7">Win7</a></li>
+          </ul>
+        </li>
         <li><a href="#development">Development</a>
           <ul>
             <li><a href="#git">Git</a></li>
@@ -237,7 +243,6 @@
               </ul>
             </li>
             <li><a href="#codeblocks">CodeBlocks</a></li>
-            <li><a href="#win7">Win7</a></li>
             <li><a href="#sql">SQL</a>
               <ul>
                 <li><a href="#postgreshttpswikiarchlinuxorgtitlepostgresql"><a href="https://wiki.archlinux.org/title/PostgreSQL">postgres</a></a></li>
@@ -474,6 +479,25 @@ setw -g mode-keys vi
 <h3 id="scripts">Scripts</h3>
 <p>insert <code>\</code> at each EOL: <code>sed -i 's/$/ \\/ FILENAME'</code></p>
 <p>insert text at the beginning: <code>sed -i '1i text' FILENAME</code></p>
+<h2 id="windows">Windows</h2>
+<h3 id="快速配置">快速配置</h3>
+<p>手装：</p>
+<ul>
+<li>Git</li>
+<li>VS Code</li>
+<li>VS</li>
+<li>Firefox</li>
+<li>Windows Terminal, WinGet 保证最新版</li>
+</ul>
+<pre><code class="language-powershell">Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+scoop bucket add extras versions java retools
+scoop install sudo dismplusplus
+</code></pre>
+<p>编辑 <code>.ssh/config</code></p>
+<h3 id="win7">Win7</h3>
+<p>only support Python3.8, does not support Docker</p>
+<p>KB3063858 if fail to install Python</p>
 <h2 id="development">Development</h2>
 <h3 id="git">Git</h3>
 <p>使用ssh代替https进行git远程操作可以省去每次输入帐号的重复步骤，尽管一开始的密钥配置会略显繁琐。</p>
@@ -594,9 +618,6 @@ echo fs.inotify.max_user_watches=524288 &gt;&gt; /etc/sysctl.conf
 <p>Missing <code>api-ms-win-crt-*.dll</code></p>
 <p>Install VC++ 2015 Redistributable</p>
 <p>Fail on Windows Server 2012</p>
-<h3 id="win7">Win7</h3>
-<p>only support Python3.8, does not support Docker</p>
-<p>KB3063858 if fail to install Python</p>
 <h3 id="sql">SQL</h3>
 <p><code>mysql -u {user} -p </code> ENTER</p>
 <h4 id="postgreshttpswikiarchlinuxorgtitlepostgresql"><a href="https://wiki.archlinux.org/title/PostgreSQL" target="_blank">postgres</a></h4>
@@ -725,8 +746,8 @@ sytemctl suspend
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2021-12-18 11:46:48 &#43;0800 &#43;0800">2021-12-18</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/a84f991f7d736cb915b5a1d3ea206045eb758b67" title="chore: Google Tracking ID and site-verification" target="_blank">(a84f991)</a>
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/ab21879e01c537be3eacb96606f575e3294b7774" title="update" target="_blank">(ab21879)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Setup.md" target="_blank">更新历史</a>
     </span>
   </p>

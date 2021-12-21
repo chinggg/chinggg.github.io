@@ -47,7 +47,7 @@
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chinggg.github.io/" />
-<meta property="og:updated_time" content="2021-12-18T11:46:48+08:00" />
+<meta property="og:updated_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
@@ -299,91 +299,7 @@
   
   <div class="post-content">
     <div class="post-summary">
-      <h3 id="frida">Frida</h3>
-<p>万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：</p>
-<ul>
-<li>Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型</li>
-<li>Native 层通过 <code>findExportByName</code> 获取函数不够准确，可能还要通过地址</li>
-<li>不应发生的 cannot access address &hellip; 问题</li>
-</ul>
-<p><a href="https://www.anquanke.com/post/id/195869">https://www.anquanke.com/post/id/195869</a></p>
-<p><a href="https://kevinspider.github.io/fridahookjava/">https://kevinspider.github.io/fridahookjava/</a></p>
-<p><a href="https://kevinspider.github.io/fridahookso/">https://kevinspider.github.io/fridahookso/</a></p>
-<p><a href="https://kevinspider.github.io/zhuabao/">https://kevinspider.github.io/zhuabao/</a></p>
-<pre><code class="language-javascript">function map2obj(map) {
-   var res = {};
-   var keyset = map.keySet();
-   var it = keyset.iterator();
-   while (it.hasNext()) {
-      var keystr = it.next().toString();
-      var valuestr = map.get(keystr).toString();
-      res[keystr] = valuestr
-   }
-   return res;
-}
-
-function dfs(self, depth) {
-    if (depth &gt; 6) return {}
-    const obj = {}
-    const cls = self.getClass()
-    const fields = cls.getDeclaredFields()
-    // console.log(&quot;-&quot;.repeat(depth), &quot;dfs&quot;, cls, self)
-    // console.log(&quot;-&quot;.repeat(depth), &quot;fields:&quot;, fields)
-    const immediates = ['short', 'int', 'long', 'float', 'double', 'boolean', 'String']
-    fields.forEach(x =&gt; {
-        x.setAccessible(true)
-        const v = x.get(self)
-        if (v === null) return
-        const s = x.toString()  // public type fullname
-        // const type = x.getType()   // class java.lang.String
-        // const k = x.getName()   // short name
-        // console.warn(x, v, k, type)
-        if (immediates.some(type =&gt; s.includes(type))) {
-            obj[x] = v.toString()
-        } else {  // inner class
-            obj[x] = dfs(v, depth+1)
-        }
-    })
-    return obj
-}
-
-function hookJava() {
-   if (Java.available) {
-      Java.perform(function () {
-         var cls = Java.classFactory.use(&quot;com.package.classname&quot;);
-         cls.methodName.implementation = function (a1, a2, a3, a4) {
-            console.log('&gt;'.repeat(10), &quot;hookJava begin&quot;)
-            let a2str = JSON.stringify(map2obj(a2), null, 4)
-            console.log(a1, a3, a4)
-            console.warn(a2str)
-            var res = this.methodName(a1, a2, a3, a4)
-            console.warn('res:', res)
-            return res
-            console.log(&quot;hookJava end&quot;, '&lt;'.repeat(10))
-         }
-      })
-   }
-}
-
-function hookNative() {
-   let m = Process.findModuleByName('lib.so')
-   let f = Module.findExportByName('lib.so', 'Functions_xx')
-   console.log(m.base, f)
-   // f = m.base.add(0xBDB8C)
-   Interceptor.attach(f, {
-      onEnter: function (args) {
-         console.warn(&quot;args:&quot;, args[1], args[1].readCString())
-      },
-      onLeave: function (ret) {
-         console.warn(&quot;ret:&quot;, ret, ret.readCString())
-         // this.context.r0 = 1
-      }
-   })
-}
-
-setImmediate(hookJava)
-// setImmediate(hookNative)
-</code></pre>
+      Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想
     </div>
     <div class="read-more">
       <a href="/post/android-hook/" class="read-more-link">阅读更多</a>
