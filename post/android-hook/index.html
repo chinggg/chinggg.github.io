@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想">
 <meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="399">
+<meta itemprop="wordCount" content="427">
 
 
 
@@ -244,6 +244,19 @@ function hookJava() {
    }
 }
 
+function hookProxy() {
+   if (Java.available) {
+      Java.perform(function () {
+         var cls = Java.classFactory.use(&quot;okhttp3.OkHttpClient$Builder&quot;);
+         cls.proxy.implementation = function (a1) {
+            console.log('&gt;'.repeat(10), &quot;hookProxy begin&quot;)
+            console.warn(a1)
+               return this
+         }
+      })
+   }
+}
+
 function hookNative() {
    let m = Process.findModuleByName('lib.so')
    let f = Module.findExportByName('lib.so', 'Functions_xx')
@@ -275,7 +288,7 @@ setImmediate(hookJava)
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/ab21879e01c537be3eacb96606f575e3294b7774" title="update" target="_blank">(ab21879)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/1e84bb7a3ab1da38d07ea70ba5ba157d447ae3dd" title="update" target="_blank">(1e84bb7)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
     </span>
   </p>

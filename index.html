@@ -354,7 +354,7 @@
     <div class="post-summary">
       <h2 id="app-逆向基础">App 逆向基础</h2>
 <p>国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。</p>
-<p>抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般需要使用 Xpose 模块 JustTrustMe。</p>
+<p>抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般用 Xposed 模块 JustTrustMe 或 TrustMeAlready 可以解决，某些关键请求可能还需额外 hook，可以为其专门定制 Xposed 模块。</p>
 <p>抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。</p>
 <p>所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 <code>build.gradle</code> 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。</p>
 <p>逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时需要仔细考虑。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？</p>
@@ -417,6 +417,9 @@ def dec_edata(b64s: str) -&gt; str:
     except:
         return raw
 </code></pre>
+<p><a href="https://www.qinless.com/745" target="_blank">某物 app so newSign 参数分析</a></p>
+<p>常规抓包只能看见小部分请求，检索 <code>NO_PROXY</code>，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 <code>/api/v1/app/search/ice/search/list</code>，检索该 URL 果然在 <code>com.XXX.common.base.delegate.tasks.net.ApiConfigCons</code> 中发现了 <code>BLACK_LIST</code> 这一个黑名单集合。</p>
+<p>搜索请求中的 newSign 字段，发现 <code>WebRequestInterceptor.intercept</code> 会给请求附上 newSign， 其值为 <code>RequestUtils.c(hashMap, timestamp)</code> 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 <code>AESEncrypt.encode(context, str)</code> 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 <code>AESEncrypt.encode</code> 这个方法里调了 <code>NCall.IL()</code> 这个 Native 函数，然而在 <code>libGameVMP.so</code> 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。</p>
     </div>
     <div class="read-more">
       <a href="/post/appre/" class="read-more-link">阅读更多</a>
@@ -428,7 +431,10 @@ def dec_edata(b64s: str) -&gt; str:
   
   <nav class="pagination">
     
-    
+    <a class="next" href="/page/2/">
+        <span class="next-text">下一页</span>
+        <i class="iconfont icon-right"></i>
+      </a>
   </nav>
         </div>
         

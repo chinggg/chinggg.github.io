@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>逆向 · chinggg的博客</title>
+  <title>chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -26,9 +26,9 @@
 <meta name="generator" content="Hugo 0.80.0 with theme even" />
 
 
-<link rel="canonical" href="https://chinggg.github.io/tags/%E9%80%86%E5%90%91/" />
-  <link href="https://chinggg.github.io/tags/%E9%80%86%E5%90%91/index.xml" rel="alternate" type="application/rss+xml" title="chinggg的博客" />
-  <link href="https://chinggg.github.io/tags/%E9%80%86%E5%90%91/index.xml" rel="feed" type="application/rss+xml" title="chinggg的博客" />
+<link rel="canonical" href="https://chinggg.github.io/" />
+  <link href="https://chinggg.github.io/index.xml" rel="alternate" type="application/rss+xml" title="chinggg的博客" />
+  <link href="https://chinggg.github.io/index.xml" rel="feed" type="application/rss+xml" title="chinggg的博客" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -43,15 +43,15 @@
 
 
 
-<meta property="og:title" content="逆向" />
+<meta property="og:title" content="chinggg的博客" />
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://chinggg.github.io/tags/%E9%80%86%E5%90%91/" />
+<meta property="og:url" content="https://chinggg.github.io/" />
 <meta property="og:updated_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="逆向">
+<meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="逆向"/>
+<meta name="twitter:title" content="chinggg的博客"/>
 <meta name="twitter:description" content="chinggg的博客"/>
 
 <!--[if lte IE 9]>
@@ -138,54 +138,49 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="archive" class="archive">
-  <div class="archive-title tag">
-        <h2 class="archive-name">逆向</h2>
-      </div>
-
-  <div class="archive-post">
-      <span class="archive-post-time">
-        2021-12-24
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/captcha/" class="archive-post-link">
-          验证码实战
-        </a>
-      </span>
-    </div><div class="archive-post">
-      <span class="archive-post-time">
-        2021-11-30
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/appre/" class="archive-post-link">
-          AppRE
-        </a>
-      </span>
-    </div><div class="archive-post">
-      <span class="archive-post-time">
-        2021-11-17
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/android-hook/" class="archive-post-link">
-          Android Hook
-        </a>
-      </span>
-    </div><div class="archive-post">
-      <span class="archive-post-time">
-        2021-11-05
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/fart/" class="archive-post-link">
-          FART
-        </a>
-      </span>
+          <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/captcha/">验证码实战</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2021-12-24 16:27:26 &#43;0800 &#43;0800"> 2021-12-24 </span>
+      <div class="post-category">
+          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+          </div>
     </div>
-</section>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>先尝试模拟，使用 <a href="https://juejin.cn/post/6956800708389634079" target="_blank">puppteer</a> 稍加计算就能成功绕过极验</p>
+<p>请求依次为</p>
+<ul>
+<li>POST <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求</li>
+<li>GET <a href="https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=">https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=</a> 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面</li>
+<li>GET <a href="https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_%7B13">https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_{13</a>位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径）</li>
+<li>GET <a href="https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=%7B">https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w={</a>一长串}&amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串</li>
+<li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 第一次请求 ajax.php，返回 <code>callback值({&quot;status&quot;: &quot;success&quot;, &quot;data&quot;: {&quot;result&quot;: &quot;slide&quot;}})</code></li>
+<li>GET <a href="https://api.geetest.com/get.php">https://api.geetest.com/get.php</a> 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 <code>is_next=true&amp;type=slide3</code>，返回结果中有滑块验证时会显示的i18n字符串，以及<strong>滑块和图片的位置</strong></li>
+<li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 最终的请求，返回 success 及 score</li>
+</ul>
+<p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a>
+<a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
+    </div>
+    <div class="read-more">
+      <a href="/post/captcha/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
 
-<nav class="pagination">
+    </section>
   
-  
-</nav>
+  <nav class="pagination">
+    <a class="prev" href="/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
+      </a>
+    
+  </nav>
         </div>
         
 
@@ -244,6 +239,14 @@
 
 
 <script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
 
 
 <script type="application/javascript">
