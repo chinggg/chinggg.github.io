@@ -16,9 +16,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
+<meta name="author" content="chinggg" /><meta name="description" content="小试牛刀 先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
 请求依次为
- POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求 GET https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;amp;recaptcha_token=&amp;amp;gee_gt=&amp;amp;gee_challenge=&amp;amp;hash= 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面 GET https://api.geetest.com/gettype.php?gt=&amp;amp;callback=geetest_{13位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径） GET https://api.geetest.com/get.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w={一长串}&amp;amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 第一次请求 ajax.php，返回 callback值({&amp;quot;status&amp;quot;: &amp;quot;success&amp;quot;, &amp;quot;data&amp;quot;: {&amp;quot;result&amp;quot;: &amp;quot;slide&amp;quot;}}) GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;%24_BBF=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 最终的请求，返回 success 及 score  JS逆向：AST还原极验混淆JS实战 反符号混淆和控制流平坦化
+ POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求 GET https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;amp;recaptcha_token=&amp;amp;gee_gt=&amp;amp;gee_challenge=&amp;amp;hash= 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面 GET https://api.geetest.com/gettype.php?gt=&amp;amp;callback=geetest_{13位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径） GET https://api.geetest.com/get.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w={一长串}&amp;amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 第一次请求 ajax.php，返回 callback值({&amp;quot;status&amp;quot;: &amp;quot;success&amp;quot;, &amp;quot;data&amp;quot;: {&amp;quot;result&amp;quot;: &amp;quot;slide&amp;quot;}}) GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;%24_BBF=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 最终的请求，返回 success 及 score  工程化探索 将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。
+真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 arraybuffer（在 Node 中 blob 实际还是以文本返回，因为 blob 是 browser only），然后 res.data.toString(&#39;base64&#39;) 转成 base64 字符串通过 RPC 传递，接收方再 Buffer.from(str, &#39;base64&#39;) 来转成 buffer。
+JS逆向：AST还原极验混淆JS实战 反符号混淆和控制流平坦化
 " /><meta name="keywords" content="chinggg, blog" />
 
 
@@ -45,7 +47,8 @@
 
 
 <meta property="og:title" content="验证码实战" />
-<meta property="og:description" content="先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
+<meta property="og:description" content="小试牛刀
+先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
 请求依次为
 
 POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求
@@ -56,14 +59,18 @@ GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&
 GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置
 GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback= 最终的请求，返回 success 及 score
 
+工程化探索
+将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。
+真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 arraybuffer（在 Node 中 blob 实际还是以文本返回，因为 blob 是 browser only），然后 res.data.toString(&#39;base64&#39;) 转成 base64 字符串通过 RPC 传递，接收方再 Buffer.from(str, &#39;base64&#39;) 来转成 buffer。
 JS逆向：AST还原极验混淆JS实战
 反符号混淆和控制流平坦化" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/captcha/" />
 <meta property="article:published_time" content="2021-12-24T16:27:26+08:00" />
-<meta property="article:modified_time" content="2022-01-01T00:36:25+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="验证码实战">
-<meta itemprop="description" content="先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
+<meta itemprop="description" content="小试牛刀
+先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
 请求依次为
 
 POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求
@@ -74,18 +81,22 @@ GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&
 GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置
 GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback= 最终的请求，返回 success 及 score
 
+工程化探索
+将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。
+真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 arraybuffer（在 Node 中 blob 实际还是以文本返回，因为 blob 是 browser only），然后 res.data.toString(&#39;base64&#39;) 转成 base64 字符串通过 RPC 传递，接收方再 Buffer.from(str, &#39;base64&#39;) 来转成 buffer。
 JS逆向：AST还原极验混淆JS实战
 反符号混淆和控制流平坦化">
 <meta itemprop="datePublished" content="2021-12-24T16:27:26+08:00" />
-<meta itemprop="dateModified" content="2022-01-01T00:36:25+00:00" />
-<meta itemprop="wordCount" content="527">
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="922">
 
 
 
 <meta itemprop="keywords" content="逆向," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="验证码实战"/>
-<meta name="twitter:description" content="先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
+<meta name="twitter:description" content="小试牛刀
+先尝试模拟，使用 puppteer 稍加计算就能成功绕过极验
 请求依次为
 
 POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求
@@ -96,6 +107,9 @@ GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&
 GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置
 GET https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback= 最终的请求，返回 success 及 score
 
+工程化探索
+将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。
+真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 arraybuffer（在 Node 中 blob 实际还是以文本返回，因为 blob 是 browser only），然后 res.data.toString(&#39;base64&#39;) 转成 base64 字符串通过 RPC 传递，接收方再 Buffer.from(str, &#39;base64&#39;) 来转成 buffer。
 JS逆向：AST还原极验混淆JS实战
 反符号混淆和控制流平坦化"/>
 
@@ -198,9 +212,28 @@ JS逆向：AST还原极验混淆JS实战
     </header>
 
     
-
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#小试牛刀">小试牛刀</a></li>
+            <li><a href="#工程化探索">工程化探索</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
     <div class="post-content">
-      <p>先尝试模拟，使用 <a href="https://juejin.cn/post/6956800708389634079" target="_blank">puppteer</a> 稍加计算就能成功绕过极验</p>
+      <h3 id="小试牛刀">小试牛刀</h3>
+<p>先尝试模拟，使用 <a href="https://juejin.cn/post/6956800708389634079" target="_blank">puppteer</a> 稍加计算就能成功绕过极验</p>
 <p>请求依次为</p>
 <ul>
 <li>POST <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求</li>
@@ -211,6 +244,9 @@ JS逆向：AST还原极验混淆JS实战
 <li>GET <a href="https://api.geetest.com/get.php">https://api.geetest.com/get.php</a> 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 <code>is_next=true&amp;type=slide3</code>，返回结果中有滑块验证时会显示的i18n字符串，以及<strong>滑块和图片的位置</strong></li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 最终的请求，返回 success 及 score</li>
 </ul>
+<h3 id="工程化探索">工程化探索</h3>
+<p>将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。</p>
+<p>真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 <code>arraybuffer</code>（在 Node 中 <code>blob</code> 实际还是以文本返回，因为 <code>blob</code> 是 browser only），然后 <code>res.data.toString('base64')</code> 转成 base64 字符串通过 RPC 传递，接收方再 <code>Buffer.from(str, 'base64')</code> 来转成 buffer。</p>
 <p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a>
 <a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
     </div>
@@ -223,8 +259,8 @@ JS逆向：AST还原极验混淆JS实战
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-01-01 00:36:25 &#43;0000 UTC">2022-01-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/9f1ce7e9fe00b33b00a06e20156adf76592d6c8d" title="chore: update clicks" target="_blank">(9f1ce7e)</a>
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/86f5b99d37a748b8512138a231609a9cde412ffe" title="update" target="_blank">(86f5b99)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/CAPTCHA.md" target="_blank">更新历史</a>
     </span>
   </p>

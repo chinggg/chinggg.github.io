@@ -32,6 +32,10 @@ bstr = b&#39;feiwu&#39; fstr = f&#39;woshi {bstr}&#39; print(fstr) # woshi b&#39
 import base6 import hashlib import json import random from urllib.parse import unquote, parse_qsl, urlencode from Crypto.Cipher import AES from Crypto.Util.Padding import pad def gen_sign(paramstr: str) -&amp;gt; str: &amp;quot;&amp;quot;&amp;quot;paramstr will unquoted automatically&amp;quot;&amp;quot;&amp;quot; paramstr = unquote(paramstr).encode() salt = b&amp;quot;da19a1b93059ff3609fc1ed2e04b0141&amp;quot; # True salt = b&amp;quot;aee4c425dbb2288b80c71347cc37d04b&amp;quot; # False h1 = hashlib.sha1(salt &#43; paramstr) cipher1 = h1.hexdigest().encode() h2 = hashlib.sha1(salt &#43; cipher1) return h2.hexdigest() def gen_edata(paramstr: str) -&amp;gt; str: &amp;quot;&amp;quot;&amp;quot;paramstr: app_name=...&amp;amp;dinfo=...&amp;quot;&amp;quot;&amp;quot; paramstr = paramstr.encode() paramstr = pad(paramstr, 16) key = bytearray.fromhex(&amp;quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&amp;quot;) # True key = bytearray.fromhex(&amp;quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&amp;quot;) # False key = bytes(key) ran16b = &#39;&#39;.join(random.choices(&#39;0123456789abcdef&#39;, k=16)).encode() cipher = AES.new(key, AES.MODE_CBC, iv=ran16b) enctext = cipher.encrypt(paramstr) ans = base64.b64encode(ran16b &#43; enctext) return ans.decode() def dec_edata(b64s: str) -&amp;gt; str: enctext = base64.b64decode(b64s.encode()) key = bytearray.fromhex(&amp;quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&amp;quot;) # True key = bytearray.fromhex(&amp;quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&amp;quot;) # False key = bytes(key) iv = enctext[:16] cipher = AES.new(key, AES.MODE_CBC, iv=iv) raw = cipher.decrypt(enctext[16:]) try: return raw.decode() except: return raw  某物 app so newSign 参数分析
 常规抓包只能看见小部分请求，检索 NO_PROXY，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 /api/v1/app/search/ice/search/list，检索该 URL 果然在 com.XXX.common.base.delegate.tasks.net.ApiConfigCons 中发现了 BLACK_LIST 这一个黑名单集合。
 搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。
+模拟 Bili Android 客户端
+com.bilibili.lib.accounts.BiliAuthService 列出了登录相关 API，com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor 会给这些请求 addCommonParam，并在最后附加 sign([0-9a-f]{32})
+map.put(&amp;quot;platform&amp;quot;, &amp;quot;android&amp;quot;); map.put(&amp;quot;mobi_app&amp;quot;, BiliConfig.getMobiApp()); // &amp;quot;android&amp;quot; map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey()); // appkey: [0-9a-f]{16} map.put(&amp;quot;build&amp;quot;, String.valueOf(BiliConfig.getBiliVersionCode())); // I() { return 6540300; } map.put(&amp;quot;buvid&amp;quot;, AccountConfig.paramDelegate.getBuvid()); // ^XY[A-F0-9]{35} map.put(&amp;quot;channel&amp;quot;, BiliConfig.getChannel()); // bili map.put(&amp;quot;c_locale&amp;quot;, BiliConfig.getCurrentLocale()); map.put(&amp;quot;s_locale&amp;quot;, BiliConfig.getSystemLocale());  BiliConfig 的方法追溯到内部类 public static class a implements b，真正实现 interface b 的是 tv.danmaku.bili.utils.p$a
+其中 buvid 跟到 com.bilibili.lib.blkv.internal.kv.KVs.getString(&amp;quot;buvid&amp;quot;, &amp;quot;&amp;quot;)
 " /><meta name="keywords" content="chinggg, blog" />
 
 
@@ -125,11 +129,24 @@ def dec_edata(b64s: str) -&gt; str:
 
 某物 app so newSign 参数分析
 常规抓包只能看见小部分请求，检索 NO_PROXY，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 /api/v1/app/search/ice/search/list，检索该 URL 果然在 com.XXX.common.base.delegate.tasks.net.ApiConfigCons 中发现了 BLACK_LIST 这一个黑名单集合。
-搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。" />
+搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。
+模拟 Bili Android 客户端
+com.bilibili.lib.accounts.BiliAuthService 列出了登录相关 API，com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor 会给这些请求 addCommonParam，并在最后附加 sign([0-9a-f]{32})
+map.put(&quot;platform&quot;, &quot;android&quot;);
+map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
+map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
+map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
+map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
+map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
+map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
+map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+
+BiliConfig 的方法追溯到内部类 public static class a implements b，真正实现 interface b 的是 tv.danmaku.bili.utils.p$a
+其中 buvid 跟到 com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/appre/" />
 <meta property="article:published_time" content="2021-11-30T14:36:28+08:00" />
-<meta property="article:modified_time" content="2022-01-01T00:36:25+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="AppRE">
 <meta itemprop="description" content="App 逆向基础
 国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。
@@ -198,10 +215,23 @@ def dec_edata(b64s: str) -&gt; str:
 
 某物 app so newSign 参数分析
 常规抓包只能看见小部分请求，检索 NO_PROXY，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 /api/v1/app/search/ice/search/list，检索该 URL 果然在 com.XXX.common.base.delegate.tasks.net.ApiConfigCons 中发现了 BLACK_LIST 这一个黑名单集合。
-搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。">
+搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。
+模拟 Bili Android 客户端
+com.bilibili.lib.accounts.BiliAuthService 列出了登录相关 API，com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor 会给这些请求 addCommonParam，并在最后附加 sign([0-9a-f]{32})
+map.put(&quot;platform&quot;, &quot;android&quot;);
+map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
+map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
+map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
+map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
+map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
+map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
+map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+
+BiliConfig 的方法追溯到内部类 public static class a implements b，真正实现 interface b 的是 tv.danmaku.bili.utils.p$a
+其中 buvid 跟到 com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)">
 <meta itemprop="datePublished" content="2021-11-30T14:36:28+08:00" />
-<meta itemprop="dateModified" content="2022-01-01T00:36:25+00:00" />
-<meta itemprop="wordCount" content="1859">
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="1999">
 
 
 
@@ -275,7 +305,20 @@ def dec_edata(b64s: str) -&gt; str:
 
 某物 app so newSign 参数分析
 常规抓包只能看见小部分请求，检索 NO_PROXY，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 /api/v1/app/search/ice/search/list，检索该 URL 果然在 com.XXX.common.base.delegate.tasks.net.ApiConfigCons 中发现了 BLACK_LIST 这一个黑名单集合。
-搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。"/>
+搜索请求中的 newSign 字段，发现 WebRequestInterceptor.intercept 会给请求附上 newSign， 其值为 RequestUtils.c(hashMap, timestamp) 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 AESEncrypt.encode(context, str) 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 AESEncrypt.encode 这个方法里调了 NCall.IL() 这个 Native 函数，然而在 libGameVMP.so 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。
+模拟 Bili Android 客户端
+com.bilibili.lib.accounts.BiliAuthService 列出了登录相关 API，com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor 会给这些请求 addCommonParam，并在最后附加 sign([0-9a-f]{32})
+map.put(&quot;platform&quot;, &quot;android&quot;);
+map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
+map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
+map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
+map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
+map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
+map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
+map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+
+BiliConfig 的方法追溯到内部类 public static class a implements b，真正实现 interface b 的是 tv.danmaku.bili.utils.p$a
+其中 buvid 跟到 com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -460,6 +503,19 @@ def dec_edata(b64s: str) -&gt; str:
 <p><a href="https://www.qinless.com/745" target="_blank">某物 app so newSign 参数分析</a></p>
 <p>常规抓包只能看见小部分请求，检索 <code>NO_PROXY</code>，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 <code>/api/v1/app/search/ice/search/list</code>，检索该 URL 果然在 <code>com.XXX.common.base.delegate.tasks.net.ApiConfigCons</code> 中发现了 <code>BLACK_LIST</code> 这一个黑名单集合。</p>
 <p>搜索请求中的 newSign 字段，发现 <code>WebRequestInterceptor.intercept</code> 会给请求附上 newSign， 其值为 <code>RequestUtils.c(hashMap, timestamp)</code> 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 <code>AESEncrypt.encode(context, str)</code> 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 <code>AESEncrypt.encode</code> 这个方法里调了 <code>NCall.IL()</code> 这个 Native 函数，然而在 <code>libGameVMP.so</code> 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。</p>
+<p><a href="https://www.hiczp.com/wang-luo/mo-ni-bilibili-android-ke-hu-duan-deng-lu.html" target="_blank">模拟 Bili Android 客户端</a></p>
+<p><code>com.bilibili.lib.accounts.BiliAuthService</code> 列出了登录相关 API，<code>com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor</code> 会给这些请求 <code>addCommonParam</code>，并在最后附加 sign(<code>[0-9a-f]{32}</code>)</p>
+<pre><code class="language-java">map.put(&quot;platform&quot;, &quot;android&quot;);
+map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
+map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
+map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
+map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
+map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
+map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
+map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+</code></pre>
+<p><code>BiliConfig</code> 的方法追溯到内部类 <code>public static class a implements b</code>，真正实现 <code>interface b</code> 的是 <code>tv.danmaku.bili.utils.p$a</code></p>
+<p>其中 <code>buvid</code> 跟到 <code>com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)</code></p>
     </div>
 
     <div class="post-copyright">
@@ -470,8 +526,8 @@ def dec_edata(b64s: str) -&gt; str:
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-01-01 00:36:25 &#43;0000 UTC">2022-01-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/9f1ce7e9fe00b33b00a06e20156adf76592d6c8d" title="chore: update clicks" target="_blank">(9f1ce7e)</a>
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/86f5b99d37a748b8512138a231609a9cde412ffe" title="update" target="_blank">(86f5b99)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/AppRE.md" target="_blank">更新历史</a>
     </span>
   </p>

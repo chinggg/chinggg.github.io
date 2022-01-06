@@ -47,7 +47,7 @@
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chinggg.github.io/" />
-<meta property="og:updated_time" content="2022-01-01T00:36:25+00:00" />
+<meta property="og:updated_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
@@ -420,6 +420,19 @@ def dec_edata(b64s: str) -&gt; str:
 <p><a href="https://www.qinless.com/745" target="_blank">某物 app so newSign 参数分析</a></p>
 <p>常规抓包只能看见小部分请求，检索 <code>NO_PROXY</code>，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 <code>/api/v1/app/search/ice/search/list</code>，检索该 URL 果然在 <code>com.XXX.common.base.delegate.tasks.net.ApiConfigCons</code> 中发现了 <code>BLACK_LIST</code> 这一个黑名单集合。</p>
 <p>搜索请求中的 newSign 字段，发现 <code>WebRequestInterceptor.intercept</code> 会给请求附上 newSign， 其值为 <code>RequestUtils.c(hashMap, timestamp)</code> 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 <code>AESEncrypt.encode(context, str)</code> 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 <code>AESEncrypt.encode</code> 这个方法里调了 <code>NCall.IL()</code> 这个 Native 函数，然而在 <code>libGameVMP.so</code> 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。</p>
+<p><a href="https://www.hiczp.com/wang-luo/mo-ni-bilibili-android-ke-hu-duan-deng-lu.html" target="_blank">模拟 Bili Android 客户端</a></p>
+<p><code>com.bilibili.lib.accounts.BiliAuthService</code> 列出了登录相关 API，<code>com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor</code> 会给这些请求 <code>addCommonParam</code>，并在最后附加 sign(<code>[0-9a-f]{32}</code>)</p>
+<pre><code class="language-java">map.put(&quot;platform&quot;, &quot;android&quot;);
+map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
+map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
+map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
+map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
+map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
+map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
+map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+</code></pre>
+<p><code>BiliConfig</code> 的方法追溯到内部类 <code>public static class a implements b</code>，真正实现 <code>interface b</code> 的是 <code>tv.danmaku.bili.utils.p$a</code></p>
+<p>其中 <code>buvid</code> 跟到 <code>com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)</code></p>
     </div>
     <div class="read-more">
       <a href="/post/appre/" class="read-more-link">阅读更多</a>

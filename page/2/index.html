@@ -47,7 +47,7 @@
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chinggg.github.io/" />
-<meta property="og:updated_time" content="2022-01-01T00:36:25+00:00" />
+<meta property="og:updated_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
@@ -152,7 +152,8 @@
   
   <div class="post-content">
     <div class="post-summary">
-      <p>先尝试模拟，使用 <a href="https://juejin.cn/post/6956800708389634079" target="_blank">puppteer</a> 稍加计算就能成功绕过极验</p>
+      <h3 id="小试牛刀">小试牛刀</h3>
+<p>先尝试模拟，使用 <a href="https://juejin.cn/post/6956800708389634079" target="_blank">puppteer</a> 稍加计算就能成功绕过极验</p>
 <p>请求依次为</p>
 <ul>
 <li>POST <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求</li>
@@ -163,6 +164,9 @@
 <li>GET <a href="https://api.geetest.com/get.php">https://api.geetest.com/get.php</a> 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 <code>is_next=true&amp;type=slide3</code>，返回结果中有滑块验证时会显示的i18n字符串，以及<strong>滑块和图片的位置</strong></li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 最终的请求，返回 success 及 score</li>
 </ul>
+<h3 id="工程化探索">工程化探索</h3>
+<p>将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。</p>
+<p>真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 <code>arraybuffer</code>（在 Node 中 <code>blob</code> 实际还是以文本返回，因为 <code>blob</code> 是 browser only），然后 <code>res.data.toString('base64')</code> 转成 base64 字符串通过 RPC 传递，接收方再 <code>Buffer.from(str, 'base64')</code> 来转成 buffer。</p>
 <p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a>
 <a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
     </div>
