@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>实验 on chinggg的博客</title><link>https://chinggg.github.io/tags/%E5%AE%9E%E9%AA%8C/</link><description>Recent content in 实验 on chinggg的博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 07 Jan 2022 20:57:24 +0800</lastBuildDate><atom:link href="https://chinggg.github.io/tags/%E5%AE%9E%E9%AA%8C/index.xml" rel="self" type="application/rss+xml"/><item><title>SEEDLab Network</title><link>https://chinggg.github.io/post/seed-network/</link><pubDate>Fri, 07 Jan 2022 20:57:24 +0800</pubDate><guid>https://chinggg.github.io/post/seed-network/</guid><description>&lt;h1 id="seed-labs-20---network-securityhttpsseedsecuritylabsorglabs_2004networking">&lt;a href="https://seedsecuritylabs.org/Labs_20.04/Networking/" target="_blank">SEED Labs 2.0 - Network Security&lt;/a>&lt;/h1>
+&lt;h2 id="firewallhttpsseedsecuritylabsorglabs_2004filesfirewallfirewallpdf">&lt;a href="https://seedsecuritylabs.org/Labs_20.04/Files/Firewall/Firewall.pdf" target="_blank">Firewall&lt;/a>&lt;/h2>
+&lt;h3 id="使用-netfilter-自制防火墙-lkm">使用 NetFilter 自制防火墙 LKM&lt;/h3>
+&lt;p>Netfilter 是 Linux 内核中一个用于管理网络数据包的软件框架，可以使用它自制 Linux Kernel Module，实现简易的防火墙。&lt;/p>
+&lt;p>Task1 只是练习如何编译内核模块，即在 &lt;code>module_init(fn)&lt;/code>, &lt;code>module_exit(fn)&lt;/code> 处初始化及退出。&lt;/p>
+&lt;p>使用 Netfilter 搭建防火墙的步骤：&lt;/p>
+&lt;ul>
+&lt;li>定义 nf_hook_ops 结构体，给 hook(hook函数) 和 hooknum(hook点类型) 赋值&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c">struct nf_hook_ops {
+/* User fills in from here down. */
+nf_hookfn *hook;
+struct net_device *dev;
+void *priv;
+u8 pf;
+enum nf_hook_ops_type hook_ops_type:8;
+unsigned int hooknum;
+/* Hooks are ordered in ascending priority. */
+int priority;
+};
+&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>
+&lt;p>模块加载时 &lt;code>nf_register_net_hook(&amp;amp;init_net, &amp;amp;hook1)&lt;/code>，卸载时 &lt;code>nf_unregister_net_hook(&amp;amp;init_net, &amp;amp;hook1)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>nf_hookfn&lt;/code> 函数签名如下，实验中只需 &lt;code>ip_hdr(skb)&lt;/code> 获得 iphdr 结构体（类似有 tcphdr/udphdr），再从 iph 获得协议类型、源/目标地址，从 tcph/udph 获得端口号，比较决定是否 DROP 即可。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c">typedef unsigned int nf_hookfn(void *priv,
+struct sk_buff *skb,
+const struct nf_hook_state *state);
+&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>注意每个结构体只能赋值一个 &lt;code>hooknum&lt;/code>，想在多个点上 hook 需定义多个 &lt;code>nf_hook_ops&lt;/code>，分别设置不同的 hooknum，枚举类型如下：&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c">enum nf_inet_hooks {
+NF_INET_PRE_ROUTING,
+NF_INET_LOCAL_IN,
+NF_INET_FORWARD,
+NF_INET_LOCAL_OUT,
+NF_INET_POST_ROUTING,
+NF_INET_NUMHOOKS,
+NF_INET_INGRESS = NF_INET_NUMHOOKS,
+};
+&lt;/code>&lt;/pre>
+&lt;h3 id="使用-iptables">使用 iptables&lt;/h3>
+&lt;p>基本命令 &lt;code>iptables -A {chain} -j {rule}&lt;/code>，&lt;code>-i/o {dev}&lt;/code> 指定入/出接口，&lt;code>-s/d&lt;/code> 指定源/目标地址，&lt;code>-sport/dport&lt;/code> 指定源/目标端口&lt;/p>
+&lt;p>对于 TCP 连接，使用 &lt;code>conntrack&lt;/code> 模块搭建有状态防火墙，只允许已经建立的 TCP 连接和内部发起新连接&lt;/p>
+&lt;p>限流使用 &lt;code>limit&lt;/code> 模块，&lt;code>--limit&lt;/code> 指定设置最大频率（即如10次/分钟），&lt;code>--limit-burst&lt;/code> 指定最大连续次数&lt;/p>
+&lt;p>负载均衡使用 &lt;code>statistic&lt;/code> 模块，&lt;code>--mode&lt;/code> 指定模式为 &lt;code>random&lt;/code> 或 &lt;code>nth&lt;/code>，&lt;code>random&lt;/code> 模式下 &lt;code>--probability&lt;/code> 指定概率，&lt;code>nth&lt;/code> 模式下 &lt;code>--every n&lt;/code> 指定轮转周期，&lt;code>--packet p&lt;/code> 指定初始计数值（即从[0,n-1]中某处开始计数），一般配合 &lt;code>-j DNAT --to-destination {ip:port}&lt;/code> 使用&lt;/p>
+&lt;h2 id="vpn_tunnelhttpsseedsecuritylabsorglabs_2004filesvpn_tunnelvpn_tunnelpdf">&lt;a href="https://seedsecuritylabs.org/Labs_20.04/Files/VPN_Tunnel/VPN_Tunnel.pdf" target="_blank">VPN_Tunnel&lt;/a>&lt;/h2>
+&lt;p>实验基于 &lt;a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank">TUN/TAP&lt;/a> 技术，TUN 模拟网络层设备，TAP 模拟数据链路层设备，用户程序和操作系统可以通过 TUN/TAP 接口互相传递数据包。&lt;/p>
+&lt;pre>&lt;code>Client Program send(ip) -&amp;gt;
+Client TUN read(ip) -&amp;gt;
+Client Socket send(udp/ip) -&amp;gt;
+Server Socket recv(udp/ip) -&amp;gt;
+Server TUN write(ip) -&amp;gt;
+...
+route to dst then got reply routed back
+...
+Server TUN read(ip) -&amp;gt;
+Server Socket send(udp/ip) -&amp;gt;
+Client Socket recv(udp/ip) -&amp;gt;
+Client TUN write(ip) -&amp;gt;
+Client Program recv(ip)
+&lt;/code>&lt;/pre>
+&lt;h2 id="参考文献">参考文献&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://arthurchiao.art/blog/deep-dive-into-iptables-and-netfilter-arch-zh/">https://arthurchiao.art/blog/deep-dive-into-iptables-and-netfilter-arch-zh/&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>

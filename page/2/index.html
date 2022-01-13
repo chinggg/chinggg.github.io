@@ -158,8 +158,8 @@
 <ul>
 <li>POST <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求</li>
 <li>GET <a href="https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=">https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=</a> 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面</li>
-<li>GET <a href="https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_%7B13">https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_{13</a>位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径）</li>
-<li>GET <a href="https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=%7B">https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w={</a>一长串}&amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串</li>
+<li>GET <a href="https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_%7B13%E4%BD%8D%E6%AF%AB%E7%A7%92%E6%97%B6%E9%97%B4%E6%88%B3%7D">https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_{13位毫秒时间戳}</a> 返回一些配置参数如静态js文件的位置（即相对路径）</li>
+<li>GET <a href="https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=%7B%E4%B8%80%E9%95%BF%E4%B8%B2%7D&amp;callback=">https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w={一长串}&amp;callback=</a> 仍然返回一些配置如验证开始前显示的i18n字符串</li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 第一次请求 ajax.php，返回 <code>callback值({&quot;status&quot;: &quot;success&quot;, &quot;data&quot;: {&quot;result&quot;: &quot;slide&quot;}})</code></li>
 <li>GET <a href="https://api.geetest.com/get.php">https://api.geetest.com/get.php</a> 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 <code>is_next=true&amp;type=slide3</code>，返回结果中有滑块验证时会显示的i18n字符串，以及<strong>滑块和图片的位置</strong></li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 最终的请求，返回 success 及 score</li>
@@ -167,11 +167,102 @@
 <h3 id="工程化探索">工程化探索</h3>
 <p>将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。</p>
 <p>真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 <code>arraybuffer</code>（在 Node 中 <code>blob</code> 实际还是以文本返回，因为 <code>blob</code> 是 browser only），然后 <code>res.data.toString('base64')</code> 转成 base64 字符串通过 RPC 传递，接收方再 <code>Buffer.from(str, 'base64')</code> 来转成 buffer。</p>
-<p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a>
-<a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
+<p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a></p>
+<p><a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
     </div>
     <div class="read-more">
       <a href="/post/captcha/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/seed-network/">SEEDLab Network</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-01-07 20:57:24 &#43;0800 &#43;0800"> 2022-01-07 </span>
+      <div class="post-category">
+          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <h1 id="seed-labs-20---network-securityhttpsseedsecuritylabsorglabs_2004networking"><a href="https://seedsecuritylabs.org/Labs_20.04/Networking/" target="_blank">SEED Labs 2.0 - Network Security</a></h1>
+<h2 id="firewallhttpsseedsecuritylabsorglabs_2004filesfirewallfirewallpdf"><a href="https://seedsecuritylabs.org/Labs_20.04/Files/Firewall/Firewall.pdf" target="_blank">Firewall</a></h2>
+<h3 id="使用-netfilter-自制防火墙-lkm">使用 NetFilter 自制防火墙 LKM</h3>
+<p>Netfilter 是 Linux 内核中一个用于管理网络数据包的软件框架，可以使用它自制 Linux Kernel Module，实现简易的防火墙。</p>
+<p>Task1 只是练习如何编译内核模块，即在 <code>module_init(fn)</code>, <code>module_exit(fn)</code> 处初始化及退出。</p>
+<p>使用 Netfilter 搭建防火墙的步骤：</p>
+<ul>
+<li>定义 nf_hook_ops 结构体，给 hook(hook函数) 和 hooknum(hook点类型) 赋值</li>
+</ul>
+<pre><code class="language-c">struct nf_hook_ops {
+	/* User fills in from here down. */
+	nf_hookfn		*hook;
+	struct net_device	*dev;
+	void			*priv;
+	u8			pf;
+	enum nf_hook_ops_type	hook_ops_type:8;
+	unsigned int		hooknum;
+	/* Hooks are ordered in ascending priority. */
+	int			priority;
+};
+</code></pre>
+<ul>
+<li>
+<p>模块加载时 <code>nf_register_net_hook(&amp;init_net, &amp;hook1)</code>，卸载时 <code>nf_unregister_net_hook(&amp;init_net, &amp;hook1)</code></p>
+</li>
+<li>
+<p><code>nf_hookfn</code> 函数签名如下，实验中只需 <code>ip_hdr(skb)</code> 获得 iphdr 结构体（类似有 tcphdr/udphdr），再从 iph 获得协议类型、源/目标地址，从 tcph/udph 获得端口号，比较决定是否 DROP 即可。</p>
+</li>
+</ul>
+<pre><code class="language-c">typedef unsigned int nf_hookfn(void *priv,
+			       struct sk_buff *skb,
+			       const struct nf_hook_state *state);
+</code></pre>
+<ul>
+<li>注意每个结构体只能赋值一个 <code>hooknum</code>，想在多个点上 hook 需定义多个 <code>nf_hook_ops</code>，分别设置不同的 hooknum，枚举类型如下：</li>
+</ul>
+<pre><code class="language-c">enum nf_inet_hooks {
+        NF_INET_PRE_ROUTING,
+        NF_INET_LOCAL_IN,
+        NF_INET_FORWARD,
+        NF_INET_LOCAL_OUT,
+        NF_INET_POST_ROUTING,
+        NF_INET_NUMHOOKS,
+        NF_INET_INGRESS = NF_INET_NUMHOOKS,
+};
+</code></pre>
+<h3 id="使用-iptables">使用 iptables</h3>
+<p>基本命令 <code>iptables -A {chain} -j {rule}</code>，<code>-i/o {dev}</code> 指定入/出接口，<code>-s/d</code> 指定源/目标地址，<code>-sport/dport</code> 指定源/目标端口</p>
+<p>对于 TCP 连接，使用 <code>conntrack</code> 模块搭建有状态防火墙，只允许已经建立的 TCP 连接和内部发起新连接</p>
+<p>限流使用 <code>limit</code> 模块，<code>--limit</code> 指定设置最大频率（即如10次/分钟），<code>--limit-burst</code> 指定最大连续次数</p>
+<p>负载均衡使用 <code>statistic</code> 模块，<code>--mode</code> 指定模式为 <code>random</code> 或 <code>nth</code>，<code>random</code> 模式下 <code>--probability</code> 指定概率，<code>nth</code> 模式下 <code>--every n</code> 指定轮转周期，<code>--packet p</code> 指定初始计数值（即从[0,n-1]中某处开始计数），一般配合 <code>-j DNAT --to-destination {ip:port}</code> 使用</p>
+<h2 id="vpn_tunnelhttpsseedsecuritylabsorglabs_2004filesvpn_tunnelvpn_tunnelpdf"><a href="https://seedsecuritylabs.org/Labs_20.04/Files/VPN_Tunnel/VPN_Tunnel.pdf" target="_blank">VPN_Tunnel</a></h2>
+<p>实验基于 <a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank">TUN/TAP</a> 技术，TUN 模拟网络层设备，TAP 模拟数据链路层设备，用户程序和操作系统可以通过 TUN/TAP 接口互相传递数据包。</p>
+<pre><code>Client Program send(ip) -&gt; 
+Client TUN read(ip) -&gt; 
+Client Socket send(udp/ip) -&gt; 
+Server Socket recv(udp/ip) -&gt; 
+Server TUN write(ip) -&gt;
+...
+route to dst then got reply routed back
+...
+Server TUN read(ip) -&gt;
+Server Socket send(udp/ip) -&gt;
+Client Socket recv(udp/ip) -&gt;
+Client TUN write(ip) -&gt;
+Client Program recv(ip)
+</code></pre>
+<h2 id="参考文献">参考文献</h2>
+<ul>
+<li><a href="https://arthurchiao.art/blog/deep-dive-into-iptables-and-netfilter-arch-zh/">https://arthurchiao.art/blog/deep-dive-into-iptables-and-netfilter-arch-zh/</a></li>
+</ul>
+    </div>
+    <div class="read-more">
+      <a href="/post/seed-network/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想">
 <meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="715">
+<meta itemprop="wordCount" content="926">
 
 
 
@@ -166,12 +166,8 @@
   <ul>
     <li>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#frida">Frida</a></li>
-            <li><a href="#xposed">Xposed</a></li>
-          </ul>
-        </li>
+        <li><a href="#frida">Frida</a></li>
+        <li><a href="#xposed">Xposed</a></li>
       </ul>
     </li>
   </ul>
@@ -179,7 +175,7 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="frida">Frida</h3>
+      <h2 id="frida">Frida</h2>
 <p>万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想法，但实际上手可能还会遇到不少坑点令人苦恼：</p>
 <ul>
 <li>Java/Native 层数据结构映射到 JS 这种动态语言，可能需要 cast 或者自己转换成 JS 中的类型</li>
@@ -190,6 +186,7 @@
 <p><a href="https://kevinspider.github.io/fridahookjava/">https://kevinspider.github.io/fridahookjava/</a></p>
 <p><a href="https://kevinspider.github.io/fridahookso/">https://kevinspider.github.io/fridahookso/</a></p>
 <p><a href="https://kevinspider.github.io/zhuabao/">https://kevinspider.github.io/zhuabao/</a></p>
+<p><a href="https://eternalsakura13.com/2020/07/04/frida/">https://eternalsakura13.com/2020/07/04/frida/</a></p>
 <p><a href="https://github.com/lasting-yang/frida_dump/">https://github.com/lasting-yang/frida_dump/</a></p>
 <pre><code class="language-javascript">function map2obj(map) {
    var res = {};
@@ -201,6 +198,25 @@
       res[keystr] = valuestr
    }
    return res;
+}
+
+function body2str(reqBody) {
+  const Buffer = Java.classFactory.use(&quot;okio.Buffer&quot;);
+  const buf = Buffer.$new();
+  reqBody.writeTo(buf);
+  return buf.readUtf8();
+  return buf.toString();  // only get summary
+}
+
+function printable(variable, type) {
+  if (type.includes(&quot;Map&quot;)) {
+    return JSON.stringify(map2obj(variable), null, 4)
+    return variable.entrySet().toArray()
+  }
+  if (type.includes(&quot;RequestBody&quot;)) {
+    return body2str(variable)
+  }
+  return variable;
 }
 
 function dfs(self, depth) {
@@ -242,6 +258,25 @@ function hookJava() {
    }
 }
 
+function hookJavaFunc(clsName, funcName, params, func, stack) {
+  const cls = Java.classFactory.use(clsName)
+  let funcObj = cls[funcName];
+  if (params !== undefined) funcObj = funcObj.overload(...params);
+  else params = [];
+  const defaultFunc = function () {
+    console.log('&gt;'.repeat(10), funcName, &quot;begin&quot;)
+    for (let i = 0; i &lt; params.length; i++) {
+      console.log(printable(arguments[i], params[i]));
+    }
+    const res = funcObj.apply(this, Array.from(arguments))
+    console.warn('res:', res)
+    console.log(funcName, &quot;end&quot;, '&lt;'.repeat(10))
+    if (stack) console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Exception&quot;).$new()))
+    return res
+  }
+  funcObj.implementation = func || defaultFunc;
+}
+
 function hookProxy() {
    var cls = Java.classFactory.use(&quot;okhttp3.OkHttpClient$Builder&quot;);
    cls.proxy.implementation = function (a1) {
@@ -267,6 +302,14 @@ function hookNative() {
    })
 }
 
+function findModules(name) {
+  const mods = Process.enumerateModules()
+  const found = mods.filter(m =&gt; !name || m.path.includes(name))
+  found.forEach(m =&gt; console.log(JSON.stringify(m)))
+  console.log(found.length, &quot;modules found&quot;)
+  return found
+}
+
 function main() {
   if (Java.available) {
     Java.perform(() =&gt; {
@@ -274,16 +317,18 @@ function main() {
       hookJava();
     })
   }
-  //  hookNative();
+  // hookNative();
+  // findModules(&quot;libart&quot;);
 }
 
 setImmediate(main)
 </code></pre>
-<h3 id="xposed">Xposed</h3>
-<p><a href="https://wooyun.js.org/drops/Android.Hook">https://wooyun.js.org/drops/Android.Hook</a>框架xposed篇(Http流量监控).html</p>
+<h2 id="xposed">Xposed</h2>
+<p><a href="https://wooyun.js.org/drops/Android.Hook%E6%A1%86%E6%9E%B6xposed%E7%AF%87(Http%E6%B5%81%E9%87%8F%E7%9B%91%E6%8E%A7).html">https://wooyun.js.org/drops/Android.Hook框架xposed篇(Http流量监控).html</a></p>
 <p><a href="https://juejin.cn/post/6945000696441896973" target="_blank">Xposed真的可以为所欲为——终 · 庖丁解码</a></p>
 <p><a href="https://www.cnblogs.com/baiqiantao/p/10699552.html">https://www.cnblogs.com/baiqiantao/p/10699552.html</a></p>
-<p><a href="https://www.huruwo.top/">https://www.huruwo.top/</a>使用xposed-hook-native详解/</p>
+<p><a href="https://www.huruwo.top/%E4%BD%BF%E7%94%A8xposed-hook-native%E8%AF%A6%E8%A7%A3/">https://www.huruwo.top/使用xposed-hook-native详解/</a></p>
+<p><a href="https://blog.bluarry.top/2020/02/28/2020-02-28-xposed%E6%A8%A1%E5%9D%97%E7%BC%96%E5%86%99%E4%B9%8B%E5%B8%B8%E7%94%A8hook%E5%87%BD%E6%95%B0API/">https://blog.bluarry.top/2020/02/28/2020-02-28-xposed模块编写之常用hook函数API/</a></p>
 <p>流程如下：
 先建安卓项目，Empty Activity 或 No Activity 均可</p>
 <p>在 <code>AndroidManifest.xml</code> 的 <code>&lt;application&gt;</code> 标签下添加</p>
@@ -314,7 +359,7 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/86f5b99d37a748b8512138a231609a9cde412ffe" title="update" target="_blank">(86f5b99)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/26a531c66d0570593993a4f89ed447a684714801" title="update" target="_blank">(26a531c)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
     </span>
   </p>

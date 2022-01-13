@@ -20,7 +20,8 @@
 请求依次为
  POST https://passport.bilibili.com/x/passport-login/sms/send 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求 GET https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;amp;recaptcha_token=&amp;amp;gee_gt=&amp;amp;gee_challenge=&amp;amp;hash= 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面 GET https://api.geetest.com/gettype.php?gt=&amp;amp;callback=geetest_{13位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径） GET https://api.geetest.com/get.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w={一长串}&amp;amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;pt=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 第一次请求 ajax.php，返回 callback值({&amp;quot;status&amp;quot;: &amp;quot;success&amp;quot;, &amp;quot;data&amp;quot;: {&amp;quot;result&amp;quot;: &amp;quot;slide&amp;quot;}}) GET https://api.geetest.com/get.php 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 is_next=true&amp;amp;type=slide3，返回结果中有滑块验证时会显示的i18n字符串，以及滑块和图片的位置 GET https://api.geetest.com/ajax.php?gt=&amp;amp;challenge=&amp;amp;lang=zh-cn&amp;amp;%24_BBF=3&amp;amp;client_type=web_mobile&amp;amp;w=&amp;amp;callback= 最终的请求，返回 success 及 score  工程化探索 将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。
 真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 arraybuffer（在 Node 中 blob 实际还是以文本返回，因为 blob 是 browser only），然后 res.data.toString(&#39;base64&#39;) 转成 base64 字符串通过 RPC 传递，接收方再 Buffer.from(str, &#39;base64&#39;) 来转成 buffer。
-JS逆向：AST还原极验混淆JS实战 反符号混淆和控制流平坦化
+JS逆向：AST还原极验混淆JS实战
+反符号混淆和控制流平坦化
 " /><meta name="keywords" content="chinggg, blog" />
 
 
@@ -238,8 +239,8 @@ JS逆向：AST还原极验混淆JS实战
 <ul>
 <li>POST <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 设备信息为 body，返回 recaptcha_url 随即向其发起请求，注意该 url 中的 gt 和 challenge 将用于后续一系列请求</li>
 <li>GET <a href="https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=">https://www.bilibili.com/h5/project-msg-auth/verify?ct=geetest&amp;recaptcha_token=&amp;gee_gt=&amp;gee_challenge=&amp;hash=</a> 即向之前获得的 recaptcha_url 发送 GET 请求跳转到页面</li>
-<li>GET <a href="https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_%7B13">https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_{13</a>位毫秒时间戳} 返回一些配置参数如静态js文件的位置（即相对路径）</li>
-<li>GET <a href="https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=%7B">https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w={</a>一长串}&amp;callback= 仍然返回一些配置如验证开始前显示的i18n字符串</li>
+<li>GET <a href="https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_%7B13%E4%BD%8D%E6%AF%AB%E7%A7%92%E6%97%B6%E9%97%B4%E6%88%B3%7D">https://api.geetest.com/gettype.php?gt=&amp;callback=geetest_{13位毫秒时间戳}</a> 返回一些配置参数如静态js文件的位置（即相对路径）</li>
+<li>GET <a href="https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=%7B%E4%B8%80%E9%95%BF%E4%B8%B2%7D&amp;callback=">https://api.geetest.com/get.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w={一长串}&amp;callback=</a> 仍然返回一些配置如验证开始前显示的i18n字符串</li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;pt=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 第一次请求 ajax.php，返回 <code>callback值({&quot;status&quot;: &quot;success&quot;, &quot;data&quot;: {&quot;result&quot;: &quot;slide&quot;}})</code></li>
 <li>GET <a href="https://api.geetest.com/get.php">https://api.geetest.com/get.php</a> 此时刚加载了 slide.js，和第一次请求 get.php 相比多了一些 params 如 <code>is_next=true&amp;type=slide3</code>，返回结果中有滑块验证时会显示的i18n字符串，以及<strong>滑块和图片的位置</strong></li>
 <li>GET <a href="https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=">https://api.geetest.com/ajax.php?gt=&amp;challenge=&amp;lang=zh-cn&amp;%24_BBF=3&amp;client_type=web_mobile&amp;w=&amp;callback=</a> 最终的请求，返回 success 及 score</li>
@@ -247,8 +248,8 @@ JS逆向：AST还原极验混淆JS实战
 <h3 id="工程化探索">工程化探索</h3>
 <p>将验证码填充作为通用服务运行，让爬虫客户端无感绕过验证码，考虑在客户端和服务端（比如 puppeteer）之间使用 RPC，客户端先调起服务端，服务端进入验证码流程，但将所有请求拦截并通过 RPC 传递给客户端，客户端代为请求，响应结果作为 RPC 的返回值，服务端再强行将其作为响应，继续之后的动作，从而在验证方看来客户端正常完成了验证。</p>
 <p>真正开发过程中，很多时间浪费在了数据类型造成的错误中，在 proto 中我把除状态码外的所有字段定为 string，但用 axios 等库发起请求时，header 为 object，且若不在请求时指定 responseType，所获响应默认用 json 解析成 object，否则才是 text。更坑的是图片等二进制数据，获得为文本时已经铸成大错，需要先指定 responseType 为 <code>arraybuffer</code>（在 Node 中 <code>blob</code> 实际还是以文本返回，因为 <code>blob</code> 是 browser only），然后 <code>res.data.toString('base64')</code> 转成 base64 字符串通过 RPC 传递，接收方再 <code>Buffer.from(str, 'base64')</code> 来转成 buffer。</p>
-<p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a>
-<a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
+<p><a href="https://juejin.cn/post/6844904182114189320" target="_blank">JS逆向：AST还原极验混淆JS实战</a></p>
+<p><a href="https://github.com/virjar/geeEtacsufbo" target="_blank">反符号混淆和控制流平坦化</a></p>
     </div>
 
     <div class="post-copyright">
@@ -260,7 +261,7 @@ JS逆向：AST还原极验混淆JS实战
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/86f5b99d37a748b8512138a231609a9cde412ffe" title="update" target="_blank">(86f5b99)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/26a531c66d0570593993a4f89ed447a684714801" title="update" target="_blank">(26a531c)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/CAPTCHA.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -275,7 +276,11 @@ JS逆向：AST还原极验混淆JS实战
           <a href="/tags/%E9%80%86%E5%90%91/">逆向</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/seed-network/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SEEDLab Network</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/appre/">
             <span class="next-text nav-default">AppRE</span>
             <span class="next-text nav-mobile">下一篇</span>
