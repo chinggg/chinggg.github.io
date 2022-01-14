@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LDP IoV - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="A survey of local differential privacy for securing internet of vehicles Intro IoV facilitates human’s life but benefits come with huge price of data privacy. In academia, differential privacy (DP) is proposed and regarded as an extremely strong privacy standard, which formalizes both the degree of privacy preservation and data utility. But DP suffers from a drawback in many practical scenarios because the paradigm" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/ldp-iov/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="LDP IoV" />
+<meta property="og:description" content="A survey of local differential privacy for securing internet of vehicles Intro IoV facilitates human’s life but benefits come with huge price of data privacy. In academia, differential privacy (DP) is proposed and regarded as an extremely strong privacy standard, which formalizes both the degree of privacy preservation and data utility. But DP suffers from a drawback in many practical scenarios because the paradigm" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/ldp-iov/" />
+<meta property="article:published_time" content="2022-01-13T21:20:48+08:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="name" content="LDP IoV">
+<meta itemprop="description" content="A survey of local differential privacy for securing internet of vehicles Intro IoV facilitates human’s life but benefits come with huge price of data privacy. In academia, differential privacy (DP) is proposed and regarded as an extremely strong privacy standard, which formalizes both the degree of privacy preservation and data utility. But DP suffers from a drawback in many practical scenarios because the paradigm">
+<meta itemprop="datePublished" content="2022-01-13T21:20:48+08:00" />
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="1657">
+
+
+
+<meta itemprop="keywords" content="论文,安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LDP IoV"/>
+<meta name="twitter:description" content="A survey of local differential privacy for securing internet of vehicles Intro IoV facilitates human’s life but benefits come with huge price of data privacy. In academia, differential privacy (DP) is proposed and regarded as an extremely strong privacy standard, which formalizes both the degree of privacy preservation and data utility. But DP suffers from a drawback in many practical scenarios because the paradigm"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LDP IoV</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-13 21:20:48 &#43;0800 &#43;0800"> 2022-01-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#ldp-researches">LDP researches</a>
+          <ul>
+            <li><a href="#data-publication">Data publication</a></li>
+            <li><a href="#machine-learning">Machine Learning</a></li>
+            <li><a href="#query-processing">Query processing</a></li>
+            <li><a href="#application-of-ldp-system">Application of LDP system</a></li>
+          </ul>
+        </li>
+        <li><a href="#applications-of-ldp-in-iov">Applications of LDP in IoV</a>
+          <ul>
+            <li><a href="#attack-model-in-iov">Attack model in IoV</a></li>
+            <li><a href="#query-services-in-iov">Query services in IoV</a></li>
+            <li><a href="#crowdsourcing-in-iov">Crowdsourcing in IoV</a></li>
+          </ul>
+        </li>
+        <li><a href="#future-research-opportunities">Future research opportunities</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><a href="https://doi.org/10.1007/s11227-019-03104-0" target="_blank">A survey of local differential privacy for securing internet of vehicles</a></p>
+<h2 id="intro">Intro</h2>
+<p>IoV facilitates human’s life but benefits come with huge price
+of data privacy.</p>
+<p>In academia, differential privacy (DP) is proposed and regarded as an extremely strong privacy standard, which formalizes both the degree of privacy preservation and data utility.</p>
+<p>But DP suffers from a drawback in many practical scenarios because the paradigm of DP relies on a third party.</p>
+<p>LDP has the potential to guarantee the data privacy in IoV, the third party does not collect the exact data of each individual, and yet still be able to compute the correct statistical results.</p>
+<p>Contributions of this paper:</p>
+<ul>
+<li>first to survey existing work about LDP in terms of advantages, disadvantages, computation complexity, and the privacy budget</li>
+<li>first to investigate the potential applications of LDP in securing IoV and highlight the new challenges</li>
+</ul>
+<h2 id="ldp-researches">LDP researches</h2>
+<h3 id="data-publication">Data publication</h3>
+<p>Data publication based on local differential privacy mainly uses non-interactive framework to release statistical information of sensitive data and enables the released data to meet the needs of data analysis at the same time. Commonly used data publication technologies mainly include histogram, partitioning, and sampling filter.</p>
+<p>The earliest research <a href="https://dl.acm.org/doi/pdf/10.1145/2660267.2660348" target="_blank">RAPPOR</a> proposed to collect crowd-sourced statistics from users’ data without violating users’ data privacy, but it has <strong>two disadvantages</strong>:</p>
+<ul>
+<li>high communication cost between users and the data collector</li>
+<li>data collector is required to collect candidate string lists in advance for frequency statistics</li>
+</ul>
+<p>To reduce the communication overhead, S-Hist proposed to randomly select bits using randomized response techniques to perturb users’ data and send the perturbed data to the collector.</p>
+<p>To deal with the second drawback of RAPPOR, the second drawback of RAPPOR, O-RAPPOR based on the unknown values of variables and designed hash mapping and grouping operations.</p>
+<p><img src="/post_img/LDP-IoV/Fig3.png" alt="LDP in data publication"></p>
+<h3 id="machine-learning">Machine Learning</h3>
+<p>The main idea of LDP-based machine learning is that users locally perturb parameter updates of machine learning on their vehicle data using LDP and the server gets the global parameter updates via collecting local parameter updates from users.</p>
+<p><img src="/post_img/LDP-IoV/Fig4.png" alt="LDP in ML"></p>
+<p><strong>Regression analysis</strong> based on LDP is another research topic. Regression analysisis a commonly used data classification method in machine learning, which determines the quantitative relationship of two or more attributes in the input datasets. Regression analysis consists of two kinds of functions: One is the <strong>prediction function</strong>; the other is the <strong>objective function</strong>, or the <strong>risk function</strong>. It will leak the prediction function and the data information in the datasets when publishing the weight vector. To protect such data privacy in machine learning, a variety of work has applied LDP to regression analysis.</p>
+<p>Whether add noise to weight vector or objective function, the cost of calculating the sensitivity of the weight vector is still high.</p>
+<p>To address the problems above, <a href="https://arxiv.org/abs/1208.0219" target="_blank">FM (functional mechanism)</a> was proposed, which achieved the regression analysis while meeting local differential privacy. FM first perturbed the sum of objective functions corresponding to each data tuple in the datasets and then obtained the weight vector by minimizing the target function. In this process, the noise scale is not determined by the sensitivity of the weight vector, but by expressing the objective function as a polynomial, avoiding the computation of the sensitivity of the weight vector.</p>
+<p>In summary, the SVM classification based on Laplace has low classification accuracy and larger noise, while SVM classification based on perturbing objective functions is only applicable to specific objective functions. Therefore, how to design a perturbation mechanism with high precision and applications to multiple objective functions is the future research topic.</p>
+<h3 id="query-processing">Query processing</h3>
+<p>The query processing technologies based on local differential privacy mainly focus on how to respond to queries with less privacy budget and lower error.</p>
+<p>For example, linear queries in the interactive framework, batch processing of linear queries includes matrix mechanisms and low-rank mechanisms.</p>
+<p>Another kind of work focused on process users’ queries based on division methods.</p>
+<p>In summary, the matrix mechanism is prone to suboptimal results in practice; the low-rank mechanism only considers the correlation of the load matrix and does not take into account the relevance of the data itself. Therefore, how to design a general batch query processing mechanism from the actual relevance of the data itself is a future research direction.</p>
+<h3 id="application-of-ldp-system">Application of LDP system</h3>
+<p>Frank et al. first introduced the local differential privacy method to the recommendation system. They assumed that the recommendation system is not trusted. The attacker can estimate the user’s private information by analyzing the historical data of the recommendation system. So it is necessary to interfere with the input of the recommended system. When analyzing the relationship between projects, they first establish a project similarity covariance matrix and add Laplace noise to the matrix to implement interference, and then submit it to the recommendation system to implement the conventional recommendation algorithm.</p>
+<h2 id="applications-of-ldp-in-iov">Applications of LDP in IoV</h2>
+<p>We first introduce the attack models in IoV and then investigate the potential applications of LDP in several typical scenarios in IoV.</p>
+<h3 id="attack-model-in-iov">Attack model in IoV</h3>
+<ul>
+<li>
+<p>Malicious vehicle. On the one hand, they may deliberately disclose vehicles’ data to advertisers, illegal organizations. On the other hand, they may collude with others, send poisoning data, deliberately drop out during the process of completing IoV services, etc., aiming to disclosing other users’ data privacy or paralyzing the IoV systems.</p>
+</li>
+<li>
+<p>Malicious server. Specifically, malicious server may be passive or active adversary. The passive adversary is curious about users’ data, but it honestly performs the protocols. In contrast, the active adversary may tamper the protocols or actively launch attacks to disclose users’ data privacy.</p>
+</li>
+</ul>
+<h3 id="query-services-in-iov">Query services in IoV</h3>
+<p>A number of techniques have been proposed to protect users’ data privacy in academia.</p>
+<p>Specifically, <strong>rule protocol-based privacy-preserving techniques</strong> are first proposed. However, it is high overhead for server to obtain vehicles’ authorization before utilizing vehicles’ data in IoV, because of the unique features vehicles exhibit, e.g., high mobility, short connection times, etc.</p>
+<p><strong>Encryption techniques</strong> allow the server to collect and process the encrypted data of vehicles. Nevertheless, it is not applicable to large amounts of vehicles’ data due to the extremely <strong>high computation overhead</strong>.</p>
+<p><strong>Heuristic algorithms</strong>, e.g., dummy, k-anonymity, pseudonym, cloaking, m-invariance, etc., are quite lightweight compared to encryption techniques. But all these heuristic algorithms are <strong>vulnerable to the side information-based attacks</strong>.</p>
+<p>In summary, LDP that is relatively lightweight and thoroughly considers side information of attackers is promised to protect vehicles’ data privacy in query services in IoV.</p>
+<h3 id="crowdsourcing-in-iov">Crowdsourcing in IoV</h3>
+<p>Many existing work has focused on protecting data privacy in crowdsourcing.
+Work [114] introduces a third party, the cloud, that is responsible for storage and computation burden. Study [115] proposed a general feedback-based k-anonymity scheme to cloak users’ data. The literature [116] utilized a random perturbation to mask users’ data and employed the error-correcting codes to guarantee data utility. However, all these existing work ignores the side information of attackers and therefore is susceptible to side information-based attacks. Furthermore, these work is not applicable to the data privacy preservation in IoV, as density of vehicles is varying, and vehicles move with high speed and can only be connected in short time.</p>
+<p>In such a case, LDP is applicable to protect vehicle users’ data privacy in crowdsourcing applications in IoV, as it thoroughly considers the available side information of attackers and is a lightweight privacy-preserving method.</p>
+<h2 id="future-research-opportunities">Future research opportunities</h2>
+<p>In IoV, the complexity, diversity, and large-scale nature of vehicle data will add new data privacy risks. Therefore, we believe that LDP will face many new challenges：</p>
+<ul>
+<li>LDP for complex data types in IoV. At present, the research of LDP mainly focused on simple data types, e.g., frequency statistics or mean value statistics on set-valued data that only contains one attribute. However, in IoV, the structural characteristics of vehicle data make the global query sensitivity extremely high and bring in excessive noise.</li>
+<li>LDP for various query and analysis tasks in IoV. At present, the existing work about LDP only investigated the privacy preservation in the two types of simple aggregate queries, i.e., counting queries of the discrete data and mean queries of the continuous data. Furthermore, the way of data perturbation is generally depended on the types of queries. In IoV, a variety of query services are provided, and thus, LDP faces many new challenges.</li>
+<li>High-dimensional vehicle data publication based on LDP. In IoV, the set-valued data contains many attributes, and the existing studies about LDP will not work, as they only focused on simple data types.</li>
+<li>Improvements in the LDP model for IoV. In practice, the value of the privacy-preserving parameter 휖 still does not have a standard. Although the physical meaning of parameters in k-anonymity and l-diversity is intuitive, the privacy preservation provided by 휖-differential privacy is relatively vague, which indicates that the problem is still up in the air.</li>
+<li>Considering correlations among vehicle data with LDP. Local differential privacy assumes that vehicle data are independent of each other, i.e., ignoring the correlations among vehicle data. However, in practice, vehicle data may be dependent.</li>
+<li>Combinations the LDP model with other techniques, e.g., machine learning, AI, and so on. AI techniques are expected to provide potential solutions to, e.g., smart city, intelligent transportation, travel route recommendation, environment monitoring, air quality navigation, map navigation, etc., in IoV.</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/319836da32887ce9e25f5a70a10a6857d66cec95" title="update" target="_blank">(319836d)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/LDP-IoV.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/seed-network/">
+            <span class="next-text nav-default">SEEDLab Network</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"LDP%20IoV - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=LDP%20IoV - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

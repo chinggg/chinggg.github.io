@@ -229,7 +229,8 @@
     <div class="post-meta">
       <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
       <div class="post-category">
-          <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+          <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
           </div>
     </div>
   </header>
@@ -352,94 +353,7 @@
   
   <div class="post-content">
     <div class="post-summary">
-      <h2 id="app-逆向基础">App 逆向基础</h2>
-<p>国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的方法解开隐藏在 App 中的秘密。</p>
-<p>抓包能让我们快速获得想要的 API，不过其门槛也在不断增高，Android 7.0 之后应用不再相信非系统证书，客户端应用也可能使用 SSL Pinning 等技术防止中间人的干扰，一般用 Xposed 模块 JustTrustMe 或 TrustMeAlready 可以解决，某些关键请求可能还需额外 hook，可以为其专门定制 Xposed 模块。</p>
-<p>抓包获得关键请求后，分析其字段的意义，并在静态分析工具中全局搜索，定位至相关函数，应用大多会将数据编码、加密或生成摘要，这些逻辑可能放在 native 层实现，增大了逆向的难度。</p>
-<p>所幸 frida 等工具的出现大大便利了动态调试，可以方便地 hook 得到 Java 层各个类及其成员、方法，对于 native 层，也可在获得函数的参数和返回值，快速验证逆向分析时的想法。若由于时机等原因难以 hook，还可直接将 so 库封装到自己创建的 app 中，在 <code>build.gradle</code> 里添加 abiFilters 参数以指定 arm 指令集，手动复制关键类并 import，再在 MainActivity 里 loadLibrary，即可直接调用 native 层方法，调试并在断点之间 hook 更改 context 寄存器的值，查看变量的值。</p>
-<p>逆向得到加密数据、生成校验的算法后，便可以伪造合法的请求。编码上的细节需要多加考虑，抓包得到 params 或 body 中的参数大都是 urlencode 后的结果，但生成校验时的参数却可能是原始的字符串，构造请求时要头脑清醒。排查错误时要冷静，关键位置往往是正确的，但完全没料到的地方可能出岔子，比如谁能想到 f-string 中嵌入 bytes 型的参数，不会报错，生成的字符串里居然还带着引号，而且作为 body 发送居然看上去一模一样？</p>
-<pre><code class="language-python">bstr = b'feiwu'
-fstr = f'woshi {bstr}'
-print(fstr)
-# woshi b'feiwu'
-</code></pre>
-<p>不能以脚本小子的心态写脚本，必须做好代码的类型标注，模块化编程，这样即使无法避免问题的发生，也能在问题出现时快速定位。排查问题时脑子注意转过弯来，如果加密算法中有随机值，先固定下来，在静态的层面上观察结果，与真实样本做对比。</p>
-<h2 id="实战案例复盘">实战案例复盘</h2>
-<p><a href="https://www.qinless.com/341" target="_blank">某品会 edata 参数(AES 加密)</a></p>
-<p>仅有少量请求有 edata 参数，从一串 query params 型的键值对字符串，得到 AES 加密并 base64 编码后的 edata 结果，具体实现在 esNav 这个 native 函数中。</p>
-<p>首先静态分析，IDA 反编译后两百多行，一上来就从全局变量中获取了未知的字符串，然后放入不知所云的 <code>gsigds</code> 函数中进行一通操作。此时盲目扎进细节中耗时耗力而且白费功夫，只需抓住 AES 加密的核心，无非是 key 和 iv，倒过来分析代码发现前者是 md5 后的值，后者是随机的16位 hex 字符串，生成 edata 的前十六位字符便是 iv，后面再拼接 AES 加密的结果，这样服务器获得发送过来的 edata 后即可对称解密，而 key 显然应该是每次固定的，所以只需 hook 生成 md5 的函数获得返回值，便能得到 key 进而实现加密算法。</p>
-<p>但在测试手机上发现该应用在运行时 hook 容易崩溃，只能以 spawn 的形式 hook， 而抓包发现 edata 的请求似乎只在初始化时发送，刚启动时 native 层中的关键函数又尚未被加载，很难有合适的时机 hook，这时就可以自制 App 直接调用 Java 层函数，在断点之间 hook 即可拿到 key。</p>
-<p><a href="https://www.qinless.com/139" target="_blank">某品会 api_sign 验证头(SHA1 摘要)</a></p>
-<p>每一个请求头都会带上 <code>Authorization: OAuth api_sign={}</code>，全局搜索定位到 native 函数 gsNav，是从 <code>TreeMap&lt;String, String&gt;</code>(也就是 query params) 得到一串 SHA1 摘要。</p>
-<p>进 IDA 分析，发现仍然调用了 <code>gsigds</code> 函数获取字符串，传入 <code>getByteHash</code> 获得了32位的 hex 字符串作为盐，拼接在从 Map 转成的 query param 型字符串前进行 SHA1 摘要，再对结果再来一次加盐摘要即得 api_sign，实际上如果熟悉 SHA1 的话看到 api_sign 是长为40的 hex 应该就能想到。</p>
-<pre><code class="language-python">import base6
-import hashlib
-import json
-import random
-from urllib.parse import unquote, parse_qsl, urlencode
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
-
-
-def gen_sign(paramstr: str) -&gt; str:
-    &quot;&quot;&quot;paramstr will unquoted automatically&quot;&quot;&quot;
-    paramstr = unquote(paramstr).encode()
-    salt = b&quot;da19a1b93059ff3609fc1ed2e04b0141&quot;  # True
-    salt = b&quot;aee4c425dbb2288b80c71347cc37d04b&quot;  # False
-    h1 = hashlib.sha1(salt + paramstr)
-    cipher1 = h1.hexdigest().encode()
-    h2 = hashlib.sha1(salt + cipher1)
-    return h2.hexdigest()
-
-def gen_edata(paramstr: str) -&gt; str:
-    &quot;&quot;&quot;paramstr: app_name=...&amp;dinfo=...&quot;&quot;&quot;
-    paramstr = paramstr.encode()
-    paramstr = pad(paramstr, 16)
-    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
-    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
-    key = bytes(key)
-    ran16b = ''.join(random.choices('0123456789abcdef', k=16)).encode()
-    cipher = AES.new(key, AES.MODE_CBC, iv=ran16b)
-    enctext = cipher.encrypt(paramstr)
-    ans = base64.b64encode(ran16b + enctext)
-    return ans.decode()
-
-def dec_edata(b64s: str) -&gt; str:
-    enctext = base64.b64decode(b64s.encode())
-    key = bytearray.fromhex(&quot;8c c7 03 f6 47 8e 58 f0 84 49 d5 c0 cf 2d d5 83&quot;)  # True
-    key = bytearray.fromhex(&quot;cd d1 7a b2 9b 84 b3 25 52 dd cf bb 4a bf 02 25&quot;)  # False
-    key = bytes(key)
-    iv = enctext[:16]
-    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
-    raw = cipher.decrypt(enctext[16:])
-    try:
-        return raw.decode()
-    except:
-        return raw
-</code></pre>
-<p><a href="https://www.qinless.com/745" target="_blank">某物 app so newSign 参数分析</a></p>
-<p>常规抓包只能看见小部分请求，检索 <code>NO_PROXY</code>，发现 okhttp3.OkHttpClient$Builder.proxy 处可以 hook，果然 hook 后才可抓到关键请求如 <code>/api/v1/app/search/ice/search/list</code>，检索该 URL 果然在 <code>com.XXX.common.base.delegate.tasks.net.ApiConfigCons</code> 中发现了 <code>BLACK_LIST</code> 这一个黑名单集合。</p>
-<p>搜索请求中的 newSign 字段，发现 <code>WebRequestInterceptor.intercept</code> 会给请求附上 newSign， 其值为 <code>RequestUtils.c(hashMap, timestamp)</code> 的结果，c 这个方法就是在 map 中再补充一些键值对，然后生成按字典序拼接 kv 得到的字符串，传进 <code>AESEncrypt.encode(context, str)</code> 方法，返回值再套一层 f 方法（即 md5）即为最终的 newSign。关键是 <code>AESEncrypt.encode</code> 这个方法里调了 <code>NCall.IL()</code> 这个 Native 函数，然而在 <code>libGameVMP.so</code> 中却无法继续跟踪，用 frida dump 出的 so 不再显示格式错误，但仍然找不到 IL 这个函数。</p>
-<p><a href="https://www.hiczp.com/wang-luo/mo-ni-bilibili-android-ke-hu-duan-deng-lu.html" target="_blank">模拟 Bili Android 客户端</a></p>
-<p><a href="http://events.jianshu.io/p/d240ded1d44f" target="_blank">YmlsaWJpbGk= app分析</a></p>
-<p><a href="https://blog.csdn.net/qq_38851536/article/details/114238361" target="_blank">Native逆向指北(一)——BiliBili Sign</a></p>
-<p><code>com.bilibili.lib.accounts.BiliAuthService</code> 列出了登录相关 API，<code>com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor</code> 会给这些请求 <code>addCommonParam</code>，并在最后附加 sign(<code>[0-9a-f]{32}</code>)</p>
-<pre><code class="language-java">map.put(&quot;platform&quot;, &quot;android&quot;);
-map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
-map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
-map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
-map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
-map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
-map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
-map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
-</code></pre>
-<p><code>BiliConfig</code> 的方法追溯到内部类 <code>public static class a implements b</code>，真正实现 <code>interface b</code> 的是 <code>tv.danmaku.bili.utils.p$a</code></p>
-<p>其中 <code>buvid</code> 跟到 <code>com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)</code></p>
-<p>sign 的生成在 <code>com.bilibili.nativelibrary.LibBili.signQuery(Map&lt;String, String&gt;)</code>，实际调用 native 函数 s，但其在 <code>libbili.so</code> 中是动态注册的</p>
-<pre><code>[RegisterNatives] java_class: com.bilibili.nativelibrary.LibBili name: s sig: (Ljava/util/SortedMap;)Lcom/bilibili/nativelibrary/SignedQuery; fnPtr: 0xc13138e9  fnOffset: 0x68e9  callee: 0xc1313303 libbili.so!JNI_OnLoad+0x14e
-</code></pre>
-<h2 id="工程化模拟">工程化模拟</h2>
-<p><a href="https://bbs.nightteam.cn/forum.php?mod=viewthread&amp;tid=1195" target="_blank">Android逆向之无加固下的Java层和Native层模拟的调度解决方案</a></p>
+      App 逆向基础 国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的
     </div>
     <div class="read-more">
       <a href="/post/appre/" class="read-more-link">阅读更多</a>

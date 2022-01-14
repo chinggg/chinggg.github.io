@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想">
 <meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="926">
+<meta itemprop="wordCount" content="931">
 
 
 
@@ -304,7 +304,7 @@ function hookNative() {
 
 function findModules(name) {
   const mods = Process.enumerateModules()
-  const found = mods.filter(m =&gt; !name || m.path.includes(name))
+  const found = name ? mods.filter(m.path.includes(name)) : mods;
   found.forEach(m =&gt; console.log(JSON.stringify(m)))
   console.log(found.length, &quot;modules found&quot;)
   return found
@@ -315,6 +315,7 @@ function main() {
     Java.perform(() =&gt; {
       console.log(&quot;Performing Java hook...&quot;)
       hookJava();
+      hookJavaFunc(&quot;okhttp3.Request$Builder&quot;, &quot;post&quot;, [&quot;okhttp3.RequestBody&quot;], undefined, true);
     })
   }
   // hookNative();
@@ -359,7 +360,7 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/26a531c66d0570593993a4f89ed447a684714801" title="update" target="_blank">(26a531c)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/319836da32887ce9e25f5a70a10a6857d66cec95" title="update" target="_blank">(319836d)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
     </span>
   </p>

@@ -55,7 +55,7 @@
 
 
 
-<meta itemprop="keywords" content="安全," />
+<meta itemprop="keywords" content="论文," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ML-Leaks"/>
 <meta name="twitter:description" content="NDSS 2019 研究成果概括 ML-Leaks 前言 本文将对 NDSS (Network and Distributed System Security Symposium) 2019 获奖论文 ML-Leaks: Model and Data Independent Membership Inference Attacks and Defenses on Machine Learning Models 进行解读。这篇论文的主要研究内容是针对机器学习模型的成员推"/>
@@ -152,7 +152,8 @@
       <div class="post-meta">
         <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
         <div class="post-category">
-            <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -213,7 +214,7 @@
 <p>而成员推理攻击的<strong>攻击模型</strong>可表示成如下函数 $\mathcal{A}:X_{Target},\mathcal{M,K}\rightarrow{0,1}$，其中 $X_{Target}$ 为目标数据点，$\mathcal{M}$ 为训练后的模型（称为目标模型），$\mathcal{K}$ 为攻击者的外部知识，结果为0表示目标数据点不是目标模型训练集 $\mathcal{D}_{Train}$ 的成员，为1则反之。</p>
 <p>本文利用8个不同的数据集进行实验，其中6个与 Shokri 等人使用的数据相同，即MNIST、CIFAR-10、CIFAR-100、Location、Purchase、Adult。按照相同的程序对所有这些数据集进行预处理。此外，本文还利用了另外两个数据集，即 News 和 Face，来进行评估。</p>
 <h3 id="三轮攻击">三轮攻击</h3>
-<p><img src="/post_img/ML-Leaks.assets/Table1.png" alt="Table1"></p>
+<p><img src="/post_img/ML-Leaks/Table1.png" alt="Table1"></p>
 <p>从表格中可看出，每一轮攻击都减少了一两个假设，攻击者对目标模型和数据的了解可以越来越少，不禁让人联想起电影《倚天屠龙记》中张三丰教张无忌太极拳，招式忘得愈多，反而学得愈深，颇有老子“绝圣弃智”，“不出于户，以观天下”的味道。</p>
 <h4 id="攻击一不知模型">攻击一：不知模型</h4>
 <p>本轮攻击主要放宽了影子模型设计上的假设，只需使用1个影子模型而且无需知晓目标模型的结构，就可实施高效且廉价的成员推理攻击。不过，训练影子模型时仍需假设影子数据集 $\mathcal{D}_{Shadow}$ 和目标模型的训练数据来自相同的分布。</p>
@@ -226,25 +227,25 @@
 <li>成员推理：为了推知目标是否在实际训练集中，攻击者向模型查询该数据点并得到后验概率，同样取最大的三个值，然后传给攻击模型来获得成员预测结果。</li>
 </ol>
 <p>相比 Shokri 的方法需要使用多个影子模型对每个类别分别进行攻击，本方法只需使用一个影子模型进行攻击，这大大减少了攻击的开销。</p>
-<p><img src="/post_img/ML-Leaks.assets/Fig1.png" alt="Fig1"></p>
+<p><img src="/post_img/ML-Leaks/Fig1.png" alt="Fig1"></p>
 <p>结果如 Fig. 1 所示，本攻击方法的精确率和召回率与 Shokri 等人的几乎一致，在部分数据集上甚至表现更优。</p>
 <h5 id="目标模型结构">目标模型结构</h5>
 <p>接下来展示如何放宽攻击者必须知道目标模型的算法与超参数的情况这一假设。</p>
 <p>首先来看<strong>超参数</strong>，暂且假设攻击者知道目标模型是一个神经网络但不了解具体细节，先用目标模型的一半参数（即将批尺寸、隐含单元和正则化参数减半）来训练影子模型时，就 Purchase-100 数据集而言，达到了0.86的精确率和0.83的召回率，这和 Fig. 1 中的结果几乎一致；反之，若用两倍参数来训练影子模型时，表现稍显逊色，但仍达到了0.82的精确率和0.80的召回率。在其他数据集上也得到了类似的结果，这证明了成员推理攻击的灵活性：无需知道模型的超参数也能有良好的性能。</p>
 <p>接着再假设攻击者不知道目标模型使用了何种分类算法，首先尝试在影子模型和目标模型的类别不同的情况下直接实施攻击，结果不尽人意。改进的方法是采用<strong>组合攻击</strong>（combined attack），即将一系列不同的分类器模型组合成一个影子模型，其中每个模型被称为<strong>次影子模型</strong>（sub-shadow model），具体方法如 Fig. 6 所示</p>
-<p><img src="/post_img/ML-Leaks.assets/Fig6.png" alt="Fig6"></p>
+<p><img src="/post_img/ML-Leaks/Fig6.png" alt="Fig6"></p>
 <p>在 Purchase-100 数据集上的结果证明，和上一部分所展示的攻击方法相比，在目标模型采用多层感知器和逻辑回归时，组合攻击的表现毫不逊色，而当目标模型采用随机森林时，组合攻击的性能就有所下降。</p>
-<p><img src="/post_img/ML-Leaks.assets/Table2.png" alt="Table2"></p>
+<p><img src="/post_img/ML-Leaks/Table2.png" alt="Table2"></p>
 <h4 id="攻击二不知数据">攻击二：不知数据</h4>
 <p>本轮攻击放宽了对数据来源的假设，攻击者不再拥有与目标模型的训练数据同分布的数据集，在此情形下，Shokri 等人提议多次查询目标模型以合成数据来训练影子模型，但这种方法只适用于包含二值特征的数据集，而且每合成一个数据点就需要向目标模型发起156次查询，这不仅代价高昂，还可能触发 MLaaS 的警戒机制。与之相比，本方法就能用于攻击在任何数据上训练的机器学习模型，且没有上述任何限制。</p>
 <p>本攻击的策略接近于第一轮攻击，区别在于影子模型所使用的数据集不再与目标模型的训练数据同分布，此种攻击可被称为<strong>数据转移攻击</strong>（data transferring attack）。在此影子模型并非用于模仿目标模型的行为，而只用于概括机器模型训练集中数据点的成员状态。由于只有最大的三个（对二值数据集来说是两个）后验概率会被用于攻击模型，我们可以忽略数据集的类别数不同带来的影响。</p>
-<p><img src="/post_img/ML-Leaks.assets/Fig7.png" alt="Fig7"></p>
+<p><img src="/post_img/ML-Leaks/Fig7.png" alt="Fig7"></p>
 <p>结果如 Fig. 7 所示，和对角线上第一轮攻击的结果相比，本轮攻击在许多场景下都有接近的表现，如使用 Face 数据集攻击 CIFAR-100 数据集，无论是精确率还是召回率，结果都是0.95，和第一轮攻击相同。在一些场景下，本轮攻击的结果甚至优于第一轮攻击。更有意思的是，在很多场景下，不同来源的数据集能够有效地相互攻击，如 News 数据集 和 CIFAR-100 数据集。</p>
 <h4 id="攻击三我好像在哪见过你">攻击三：我好像在哪见过你</h4>
 <p>本轮攻击不再需要训练任何影子模型，也无需知晓目标模型及其数据分布，攻击者拥有的只是向目标模型查询目标数据点 $X_{Target}$ 得到的后验概率 $\mathcal{M}(X_{Target})$ 。尽管 Yeom 等人提出过类似的攻击，但他们的方法需要知晓目标数据点的分类标签，这有时是难以获得的，而本方法的适用场景就更广泛。</p>
 <p>本攻击模型的实现是一个无监督二元分类器，攻击者先获得 $\mathcal{M}(X_{Target})$ ，再拿最高的后验概率和一个确定的阀值相比，若高于阀值，则预测此数据点在目标模型的训练集中。选取最高值作为特征是基于如下推理：模型对训练过的数据点表现得更自信，体现在结果上就是，成员数据点的后验概率最大值高于非成员数据点。这是一种朴素的信念，但也符合我们的直觉，人对熟悉的事物表现得更自信，模型亦是如此。</p>
 <p>阀值的选取可根据需求而定，若更关注精确率则用高阀值，更关注召回率则选择低阀值。本文也提供了选择阀值的通用方法。</p>
-<p><img src="/post_img/ML-Leaks.assets/Fig12.png" alt="Fig12"></p>
+<p><img src="/post_img/ML-Leaks/Fig12.png" alt="Fig12"></p>
 <p>综合三轮攻击的结果，可以证明成员推理攻击是非常广泛地适用的。</p>
 <h3 id="防御机制">防御机制</h3>
 <h4 id="丢弃">丢弃</h4>
@@ -275,7 +276,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/26a531c66d0570593993a4f89ed447a684714801" title="update" target="_blank">(26a531c)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/319836da32887ce9e25f5a70a10a6857d66cec95" title="update" target="_blank">(319836d)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/ML-Leaks.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -287,7 +288,7 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
           </div>
       <nav class="post-nav">
         <a class="prev" href="/post/docker-perf/">
