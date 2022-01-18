@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>vps2arch NVIDIA vGPU - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/vps2arch-nvidia/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="vps2arch NVIDIA vGPU" />
+<meta property="og:description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/vps2arch-nvidia/" />
+<meta property="article:published_time" content="2022-01-17T15:03:15+08:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="name" content="vps2arch NVIDIA vGPU">
+<meta itemprop="description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv">
+<meta itemprop="datePublished" content="2022-01-17T15:03:15+08:00" />
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="1040">
+
+
+
+<meta itemprop="keywords" content=",," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="vps2arch NVIDIA vGPU"/>
+<meta name="twitter:description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">vps2arch NVIDIA vGPU</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-17 15:03:15 &#43;0800 &#43;0800"> 2022-01-17 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#vps2arch">vps2arch</a></li>
+            <li><a href="#nvidia">NVIDIA</a></li>
+            <li><a href="#cuda">CUDA</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="vps2arch">vps2arch</h3>
+<p>没啥好说的，上不了网注意改 <code>systemd-networkd</code> 的配置，提前 <code>pacman -S vi vim base-devel</code></p>
+<h3 id="nvidia">NVIDIA</h3>
+<p><code>nvidia</code> 和 <code>nvidia-lts</code> 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 <code>nvidia-smi</code> 后提示无法与 driv，<code>lsmod | grep nvidia</code> 没有结果，<code>/dev</code> 下也没有 <code>nvidia</code>，<code>dmesg</code> 才发现提示不支持。</p>
+<p>在官网查看<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank">对应型号显卡的最新驱动</a>，记住版本号</p>
+<p>若该型号驱动版本太低，从 AUR 安装 <a href="https://aur.archlinux.org/packages/nvidia-470xx-dkms/" target="_blank">nvidia-470xx-dkms</a> 或 <a href="https://aur.archlinux.org/packages/nvidia-390xx-dkms/" target="_blank">nvidia-390xx-dkms</a>，记得 <code>pacman -S linux-headers</code></p>
+<p>观察以上两个包的 PKGBUILD，发现都是从 <a href="https://download.nvidia.com/XFree86/Linux-x86_64/">https://download.nvidia.com/XFree86/Linux-x86_64/</a> 下载 <code>.run</code> 文件，故理论上可以修改 PKGBUILD 中的 <code>pkgver</code>，<a href="https://wiki.archlinux.org/title/DeveloperWiki:Building_in_a_clean_chroot" target="_blank">自行打包</a> 以安装任意版本的驱动，即 <code>pacman -S devtools</code> 后，执行 <code>extra-x86_64-build</code>，再 <code>pacman -U *.pkg.tar.zst</code></p>
+<p>但 vps2arch 的机器往往是 vGPU 而非直通显卡，所以换了各种版本都还是不支持，应下载 <code>NVIDIA-Linux-x86_64-${pkgver}-grid.run</code> 而非常规驱动，<a href="https://cloud.google.com/compute/docs/gpus/grid-drivers-table" target="_blank">Google Cloud</a> 可以直接下载，替换链接即可。</p>
+<p>对于内核版本万年不变的发行版，直接执行应该问题不大，但常年滚动升级的 Arch 上这样操作容易挂（？咱也没试过），最好还是让 NVIDIA driver 纳入包管理器的控制。不过 AUR 似乎没有基于 grid 驱动的现成包，<a href="https://aur.archlinux.org/packages/nvidia-merged/" target="_blank">nvidia-merged</a> 似乎是支持 vGPU 但安装提示本机并不是跑在 KVM 上的 vGPU，所以还是手打包，不断出错然后更改相应脚本，例如我尝试将 470xx 的 PKGBUILD 替换成 grid 版，主要是删除了一些安装 systemd service 的命令，因为 <code>*-grid.run</code> 解压后并不存在相应文件。</p>
+<p>一通操作后居然打出了 470xx grid 的包，还真能装上，module 和 dev 都有了，<code>nvidia-smi</code> 不会立刻报错，而是等待许久后来一句 <a href="https://forums.developer.nvidia.com/t/nvidia-smi-no-devices-were-found-error/38464/23" target="_blank"><code>No devices were found</code></a>，<code>dmesg</code> 中没有原来的显眼报错，而是 <code>NVRM: RmInitAdapter failed!</code>，肯定还是有问题了，<code>nvidia-persistence</code> 也是无法启动的。</p>
+<p>查阅内网文档说是显卡驱动版本受限于母机，只支持到 <code>450.102.04</code>，那再手打 450xx 的包，结果发现安装 dkms 时总是编译报错，看 make.log 应该是内核源码中某些定义有变动，有类似的 patch <a href="https://bbs.archlinux.org/viewtopic.php?id=268421">https://bbs.archlinux.org/viewtopic.php?id=268421</a>，但改了一个还没完，后面继续出现更多报错，短时间内估计搞不定，不如退而求其次，降 kernel 版本。</p>
+<p>根据 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 3，<code>450.102.04</code> 对应 CUDA 11.0.3 Update 1，查看 <a href="https://docs.nvidia.com/cuda/archive/11.0/cuda-installation-guide-linux/index.html" target="_blank">cuda-installation-guide-linux v11.0.3</a>，从表 <code>Table 1. Native Linux Distribution Support in CUDA 11.0</code> 推测官方最高支持到 Kernel 5.4.0，故降级到 <code>linux-lts54</code></p>
+<p>安装 kernel 后重启前一定记得 <code>grub-mkconfig</code>，然后删除 <code>/usr/lib/modules/</code> 下之前版本的残留文件夹，否则 dkms 仍会尝试编译该版本于是报错，未找到模块的错误 PKGBUILD 中再看是否可删除多余的命令，最后终于装成功，重启后 <code>nvidia-smi</code> 成功出现了梦寐以求的界面！</p>
+<h3 id="cuda">CUDA</h3>
+<p><code>python-pytorch-cuda</code> 直接装，居然 available 而不用装老版本，因为 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 2 表明直到 CUDA 11.5 的 Minimum Required Driver Version 还是 <code>&gt;=450.80.02</code></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/580acfaa6d360c9b7717d4170523100a56785319" title="update" target="_blank">(580acfa)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/vps2arch-nvidia.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/ldp-iov/">
+            <span class="next-text nav-default">LDP IoV</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"vps2arch%20NVIDIA%20vGPU - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=vps2arch%20NVIDIA%20vGPU - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
