@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想">
 <meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="970">
+<meta itemprop="wordCount" content="1085">
 
 
 
@@ -188,6 +188,7 @@
 <p><a href="https://kevinspider.github.io/zhuabao/">https://kevinspider.github.io/zhuabao/</a></p>
 <p><a href="https://eternalsakura13.com/2020/07/04/frida/">https://eternalsakura13.com/2020/07/04/frida/</a></p>
 <p><a href="https://github.com/lasting-yang/frida_dump/">https://github.com/lasting-yang/frida_dump/</a></p>
+<p><a href="http://www.juziss.cn/2020/07/11/%E5%BD%BB%E5%BA%95%E6%90%9E%E5%AE%9AHook%E4%B8%8D%E4%B8%8A/">http://www.juziss.cn/2020/07/11/彻底搞定Hook不上/</a></p>
 <pre><code class="language-javascript">function map2obj(map) {
    var res = {};
    var keyset = map.keySet();
@@ -258,6 +259,10 @@ function hookJava() {
    }
 }
 
+function printStack() {
+  console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Exception&quot;).$new()))
+}
+
 function hookJavaFunc(clsName, funcName, argtypes, rettype, stack, func) {
   const cls = Java.classFactory.use(clsName)
   let funcObj = cls[funcName];
@@ -272,10 +277,32 @@ function hookJavaFunc(clsName, funcName, argtypes, rettype, stack, func) {
     const res = funcObj.apply(this, Array.from(arguments))
     console.warn('res:', printable(res, rettype))
     console.log(funcName, &quot;end&quot;, '&lt;'.repeat(10))
-    if (stack) console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Exception&quot;).$new()))
+    if (stack) printStack()
     return res
   }
   funcObj.implementation = func || defaultFunc;
+}
+
+function hookMap(filterStr) {
+  const cls = Java.classFactory.use(&quot;java.util.HashMap&quot;);
+  cls.get.implementation = function (key) {
+    const res = this.get(key)
+    const keyStr = key ? key.toString() : ''
+    if (keyStr.includes(filterStr)) {
+      console.error(&quot;hookMap get&quot;, key)
+      printStack()
+    }
+    return res
+  }
+  cls.put.implementation = function (key, value) {
+    const res = this.put(key, value)
+    const keyStr = key ? key.toString() : ''
+    if (keyStr.includes(filterStr)) {
+      console.error(&quot;hookMap put&quot;, key, value)
+      printStack()
+    }
+    return res
+  }
 }
 
 function hookProxy() {
@@ -366,7 +393,7 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/580acfaa6d360c9b7717d4170523100a56785319" title="update" target="_blank">(580acfa)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/e3b9bad3100968bf46cf3de51985ae3f9ac1da32" title="update" target="_blank">(e3b9bad)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
     </span>
   </p>

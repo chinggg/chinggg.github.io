@@ -51,7 +51,7 @@
 <meta itemprop="description" content="App 逆向基础 国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的">
 <meta itemprop="datePublished" content="2021-11-30T14:36:28+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="2132">
+<meta itemprop="wordCount" content="3493">
 
 
 
@@ -168,7 +168,7 @@
       <ul>
         <li><a href="#app-逆向基础">App 逆向基础</a></li>
         <li><a href="#实战案例复盘">实战案例复盘</a></li>
-        <li><a href="#工程化模拟">工程化模拟</a></li>
+        <li><a href="#工程化知识沉淀">工程化知识沉淀</a></li>
         <li><a href="#参考文献">参考文献</a></li>
       </ul>
     </li>
@@ -248,24 +248,64 @@ def dec_edata(b64s: str) -&gt; str:
 <p><a href="https://www.hiczp.com/wang-luo/mo-ni-bilibili-android-ke-hu-duan-deng-lu.html" target="_blank">模拟 Bili Android 客户端</a></p>
 <p><a href="http://events.jianshu.io/p/d240ded1d44f" target="_blank">YmlsaWJpbGk= app分析</a></p>
 <p><a href="https://blog.csdn.net/qq_38851536/article/details/114238361" target="_blank">Native逆向指北(一)——BiliBili Sign</a></p>
-<p><code>com.bilibili.lib.accounts.BiliAuthService</code> 列出了登录相关 API，<code>com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor</code> 会给这些请求 <code>addCommonParam</code>，并在最后附加 sign(<code>[0-9a-f]{32}</code>)</p>
-<pre><code class="language-java">map.put(&quot;platform&quot;, &quot;android&quot;);
-map.put(&quot;mobi_app&quot;, BiliConfig.getMobiApp());  // &quot;android&quot;
-map.put(RestUrlWrapper.FIELD_APPKEY, getAppKey());  // appkey: [0-9a-f]{16}
-map.put(&quot;build&quot;, String.valueOf(BiliConfig.getBiliVersionCode()));  // I() { return 6540300; }
-map.put(&quot;buvid&quot;, AccountConfig.paramDelegate.getBuvid());  // ^XY[A-F0-9]{35}
-map.put(&quot;channel&quot;, BiliConfig.getChannel());  // bili
-map.put(&quot;c_locale&quot;, BiliConfig.getCurrentLocale());
-map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
+<p><code>com.bilibili.lib.accounts.BiliAuthService</code> 列出了登录相关 API，<code>com.bilibili.lib.accounts.a implements com.bilibili.okretro.interceptor.DefaultRequestInterceptor</code> 会给这些请求 <code>addCommonParam</code>，并在最后附加 sign(<code>[0-9a-f]{32}</code>)，注意 a 重写了 DefaultRequestInterceptor 的方法，不要 hook 错成后者。</p>
+<pre><code class="language-python">statistics={&quot;appId&quot;:1,&quot;platform&quot;:3,&quot;version&quot;:&quot;6.54.0&quot;,&quot;abtest&quot;:&quot;&quot;}
+qdic_base = {'appkey': '783bbb7264451d82', 'build': '6540300', 'buvid': '^XY[A-F0-9]{35}',
+          'c_locale': 'zh-Hans_CN', 'channel': 'bili', 'mobi_app': 'android', 'platform': 'android', 's_locale': 'zh-Hans_CN',
+          'statistics': json.dumps(statistics, separators=(',', ':'))}
 </code></pre>
-<p><code>BiliConfig</code> 的方法追溯到内部类 <code>public static class a implements b</code>，真正实现 <code>interface b</code> 的是 <code>tv.danmaku.bili.utils.p$a</code></p>
-<p>其中 <code>buvid</code> 跟到 <code>com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)</code></p>
-<p>sign 的生成在 <code>com.bilibili.nativelibrary.LibBili.signQuery(Map&lt;String, String&gt;)</code>，实际调用 native 函数 s，但其在 <code>libbili.so</code> 中是动态注册的</p>
+<p>以上参数是所有请求的 base query，可固定在配置文件中，这样针对特定请求仅需添加 extra query 即可</p>
+<p>其中 <code>buvid</code> 跟到 <code>com.bilibili.lib.blkv.internal.kv.KVs.getString(&quot;buvid&quot;, &quot;&quot;)</code>，因为自行实现的 KV 存储，但有 getString 就会有 putString，直接 hook <code>java.util.HashMap</code> 的 put 方法，最早 put <code>buvid_local</code> 是在 <code>com.bilibili.lib.biliid.api.c.b.a</code> 这个方法中，而该方法里调用了 <code>interface w1.g.x.g.a</code> 的 <code>a</code> 方法得到字符串，无法直接跳转，找 interface 的实现，最终在 <code>w1.g.x.g.d.b</code> 中生成字符串，传入参数是 <code>interface w1.g.x.g.b</code> 类型，依次调用其 <code>c</code>, <code>d</code>, <code>a</code>, <code>b</code> 方法，获得非空字符串则进行操作直接返回，静态跟入太烦，直接 hook 该参数打印四个方法所得字符串，发现就生成 buvid 而言，c 为空，d 为 MAC 地址，则直接对 MAC 地址进行相应 md5 操作即可，验证结果一致。</p>
+<p>sign 的生成在 <code>com.bilibili.nativelibrary.LibBili.signQuery(Map&lt;String, String&gt;)</code>，实际调用 native 函数 s，但其在 <code>libbili.so</code> 中是动态注册的，考虑编写 Xposed 模块主动调用</p>
 <pre><code>[RegisterNatives] java_class: com.bilibili.nativelibrary.LibBili name: s sig: (Ljava/util/SortedMap;)Lcom/bilibili/nativelibrary/SignedQuery; fnPtr: 0xc13138e9  fnOffset: 0x68e9  callee: 0xc1313303 libbili.so!JNI_OnLoad+0x14e
 </code></pre>
-<h2 id="工程化模拟">工程化模拟</h2>
+<pre><code class="language-java">public String genSQ(Map&lt;String, String&gt; map) {
+    try {
+        Class cls = XposedHelpers.findClass(&quot;com.bilibili.lib.accounts.a&quot;, g_classLoader);
+        Object ins = XposedHelpers.newInstance(cls);
+        Object res = XposedHelpers.callMethod(ins, &quot;signQuery&quot;, map);
+        return res.toString();
+    } catch (Exception e) {
+        e.printStackTrace();
+        Log.e(TAG, map.toString() + &quot; &quot; + g_classLoader.toString());
+    }
+    return &quot;&quot;;
+}
+</code></pre>
+<p>点击发送短信验证码会向 <a href="https://passport.bilibili.com/x/passport-login/sms/send">https://passport.bilibili.com/x/passport-login/sms/send</a> 发起请求，返回一个滑块验证码的 URL，该请求还需附带 <code>login_session_id</code> 和 <code>device_tourist_id</code>，不难逆得前者 buvid 拼接毫秒 timestamp 再 md5 得到长为16的 hex 字符串，后者实际键名为 <code>guest_id</code>，应用初始化时向 <a href="https://passport.bilibili.com/x/passport-user/guest/reg">https://passport.bilibili.com/x/passport-user/guest/reg</a> 发请求拿到，而该请求又要附带 <code>device_info</code> 和 <code>dt</code> 两个参数。</p>
+<p>接着 hook 对应函数和 HashMap 键值，得到关键类 <code>com.bilibili.lib.accounts.BiliPassportApi</code> 和方法 <code>l,k,j</code>，其中 l 创建了一个 kotlin Function，依次传到 j 中再 invoke，hook <code>com.bilibili.lib.accounts.BiliPassportApi$getGuestID$1</code> 的 invoke 方法即可看到传入参数</p>
+<pre><code class="language-json">{
+    &quot;AndroidID&quot;: &quot;&quot;,
+    &quot;BuildBrand&quot;: &quot;&quot;,
+    &quot;BuildDisplay&quot;: &quot;&quot;,
+    &quot;BuildFingerprint&quot;: &quot;&quot;,
+    &quot;BuildHost&quot;: &quot;&quot;,
+    &quot;Buvid&quot;: &quot;&quot;,
+    &quot;DeviceType&quot;: &quot;&quot;,
+    &quot;MAC&quot;: &quot;&quot;,
+    &quot;fts&quot;: &quot;&quot;
+}
+</code></pre>
+<p>invoke 返回 JSONString，getBytes 传入 <code>com.bilibili.lib.accounts.n.c c</code>，c 返回 <code>Pair&lt;随机[A-Z][a-z][0-9]{16}字符串, 长为bytes两倍的HEX字符串&gt;</code>，前者作为 <code>AES/CBC/PKCS5Padding</code> 的 key 和 IV 加密 JSONString 转成的 bytes，后者是加密后的 bytes 转成 HEX。然后再调用 <code>com.bilibili.lib.accounts.model.AuthKey encrypt</code> 对前者做 <code>RSA/ECB/PKCS5PADDING</code> 公钥加密并 b64encode，最后前者为 <code>dt</code>，后者即为 <code>device_info</code> 发送。RSA 的公钥又从哪来？<a href="https://passport.bilibili.com/x/passport-login/web/key">https://passport.bilibili.com/x/passport-login/web/key</a> 即得，注意加密时掐头去尾了。那么对方后端接收到 dt 后先 b64decode 再用私钥解密，即得 AES 的 key，然后即可解密 <code>device_info</code></p>
+<h2 id="工程化知识沉淀">工程化知识沉淀</h2>
+<p>抓包阶段：</p>
+<p>要抓总能抓到，熟练使用趁手的软件</p>
+<p>注意数据的呈现格式，以 Fiddler 为例， WebForms 栏中展示的是 urldecode 后的结果，而 TextView 和 SyntaxView 才是原始格式，对于 <code>Content-Type: application/x-www-form-urlencoded</code> 的 POST 请求亦是如此</p>
+<p>分析请求中的基础参数，迅速导出为 JSON 备用</p>
+<p>逆向阶段：</p>
+<p>动静结合，静态查找 URL 或参数名称，从网络请求跟进到数据获取一般比较直接，但数据何时生成，由何生成可能难以看出，可以动态 hook 数据获取的函数以及 <code>HashMap</code> <code>SharedPreference</code> 等存取键值的函数，在打印的调用栈上获得下一步静态分析的目标，以此往复。</p>
+<p>有时会看到新的语言特性，JADX 无法将 <code>kotlin.jvm.functions.Function0</code> 还原为类，而 GDA 做的就比较好</p>
+<p>解密阶段：</p>
+<p>区分字符串在 bytes 和 字符编码层面的表示，熟练转换 json, str, bytes, hexstring, bytearray</p>
+<p>理解对称加密、非对称加密、摘要算法各自的特点和用途，熟知 MD5, AES, RSA 在 Java 与 Python 库中的实现，知道 <a href="https://crypto.stackexchange.com/questions/9043/what-is-the-difference-between-pkcs5-padding-and-pkcs7-padding" target="_blank">PKCS5 与 PKCS7 的异同</a>
+常见流程：生成 <code>[A-Z][a-z][0-9]{16}</code> 的随机字符串，作为 AES 的 (128bit) Key 或 IV，对 bytes 明文进行加密，然后 AES Key 又用 RSA 公钥加密，把两者都在请求中发送，服务端用私钥解密得 AES Key，然后再 AES 解密明文。</p>
+<p>请求阶段：</p>
+<p><code>from urllib.parse import parse_qsl, quote, urlencode</code>
+熟练使用网络请求库，如 <code>requests.post</code> 如果 data 为字符串，<code>Content-Type</code> 默认为空，服务端预期为 <code>application/x-www-form-urlencoded</code>，故而会返回错误</p>
+<p>使用 Sekiro 快速搭建主动调用加密函数的 API</p>
 <p><a href="https://bbs.nightteam.cn/forum.php?mod=viewthread&amp;tid=1195" target="_blank">Android逆向之无加固下的Java层和Native层模拟的调度解决方案</a></p>
 <h2 id="参考文献">参考文献</h2>
+<p><a href="https://pitechan.com/%E7%88%AC%E8%99%AB%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9D%97/">https://pitechan.com/爬虫工程师的自我修养之基础模块/</a></p>
 <p><a href="https://curz0n.github.io/2021/05/10/android-so-reverse/">https://curz0n.github.io/2021/05/10/android-so-reverse/</a></p>
 
     </div>
@@ -279,7 +319,7 @@ map.put(&quot;s_locale&quot;, BiliConfig.getSystemLocale());
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/580acfaa6d360c9b7717d4170523100a56785319" title="update" target="_blank">(580acfa)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/e3b9bad3100968bf46cf3de51985ae3f9ac1da32" title="update" target="_blank">(e3b9bad)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/AppRE.md" target="_blank">更新历史</a>
     </span>
   </p>

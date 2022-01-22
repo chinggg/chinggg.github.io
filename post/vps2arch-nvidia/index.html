@@ -51,7 +51,7 @@
 <meta itemprop="description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv">
 <meta itemprop="datePublished" content="2022-01-17T15:03:15+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="1040">
+<meta itemprop="wordCount" content="1821">
 
 
 
@@ -171,6 +171,7 @@
             <li><a href="#vps2arch">vps2arch</a></li>
             <li><a href="#nvidia">NVIDIA</a></li>
             <li><a href="#cuda">CUDA</a></li>
+            <li><a href="#summary">Summary</a></li>
           </ul>
         </li>
       </ul>
@@ -195,6 +196,233 @@
 <p>安装 kernel 后重启前一定记得 <code>grub-mkconfig</code>，然后删除 <code>/usr/lib/modules/</code> 下之前版本的残留文件夹，否则 dkms 仍会尝试编译该版本于是报错，未找到模块的错误 PKGBUILD 中再看是否可删除多余的命令，最后终于装成功，重启后 <code>nvidia-smi</code> 成功出现了梦寐以求的界面！</p>
 <h3 id="cuda">CUDA</h3>
 <p><code>python-pytorch-cuda</code> 直接装，居然 available 而不用装老版本，因为 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 2 表明直到 CUDA 11.5 的 Minimum Required Driver Version 还是 <code>&gt;=450.80.02</code></p>
+<h3 id="summary">Summary</h3>
+<p>再次锻炼了折腾能力，最开始只会盲从 Arch Wiki，转折点是看到 <code>/data</code> 目录下的残留驱动而意识到应使用 vGPU 特供驱动，从而被迫学习改包打包，虽然成功打包并装上，但报错并发现到机器最高只支持 450xx，于是打旧包，这次是安装 dkms 总出错，从而对驱动和内核版本之间的关系有了更深理解，事后看 NVIDIA 官网的文档和表格大致明白了 Kernel, Driver, CUDA 这三者版本的关联。</p>
+<p>最后附上自制 <code>nvidia-450xx-grid-utils</code> 的 PKGBUILD</p>
+<pre><code class="language-sh"># Maintainer:  Jonathon Fernyhough &lt;jonathon+m2x+dev&gt;
+# Contributor: Sven-Hendrik Haase &lt;svenstaro@gmail.com&gt;
+# Contributor: Thomas Baechler &lt;thomas@archlinux.org&gt;
+# Contributor: James Rayner &lt;iphitus@gmail.com&gt;
+
+pkgbase=nvidia-450xx-utils
+pkgname=('nvidia-450xx-utils' 'opencl-nvidia-450xx' 'nvidia-450xx-dkms')
+pkgver=450.102.04
+pkgrel=2
+arch=('x86_64')
+url=&quot;http://www.nvidia.com/&quot;
+license=('custom')
+options=('!strip')
+_pkg=&quot;NVIDIA-Linux-x86_64-${pkgver}-grid&quot;
+source=('nvidia-drm-outputclass.conf'
+        'nvidia-450xx-utils.sysusers'
+        'nvidia-450xx.rules'
+	&quot;https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID11.3/${_pkg}.run&quot;)
+sha512sums=('de7116c09f282a27920a1382df84aa86f559e537664bb30689605177ce37dc5067748acf9afd66a3269a6e323461356592fdfc624c86523bf105ff8fe47d3770'
+            '4b3ad73f5076ba90fe0b3a2e712ac9cde76f469cd8070280f960c3ce7dc502d1927f525ae18d008075c8f08ea432f7be0a6c3a7a6b49c361126dcf42f97ec499'
+            'a0ceb0a6c240cf97b21a2e46c5c212250d3ee24fecef16aca3dffb04b8350c445b9f4398274abccdb745dd0ba5132a17942c9508ce165d4f97f41ece02b0b989'
+            '523070e9e458f2da50df0f6dd35445ed824cf3b4ce2c3e191d58718a4ed638cfc644852b8330fb3da0444811431da7bf88f195e9aed1fa8615f92b8d1e941892')
+
+
+create_links() {
+    # create soname links
+    find &quot;$pkgdir&quot; -type f -name '*.so*' ! -path '*xorg/*' -print0 | while read -d $'\0' _lib; do
+        _soname=$(dirname &quot;${_lib}&quot;)/$(readelf -d &quot;${_lib}&quot; | grep -Po 'SONAME.*: \[\K[^]]*' || true)
+        _base=$(echo ${_soname} | sed -r 's/(.*)\.so.*/\1.so/')
+        [[ -e &quot;${_soname}&quot; ]] || ln -s $(basename &quot;${_lib}&quot;) &quot;${_soname}&quot;
+        [[ -e &quot;${_base}&quot; ]] || ln -s $(basename &quot;${_soname}&quot;) &quot;${_base}&quot;
+    done
+}
+
+prepare() {
+    sh &quot;${_pkg}.run&quot; --extract-only
+    cd &quot;${_pkg}&quot;
+    bsdtar -xf nvidia-persistenced-init.tar.bz2
+
+    cd kernel
+    sed -i &quot;s/__VERSION_STRING/${pkgver}/&quot; dkms.conf
+    sed -i 's/__JOBS/`nproc`/' dkms.conf
+    sed -i 's/__DKMS_MODULES//' dkms.conf
+    sed -i '$iBUILT_MODULE_NAME[0]=&quot;nvidia&quot;\
+DEST_MODULE_LOCATION[0]=&quot;/kernel/drivers/video&quot;\
+BUILT_MODULE_NAME[1]=&quot;nvidia-uvm&quot;\
+DEST_MODULE_LOCATION[1]=&quot;/kernel/drivers/video&quot;\
+BUILT_MODULE_NAME[2]=&quot;nvidia-modeset&quot;\
+DEST_MODULE_LOCATION[2]=&quot;/kernel/drivers/video&quot;\
+BUILT_MODULE_NAME[3]=&quot;nvidia-drm&quot;\
+DEST_MODULE_LOCATION[3]=&quot;/kernel/drivers/video&quot;' dkms.conf
+
+    # Gift for linux-rt guys
+    sed -i 's/NV_EXCLUDE_BUILD_MODULES/IGNORE_PREEMPT_RT_PRESENCE=1 NV_EXCLUDE_BUILD_MODULES/' dkms.conf
+}
+
+package_opencl-nvidia-450xx() {
+    pkgdesc=&quot;OpenCL implemention for NVIDIA&quot;
+    depends=('zlib')
+    optdepends=('opencl-headers: headers necessary for OpenCL development')
+    provides=('opencl-driver' 'opencl-nvidia')
+    conflicts=('opencl-nvidia')
+    cd &quot;${_pkg}&quot;
+
+    # OpenCL
+    install -Dm644 nvidia.icd &quot;${pkgdir}/etc/OpenCL/vendors/nvidia.icd&quot;
+    install -D &quot;libnvidia-compiler.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-compiler.so.${pkgver}&quot;
+    install -D &quot;libnvidia-opencl.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-opencl.so.${pkgver}&quot;
+
+    create_links
+
+    mkdir -p &quot;${pkgdir}/usr/share/licenses&quot;
+    ln -s nvidia-utils &quot;${pkgdir}/usr/share/licenses/opencl-nvidia&quot;
+}
+
+package_nvidia-450xx-dkms() {
+    pkgdesc=&quot;NVIDIA drivers - module sources&quot;
+    depends=('dkms' &quot;nvidia-450xx-utils=$pkgver&quot; 'libglvnd')
+    provides=('NVIDIA-MODULE')
+
+    cd ${_pkg}
+
+    install -dm 755 &quot;${pkgdir}&quot;/usr/src
+    cp -dr --no-preserve='ownership' kernel &quot;${pkgdir}/usr/src/nvidia-${pkgver}&quot;
+
+    install -Dt &quot;${pkgdir}/usr/share/licenses/${pkgname}&quot; -m644 &quot;${srcdir}/${_pkg}/LICENSE&quot;
+}
+
+package_nvidia-450xx-utils() {
+    pkgdesc=&quot;NVIDIA drivers utilities&quot;
+    depends=('xorg-server' 'libglvnd' 'egl-wayland')
+    optdepends=('nvidia-450xx-settings: configuration tool'
+                'xorg-server-devel: nvidia-xconfig'
+                'opencl-nvidia-450xx: OpenCL support')
+    conflicts=('nvidia-libgl' 'nvidia-utils')
+    provides=('vulkan-driver' 'opengl-driver' 'nvidia-libgl' 'nvidia-utils')
+    install=&quot;${pkgname}.install&quot;
+
+    cd &quot;${_pkg}&quot;
+
+    # Check http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/README/installedcomponents.html
+    # for hints on what needs to be installed where.
+
+    # X driver
+    install -D nvidia_drv.so &quot;${pkgdir}/usr/lib/xorg/modules/drivers/nvidia_drv.so&quot;
+
+    # Wayland/GBM
+    #install -Dm755 libnvidia-egl-gbm.so.1* -t &quot;${pkgdir}/usr/lib/&quot;
+    #install -Dm644 15_nvidia_gbm.json &quot;${pkgdir}/usr/share/egl/egl_external_platform.d/15_nvidia_gbm.json&quot;
+    #mkdir -p &quot;${pkgdir}/usr/lib/gbm&quot;
+    #ln -sr &quot;${pkgdir}/usr/lib/libnvidia-allocator.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/gbm/nvidia-drm_gbm.so&quot;
+
+    # firmware
+    # install -Dm644 firmware/gsp.bin &quot;${pkgdir}/usr/lib/firmware/nvidia/${pkgver}/gsp.bin&quot;
+
+    # GLX extension module for X
+    install -D &quot;libglxserver_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/nvidia/xorg/libglxserver_nvidia.so.${pkgver}&quot;
+    # Ensure that X finds glx
+    ln -s &quot;libglxserver_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/nvidia/xorg/libglxserver_nvidia.so.1&quot;
+    ln -s &quot;libglxserver_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/nvidia/xorg/libglxserver_nvidia.so&quot;
+
+    install -D &quot;libGLX_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libGLX_nvidia.so.${pkgver}&quot;
+
+    # OpenGL libraries
+    install -D     &quot;libEGL_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libEGL_nvidia.so.${pkgver}&quot;
+    install -D     &quot;libGLESv1_CM_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libGLESv1_CM_nvidia.so.${pkgver}&quot;
+    install -D     &quot;libGLESv2_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libGLESv2_nvidia.so.${pkgver}&quot;
+    install -Dm644 &quot;10_nvidia.json&quot; &quot;${pkgdir}/usr/share/glvnd/egl_vendor.d/10_nvidia.json&quot;
+
+    # OpenGL core library
+    install -D &quot;libnvidia-glcore.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-glcore.so.${pkgver}&quot;
+    install -D &quot;libnvidia-eglcore.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-eglcore.so.${pkgver}&quot;
+    install -D &quot;libnvidia-glsi.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-glsi.so.${pkgver}&quot;
+
+    # misc
+    install -D &quot;libnvidia-ifr.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-ifr.so.${pkgver}&quot;
+    install -D &quot;libnvidia-fbc.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-fbc.so.${pkgver}&quot;
+    install -D &quot;libnvidia-encode.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-encode.so.${pkgver}&quot;
+    install -D &quot;libnvidia-cfg.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-cfg.so.${pkgver}&quot;
+    install -D &quot;libnvidia-ml.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-ml.so.${pkgver}&quot;
+    install -D &quot;libnvidia-glvkspirv.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-glvkspirv.so.${pkgver}&quot;
+    install -D &quot;libnvidia-allocator.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-allocator.so.${pkgver}&quot;
+
+    # Vulkan ICD
+    install -Dm644 &quot;nvidia_icd.json&quot; &quot;${pkgdir}/usr/share/vulkan/icd.d/nvidia_icd.json&quot;
+    install -Dm644 &quot;nvidia_layers.json&quot; &quot;${pkgdir}/usr/share/vulkan/implicit_layer.d/nvidia_layers.json&quot;
+
+    # VDPAU
+    install -D &quot;libvdpau_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/vdpau/libvdpau_nvidia.so.${pkgver}&quot;
+
+    # nvidia-tls library
+    install -D &quot;libnvidia-tls.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-tls.so.${pkgver}&quot;
+
+    # CUDA
+    install -D &quot;libcuda.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libcuda.so.${pkgver}&quot;
+    install -D &quot;libnvcuvid.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvcuvid.so.${pkgver}&quot;
+
+    # PTX JIT Compiler (Parallel Thread Execution (PTX) is a pseudo-assembly language for CUDA)
+    install -D &quot;libnvidia-ptxjitcompiler.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-ptxjitcompiler.so.${pkgver}&quot;
+
+    # raytracing
+    install -D &quot;libnvoptix.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvoptix.so.${pkgver}&quot;
+    install -D &quot;libnvidia-rtcore.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-rtcore.so.${pkgver}&quot;
+    install -D &quot;libnvidia-cbl.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-cbl.so.${pkgver}&quot;
+
+    # NGX
+    install -D &quot;libnvidia-ngx.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-ngx.so.${pkgver}&quot;
+
+    # Optical flow
+    install -D &quot;libnvidia-opticalflow.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-opticalflow.so.${pkgver}&quot;
+
+    # DEBUG
+    install -D nvidia-debugdump &quot;${pkgdir}/usr/bin/nvidia-debugdump&quot;
+
+    # nvidia-xconfig
+    install -D     nvidia-xconfig &quot;${pkgdir}/usr/bin/nvidia-xconfig&quot;
+    install -Dm644 nvidia-xconfig.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-xconfig.1.gz&quot;
+
+    # nvidia-bug-report
+    install -D nvidia-bug-report.sh &quot;${pkgdir}/usr/bin/nvidia-bug-report.sh&quot;
+
+    # nvidia-smi
+    install -D     nvidia-smi &quot;${pkgdir}/usr/bin/nvidia-smi&quot;
+    install -Dm644 nvidia-smi.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-smi.1.gz&quot;
+
+    # nvidia-cuda-mps
+    install -D     nvidia-cuda-mps-server &quot;${pkgdir}/usr/bin/nvidia-cuda-mps-server&quot;
+    install -D     nvidia-cuda-mps-control &quot;${pkgdir}/usr/bin/nvidia-cuda-mps-control&quot;
+    install -Dm644 nvidia-cuda-mps-control.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-cuda-mps-control.1.gz&quot;
+
+    # nvidia-modprobe
+    # This should be removed if nvidia fixed their uvm module!
+    install -Dm4755 nvidia-modprobe &quot;${pkgdir}/usr/bin/nvidia-modprobe&quot;
+    install -Dm644  nvidia-modprobe.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-modprobe.1.gz&quot;
+
+    # nvidia-persistenced
+    install -D     nvidia-persistenced &quot;${pkgdir}/usr/bin/nvidia-persistenced&quot;
+    install -Dm644 nvidia-persistenced.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-persistenced.1.gz&quot;
+    install -Dm644 nvidia-persistenced-init/systemd/nvidia-persistenced.service.template &quot;${pkgdir}/usr/lib/systemd/system/nvidia-persistenced.service&quot;
+    sed -i 's/__USER__/nvidia-persistenced/' &quot;${pkgdir}/usr/lib/systemd/system/nvidia-persistenced.service&quot;
+
+    # application profiles
+    install -Dm644 nvidia-application-profiles-${pkgver}-rc &quot;${pkgdir}/usr/share/nvidia/nvidia-application-profiles-${pkgver}-rc&quot;
+    install -Dm644 nvidia-application-profiles-${pkgver}-key-documentation &quot;${pkgdir}/usr/share/nvidia/nvidia-application-profiles-${pkgver}-key-documentation&quot;
+
+    install -Dm644 LICENSE &quot;${pkgdir}/usr/share/licenses/nvidia-utils/LICENSE&quot;
+    install -Dm644 README.txt &quot;${pkgdir}/usr/share/doc/nvidia/README&quot;
+    install -Dm644 NVIDIA_Changelog &quot;${pkgdir}/usr/share/doc/nvidia/NVIDIA_Changelog&quot;
+    cp -r html &quot;${pkgdir}/usr/share/doc/nvidia/&quot;
+    ln -s nvidia &quot;${pkgdir}/usr/share/doc/nvidia-utils&quot;
+
+    # distro specific files must be installed in /usr/share/X11/xorg.conf.d
+    install -Dm644 &quot;${srcdir}/nvidia-drm-outputclass.conf&quot; &quot;${pkgdir}/usr/share/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf&quot;
+
+    install -Dm644 &quot;${srcdir}/nvidia-450xx-utils.sysusers&quot; &quot;${pkgdir}/usr/lib/sysusers.d/$pkgname.conf&quot;
+
+    install -Dm644 &quot;${srcdir}/nvidia-450xx.rules&quot; &quot;$pkgdir&quot;/usr/lib/udev/rules.d/60-nvidia-450xx.rules
+
+    echo &quot;blacklist nouveau&quot; | install -Dm644 /dev/stdin &quot;${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf&quot;
+    echo &quot;nvidia-uvm&quot; | install -Dm644 /dev/stdin &quot;${pkgdir}/usr/lib/modules-load.d/${pkgname}.conf&quot;
+
+    create_links
+}
+</code></pre>
 
     </div>
 
@@ -207,7 +435,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/580acfaa6d360c9b7717d4170523100a56785319" title="update" target="_blank">(580acfa)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/e3b9bad3100968bf46cf3de51985ae3f9ac1da32" title="update" target="_blank">(e3b9bad)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/vps2arch-nvidia.md" target="_blank">更新历史</a>
     </span>
   </p>
