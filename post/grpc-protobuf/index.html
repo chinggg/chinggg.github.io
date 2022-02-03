@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>搜索 - chinggg的博客</title>
+  <title>gRPC Protobuf 逆向初探 - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="" /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功" /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.80.0 with theme even" />
 
 
-<link rel="canonical" href="https://chinggg.github.io/search/" />
+<link rel="canonical" href="https://chinggg.github.io/post/grpc-protobuf/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,24 +41,24 @@
 
 
 
-<meta property="og:title" content="搜索" />
-<meta property="og:description" content="" />
+<meta property="og:title" content="gRPC Protobuf 逆向初探" />
+<meta property="og:description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinggg.github.io/search/" />
-<meta property="article:published_time" content="2020-02-07T17:43:21+08:00" />
+<meta property="og:url" content="https://chinggg.github.io/post/grpc-protobuf/" />
+<meta property="article:published_time" content="2022-01-25T11:30:09+08:00" />
 <meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="搜索">
-<meta itemprop="description" content="">
-<meta itemprop="datePublished" content="2020-02-07T17:43:21+08:00" />
+<meta itemprop="name" content="gRPC Protobuf 逆向初探">
+<meta itemprop="description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功">
+<meta itemprop="datePublished" content="2022-01-25T11:30:09+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="821">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="逆向,编码," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="搜索"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="gRPC Protobuf 逆向初探"/>
+<meta name="twitter:description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -144,46 +144,80 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6/dist/fuse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mark.js@8/dist/mark.min.js"></script>
-<script id="search-result-template" type="text/x-js-template">
-  <div id="summary-${key}">
-    <article class="post">
-      <header class="post-header">
-        <h1 class="post-title"><a class="post-link" href="${link}">${title}</a></h1>
-        <div class="post-meta">
-          <span class="post-time"> ${date} </span>
-          ${ isset categories }<div class="post-category"><a href="/categories/${categories}/"> ${categories} </a></div>${ end }
-        </div>
-      </header>
-      
-      <div class="post-content">
-        <div class="post-summary">
-          ${snippet}
-        </div>
-        <div class="read-more">
-          <a href="${link}" class="read-more-link">阅读更多</a>
-        </div>
-      </div>
-      ${ isset tags }${tags}${ end }
-    </article>
-  </div>
-</script>
-<script src="https://chinggg.github.io/js/search.js"></script>
-<div class="content-wrapper">
-  <div id="content" class="content">
-    <section id="search-input">
-      <input id="search-content" type="search" oninput="executeSearch()"/>
-      <i class="iconfont icon-search" onclick="executeSearch()"></i>
-    </section>
-    <br/>
-    <section id="search-results">
-      <p>请在上方输入关键词进行搜索</p>
-    </section>
-  </div>
-</div>
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">gRPC Protobuf 逆向初探</h1>
 
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-25 11:30:09 &#43;0800 &#43;0800"> 2022-01-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+
+    <div class="post-content">
+      <p>逆向时开始见到 gRPC 协议和 <a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank">Protobuf</a> 编码在私信、直播等领域使用，故记录之。</p>
+<p>gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功能，Fiddler 抓到了 HTTP/1.1 的请求，mitmproxy 抓到了 HTTP/2.0 的请求，URL 的 Path 相同而 Host 不一样，猜测是客户端做了 FallBack。</p>
+<p>抓到包后其实有两种选择，最开始我找到发请求的地点，闷头逆向 Java 层代码，打印数据（注意是否有类继承 <code>com.google.protobuf.GeneratedMessageLite</code>），一个个字段找生成的位置，但因为不熟悉客户端所用组件，往往耗时耗力找不到关键，而且考虑到之后的目标是正向构造请求，确定 proto 协议才是关键，与其往客户端实现层分析，不如直接从报文 body 着手。</p>
+<p>Protobuf 高效的一大原因在于其将字段名放在双方持有的 proto 中，传输的数据仅有 enum 编号，但数据本身的值却完全是可以解读的，<code>protoc --decode_raw &lt; file</code> 就能打印出解析后的数据，也有<a href="https://protobuf-decoder.netlify.app" target="_blank">在线网站</a>，但我刚开始复制报文 body 却总是解析失败，mitmproxy 可选择以 protobuf 解码数据，却也失败，关键在于传输的是 <a href="https://stackoverflow.com/questions/66727164/how-to-unpack-decompress-raw-grpc-data" target="_blank">Length-Prefixed-Message</a> 而非直接是 protobuf，即第一个 byte 值为 1/0 表示是否压缩，再 4 byte (big endian) 表示消息长度，剩下的才是消息，而如果有压缩的话，还要再把消息解压缩，比如最常见的 gzip，其前 10 byte 又是压缩相关的头部信息，而 App 可能会刻意设置 gzip header 以防伪造，若非提前看到 <a href="https://blog.seeflower.dev/archives/4/" target="_blank">哔哩哔哩视频和字幕接口分析</a> 这篇文章，必然踩坑。</p>
+<pre><code class="language-python">def gzip_compress(buf: bytes, bz=True) -&gt; bytes:
+    compressed = gzip.compress(buf)
+    if bz:  # special header
+      compressed = compressed[:3] + bytes(7*[0]) + compressed[10:]
+    return compressed
+
+def length_prefixed_enc(buf: bytes, compress: bool = True) -&gt; bytes:
+    buf = gzip_compress(buf) if compress else buf
+    return struct.pack(&quot;!bl&quot;, compress, len(buf)) + buf
+  
+def length_prefixed_dec(msg: bytes) -&gt; bytes:
+    compress, length = struct.unpack(&quot;!bl&quot;, msg[:5])
+    buf = gzip.decompress(msg[5:5+length]) if compress else msg[5:5+length]
+    return buf
+</code></pre>
+<p>将 Protobuf 的原始数据提取出后，即可用 <code>protoc</code> 解得没有字段名的原始数据，配合动静态分析获得的值，一般就能手写对应的 proto 文件，接着就由 proto 文件生成不同语言的对应代码，可以尝试直接调用 gRPC，也可以仅生成 Protobuf 的 msg 对象再 <code>SerializeToString()</code>，生成 Length-Prefixed-Message 作为 body，添加 header <code>&quot;Content-Type&quot;: &quot;application/grpc&quot;</code>，这样构造 HTTP 请求亦可生效。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8890c820064166a922072fa5151c01658a9edcab" title="update" target="_blank">(8890c82)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/grpc-protobuf.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%80%86%E5%90%91/">逆向</a>
+          <a href="/tags/%E7%BC%96%E7%A0%81/">编码</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/vps2arch-nvidia/">
+            <span class="next-text nav-default">vps2arch NVIDIA vGPU</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
         </div>
         
 
@@ -195,9 +229,9 @@
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e6%90%9c%e7%b4%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"gRPC%20Protobuf%20%e9%80%86%e5%90%91%e5%88%9d%e6%8e%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e6%90%9c%e7%b4%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=gRPC%20Protobuf%20%e9%80%86%e5%90%91%e5%88%9d%e6%8e%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>

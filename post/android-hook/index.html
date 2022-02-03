@@ -46,12 +46,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/android-hook/" />
 <meta property="article:published_time" content="2021-11-17T16:38:08+08:00" />
-<meta property="article:modified_time" content="2022-02-01T00:35:46+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="Android Hook">
 <meta itemprop="description" content="Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想">
 <meta itemprop="datePublished" content="2021-11-17T16:38:08+08:00" />
-<meta itemprop="dateModified" content="2022-02-01T00:35:46+00:00" />
-<meta itemprop="wordCount" content="1085">
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="1108">
 
 
 
@@ -283,21 +283,22 @@ function hookJavaFunc(clsName, funcName, argtypes, rettype, stack, func) {
   funcObj.implementation = func || defaultFunc;
 }
 
-function hookMap(filterStr) {
-  const cls = Java.classFactory.use(&quot;java.util.HashMap&quot;);
+function hookMap(keywords) {
+  const cls = Java.classFactory.use(&quot;java.util.HashMap&quot;)
   cls.get.implementation = function (key) {
     const res = this.get(key)
-    const keyStr = key ? key.toString() : ''
-    if (keyStr.includes(filterStr)) {
-      console.error(&quot;hookMap get&quot;, key)
+    const kStr = key ? key.toString() : ''
+    if (keywords.some(w =&gt; kStr.includes(w))) {
+      console.error(&quot;hookMap get&quot;, key, &quot; =&gt; &quot;, res)
       printStack()
     }
     return res
   }
   cls.put.implementation = function (key, value) {
     const res = this.put(key, value)
-    const keyStr = key ? key.toString() : ''
-    if (keyStr.includes(filterStr)) {
+    const kStr = key ? key.toString() : ''
+    // const vStr = value ? value.toString() : ''
+    if (keywords.some(w =&gt; kStr.includes(w))) {
       console.error(&quot;hookMap put&quot;, key, value)
       printStack()
     }
@@ -381,6 +382,7 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
    if (!lpparam.packageName.equals(&quot;com.example.appname&quot;)) return;
 }
 </code></pre>
+<p><a href="https://blog.drov.com.cn/2021/04/hook.html" target="_blank">hook原理</a></p>
 
     </div>
 
@@ -392,8 +394,8 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-02-01 00:35:46 &#43;0000 UTC">2022-02-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/1c8b128077c8cbb5f4dc0bdb70ed04cd633fb350" title="chore: update clicks" target="_blank">(1c8b128)</a>
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8890c820064166a922072fa5151c01658a9edcab" title="update" target="_blank">(8890c82)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Android-Hook.md" target="_blank">更新历史</a>
     </span>
   </p>

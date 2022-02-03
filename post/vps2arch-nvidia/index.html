@@ -46,12 +46,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/vps2arch-nvidia/" />
 <meta property="article:published_time" content="2022-01-17T15:03:15+08:00" />
-<meta property="article:modified_time" content="2022-02-01T00:35:46+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
 <meta itemprop="name" content="vps2arch NVIDIA vGPU">
 <meta itemprop="description" content="vps2arch 没啥好说的，上不了网注意改 systemd-networkd 的配置，提前 pacman -S vi vim base-devel NVIDIA nvidia 和 nvidia-lts 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 nvidia-smi 后提示无法与 driv">
 <meta itemprop="datePublished" content="2022-01-17T15:03:15+08:00" />
-<meta itemprop="dateModified" content="2022-02-01T00:35:46+00:00" />
-<meta itemprop="wordCount" content="1821">
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="2283">
 
 
 
@@ -168,9 +168,11 @@
       <ul>
         <li>
           <ul>
-            <li><a href="#vps2arch">vps2arch</a></li>
+            <li><a href="#vps2archhttpsgithubcomfelixonmarsvps2arch"><a href="https://github.com/felixonmars/vps2arch">vps2arch</a></a></li>
             <li><a href="#nvidia">NVIDIA</a></li>
-            <li><a href="#cuda">CUDA</a></li>
+            <li><a href="#vgpu">vGPU</a></li>
+            <li><a href="#downgrade-kernel">Downgrade Kernel</a></li>
+            <li><a href="#gridd">gridd</a></li>
             <li><a href="#summary">Summary</a></li>
           </ul>
         </li>
@@ -181,24 +183,36 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="vps2arch">vps2arch</h3>
+      <h3 id="vps2archhttpsgithubcomfelixonmarsvps2arch"><a href="https://github.com/felixonmars/vps2arch" target="_blank">vps2arch</a></h3>
 <p>没啥好说的，上不了网注意改 <code>systemd-networkd</code> 的配置，提前 <code>pacman -S vi vim base-devel</code></p>
 <h3 id="nvidia">NVIDIA</h3>
 <p><code>nvidia</code> 和 <code>nvidia-lts</code> 都是最新版 nvidia 驱动，一般内核新不是问题，往往是驱动太新，执行 <code>nvidia-smi</code> 后提示无法与 driv，<code>lsmod | grep nvidia</code> 没有结果，<code>/dev</code> 下也没有 <code>nvidia</code>，<code>dmesg</code> 才发现提示不支持。</p>
-<p>在官网查看<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank">对应型号显卡的最新驱动</a>，记住版本号</p>
-<p>若该型号驱动版本太低，从 AUR 安装 <a href="https://aur.archlinux.org/packages/nvidia-470xx-dkms/" target="_blank">nvidia-470xx-dkms</a> 或 <a href="https://aur.archlinux.org/packages/nvidia-390xx-dkms/" target="_blank">nvidia-390xx-dkms</a>，记得 <code>pacman -S linux-headers</code></p>
-<p>观察以上两个包的 PKGBUILD，发现都是从 <a href="https://download.nvidia.com/XFree86/Linux-x86_64/">https://download.nvidia.com/XFree86/Linux-x86_64/</a> 下载 <code>.run</code> 文件，故理论上可以修改 PKGBUILD 中的 <code>pkgver</code>，<a href="https://wiki.archlinux.org/title/DeveloperWiki:Building_in_a_clean_chroot" target="_blank">自行打包</a> 以安装任意版本的驱动，即 <code>pacman -S devtools</code> 后，执行 <code>extra-x86_64-build</code>，再 <code>pacman -U *.pkg.tar.zst</code></p>
-<p>但 vps2arch 的机器往往是 vGPU 而非直通显卡，所以换了各种版本都还是不支持，应下载 <code>NVIDIA-Linux-x86_64-${pkgver}-grid.run</code> 而非常规驱动，<a href="https://cloud.google.com/compute/docs/gpus/grid-drivers-table" target="_blank">Google Cloud</a> 可以直接下载，替换链接即可。</p>
-<p>对于内核版本万年不变的发行版，直接执行应该问题不大，但常年滚动升级的 Arch 上这样操作容易挂（？咱也没试过），最好还是让 NVIDIA driver 纳入包管理器的控制。不过 AUR 似乎没有基于 grid 驱动的现成包，<a href="https://aur.archlinux.org/packages/nvidia-merged/" target="_blank">nvidia-merged</a> 似乎是支持 vGPU 但安装提示本机并不是跑在 KVM 上的 vGPU，所以还是手打包，不断出错然后更改相应脚本，例如我尝试将 470xx 的 PKGBUILD 替换成 grid 版，主要是删除了一些安装 systemd service 的命令，因为 <code>*-grid.run</code> 解压后并不存在相应文件。</p>
-<p>一通操作后居然打出了 470xx grid 的包，还真能装上，module 和 dev 都有了，<code>nvidia-smi</code> 不会立刻报错，而是等待许久后来一句 <a href="https://forums.developer.nvidia.com/t/nvidia-smi-no-devices-were-found-error/38464/23" target="_blank"><code>No devices were found</code></a>，<code>dmesg</code> 中没有原来的显眼报错，而是 <code>NVRM: RmInitAdapter failed!</code>，肯定还是有问题了，<code>nvidia-persistence</code> 也是无法启动的。</p>
+<p>在官网查看<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank">对应型号显卡的最新驱动</a>，记住版本号，比如 Tesla T4 是 <code>470.82.01</code>，若该型号官网驱动版本低于 <code>nvidia</code>，从 AUR 安装 <a href="https://aur.archlinux.org/packages/nvidia-470xx-dkms/" target="_blank">nvidia-470xx-dkms</a> 或 <a href="https://aur.archlinux.org/packages/nvidia-390xx-dkms/" target="_blank">nvidia-390xx-dkms</a>（其实 AUR 不止这些但以上两者是 Wiki 推荐)</p>
+<p>观察以上两个包的 PKGBUILD，发现都是从 <a href="https://download.nvidia.com/XFree86/Linux-x86_64/">https://download.nvidia.com/XFree86/Linux-x86_64/</a> 下载对应版本的 <code>.run</code> 文件，但直接执行 <code>.run</code> 文件不是 The Arch Way (容易滚挂？咱也没试过)，最好还是将 NVIDIA driver 纳入包管理器的控制，可以修改 PKGBUILD 中的 <code>pkgver</code>，<a href="https://wiki.archlinux.org/title/DeveloperWiki:Building_in_a_clean_chroot" target="_blank">自行打包</a> 以安装任意版本的驱动，即 <code>pacman -S devtools</code> 后，执行 <code>extra-x86_64-build</code> 根据 <code>PKGBUILD</code> 创建干净的环境打包，再 <code>pacman -U *.pkg.tar.zst</code> 安装。若需要自行创建测试环境，可用 <a href="https://wiki.archlinux.org/title/systemd-nspawn" target="_blank">systemd-nspawn</a>。</p>
+<p>为 NVIDIA 驱动打包，可参看 <a href="https://download.nvidia.com/XFree86/Linux-x86_64/450.102.04/README/installedcomponents.html" target="_blank">Listing of Installed Components</a> 了解各文件的作用，<code>.run</code> 文件解压后也有 <code>.manifest</code> 简单列出路径和权限。另外 AUR 可参考的版本较少，可去 <a href="https://gitlab.manjaro.org/packages/extra/nvidia-450xx-utils/-/blob/master/PKGBUILD" target="_blank">Manjaro GitLab</a> 偷包，另外 <code>diff -qr dir1/ dir2/</code> 可以比较不同驱动解压后目录中的文件异同，方便改包。</p>
+<h3 id="vgpu">vGPU</h3>
+<p>从 470xx 到 390xx，dmesg 日志都还是报错不支持，突然意识到机器是 vGPU 而非直通显卡，需要装 <a href="https://docs.nvidia.com/grid/11.0/grid-software-quick-start-guide/index.html" target="_blank">grid</a> 驱动。可能是 license 的缘故，AUR 没有基于 <a href="https://docs.nvidia.com/grid/" target="_blank">grid</a> 驱动的现成包，<a href="https://aur.archlinux.org/packages/nvidia-merged/" target="_blank">nvidia-merged</a> 似乎是支持 vGPU 但安装提示本机并不是跑在 KVM 上的 vGPU，所以只能手打包。NVIDIA 官网没有提供 grid 驱动的公开直链，还好 <a href="https://cloud.google.com/compute/docs/gpus/grid-drivers-table" target="_blank">Google Cloud</a> 可以直接下载 <code>NVIDIA-Linux-x86_64-${pkgver}-grid.run</code>。</p>
+<p>基于 470xx 的 PKGBUILD 删减一通后居然打出了 470xx grid 的包，还真能装上，module 和 dev 都有了，<code>nvidia-smi</code> 不会立刻报错，而是等待许久后来一句 <a href="https://forums.developer.nvidia.com/t/nvidia-smi-no-devices-were-found-error/38464/23" target="_blank"><code>No devices were found</code></a>，<code>dmesg</code> 中没有原来的显眼报错，而是 <code>NVRM: RmInitAdapter failed!</code>，肯定还是有问题了，<code>nvidia-persistence</code> 也无法启动的。</p>
+<h3 id="downgrade-kernel">Downgrade Kernel</h3>
 <p>查阅内网文档说是显卡驱动版本受限于母机，只支持到 <code>450.102.04</code>，那再手打 450xx 的包，结果发现安装 dkms 时总是编译报错，看 make.log 应该是内核源码中某些定义有变动，有类似的 patch <a href="https://bbs.archlinux.org/viewtopic.php?id=268421">https://bbs.archlinux.org/viewtopic.php?id=268421</a>，但改了一个还没完，后面继续出现更多报错，短时间内估计搞不定，不如退而求其次，降 kernel 版本。</p>
-<p>根据 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 3，<code>450.102.04</code> 对应 CUDA 11.0.3 Update 1，查看 <a href="https://docs.nvidia.com/cuda/archive/11.0/cuda-installation-guide-linux/index.html" target="_blank">cuda-installation-guide-linux v11.0.3</a>，从表 <code>Table 1. Native Linux Distribution Support in CUDA 11.0</code> 推测官方最高支持到 Kernel 5.4.0，故降级到 <code>linux-lts54</code></p>
+<p>根据 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 3，<code>450.102.04</code> 对应 CUDA 11.0.3 Update 1，查看 <a href="https://docs.nvidia.com/cuda/archive/11.0/cuda-installation-guide-linux/index.html" target="_blank">cuda-installation-guide-linux v11.0.3</a>，从表 <code>Table 1. Native Linux Distribution Support in CUDA 11.0</code> 推测官方最高支持到 Kernel 5.4.0，故降级到 <code>linux-lts54</code>，并 <code>yay -S linux-lts54-headers</code></p>
 <p>安装 kernel 后重启前一定记得 <code>grub-mkconfig</code>，然后删除 <code>/usr/lib/modules/</code> 下之前版本的残留文件夹，否则 dkms 仍会尝试编译该版本于是报错，未找到模块的错误 PKGBUILD 中再看是否可删除多余的命令，最后终于装成功，重启后 <code>nvidia-smi</code> 成功出现了梦寐以求的界面！</p>
-<h3 id="cuda">CUDA</h3>
-<p><code>python-pytorch-cuda</code> 直接装，居然 available 而不用装老版本，因为 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 2 表明直到 CUDA 11.5 的 Minimum Required Driver Version 还是 <code>&gt;=450.80.02</code></p>
+<p><code>python-pytorch-cuda</code> 直接装，居然也 available 而不用装老版本，因为 <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html" target="_blank">cuda-toolkit-release-notes</a> 的 Table 2 表明直到 CUDA 11.5 的 Minimum Required Driver Version 还是 <code>&gt;=450.80.02</code></p>
+<h3 id="gridd">gridd</h3>
+<p>然而事情并没有那么简单，这样装上驱动后炼丹似乎完全没效果，这才想起来 vGPU 是需要 license 的，可装上后完全没有体现，因为我打包时压根没把 <code>nvidia-gridd</code> 放进去，于是打进包里，然后在 <code>/etc/nvidia/gridd.conf</code> 填入 license server address，启用服务后报错 <code>Error requesting D-Bus name (Connection &quot;:1.14&quot; is not allowed to own the service &quot;nvidia.grid.server&quot; due to security policies in the configuration file)</code></p>
+<p>成功就在眼前，这个报错虽然非常小众，但问题依然能定位到 <a href="https://stackoverflow.com/questions/23156941/system-d-bus-does-not-allow-punching-out-ownership-with-conf-files" target="_blank">dbus配置</a>，在 <code>/usr/share/dbus-1/system.d</code> 下创建 <code>nvidia.grid.server.conf</code>，写入如下配置：</p>
+<pre><code class="language-xml">&lt;!DOCTYPE busconfig PUBLIC &quot;-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN&quot;
+ &quot;http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd&quot;&gt;
+&lt;busconfig&gt;
+  &lt;policy context=&quot;default&quot;&gt;
+    &lt;allow own=&quot;nvidia.grid.server&quot;/&gt;
+  &lt;/policy&gt;
+&lt;/busconfig&gt;
+</code></pre>
+<p>果然不再报错，重启服务后显示成功获取，<code>nvidia-smi -q | grep -i license</code> 也证实了已变成 Licensed 状态。</p>
 <h3 id="summary">Summary</h3>
-<p>再次锻炼了折腾能力，最开始只会盲从 Arch Wiki，转折点是看到 <code>/data</code> 目录下的残留驱动而意识到应使用 vGPU 特供驱动，从而被迫学习改包打包，虽然成功打包并装上，但报错并发现到机器最高只支持 450xx，于是打旧包，这次是安装 dkms 总出错，从而对驱动和内核版本之间的关系有了更深理解，事后看 NVIDIA 官网的文档和表格大致明白了 Kernel, Driver, CUDA 这三者版本的关联。</p>
-<p>最后附上自制 <code>nvidia-450xx-grid-utils</code> 的 PKGBUILD</p>
+<p>没有学会炼丹，却再次锻炼了折腾能力，最开始只会盲从 Arch Wiki，转折点是看到 <code>/data</code> 目录下的残留驱动而意识到应使用 vGPU 特供 grid 驱动，从而被迫学习改包打包，虽然成功打包并装上，但报错并发现到机器最高只支持 450xx，于是打旧包，这次是安装 dkms 总出错，从而对驱动和内核版本之间的关系有了更深理解，事后看 NVIDIA 官网的文档和表格大致明白了 Kernel, Driver, CUDA 这三者版本的关联。</p>
+<p>最后附上自制 <code>nvidia-450xx-utils</code> 的 PKGBUILD</p>
 <pre><code class="language-sh"># Maintainer:  Jonathon Fernyhough &lt;jonathon+m2x+dev&gt;
 # Contributor: Sven-Hendrik Haase &lt;svenstaro@gmail.com&gt;
 # Contributor: Thomas Baechler &lt;thomas@archlinux.org&gt;
@@ -289,9 +303,8 @@ package_nvidia-450xx-dkms() {
 
 package_nvidia-450xx-utils() {
     pkgdesc=&quot;NVIDIA drivers utilities&quot;
-    depends=('xorg-server' 'libglvnd' 'egl-wayland')
-    optdepends=('nvidia-450xx-settings: configuration tool'
-                'xorg-server-devel: nvidia-xconfig'
+    depends=('xorg-server')
+    optdepends=('xorg-server-devel: nvidia-xconfig'
                 'opencl-nvidia-450xx: OpenCL support')
     conflicts=('nvidia-libgl' 'nvidia-utils')
     provides=('vulkan-driver' 'opengl-driver' 'nvidia-libgl' 'nvidia-utils')
@@ -304,15 +317,6 @@ package_nvidia-450xx-utils() {
 
     # X driver
     install -D nvidia_drv.so &quot;${pkgdir}/usr/lib/xorg/modules/drivers/nvidia_drv.so&quot;
-
-    # Wayland/GBM
-    #install -Dm755 libnvidia-egl-gbm.so.1* -t &quot;${pkgdir}/usr/lib/&quot;
-    #install -Dm644 15_nvidia_gbm.json &quot;${pkgdir}/usr/share/egl/egl_external_platform.d/15_nvidia_gbm.json&quot;
-    #mkdir -p &quot;${pkgdir}/usr/lib/gbm&quot;
-    #ln -sr &quot;${pkgdir}/usr/lib/libnvidia-allocator.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/gbm/nvidia-drm_gbm.so&quot;
-
-    # firmware
-    # install -Dm644 firmware/gsp.bin &quot;${pkgdir}/usr/lib/firmware/nvidia/${pkgver}/gsp.bin&quot;
 
     # GLX extension module for X
     install -D &quot;libglxserver_nvidia.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/nvidia/xorg/libglxserver_nvidia.so.${pkgver}&quot;
@@ -370,12 +374,25 @@ package_nvidia-450xx-utils() {
     # Optical flow
     install -D &quot;libnvidia-opticalflow.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-opticalflow.so.${pkgver}&quot;
 
+    # Only for GRID, maybe useless
+    install -D &quot;libFlxCore64.so.2018.02&quot; &quot;${pkgdir}/usr/lib/libFlxCore64.so.2018.02&quot;
+    install -D &quot;libFlxComm64.so.2018.02&quot; &quot;${pkgdir}/usr/lib/libFlxComm64.so.2018.02&quot;
+
     # DEBUG
     install -D nvidia-debugdump &quot;${pkgdir}/usr/bin/nvidia-debugdump&quot;
 
     # nvidia-xconfig
     install -D     nvidia-xconfig &quot;${pkgdir}/usr/bin/nvidia-xconfig&quot;
     install -Dm644 nvidia-xconfig.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-xconfig.1.gz&quot;
+
+    # nvidia-settings
+    install -D -m755 nvidia-settings &quot;${pkgdir}/usr/bin/nvidia-settings&quot;
+    install -D -m644 nvidia-settings.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-settings.1.gz&quot;
+    install -D -m644 nvidia-settings.desktop &quot;${pkgdir}/usr/share/applications/nvidia-settings.desktop&quot;
+    install -D -m644 nvidia-settings.png &quot;${pkgdir}/usr/share/pixmaps/nvidia-settings.png&quot;
+    install -D -m755 &quot;libnvidia-gtk2.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-gtk2.so.${pkgver}&quot;
+    install -D -m755 &quot;libnvidia-gtk3.so.${pkgver}&quot; &quot;${pkgdir}/usr/lib/libnvidia-gtk3.so.${pkgver}&quot;
+    sed -e 's:__UTILS_PATH__:/usr/bin:' -e 's:__PIXMAP_PATH__:/usr/share/pixmaps:' -i &quot;${pkgdir}/usr/share/applications/nvidia-settings.desktop&quot;
 
     # nvidia-bug-report
     install -D nvidia-bug-report.sh &quot;${pkgdir}/usr/bin/nvidia-bug-report.sh&quot;
@@ -400,6 +417,12 @@ package_nvidia-450xx-utils() {
     install -Dm644 nvidia-persistenced-init/systemd/nvidia-persistenced.service.template &quot;${pkgdir}/usr/lib/systemd/system/nvidia-persistenced.service&quot;
     sed -i 's/__USER__/nvidia-persistenced/' &quot;${pkgdir}/usr/lib/systemd/system/nvidia-persistenced.service&quot;
 
+    # nvidia-gridd
+    install -Dm4755 nvidia-gridd &quot;${pkgdir}/usr/bin/nvidia-gridd&quot;
+    install -Dm644  nvidia-gridd.1.gz &quot;${pkgdir}/usr/share/man/man1/nvidia-gridd.1.gz&quot;
+    install -Dm644 gridd.conf.template &quot;${pkgdir}/etc/nvidia/gridd.conf.template&quot;
+    install -Dm644 init-scripts/systemd/nvidia-gridd.service &quot;${pkgdir}/usr/lib/systemd/system/nvidia-gridd.service&quot;
+
     # application profiles
     install -Dm644 nvidia-application-profiles-${pkgver}-rc &quot;${pkgdir}/usr/share/nvidia/nvidia-application-profiles-${pkgver}-rc&quot;
     install -Dm644 nvidia-application-profiles-${pkgver}-key-documentation &quot;${pkgdir}/usr/share/nvidia/nvidia-application-profiles-${pkgver}-key-documentation&quot;
@@ -410,12 +433,13 @@ package_nvidia-450xx-utils() {
     cp -r html &quot;${pkgdir}/usr/share/doc/nvidia/&quot;
     ln -s nvidia &quot;${pkgdir}/usr/share/doc/nvidia-utils&quot;
 
-    # distro specific files must be installed in /usr/share/X11/xorg.conf.d
-    install -Dm644 &quot;${srcdir}/nvidia-drm-outputclass.conf&quot; &quot;${pkgdir}/usr/share/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf&quot;
-
     install -Dm644 &quot;${srcdir}/nvidia-450xx-utils.sysusers&quot; &quot;${pkgdir}/usr/lib/sysusers.d/$pkgname.conf&quot;
 
     install -Dm644 &quot;${srcdir}/nvidia-450xx.rules&quot; &quot;$pkgdir&quot;/usr/lib/udev/rules.d/60-nvidia-450xx.rules
+
+    # distro specific files must be installed in /usr/share/X11/xorg.conf.d
+    install -m755 -d &quot;$pkgdir/usr/share/X11/xorg.conf.d&quot;
+    install -Dm644 &quot;${srcdir}/nvidia-drm-outputclass.conf&quot; &quot;${pkgdir}/usr/share/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf&quot;
 
     echo &quot;blacklist nouveau&quot; | install -Dm644 /dev/stdin &quot;${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf&quot;
     echo &quot;nvidia-uvm&quot; | install -Dm644 /dev/stdin &quot;${pkgdir}/usr/lib/modules-load.d/${pkgname}.conf&quot;
@@ -434,8 +458,8 @@ package_nvidia-450xx-utils() {
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-02-01 00:35:46 &#43;0000 UTC">2022-02-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/1c8b128077c8cbb5f4dc0bdb70ed04cd633fb350" title="chore: update clicks" target="_blank">(1c8b128)</a>
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/8890c820064166a922072fa5151c01658a9edcab" title="update" target="_blank">(8890c82)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/vps2arch-nvidia.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -451,7 +475,11 @@ package_nvidia-450xx-utils() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/grpc-protobuf/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">gRPC Protobuf 逆向初探</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/ldp-iov/">
             <span class="next-text nav-default">LDP IoV</span>
             <span class="next-text nav-mobile">下一篇</span>
