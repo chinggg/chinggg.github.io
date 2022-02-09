@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>gRPC Protobuf 逆向初探 - chinggg的博客</title>
+  <title>RAZOR - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功" /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &amp;lsquo;19 原文" /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.80.0 with theme even" />
 
 
-<link rel="canonical" href="https://chinggg.github.io/post/grpc-protobuf/" />
+<link rel="canonical" href="https://chinggg.github.io/post/razor/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,24 +41,24 @@
 
 
 
-<meta property="og:title" content="gRPC Protobuf 逆向初探" />
-<meta property="og:description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功" />
+<meta property="og:title" content="RAZOR" />
+<meta property="og:description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinggg.github.io/post/grpc-protobuf/" />
-<meta property="article:published_time" content="2022-01-25T11:30:09+08:00" />
+<meta property="og:url" content="https://chinggg.github.io/post/razor/" />
+<meta property="article:published_time" content="2022-02-08T13:46:52+00:00" />
 <meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="gRPC Protobuf 逆向初探">
-<meta itemprop="description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功">
-<meta itemprop="datePublished" content="2022-01-25T11:30:09+08:00" />
+<meta itemprop="name" content="RAZOR">
+<meta itemprop="description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文">
+<meta itemprop="datePublished" content="2022-02-08T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="821">
+<meta itemprop="wordCount" content="1213">
 
 
 
-<meta itemprop="keywords" content="逆向,编码," />
+<meta itemprop="keywords" content="论文," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="gRPC Protobuf 逆向初探"/>
-<meta name="twitter:description" content="逆向时开始见到 gRPC 协议和 Protobuf 编码在私信、直播等领域使用，故记录之。 gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功"/>
+<meta name="twitter:title" content="RAZOR"/>
+<meta name="twitter:description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -147,11 +147,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">gRPC Protobuf 逆向初探</h1>
+      <h1 class="post-title">RAZOR</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2022-01-25 11:30:09 &#43;0800 &#43;0800"> 2022-01-25 </span>
+        <span class="post-time" title="2022-02-08 13:46:52 &#43;0000 UTC"> 2022-02-08 </span>
         <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
             <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
@@ -159,28 +160,84 @@
     </header>
 
     
-
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#razor-software-debloating">RAZOR: software debloating</a>
+      <ul>
+        <li><a href="#论文信息">论文信息</a></li>
+        <li><a href="#问题背景">问题背景</a></li>
+        <li><a href="#系统设计">系统设计</a>
+          <ul>
+            <li><a href="#execution-trace-collection">Execution Trace Collection</a></li>
+            <li><a href="#heuristic-based-path-inference">Heuristic-based Path Inference</a></li>
+            <li><a href="#debloated-binary-synthesization">Debloated Binary Synthesization</a></li>
+          </ul>
+        </li>
+        <li><a href="#具体实现">具体实现</a></li>
+        <li><a href="#效果验证">效果验证</a></li>
+        <li><a href="#讨论">讨论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
     <div class="post-content">
-      <p>逆向时开始见到 gRPC 协议和 <a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank">Protobuf</a> 编码在私信、直播等领域使用，故记录之。</p>
-<p>gRPC 是基于 HTTP/2.0 来传输的，但 Fiddler 5 似乎尚不支持，在抓包某 App 时发现了神奇的现象，同样的功能，Fiddler 抓到了 HTTP/1.1 的请求，mitmproxy 抓到了 HTTP/2.0 的请求，URL 的 Path 相同而 Host 不一样，猜测是客户端做了 FallBack。</p>
-<p>抓到包后其实有两种选择，最开始我找到发请求的地点，闷头逆向 Java 层代码，打印数据（注意是否有类继承 <code>com.google.protobuf.GeneratedMessageLite</code>），一个个字段找生成的位置，但因为不熟悉客户端所用组件，往往耗时耗力找不到关键，而且考虑到之后的目标是正向构造请求，确定 proto 协议才是关键，与其往客户端实现层分析，不如直接从报文 body 着手。</p>
-<p>Protobuf 高效的一大原因在于其将字段名放在双方持有的 proto 中，传输的数据仅有 enum 编号，但数据本身的值却完全是可以解读的，<code>protoc --decode_raw &lt; file</code> 就能打印出解析后的数据，也有<a href="https://protobuf-decoder.netlify.app" target="_blank">在线网站</a>，但我刚开始复制报文 body 却总是解析失败，mitmproxy 可选择以 protobuf 解码数据，却也失败，关键在于传输的是 <a href="https://stackoverflow.com/questions/66727164/how-to-unpack-decompress-raw-grpc-data" target="_blank">Length-Prefixed-Message</a> 而非直接是 protobuf，即第一个 byte 值为 1/0 表示是否压缩，再 4 byte (big endian) 表示消息长度，剩下的才是消息，而如果有压缩的话，还要再把消息解压缩，比如最常见的 gzip，其前 10 byte 又是压缩相关的头部信息，而 App 可能会刻意设置 gzip header 以防伪造，若非提前看到 <a href="https://blog.seeflower.dev/archives/4/" target="_blank">哔哩哔哩视频和字幕接口分析</a> 这篇文章，必然踩坑。</p>
-<pre><code class="language-python">def gzip_compress(buf: bytes, bz=True) -&gt; bytes:
-    compressed = gzip.compress(buf)
-    if bz:  # special header
-      compressed = compressed[:3] + bytes(7*[0]) + compressed[10:]
-    return compressed
-
-def length_prefixed_enc(buf: bytes, compress: bool = True) -&gt; bytes:
-    buf = gzip_compress(buf) if compress else buf
-    return struct.pack(&quot;!bl&quot;, compress, len(buf)) + buf
-  
-def length_prefixed_dec(msg: bytes) -&gt; bytes:
-    compress, length = struct.unpack(&quot;!bl&quot;, msg[:5])
-    buf = gzip.decompress(msg[5:5+length]) if compress else msg[5:5+length]
-    return buf
-</code></pre>
-<p>将 Protobuf 的原始数据提取出后，即可用 <code>protoc</code> 解得没有字段名的原始数据，配合动静态分析获得的值，一般就能手写对应的 proto 文件，接着就由 proto 文件生成不同语言的对应代码，可以尝试直接调用 gRPC，也可以仅生成 Protobuf 的 msg 对象再 <code>SerializeToString()</code>，生成 Length-Prefixed-Message 作为 body，添加 header <code>&quot;Content-Type&quot;: &quot;application/grpc&quot;</code>，这样构造 HTTP 请求亦可生效。</p>
+      <h1 id="razor-software-debloating">RAZOR: software debloating</h1>
+<h2 id="论文信息">论文信息</h2>
+<p>原文作者：<a href="https://qchenxiong.github.io/" target="_blank">Chenxiong Qian</a>, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, <em>Georgia Institute of Technology</em></p>
+<p>原文标题：RAZOR: A Framework for Post-deployment Software Debloating</p>
+<p>发表会议：USENIX SECURITY &lsquo;19</p>
+<p>原文链接：https://www.usenix.org/system/files/sec19-qian.pdf</p>
+<p>代码链接：https://github.com/cxreet/razor</p>
+<h2 id="问题背景">问题背景</h2>
+<p>商业软件的功能越做越多，终端用户只用到一小部分，软件往往显得臃肿，这不仅浪费耗费系统资源，还带来了更多攻击面，而 software debloating 可以解决此问题。</p>
+<p>但以往的工作需要获取软件源码，而用户往往只有分发部署后的二进制程序，且不同用户所需的功能各异，所以 post-deployment 软件更加具有实际效用。</p>
+<p>post-deployment software debloating 有以下两个挑战：</p>
+<ul>
+<li>如何让不了解软件内部的用户选择要保留和移除的功能</li>
+<li>如何修改二进制程序，在删除无用功能的同时保留所需</li>
+</ul>
+<p>对于第一个挑战，可以让用户提供输入样例，但即使输入完全相同，多次执行时也可能产生不同的程序执行路径，所以要识别出 necessary-but-not-executed 的那部分程序，即 <em>related-code</em>，很难获得完全正确的答案，所以作者使用了启发式的方法，以四个层次递进，逐步扩大覆盖范围。</p>
+<p>对于第二个挑战，收集完 related-code 后，就可以重写二进制程序，通用的二进制重写依赖于可靠的反汇编结果和完整的 CFG，故而较为困难。对于 software debloating 而言仅需重写要执行的那部分功能，通过 trace 就可获得 CFG，因而可以实现二进制重写。</p>
+<h2 id="系统设计">系统设计</h2>
+<p><img src="/post_img/RAZOR/Fig2.png" alt="Fig2"></p>
+<p>如图所示，即 Tracer, Path Finder, Generator</p>
+<h3 id="execution-trace-collection">Execution Trace Collection</h3>
+<p>Tracer 以所给测试数据执行程序，记录三种控制流信息：</p>
+<ul>
+<li>Executed instructions (memory addr &amp; raw bytes)</li>
+<li>Conditional Branches</li>
+<li>Indirect Calls/Jumps</li>
+</ul>
+<p>Instruction-level recording 可以应对动态生成的代码，但效率不高，考虑到现实中的程序大多只有静态的代码，所以 Tracer 先从 basic block level 开始记录，检测到疑似动态代码生成的特征再切换到 instruction level。</p>
+<p>Tracer 综合运用了基于软件的工具 (Dynamorio) 与基于硬件的工具 (Intel PIN 和 Intel PT)，前者普适性好但性能较差，后者高效但无法保证信息完整，三种 trace 技术可能产生不同的程序执行，用户可以选择最适合的或合并 trace 结果来获得更好的代码覆盖度。</p>
+<p>收集完 trace 结果后，就能反汇编二进制程序并构建所需的部分 CFG。</p>
+<h3 id="heuristic-based-path-inference">Heuristic-based Path Inference</h3>
+<p>由 Tracer 获得的 CFG，用启发式方法扩展 CFG，获得 related-code</p>
+<ul>
+<li>zCode，无新增指令，CFG 上只连边不加点</li>
+<li>zCall, 无新函数调用，若 non-taken 分支不含任何 call 指令，则加进 CFG</li>
+<li>zLib, 无任何额外的库函数，若 non-taken 分支只 call 同 binary 的函数或已被 call 的库函数，则加进 CFG</li>
+<li>zFunc, 无不同功能的库函数，若 non-taken 分支 call 的外部函数不涉及新的 functionality，则加进 CFG</li>
+</ul>
+<p>算法如下图所示</p>
+<p><img src="/post_img/RAZOR/Algo.png" alt="Path-finding Algorithm"></p>
+<h3 id="debloated-binary-synthesization">Debloated Binary Synthesization</h3>
+<ol>
+<li>先将原始二进制程序按照 CFG 反汇编，生成包含所有必要指令的伪汇编(pseudo-assembly)</li>
+<li>修改伪汇编创建有效的汇编文件，symbolize basic blocks, concretize indirect calls/jumps, and insert fault handling code</li>
+<li>编译汇编文件成为包含必要的机器码的目标文件(object file)</li>
+<li>复制目标文件中的机器码到原始二进制程序中一个新的代码段(code section)</li>
+<li>修改新代码段来修复对原始代码和数据的所有引？</li>
+<li>设置原始代码段不可被执行，仍保留在 debloated 后的程序中（可能还会被读取？比如实现 switch 的 jump table）</li>
+</ol>
+<h2 id="具体实现">具体实现</h2>
+<h2 id="效果验证">效果验证</h2>
+<h2 id="讨论">讨论</h2>
 
     </div>
 
@@ -194,7 +251,7 @@ def length_prefixed_dec(msg: bytes) -&gt; bytes:
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
         <a href="https://github.com/chinggg/hugo-blog/commit/ecafa64b167f6407d09ff9fb14498e761908d141" title="update" target="_blank">(ecafa64)</a>
-        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/grpc-protobuf.md" target="_blank">更新历史</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/RAZOR.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -205,17 +262,12 @@ def length_prefixed_dec(msg: bytes) -&gt; bytes:
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E9%80%86%E5%90%91/">逆向</a>
-          <a href="/tags/%E7%BC%96%E7%A0%81/">编码</a>
+          <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/razor/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">RAZOR</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
-        <a class="next" href="/post/vps2arch-nvidia/">
-            <span class="next-text nav-default">vps2arch NVIDIA vGPU</span>
+        
+        <a class="next" href="/post/grpc-protobuf/">
+            <span class="next-text nav-default">gRPC Protobuf 逆向初探</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -233,9 +285,9 @@ def length_prefixed_dec(msg: bytes) -&gt; bytes:
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"gRPC%20Protobuf%20%e9%80%86%e5%90%91%e5%88%9d%e6%8e%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"RAZOR - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=gRPC%20Protobuf%20%e9%80%86%e5%90%91%e5%88%9d%e6%8e%a2 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=RAZOR - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>
