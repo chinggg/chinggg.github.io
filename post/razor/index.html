@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>RAZOR - chinggg的博客</title>
+  <title>RAZOR: Software Debloating - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -41,23 +41,23 @@
 
 
 
-<meta property="og:title" content="RAZOR" />
+<meta property="og:title" content="RAZOR: Software Debloating" />
 <meta property="og:description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/razor/" />
 <meta property="article:published_time" content="2022-02-08T13:46:52+00:00" />
 <meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="RAZOR">
+<meta itemprop="name" content="RAZOR: Software Debloating">
 <meta itemprop="description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文">
 <meta itemprop="datePublished" content="2022-02-08T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="1213">
+<meta itemprop="wordCount" content="1931">
 
 
 
 <meta itemprop="keywords" content="论文," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="RAZOR"/>
+<meta name="twitter:title" content="RAZOR: Software Debloating"/>
 <meta name="twitter:description" content="RAZOR: software debloating 论文信息 原文作者：Chenxiong Qian, Hong Hu, Mansour Alharthi, Pak Ho Chung, Taesoo Kim, and Wenke Lee, Georgia Institute of Technology 原文标题：RAZOR: A Framework for Post-deployment Software Debloating 发表会议：USENIX SECURITY &lsquo;19 原文"/>
 
 <!--[if lte IE 9]>
@@ -147,7 +147,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">RAZOR</h1>
+      <h1 class="post-title">RAZOR: Software Debloating</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2022-02-08 13:46:52 &#43;0000 UTC"> 2022-02-08 </span>
@@ -178,7 +178,7 @@
         </li>
         <li><a href="#具体实现">具体实现</a></li>
         <li><a href="#效果验证">效果验证</a></li>
-        <li><a href="#讨论">讨论</a></li>
+        <li><a href="#讨论与相关工作">讨论与相关工作</a></li>
       </ul>
     </li>
   </ul>
@@ -205,7 +205,7 @@
 <p>对于第二个挑战，收集完 related-code 后，就可以重写二进制程序，通用的二进制重写依赖于可靠的反汇编结果和完整的 CFG，故而较为困难。对于 software debloating 而言仅需重写要执行的那部分功能，通过 trace 就可获得 CFG，因而可以实现二进制重写。</p>
 <h2 id="系统设计">系统设计</h2>
 <p><img src="/post_img/RAZOR/Fig2.png" alt="Fig2"></p>
-<p>如图所示，即 Tracer, Path Finder, Generator</p>
+<p>如图所示，即 Tracer, Path Finder 和 Generator</p>
 <h3 id="execution-trace-collection">Execution Trace Collection</h3>
 <p>Tracer 以所给测试数据执行程序，记录三种控制流信息：</p>
 <ul>
@@ -236,8 +236,29 @@
 <li>设置原始代码段不可被执行，仍保留在 debloated 后的程序中（可能还会被读取？比如实现 switch 的 jump table）</li>
 </ol>
 <h2 id="具体实现">具体实现</h2>
+<p>代码开源在 <a href="https://github.com/cxreet/razor">https://github.com/cxreet/razor</a></p>
+<p>有提供使用说明 <a href="https://github.com/cxreet/razor/wiki">https://github.com/cxreet/razor/wiki</a>，从测试小程序到 coreutils 都有</p>
+<p><code>docker pull chenxiong/razor:0.04</code> 可以直接体验</p>
 <h2 id="效果验证">效果验证</h2>
-<h2 id="讨论">讨论</h2>
+<p>3 个 benchmark，前两者用软件方式 trace，后两者用硬件方式 trace:</p>
+<ul>
+<li>29 SPEC CPU2006，包含 12 个 C 程序，7 个 C++ 程序和10个 Fortran 程序</li>
+<li>论文 <a href="https://chisel.cis.upenn.edu/papers/ccs18.pdf" target="_blank">CHISEL</a> 中用到的 10 个 coreutils 程序</li>
+<li>Firefox 和 FoxitReader</li>
+</ul>
+<p>在以下五个方面和 CHISEL 对比：</p>
+<ul>
+<li>Code Reduction: 从精简效果上看 CHISEL 略胜一筹，但其影响程序鲁棒性</li>
+<li>Functionality: RAZOR 使用启发式方法扩展 related-code 后，测试功能完全正常，CHISEL 则有 wrong operation, infinite loop, crash, missed output 等问题</li>
+<li>Security: 选择一些 CVE，部分是可在对应 binary 上利用的，部分已经被修复。CHISEL 消除代码的策略激进，消除了更多 CVE 但导致一些原本已修复的 CVE 又可被利用，相比之下 RAZOR 更稳健。另外消除 ROP gadget 数量也是 CHISEL 略胜，因为 RAZOR 更关注防止 forward-edge control-flow attack，这种攻击利用函数指针而不是返回地址</li>
+<li>Performance: RAZOR 的构建速度在秒级，远胜 CHISEL。运行时开销也平均只增加 1.7%，主要是由于 indirect call concretization</li>
+<li>Practicality: 在 Firefox 和 Foxit Reader 这两个大型应用上测试打开网页和 PDF，在启发式方法下都取得了不错的效果</li>
+</ul>
+<h2 id="讨论与相关工作">讨论与相关工作</h2>
+<p>Best-effort inference: 启发式方法虽然不能保证 completeness 和 soundness，但广泛用于二进制分析和重写中</p>
+<p>Control-flow Integrity (CFI): 控制流完整性检测和 Software Debloating 其实是互相促进的，debloating 可实现粗粒度的 CFI，而 RAZOR 也利用了 binCFI 中的技术来做优化。</p>
+<p>Removing original code: 其实目前 RAZOR 还保留原本的 code section 只是设成 read-only，因为其中的数据可能还会被读取，比如 llvm 会对 switch 语句在 code section 中生成 jump table，需要被 indirect jump 读取。要完全移除也可以先分析对 code section 的读取，再在重写时将数据 reloacate 到新的 data section 并更新相关代码来访问新的位置。</p>
+<p>相关工作有针对 library, source code, container, hardware 的 debloating，以及 delta debugging，在这些方面 RAZOR 也有可能提供新的思路。</p>
 
     </div>
 
@@ -250,7 +271,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/ecafa64b167f6407d09ff9fb14498e761908d141" title="update" target="_blank">(ecafa64)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/ad9a9311c082d61c042124aa32d45504eab3b4b8" title="update" target="_blank">(ad9a931)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/RAZOR.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -285,9 +306,9 @@
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"RAZOR - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"RAZOR%3a%20Software%20Debloating - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=RAZOR - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=RAZOR%3a%20Software%20Debloating - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>

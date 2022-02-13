@@ -51,7 +51,7 @@
 <meta itemprop="description" content="App 逆向基础 国产应用大多热衷于构筑自己的 App 围墙，很多功能没有网页版，也就无法利用浏览器一探究竟，不过我们仍然可以通过抓包、静态分析、动态调试的">
 <meta itemprop="datePublished" content="2021-11-30T14:36:28+08:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="4305">
+<meta itemprop="wordCount" content="4316">
 
 
 
@@ -297,7 +297,7 @@ qdic_base = {'appkey': '783bbb7264451d82', 'build': '6540300', 'buvid': '^XY[A-F
 <p>注意数据的呈现格式，以 Fiddler 为例， WebForms 栏中展示的是 urldecode 后的结果，而 TextView 和 SyntaxView 才是原始格式，对于 <code>Content-Type: application/x-www-form-urlencoded</code> 的 POST 请求亦是如此</p>
 <p>分析请求中的基础参数，迅速导出为 JSON 备用</p>
 <p>逆向阶段：</p>
-<p>动静结合，静态查找 URL 或参数名称，从网络请求跟进到数据获取一般比较直接，但数据何时生成，由何生成可能难以看出，可以动态 hook 数据获取的函数以及 <code>HashMap</code> <code>SharedPreference</code> 等存取键值的函数，在打印的调用栈上获得下一步静态分析的目标，以此往复。</p>
+<p>动静结合，静态查找 URL 或参数名称，从网络请求跟进到数据获取一般比较直接，但异步数据何时生成，由何生成可能难以看出，可以动态 hook 数据获取的函数以及 <code>HashMap</code> <code>SharedPreference</code> 等存取键值的函数，在打印的调用栈上获得下一步静态分析的目标，以此往复。</p>
 <p>有时会看到新的语言特性，JADX 无法将 <code>kotlin.jvm.functions.Function0</code> 还原为类，而 GDA 做的就比较好</p>
 <p>解密阶段：</p>
 <p>区分字符串在 bytes 和 字符编码层面的表示，熟练转换 json, str, bytes, hexstring, bytearray</p>
@@ -309,7 +309,7 @@ qdic_base = {'appkey': '783bbb7264451d82', 'build': '6540300', 'buvid': '^XY[A-F
 <p>使用 Sekiro 快速搭建主动调用加密函数的 API</p>
 <p><a href="https://bbs.nightteam.cn/forum.php?mod=viewthread&amp;tid=1195" target="_blank">Android逆向之无加固下的Java层和Native层模拟的调度解决方案</a></p>
 <p>池化阶段：</p>
-<p>打造批量 IP 代理池、伪造设备池</p>
+<p>打造批量 IP 代理池、伪造设备池，熟悉各种设备指纹</p>
 <h2 id="参考文献">参考文献</h2>
 <p><a href="https://pitechan.com/%E7%88%AC%E8%99%AB%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9D%97/">https://pitechan.com/爬虫工程师的自我修养之基础模块/</a></p>
 <p><a href="https://curz0n.github.io/2021/05/10/android-so-reverse/">https://curz0n.github.io/2021/05/10/android-so-reverse/</a></p>
@@ -326,7 +326,7 @@ qdic_base = {'appkey': '783bbb7264451d82', 'build': '6540300', 'buvid': '^XY[A-F
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/ecafa64b167f6407d09ff9fb14498e761908d141" title="update" target="_blank">(ecafa64)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/ad9a9311c082d61c042124aa32d45504eab3b4b8" title="update" target="_blank">(ad9a931)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/AppRE.md" target="_blank">更新历史</a>
     </span>
   </p>
