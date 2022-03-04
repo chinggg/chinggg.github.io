@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>公共代码库中的私密信息泄露研究 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/git-leaks/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="公共代码库中的私密信息泄露研究" />
+<meta property="og:description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/git-leaks/" />
+<meta property="article:published_time" content="2021-06-09T13:46:52+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="name" content="公共代码库中的私密信息泄露研究">
+<meta itemprop="description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意">
+<meta itemprop="datePublished" content="2021-06-09T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="6633">
+
+
+
+<meta itemprop="keywords" content="论文," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="公共代码库中的私密信息泄露研究"/>
+<meta name="twitter:description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">公共代码库中的私密信息泄露研究</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-06-09 13:46:52 &#43;0000 UTC"> 2021-06-09 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#git-leaks">Git Leaks</a>
+      <ul>
+        <li><a href="#摘要">摘要</a></li>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#前言">前言</a>
+          <ul>
+            <li><a href="#研究背景">研究背景</a></li>
+            <li><a href="#本文研究内容及目标">本文研究内容及目标</a></li>
+          </ul>
+        </li>
+        <li><a href="#预备知识">预备知识</a>
+          <ul>
+            <li><a href="#git-存储原理概述">Git 存储原理概述</a></li>
+            <li><a href="#github-搜索功能">GitHub 搜索功能</a></li>
+          </ul>
+        </li>
+        <li><a href="#ndss-2019-论文研究概述">NDSS 2019 论文研究概述</a>
+          <ul>
+            <li><a href="#侦测秘密的方法">侦测秘密的方法</a></li>
+            <li><a href="#实验结果分析">实验结果分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#针对高校学生群体的私密信息泄露研究">针对高校学生群体的私密信息泄露研究</a>
+          <ul>
+            <li><a href="#现有工具分析">现有工具分析</a></li>
+            <li><a href="#跨时空的复现">跨时空的复现</a></li>
+            <li><a href="#面向个人的安全措施">面向个人的安全措施</a></li>
+          </ul>
+        </li>
+        <li><a href="#总结与展望">总结与展望</a></li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="git-leaks">Git Leaks</h1>
+<h2 id="摘要">摘要</h2>
+<p>GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意外的私密泄露频繁发生。在本文中，我们将首先介绍 Git 和 GitHub Search API 等预备知识，然后对 NDSS 2019 获奖论文 <a href="https://www.ndss-symposium.org/ndss-paper/how-bad-can-it-git-characterizing-secret-leakage-in-public-github-repositories/" target="_blank"><em>How Bad Can It Git</em></a> 进行回顾。最后我们还将展示针对高校学生群体的研究，结果反映公共代码仓库中的私密信息泄露无处不在，且不限于 API 和密码学意义上的私钥。尽管该问题具有较大的现实意义，但学术界对此兴趣不大，而企业已经开始应用机器学习技术尝试治理生产环境中的敏感信息泄露问题，这或许是将来的解决方案。</p>
+<p><strong>关键词</strong>：数据安全，信息泄露，GitHub，自动化扫描</p>
+<h2 id="abstract">Abstract</h2>
+<p>GitHub and similar platforms have made public collaborative development of software commonplace. However, problems arise when this public code must manage authentication secrets, such as API keys or cryptographic secrets, which must be kept private for security, yet common development practices like adding these secrets to code make accidental leakage frequent. In this paper, we will firstly introduce Git and GitHub Search API to provide prerequisite knowledge then review NDSS 2019 accepted paper <strong>How Bad Can It Git</strong>. And we will present our new work targeted at college students, which shows that the secret leakage on public repository platforms is ubiquitous and not limited to API keys and cryptographic secrets. Despite the severity of the problem, little academic research has been done on this topic, though some companies have been applying machine learning to prevent sensitive data leakage, which may be a promising solution in the future.</p>
+<p><strong>Keywords</strong>: Data Security, Information Leakage, GitHub, Automatic Scanning</p>
+<h2 id="前言">前言</h2>
+<h3 id="研究背景">研究背景</h3>
+<p>自 GitHub 开放搜索功能以来，就有人意识到了这是一把双刃剑，别有用心者通过检索特定关键字可以轻松挖掘想要的信息，如果说邮箱地址、家庭住址等个人信息泄露仅仅是恶化了本就不容乐观的隐私状况，那私钥泄露就是真正切切地对个人和团队的资产安全造成严重威胁。而在 NDSS 2019 上，Michael Meli 等人展示了他们对 GitHub 公共仓库进行长达半年的大规模筛查后的成果，证明了 GitHub 上每天都发生着数以千计的 API Key 与非对称私钥泄露，公共代码库中的私密信息泄露还是一个亟待解决的问题。尽管企业已经着手开始主动扫描自己是否泄露了信息，他们和攻击者一样面临着同样的问题，也就是扫描的低效和较多的误报漏报。</p>
+<h3 id="本文研究内容及目标">本文研究内容及目标</h3>
+<p>本文首先将介绍 Git 存储数据的原理以及 GitHub 等平台的相关背景信息，然后对 NDSS 2019 会议论文 <em>How Bad Can It Git</em> 进行复盘，介绍其研究方法与成果，并尝试以高校学生为目标群体小规模地复现，在不同的时空环境证明该问题依然存在。由于学术界对此研究并不充分，我还将介绍企业在基于机器学习的敏感信息泄露治理上进行的探索。</p>
+<h2 id="预备知识">预备知识</h2>
+<p>本章介绍 Git 存储数据的原理以及 GitHub 等平台的相关背景信息。</p>
+<h3 id="git-存储原理概述">Git 存储原理概述</h3>
+<p>为了对克隆到本地的 Git 代码仓库进行检索，需要对 Git 存储文件的方式和原理有所了解。</p>
+<p>Git 不仅仅是一个版本控制系统，其本质是一个内容寻址的文件系统，它的对象模型自底向上可以分为 blob，tree，commit 这三个层次。blob 只存储单个文件的<strong>内容</strong>，包括文件名在内的其他属性都保存在 tree 的记录中，tree 就像是 UNIX 文件系统中的目录，可以包含多条记录，每条记录含有一个指向 blob 对象或者 tree 对象的 SHA-1 指针，以及相应的模式、类型、文件名信息。而一个 commit 就是某一时刻保存的完整快照，它包含指向最顶层树的 tree 对象以及可能存在的父 commit 对象的 SHA-1 指针以及提交者等信息。</p>
+<p><img src="/post_img/Git-Leaks/objects.png" alt="objects"></p>
+<p>Git 中的一个 commit 就是一个版本，与 SVN 等只存储版本间差异部分的版本控制系统不同，Git 会存储每一个 commit 的完整快照，但这并不会造成空间浪费，因为内容相同的对象具有相同的 SHA-1 值，在仓库中始终只会被保存一次。</p>
+<p><img src="/post_img/Git-Leaks/commits.png" alt="commits"></p>
+<p>HEAD 是指向当前 commit 的指针，若不考虑暂存区，则当前工作目录下的文件就是当前 commit 中包含的文件，用户随时可以使用 <code>git checkout</code> 切换到某 commit，但当用户发现自己在代码中泄露密码后却往往会忘记这点，删去密码后新增 commit 便以为高枕无忧，实则已将密码永远泄露。</p>
+<h3 id="github-搜索功能">GitHub 搜索功能</h3>
+<p>GitHub 提供了易用且强大的搜索功能，在搜索框里就能一键检索仓库、代码、用户、commit 等十种类型的信息，鼠标点击即可指定只显示某种编程语言的仓库或代码，还可以使用高级搜索的语法实现更精确的检索。作为服务程序员的网站，GitHub 并不参与被爬与反爬的猫鼠游戏，而是提供了丰富的 API 以便进行各类操作，其中就包括搜索，任何人只需调用短短几行代码即可获得标准的 JSON 数据，但未认证用户限制每分钟 10 次请求，用户使用 token 等方式验证后限制每分钟30次请求，而且最多返回1000条结果。</p>
+<p>对于代码的搜索更为特殊，在 2013 年，GitHub 限制了对代码搜索 API 的调用必须指定对某一用户或某一仓库进行(<a href="https://developer.github.com/changes/2013-10-18-new-code-search-requirements/">https://developer.github.com/changes/2013-10-18-new-code-search-requirements/</a>)。但网页版中已登录的用户完全可以在所有仓库中搜索特定代码，经过测试后发现调用 API 时给出 token 也就无需指定搜索范围，耐人寻味的是这并未在官方 API 文档中给出说明。尽管做出这些限制的首要目的可能是降低成本、减轻服务器压力，但一定程度上也能阻止大规模的恶意行为。</p>
+<p>需要注意的是 GitHub 对搜索频率有着较大的限制，已登录的用户每小时也最多发起 5000 次 API 调用请求，尽管后文将提到 Meli 等人证明在此限制下也能做到对 GitHub 仓库 99% 的实时覆盖率，但这对我们的复现有着一定的影响，因为将搜索列表中的仓库克隆至本地前其实可以对每个仓库再调用 API 进一步获得仓库大小等信息作为筛查标准，但这样将很快触发频率上限。</p>
+<h2 id="ndss-2019-论文研究概述">NDSS 2019 论文研究概述</h2>
+<p>本章将介绍 Michael Meli 等人在 NDSS 2019 发表的论文 <em>How Bad Can It Git</em>，Meli 等人并不是第一个研究 GitHub 公共仓库中私密信息泄露的团队，但他们第一次对该问题进行了大规模深入分析，综合运用各种方法进行检测，最终证明了问题的广泛存在。</p>
+<h3 id="侦测秘密的方法">侦测秘密的方法</h3>
+<p>可分为四个阶段，如下图所示：</p>
+<p><img src="/post_img/Git-Leaks/phases.png" alt="phases"></p>
+<p>确定目标私密信息的种类：主要是 Google，Amazon 等公司用于提供服务的 API Key 或 Access Token，以及由 RSA 等非对称加密算法生成的私钥，它们都有较固定的特征将其与无效的随机字符串区分开来，而人们在日常生活中更广泛使用的各类帐号密码通常是不定长度的字符组合，因此不在收集之列。最终划定了 15 种 API Key 与 4 种私钥，详见下表：</p>
+<p><img src="/post_img/Git-Leaks/keys.png" alt="keys"></p>
+<p>文件收集：作者利用了两种互补的渠道。其一是 GitHub 提供的搜索 API，由于其不支持使用正则表达式搜索，作者先使用关键词查找以划定范围，再将其下载至本地以备进一步筛查，频率上的限制也并不构成障碍，只需设置返回结果按被索引时间排序，就可做到类似实时查询的效果，在实施了连续 6 个月的不间断查询后，作者发现这足以达到 99% 的文件覆盖率。其二是 Google BigQuery 上的公共数据集，它每周对 GitHub 上 13% 的开源仓库进行快照，支持进行 TB 级别的大数据查询，用户可以在 SQL 语句中使用正则表达式，但其对正则表达式的支持程度不足以精准地匹配到结果，作者将 2018 年 4 月 4 日的快照下载到了本地用于筛查。</p>
+<p>本地正则扫描：由于上述两种渠道无法进行在线精准查找，需要将其下载到本地，使用预先设计好的正则表达式匹配得到候选结果。</p>
+<p>对候选结果进行筛查：不在目标范围内的其他字符串也有一定几率通过正则匹配，作者使用了三种方法排除可能的假阳性结果：</p>
+<ul>
+<li>信息熵筛选，每种密钥的随机程度差距应当不大，故对于每一个字符串，计算其香农信息熵，若偏离该种密钥信息熵的平均值超出三个标准差则将其排除。</li>
+<li>单词筛，随机生成的密钥不太可能包含英语单词，为了在精确率和召回率之间保持平衡，作者将单词的范围限定为代码中常见的两千多个，且最短长度为5。</li>
+<li>模式筛，随机生成的字符串不太可能具有某种数学上的模式，比如重复的字符，连续递增或递减的字符，若候选结果包含这样的模式且其长度超过4则将其排除。</li>
+</ul>
+<h3 id="实验结果分析">实验结果分析</h3>
+<p>可将作者实验后得到的结果整理成如下表格：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>GitHub Seach API</th>
+<th>BigQuery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>收集仓库总数</td>
+<td>681,784</td>
+<td>3,374,973</td>
+</tr>
+<tr>
+<td>收集文件总数</td>
+<td>4,394,476</td>
+<td>2,312,763,353</td>
+</tr>
+<tr>
+<td>候选仓库数量</td>
+<td>109,278</td>
+<td>52,117</td>
+</tr>
+<tr>
+<td>候选文件数量</td>
+<td>307,461</td>
+<td>100,179</td>
+</tr>
+<tr>
+<td>候选文件命中率</td>
+<td>约 7%</td>
+<td>约 0.005%</td>
+</tr>
+<tr>
+<td>候选字符串数量（含重复）</td>
+<td>403,258</td>
+<td>172,295</td>
+</tr>
+<tr>
+<td>候选字符串数量（不含重复）</td>
+<td>134,887</td>
+<td>73,799</td>
+</tr>
+<tr>
+<td>有效字符串数量</td>
+<td>133,934</td>
+<td>73,079</td>
+</tr>
+</tbody>
+</table>
+<p>尽管 BigQuery 提供了 TB 级的海量数据，但从中获得的有效文件却反而更少，这可能是因为 BigQuery 只搜集具有明确 License 的仓库，这些仓库通常更加具有规范性，在其中泄露信息的可能性就相对较低。但并不能仅凭数量上的比较就认为 BigQuery 在收集信息方面不如 GitHub Search API 有用，因为作者发现仅有 3.49% 的有效字符串同时出现在两者的结果中，这说明两种渠道在很大程度上是互补的。</p>
+<p>除了对泄露信息的数量进行分析，作者还研究了受害者「亡羊补牢」行为发生的几率与意义，结果表明约 10% 的私密信息在 1 天内被删除， 约 20% 的私密信息在 2 周内被删除，余下约 80% 的受害者完全没有意识到自己泄露了密码。不过根据作者的研究，如果持续不断地调用 GitHub Search API 进行扫描，当秘密被上传至 GitHub 后，平均只需 20 秒就能够检测出来，因此「亡羊补牢」真的为时已晚。除此之外，作者还发现信息泄露与开发者的身份经验没有多大关联，所以任何人都有可能在不经意间泄露自己的密钥。</p>
+<h2 id="针对高校学生群体的私密信息泄露研究">针对高校学生群体的私密信息泄露研究</h2>
+<p>距离 NDSS 2019 上这篇论文发布以来，国际形势的巨大变化也影响了开源世界的面貌，首先是中美贸易战的持续升温，美国对华为等公司的制裁在国内引发了对“开源自立”的需求(<a href="https://www.oschina.net/news/106836/opensource-ourself">https://www.oschina.net/news/106836/opensource-ourself</a>)，Gitee 寄托着人们的希望乘势而起，却又始终难以替代 GitHub 的开发者生态；其次是新冠疫情的肆虐让远程协同开发成为摆在人们面前的现实，最后还不得不提到微软于 2018 年 6 月 4 日收购 GitHub 这件大事，因为 Meli 等人对 GitHub 的挖掘是其被收购前进行的，GitHub 被微软收购后并没有如最初人们所担心的那样毁于微软之手，相反微软的财力支持使得 GitHub 能够免费为个人用户提供无限的私有仓库，而在此之前 GitHub 的私有仓库是收费功能，这是一项重大变化。</p>
+<p>本文原打算将研究对象设为国内最大的代码托管平台 Gitee（码云），以对比其与 GitHub 在私密信息泄漏上的差异，但发现 Gitee 的 API 极为有限，曾经推出代码搜索的功能却又不知何时悄然下线，目前仅支持搜索仓库、Issue 和博客的搜索，正常用户的搜索体验都难以保障，想要挖掘私密信息更是无从下手。</p>
+<p><img src="/post_img/Git-Leaks/ee_search.png" alt="ee_search"></p>
+<p>因此本文仍将以 GitHub 作为挖掘信息的对象，但与 Meli 等人主要研究 API Key 或非对称加密算法的私钥不同，本文将探讨针对特定群体挖掘其个人账户信息的可能性。</p>
+<h3 id="现有工具分析">现有工具分析</h3>
+<p>truffleHog 是一个能够深入搜寻 Git 仓库自动挖掘私密信息的工具，它的工作原理并不复杂：借助于 GitPython 模块，它可以将远程的 Git 仓库克隆至本地，然后从某一分支的某一 commit 开始向遍历，每次将前一 commit 与后一 commit 的 diff 转化成字符串，再基于正则表达式匹配和信息熵分析找出可疑字符串，利用 bcolors 模块将其标注成特殊颜色，然后将其所属 commit 等元信息一并封装后添加到返回的结果中。</p>
+<p>GitDorker 则是一个利用 GitHub Search API 进行批量查询的工具，它不会将仓库克隆至本地而仅仅只会使用关键字查询，但其提供了较丰富的命令行参数，可以对用户、组织、文件进行搜索，而且提供了对频率限制的等待处理，可以将其作为外围信息搜集的工具来限定仓库范围。</p>
+<p>时间所限，本文并未研发新的工具，而是借鉴了 GitDorker 的思想，在 truffleHog 的基础上新增了对 GitHub Search API 的调用，得到目标 URL 的列表后让 truffleHog 可以对多个目标进行批量扫描，访问 <a href="https://gitee.com/libgen/truffleHog">https://gitee.com/libgen/truffleHog</a> 可查看所有代码及开发记录</p>
+<h3 id="跨时空的复现">跨时空的复现</h3>
+<p>尽管国内高校学生群体中 GitHub 的流行程度可能不是很高，但总人数还是颇为可观，不少学生以开源项目贡献者的身份活跃，也有人只是默默将平时所做的课程项目上传，总体来说还是围绕校园生活居多，比如模拟选课系统与教务管理系统等。尤其是随着疫情的到来，许多学生自发编写维护了一些便利日常生活的小脚本，这种开源共享的精神值得赞许，但背后却也隐藏着不小的安全隐患。这些程序虽功能各异，但却往往都会使用学号与密码向学校服务器发送登录请求，稍有不慎忘记删除测试时使用的帐号密码便公开上传至 GitHub。</p>
+<p>泄密从开始到最终完成需要受害者和攻击者双方的共同努力，若无有效的挖掘方法，则学号密码的泄露较难构成系统性的风险，本文将以上海某大学为例，证明仅在现有工具的基础上稍作修改就可自动进行针对大学生群体的密码挖掘。</p>
+<p>与 API Key 和 RSA 等非对称加密算法不同，学生的密码通常是不定长度的数字字符组合，难以使用正则表达式规定，但学号的结构相对较为固定，故而能够使用正则表达式进行匹配。不过仅凭学号本身去搜寻无疑于大海捞针，要想缩减查找范围，必须引入外部信息，注意到学号姓名往往用于登录学校帐号，故可以想到先调用 GitHub Search API 搜索包含学校域名的代码，获取到对应的仓库即可加入候选列表，然后将候选列表中的这些仓库下载至本地进行分析与筛选即可。</p>
+<p>在对结果进行手动分析的过程中，发现了较多的假阳性数据，这与 Meli 等人的研究得出的结论不同，在他们的研究中 99% 的候选字符串都通过了三轮筛查故被认为是有效的，这可能是由于 API Key 和非对称私钥的特征更为显著故而可用正则表达式精准地匹配，也不排除 Meli 等人的筛查效果其实不佳，没能够找出真正的假阳性数据。</p>
+<p>观察假阳性数据的来源仓库，发现尽管使用了学校域名作为限制，但结果中仍会出现来自世界各地的奇怪仓库，这一方面是由于该学校曾经搭建过开源镜像站，许多仓库中将开源镜像站的网址写入了文件中，故而被添加到了候选结果；另一方面是由于一些仓库中存放了大量爬取的数据，许多网页中都可能包含该学校域名，这些仓库往往体积巨大且有较多 commit，需要耗费大量时间扫描。</p>
+<p>在对泄密文件的类型和具体字符串进行统计后，我们发现 Python 源码的数量一骑绝尘，是第二名 jsx 的两倍之多，但 jsx 理论上很少用于存放敏感信息，经观察发现这只是正好有仓库的 jsx 文件中出现了大量符合学号规则的同一数字，故而 jsx 中全为假阳性数据，真正排第二的泄密文件类型应当是 Java 源码，高校学生经常用 Python 编写脚本，用 Java 编写后端代码，故而这两种文件类型中理应泄密较多。这可能也反映了学生尚未养成将配置与代码分离的习惯，倾向于在代码中硬编码账号密码等个人信息，而较少使用单独配置文件，故非代码文件中的往往是假阳性数据。</p>
+<p>针对以上场景，本文使用了三种筛法：</p>
+<ul>
+<li>仓库体积筛，我们认为大学生自建仓库的文件体积一般不超过 100 MB，体积更大的仓库也更可能无关核心代码而只是大量数据的杂乱堆砌，将之排除能减轻网络负担。GitHub 关于单个仓库的 API 返回了仓库体积的信息，使得我们可以免于克隆整个仓库而判断体积大小，但代价是对每个仓库都进行了一次 API 调用，容易达到每小时 5000 次的总调用次数上限。</li>
+<li>仓库 commit 数筛，我们认为大学生自建仓库的 commit 数一般不超过 500，commit 数更多则该仓库更可能是类似博客的仓库，会自动提交生成大量无用静态文件，将之排除能减少扫描所耗时间</li>
+<li>文件类型筛，我们发现 Python 源码中泄露的信息最多，各种源码和配置文件中也都有泄露信息的可能，多数假阳性数据都出现在各种非代码类型的文件中，多数假阳性数据都出现在各种非代码类型的文件中，故而使用黑名单或白名单可以提高命中率，我们同样通过 GitPython 模块实现了黑名单功能。</li>
+</ul>
+<p>经过上述筛查之后，扫描的准确程度有了较大提高，具体数量这里就不作展示，只能说高校学生在参与开源的同时必须提高自身的安全意识，如图所示为不了解 Git 原理而导致的典型密码泄漏：</p>
+<p><img src="/post_img/Git-Leaks/history.png" alt="history"></p>
+<h3 id="面向个人的安全措施">面向个人的安全措施</h3>
+<p>各大公司已经开始与 GitHub 合作以扫描泄露的 API Key 并向用户报警，但高校学生群体显然只能依靠自己，现在总结出一些安全措施：</p>
+<ol>
+<li>从源头着手，既然 GitHub 已向个人用户免费开放私有仓库，那么可以优先考虑使用私有仓库</li>
+<li>从代码着手，需要避免密码进入源文件，可以使用环境变量或单独的文件存储密码</li>
+<li>从检查着手，可以在上传之前使用 git-secret 等工具检测是否 commit 了私密信息</li>
+<li>从追溯着手，可以使用现成的扫描工具定期对自己的仓库进行扫描并发送提醒</li>
+</ol>
+<h2 id="总结与展望">总结与展望</h2>
+<p>本文介绍了 GitHub 信息泄露问题的背景以及 NDSS 2019 上的相关研究成果，并针对高校学生群体的帐号泄露问题进行了探讨，并给出了一些安全措施。撰写本文的后期，我才意识到到此前仅仅关注了学术界的有限工作，而工业界已经从企业安全防护的角度对此进行了深度实践，比如阿里安全专家止介曾做过 Github 敏感信息泄露监控的专题报告，还开源了 GSIL 这款功能更为强大的工具，腾讯宙斯盾流量安全分析团队还探索了基于机器学习的敏感信息泄露治理。这一问题或许并不是学术界关注的热点，这可能是由于无法使用数学方法定量研究而显得不那么有技术含量，但频频爆出的信息泄露问题证明了其仍然具有很大的现实意义。遗憾的是由于各方面的限制，我仅仅进行了小规模的复现验证了问题的存在，希望将来可以跟踪业界的最新进展，进行更高效精准的信息挖掘与监控。</p>
+<h2 id="参考文献">参考文献</h2>
+<p>[1]	Meli, Michael, Matthew R. McNiece, and Bradley Reaves. &ldquo;How Bad Can It Git? Characterizing Secret Leakage in Public GitHub Repositories.&rdquo; NDSS. 2019.</p>
+<p>[2]	Russell, Matthew A. Mining the social web: data mining Facebook, Twitter, LinkedIn, Google+, GitHub, and more. &quot; O&rsquo;Reilly Media, Inc.&quot;, 2013.</p>
+<p>[3]	Knothe, David, and Frederick Pietschmann. &ldquo;Large-Scale-Exploit of GitHub Repository Metadata and Preventive Measures.&rdquo; arXiv preprint arXiv:1908.05354 (2019).</p>
+<p>[4]	Cosentino, Valerio, Javier Luis Cánovas Izquierdo, and Jordi Cabot. &ldquo;Findings from GitHub: methods, datasets and limitations.&rdquo; 2016 IEEE/ACM 13th Working Conference on Mining Software Repositories (MSR). IEEE, 2016.</p>
+<p>[5]	Kalliamvakou, Eirini, et al. &ldquo;An in-depth study of the promises and perils of mining GitHub.&rdquo; Empirical Software Engineering 21.5 (2016): 2035-2071.</p>
+<p>[6]	Lazarine, Ben, et al. &ldquo;Identifying Vulnerable GitHub Repositories and Users in Scientific Cyberinfrastructure: An Unsupervised Graph Embedding Approach.&rdquo; 2020 IEEE International Conference on Intelligence and Security Informatics (ISI). IEEE, 2020.</p>
+<p>[7]	https://shafiul.github.io/gitbook/1_the_git_object_model.html</p>
+<p>[8]	https://developer.github.com/changes/2013-10-18-new-code-search-requirements/</p>
+<p>[9]	https://docs.github.com/en/rest/reference/search#search-code</p>
+<p>[10] <a href="https://www.oschina.net/news/106836/opensource-ourself">https://www.oschina.net/news/106836/opensource-ourself</a></p>
+<p>[11]	https://github.blog/2019-01-07-new-year-new-github/</p>
+<p>[12]	https://blog.gitee.com/2020/03/24/gitee-search/</p>
+<p>[13]	https://security.tencent.com/index.php/blog/msg/177</p>
+<p>[14]	https://feei.cn/wp-content/uploads/2020/09/Github敏感信息泄露监控.pdf</p>
+<p>[15]	https://www.yuque.com/feei/esbp/gsil</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/9b99149c4f9a0ff3b26e9b1fed733a6f504e8f3a" title="update" target="_blank">(9b99149)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Git-Leaks.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/docker-perf/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">在 Docker 中运行 Linux 性能分析工具 perf</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/ml-leaks/">
+            <span class="next-text nav-default">ML-Leaks</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e5%85%ac%e5%85%b1%e4%bb%a3%e7%a0%81%e5%ba%93%e4%b8%ad%e7%9a%84%e7%a7%81%e5%af%86%e4%bf%a1%e6%81%af%e6%b3%84%e9%9c%b2%e7%a0%94%e7%a9%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e5%85%ac%e5%85%b1%e4%bb%a3%e7%a0%81%e5%ba%93%e4%b8%ad%e7%9a%84%e7%a7%81%e5%af%86%e4%bf%a1%e6%81%af%e6%b3%84%e9%9c%b2%e7%a0%94%e7%a9%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
