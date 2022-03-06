@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>公共代码库中的私密信息泄露研究 - chinggg的博客</title>
+  <title>Secret Leakage in Public GitHub Repositories - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意" /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="基本信息 2021年春 大数据：从理论到实践 课程论文 摘要: GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随" /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -41,24 +41,24 @@
 
 
 
-<meta property="og:title" content="公共代码库中的私密信息泄露研究" />
-<meta property="og:description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意" />
+<meta property="og:title" content="Secret Leakage in Public GitHub Repositories" />
+<meta property="og:description" content="基本信息 2021年春 大数据：从理论到实践 课程论文 摘要: GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/git-leaks/" />
 <meta property="article:published_time" content="2021-06-09T13:46:52+00:00" />
 <meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="公共代码库中的私密信息泄露研究">
-<meta itemprop="description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意">
+<meta itemprop="name" content="Secret Leakage in Public GitHub Repositories">
+<meta itemprop="description" content="基本信息 2021年春 大数据：从理论到实践 课程论文 摘要: GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随">
 <meta itemprop="datePublished" content="2021-06-09T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="6633">
+<meta itemprop="wordCount" content="6656">
 
 
 
-<meta itemprop="keywords" content="论文," />
+<meta itemprop="keywords" content="课程论文,隐私保护," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="公共代码库中的私密信息泄露研究"/>
-<meta name="twitter:description" content="Git Leaks 摘要 GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意"/>
+<meta name="twitter:title" content="Secret Leakage in Public GitHub Repositories"/>
+<meta name="twitter:description" content="基本信息 2021年春 大数据：从理论到实践 课程论文 摘要: GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -147,7 +147,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">公共代码库中的私密信息泄露研究</h1>
+      <h1 class="post-title">Secret Leakage in Public GitHub Repositories</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2021-06-09 13:46:52 &#43;0000 UTC"> 2021-06-09 </span>
@@ -165,10 +165,9 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#git-leaks">Git Leaks</a>
+    <li>
       <ul>
-        <li><a href="#摘要">摘要</a></li>
-        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#基本信息">基本信息</a></li>
         <li><a href="#前言">前言</a>
           <ul>
             <li><a href="#研究背景">研究背景</a></li>
@@ -203,12 +202,11 @@
   </div>
 </div>
     <div class="post-content">
-      <h1 id="git-leaks">Git Leaks</h1>
-<h2 id="摘要">摘要</h2>
-<p>GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意外的私密泄露频繁发生。在本文中，我们将首先介绍 Git 和 GitHub Search API 等预备知识，然后对 NDSS 2019 获奖论文 <a href="https://www.ndss-symposium.org/ndss-paper/how-bad-can-it-git-characterizing-secret-leakage-in-public-github-repositories/" target="_blank"><em>How Bad Can It Git</em></a> 进行回顾。最后我们还将展示针对高校学生群体的研究，结果反映公共代码仓库中的私密信息泄露无处不在，且不限于 API 和密码学意义上的私钥。尽管该问题具有较大的现实意义，但学术界对此兴趣不大，而企业已经开始应用机器学习技术尝试治理生产环境中的敏感信息泄露问题，这或许是将来的解决方案。</p>
+      <h2 id="基本信息">基本信息</h2>
+<p>2021年春 大数据：从理论到实践 课程论文</p>
+<p><strong>摘要</strong>: GitHub 等平台使得软件协同开发的公开进行成为常态，但当公开的代码中涉及到密钥管理时，问题也随之而来，开发过程中将 API Key 或私钥添加进代码中使意外的私密泄露频繁发生。在本文中，我们将首先介绍 Git 和 GitHub Search API 等预备知识，然后对 NDSS 2019 获奖论文 <a href="https://www.ndss-symposium.org/ndss-paper/how-bad-can-it-git-characterizing-secret-leakage-in-public-github-repositories/" target="_blank"><em>How Bad Can It Git</em></a> 进行回顾。最后我们还将展示针对高校学生群体的研究，结果反映公共代码仓库中的私密信息泄露无处不在，且不限于 API 和密码学意义上的私钥。尽管该问题具有较大的现实意义，但学术界对此兴趣不大，而企业已经开始应用机器学习技术尝试治理生产环境中的敏感信息泄露问题，这或许是将来的解决方案。</p>
 <p><strong>关键词</strong>：数据安全，信息泄露，GitHub，自动化扫描</p>
-<h2 id="abstract">Abstract</h2>
-<p>GitHub and similar platforms have made public collaborative development of software commonplace. However, problems arise when this public code must manage authentication secrets, such as API keys or cryptographic secrets, which must be kept private for security, yet common development practices like adding these secrets to code make accidental leakage frequent. In this paper, we will firstly introduce Git and GitHub Search API to provide prerequisite knowledge then review NDSS 2019 accepted paper <strong>How Bad Can It Git</strong>. And we will present our new work targeted at college students, which shows that the secret leakage on public repository platforms is ubiquitous and not limited to API keys and cryptographic secrets. Despite the severity of the problem, little academic research has been done on this topic, though some companies have been applying machine learning to prevent sensitive data leakage, which may be a promising solution in the future.</p>
+<p><strong>Abstract</strong>: GitHub and similar platforms have made public collaborative development of software commonplace. However, problems arise when this public code must manage authentication secrets, such as API keys or cryptographic secrets, which must be kept private for security, yet common development practices like adding these secrets to code make accidental leakage frequent. In this paper, we will firstly introduce Git and GitHub Search API to provide prerequisite knowledge then review NDSS 2019 accepted paper <strong>How Bad Can It Git</strong>. And we will present our new work targeted at college students, which shows that the secret leakage on public repository platforms is ubiquitous and not limited to API keys and cryptographic secrets. Despite the severity of the problem, little academic research has been done on this topic, though some companies have been applying machine learning to prevent sensitive data leakage, which may be a promising solution in the future.</p>
 <p><strong>Keywords</strong>: Data Security, Information Leakage, GitHub, Automatic Scanning</p>
 <h2 id="前言">前言</h2>
 <h3 id="研究背景">研究背景</h3>
@@ -360,7 +358,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/9b99149c4f9a0ff3b26e9b1fed733a6f504e8f3a" title="update" target="_blank">(9b99149)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/b6f673eae9bd57276bf19c90e9677c8a3bdeb65b" title="update" target="_blank">(b6f673e)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Git-Leaks.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -372,7 +370,8 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
+          <a href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BA%E6%96%87/">课程论文</a>
+          <a href="/tags/%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4/">隐私保护</a>
           </div>
       <nav class="post-nav">
         <a class="prev" href="/post/docker-perf/">
@@ -381,7 +380,7 @@
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/ml-leaks/">
-            <span class="next-text nav-default">ML-Leaks</span>
+            <span class="next-text nav-default">ML-Leaks: Membership Inference Attacks and Defenses on Machine Learning Models</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -399,9 +398,9 @@
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e5%85%ac%e5%85%b1%e4%bb%a3%e7%a0%81%e5%ba%93%e4%b8%ad%e7%9a%84%e7%a7%81%e5%af%86%e4%bf%a1%e6%81%af%e6%b3%84%e9%9c%b2%e7%a0%94%e7%a9%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Secret%20Leakage%20in%20Public%20GitHub%20Repositories - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e5%85%ac%e5%85%b1%e4%bb%a3%e7%a0%81%e5%ba%93%e4%b8%ad%e7%9a%84%e7%a7%81%e5%af%86%e4%bf%a1%e6%81%af%e6%b3%84%e9%9c%b2%e7%a0%94%e7%a9%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Secret%20Leakage%20in%20Public%20GitHub%20Repositories - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>
