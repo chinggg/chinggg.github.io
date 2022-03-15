@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Modern Crypto Experiments - chinggg的博客</title>
+  <title>Modern Crypto Course - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个数字，可以计算出对" /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个" /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -41,24 +41,24 @@
 
 
 
-<meta property="og:title" content="Modern Crypto Experiments" />
-<meta property="og:description" content="实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个数字，可以计算出对" />
+<meta property="og:title" content="Modern Crypto Course" />
+<meta property="og:description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/crypto/" />
 <meta property="article:published_time" content="2021-05-22T13:46:52+00:00" />
 <meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="name" content="Modern Crypto Experiments">
-<meta itemprop="description" content="实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个数字，可以计算出对">
+<meta itemprop="name" content="Modern Crypto Course">
+<meta itemprop="description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个">
 <meta itemprop="datePublished" content="2021-05-22T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
-<meta itemprop="wordCount" content="175">
+<meta itemprop="wordCount" content="184">
 
 
 
 <meta itemprop="keywords" content="密码学," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Modern Crypto Experiments"/>
-<meta name="twitter:description" content="实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个数字，可以计算出对"/>
+<meta name="twitter:title" content="Modern Crypto Course"/>
+<meta name="twitter:description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -147,7 +147,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Modern Crypto Experiments</h1>
+      <h1 class="post-title">Modern Crypto Course</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
@@ -166,6 +166,7 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#materials">Materials</a></li>
         <li><a href="#实验一shamir-秘密共享">实验一、Shamir 秘密共享</a></li>
       </ul>
     </li>
@@ -174,7 +175,11 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="实验一shamir-秘密共享">实验一、Shamir 秘密共享</h2>
+      <h2 id="materials">Materials</h2>
+<p><a href="https://www.coursera.org/learn/crypto" target="_blank">Cryptography by Stanford</a></p>
+<p><a href="https://www.cse.iitb.ac.in/~mp/teach/crypto/s21/" target="_blank">Cryptography by IIT</a></p>
+<p><a href="https://toc.cryptobook.us/" target="_blank">Crypto Book</a></p>
+<h2 id="实验一shamir-秘密共享">实验一、Shamir 秘密共享</h2>
 <p>要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能：</p>
 <ol>
 <li>给定一个数字，可以计算出对应的share</li>
@@ -194,7 +199,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/a03d2df54d71c97098f28a744bdeeaed8cbf1cc6" title="update" target="_blank">(a03d2df)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/9e09b86163c69b947aeabe0e6acf70ddd281ecc5" title="update" target="_blank">(9e09b86)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Crypto.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -233,9 +238,9 @@
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Modern%20Crypto%20Experiments - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Modern%20Crypto%20Course - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Modern%20Crypto%20Experiments - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Modern%20Crypto%20Course - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>
