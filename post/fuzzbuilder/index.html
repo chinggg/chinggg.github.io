@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/fuzzbuilder/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library" />
+<meta property="og:description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/fuzzbuilder/" />
+<meta property="article:published_time" content="2022-03-14T13:46:52+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="name" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library">
+<meta itemprop="description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生">
+<meta itemprop="datePublished" content="2022-03-14T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="2593">
+
+
+
+<meta itemprop="keywords" content="论文笔记,安全,Fuzz," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library"/>
+<meta name="twitter:description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-03-14 13:46:52 &#43;0000 UTC"> 2022-03-14 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#引言">引言</a></li>
+        <li><a href="#动机背景">动机背景</a>
+          <ul>
+            <li><a href="#library-fuzzing">Library Fuzzing</a></li>
+            <li><a href="#function-sequence">Function Sequence</a></li>
+            <li><a href="#fuzzable-api">Fuzzable API</a></li>
+            <li><a href="#unit-test">Unit Test</a></li>
+          </ul>
+        </li>
+        <li><a href="#实验方法">实验方法</a></li>
+        <li><a href="#效果验证">效果验证</a></li>
+        <li><a href="#相关讨论">相关讨论</a></li>
+        <li><a href="#个人总结">个人总结</a></li>
+        <li><a href="#参考资料">参考资料</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文将对 ACSAC 2019 会议论文 <em>FuzzBuilder: Automated building greybox fuzzing environment for C/C++ library</em> 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生成 executable。</p>
+<p>论文地址：<a href="https://dl.acm.org/doi/10.1145/3359789.3359846">https://dl.acm.org/doi/10.1145/3359789.3359846</a></p>
+<p>源码地址：<a href="https://github.com/hksecurity/FuzzBuilder">https://github.com/hksecurity/FuzzBuilder</a></p>
+<p>幻灯地址：<a href="https://www.acsac.org/2019/program/final/1/265.pdf">https://www.acsac.org/2019/program/final/1/265.pdf</a></p>
+<p>论文作者：Joonun Jang(Samsung Research), Huy Kang Kim(Korea University)</p>
+<h2 id="引言">引言</h2>
+<p>Greybox fuzzing has been researched extensively, which is well known for its advantage of not only being able to test with only binarie but also useful when source code is available. Therefore, it is necessary to apply greybox fuzzing to a development process to prevent security vulnerabilities at an early stage.</p>
+<p>Since greybox fuzzing requires execution of program, things get tough when it comes to library fuzzing. A simple approach for fuzzing a library is to <strong>generate an executable that calls library API functions</strong> and then fuzzing the generated executable. To this end, testers should manually write code that achieves high code coverage, which is a labor-intensive job requiring in-depth knowledge of libraries.</p>
+<p>So we propose a novel approach to generate executables automatically through analysis of unit tests in project。</p>
+<h2 id="动机背景">动机背景</h2>
+<h3 id="library-fuzzing">Library Fuzzing</h3>
+<p>vulnerabilities in libraries can be more critical</p>
+<p>library API: a set of functions that a library exports</p>
+<p>library fuzzing requires a set of instructions to call library API functions with input values</p>
+<p>提到了 Libfuzzer，只需实现 <code>LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)</code>，在其中以 data 和 size 为参数调用 library API function 即可。还需选择一个 base function，其将数据载入内存以供 library 使用，接着就能选取其他的 library API functions 以 test various features of a library.</p>
+<p>想要自动化这个过程，生成的 executable 要能够：</p>
+<ul>
+<li>从 fuzzer 中获取值</li>
+<li>将值通过 base function 传给 target library</li>
+<li>调用与 base function 相关联的不同 library API function</li>
+</ul>
+<h3 id="function-sequence">Function Sequence</h3>
+<ul>
+<li>
+<p>a set of functions to be tested jointly</p>
+</li>
+<li>
+<p>order of calling library API functions should be considered</p>
+</li>
+<li>
+<p>various function sequences should be considered</p>
+</li>
+</ul>
+<h3 id="fuzzable-api">Fuzzable API</h3>
+<ul>
+<li>
+<p>a base library API function used to pass fuzzer inputs to library</p>
+</li>
+<li>
+<p>generated executable should include (FA)+</p>
+</li>
+</ul>
+<h3 id="unit-test">Unit Test</h3>
+<p>前面的定义都是理论，此时图穷匕现，实际上 FuzzBuilder 单纯就是 generate executables and seeds by <strong>using prepared function sequences and test inputs in unit tests</strong></p>
+<p>a successful unit test should have:</p>
+<ul>
+<li>various function sequences</li>
+<li>a variety of test inputs</li>
+<li>high code coverage (as a result)</li>
+</ul>
+<p>另外 3.2 节中还有对 unit tests 的两个假设，也是 JUnit 提倡的最佳实践:</p>
+<ul>
+<li>each test is implemented as a function</li>
+<li>each test is independent of each other</li>
+</ul>
+<h2 id="实验方法">实验方法</h2>
+<p>文章的核心，要实现 automated generation of executable and seed，重点是 executable，注意虽然表述为 executable generation 但代码本身只是修改 LLVM bitcode，还需手动编译链接，难点主要在于熟练掌握 LLVM IR Builder API 以实现全局变量的创建和分支跳转。</p>
+<p>Process of Seed Generation:</p>
+<ul>
+<li>Modify library FA so it will write input to a file</li>
+<li>Remake and execute unit test</li>
+<li>Store seeds to separate files</li>
+</ul>
+<p>Process of Executable Generation:</p>
+<ul>
+<li>select FA</li>
+<li>preprocess: collecting test functions</li>
+<li>insert_interface: getting input from fuzzers</li>
+<li>remove_test: removing unnecessary test functions</li>
+<li>insert_operands: replacing operands of FA</li>
+</ul>
+<p>用户配置如下</p>
+<pre><code class="language-json">// seed.conf，收集 seeds 时使用
+{
+    &quot;targets&quot; : [ [ &quot;XML_Parse&quot;, 2, 3 ]],
+    &quot;files&quot; : [ &quot;xmlparse.bc&quot; ]
+}
+
+// bug.conf，生成 exe 时使用
+{
+  &quot;targets&quot; : [ [&quot;XML_Parse&quot;, 2, 3] ],
+  &quot;files&quot; : [ &quot;runtests.bc&quot; ],
+  &quot;tests&quot; : [ &quot;test_&quot; ],
+  &quot;skips&quot; : [&quot;test_alloc_nested_groups&quot;, &quot;test_ABC&quot;]
+}
+</code></pre>
+<p>其中 targets 就是 Fuzzable API 的列表，函数名后跟着两个分别是 buf 和 len 在该函数 args 中的位置（从1开始计数），files 是要读取并修改的 LLVM bitcode 文件，会作为 <code>Module</code> 加载到 <code>IRReader</code> 中。test 和 skip 只有在生成 exe 时使用，前者用于粗略获取单元测试函数，后者用于排除。</p>
+<p>收集 seed 就是要获取单元测试的输入，修改 library FA，用 LLVM IRBuilder 在函数的 entry block 插入一段 BB，将输入数据写入 <code>COLLECT_PATH</code> 指定的文件中，再 Br 回原来的 BB 继续执行，具体实现在 <code>IRWriter::collect()</code> 中。</p>
+<p>将修改后的 <code>.mod.bc</code> 编译为 <code>.o</code>，并 <code>ar</code> 到整个库的 <code>.a</code> 上，再运行单元测试，数据就会被写入到指定文件，运行 <code>seed_maker.py</code> 会再读取并整齐地保存到 seeds 目录下。</p>
+<p>（一个坑点是收集完 seed 后 <code>.o</code> 仍处于被修改状态，记得用原来的代码重新编译，否则后续 Fuzz 的输入通通都会写入文件，直接挤爆硬盘）</p>
+<p>生成 executable 需要在单元测试的 IR 上插桩，先让 IRReader 遍历 modules 按用户配置的 tests 和 skips 收集所有 targets（不是 FA 而是 test_ABC） 以备后面插桩使用。然后在 modules 中找到 entry function（即运行单元测试的入口 main 函数），<code>IRWriter::interface()</code> 先在对应 module 中创建 global 的 buf 和 size，set CommonLinkage 并初始化为0， 然后在 entry block 插入 BB，在循环中以 4K 为单位 read stdin 到栈上的 tmp，并每次在堆上分配更大的空间，拷贝之前的 global buf 和新读入的 tmp，将 global buf 原来的空间释放后指向新分配的空间，直到 read 不足 4K 或返回 -1，这样就插入了一个 interface 将标准输入全部读到 global buf 中。</p>
+<p>可将插入 interface 的 LLVM IR 翻译为如下 C 代码</p>
+<pre><code class="language-c">char* fuzzbuilder_buf;
+int fuzzbuilder_size;
+void main() {
+entry1:
+  char *tmp = alloca(4096);  // GEP in llvm
+  read_n1 = read(0, tmp, 4096);
+  if (read_n1 == -1) goto link;
+  else goto entry2;
+entry2:
+  char* p = calloc(read_n1 + 1, 1);
+  fuzzbuilder_buf = p;
+  memcpy(p, tmp, read_n1);
+  fuzzbuilder_size += read_n1;  // load, add, store
+  if (read_n1 == 4096) goto entry3;
+  else goto link;
+}
+entry3:
+  goto entry4;
+entry4:
+  read_n2 = read(0, tmp, 4096);
+  if (read_n2 == -1) goto link;
+  else goto entry5;
+entry5:
+  char *p2 = calloc(fuzzbuilder_size + read_n2 + 1, 1);
+  memcpy(p2, fuzzbuilder_buf, fuzzbuilder_size);
+  memcpy(p2 + fuzzbuilder_size, tmp, read_n2);
+  free(fuzzbuilder_buf);
+  fuzzbuilder_buf = p2;
+  fuzzbuilder_size += read_n2;
+  if (read_n2 == 4096) goto entry4;
+  else goto link;
+link:
+  // original code ...
+</code></pre>
+<p>再将分支跳转简化为如下循环：</p>
+<pre><code class="language-c">char* fuzzbuilder_buf;
+int fuzzbuilder_size;
+void main() {
+  char *tmp = alloca(4096);
+  int read_n;
+  while((read_n = read(0, tmp, 4096)) != -1) {
+    char * p = calloc(fuzz_builder_size + read_n + 1, 1);
+    memcpy(p, fuzzbuilder_buf, fuzzbuilder_size);  // 1st: memcpy(p, 0, 0)
+    memcpy(p + fuzzbuilder_size, tmp, read_n);
+    free(fuzzbuider_buf);
+    fuzzbuilder_buf = p;
+    fuzzbuilder_size += read_n;
+    if (read_n != 4096) break;
+  }
+  // original code ...
+}
+</code></pre>
+<p>接着 <code>insert_fuzz_to_tests(targets)</code>，对每个 function（变量名是 targets 但实际上是单元测试中的 test_ABC 而非 library 中的 FA）进行 <code>IRWriter::fuzz()</code>，遍历 function 中的所有 CallInst 和 InvokeInst，若 <code>inst-&gt;getCalledFuncion()</code> 即 callee 在 targets 中则将 inst 加入集合，最后遍历集合中的 inst，读取配置中对应 target 的 fuzz 和 len 参数位置，用 gv_buf 和 gv_s 分别替换，即调用 <code>inst-&gt;setArgOperand(idx, &amp;v)</code>，这样 test_XX 中对 FA 的调用都被修改为传入 global buf 中的数据，也就是之前从 stdin 读入的数据，重新编译后就可以用 AFL 进行 fuzz 了。值得注意的是 <code>IRWriter::fuzz()</code> 中还把 <code>__assert_fail</code> 与 <code>abort</code> 全部移除了，论文中只在末尾 Discussion 处提到，可能是后来实现的。</p>
+<p>此外 <code>insert_skip_to_tests(skips)</code> 会遍历 skip functions，只处理返回类型为 void 或 int 的，原有内容全部清除，直接返回 void 或 0</p>
+<h2 id="效果验证">效果验证</h2>
+<p>Experiment Design：</p>
+<ul>
+<li>The efficiency of <strong>generated seeds</strong></li>
+<li>The effectiveness of <strong>generated executables</strong></li>
+<li>The effectiveness of FuzzBuilder as a <strong>bug finding</strong> tool.</li>
+</ul>
+<p>Metrics:</p>
+<ul>
+<li>Line coverage</li>
+<li>Number of discovered bugs</li>
+</ul>
+<p>Comparative Evaluation: OSS_Fuzz</p>
+<p><img src="/post_img/FuzzBuilder/eval_seed_1.png" alt="eval_seed_1"></p>
+<p><img src="/post_img/FuzzBuilder/eval_seed_2.png" alt="eval_seed_2"></p>
+<p><img src="/post_img/FuzzBuilder/eval_exe_1.png" alt="eval_exe_1"></p>
+<p><img src="/post_img/FuzzBuilder/eval_exe_2.png" alt="eval_exe_2"></p>
+<p><img src="/post_img/FuzzBuilder/eval_bug.png" alt="eval_bug"></p>
+<h2 id="相关讨论">相关讨论</h2>
+<p>Related Work 就是提了下 Greybox Fuzzing 和 OSS-Fuzz，Fuzz Builder 的好处在于能从单元测试的输入自动得到较有效的 seeds，并且也不像 Libfuzzer 那样要手写 fuzz 代码。</p>
+<p>Future discussion:</p>
+<ul>
+<li>FA automation</li>
+<li>Optimization of generated executable</li>
+<li>Errors in unit test</li>
+<li>Expansion of input value types</li>
+</ul>
+<p>个人感觉 errors in unit tests 是比较实际的，一些单元测试不会考虑 unexpected value 或者用 <code>assert</code> <code>abort</code> 来退出，这样 fuzzer 的输入很可能导致程序异常终止从而被视为 bug，但这不算 library 本身的 bug 所以导致 false alarm。</p>
+<h2 id="个人总结">个人总结</h2>
+<p>一句话概括就是 make unit test fuzzable，在 library FA 处插桩以收集单元测试的数据作为 seed，在测试代码的 entry 插桩以创建从 fuzzer 获取数据的 interface 并更改所有调用 FA 的指令使其传入来自 fuzzer 的全局 buf 数据，就得到了可供 fuzzer 运行的代码。</p>
+<p>论文前期铺垫了很多 Fuzzable API, Function Sequence 之类的概念设定，但 2.4 节之后引入 unit test 却没有很好地联系，感觉前后有些割裂。</p>
+<p>感谢作者公开了代码并尽可能地给出了使用示例，代码为 C++ 编写，使用了单例模式，整体较为清晰，但 IRReader 和 IRWriter 中函数似乎有些冗余，尤其是 <code>targets = get_functions_to_fuzz()</code> 的过程，加上变量命名为 targets 但其实是 tests，给理解造成障碍。</p>
+<p>原本的代码基于 LLVM 6.0，而自己机器已经到 LLVM 13 了，不想使用提供的 Docker 环境，于是入门了 LLVM IR 的基本概念，微改代码以适配 LLVM 的 API 变动，为了更好地在 VS Code 中调试还配置了 CodeLLDB。</p>
+<h2 id="参考资料">参考资料</h2>
+<p><a href="https://llvm.org/docs/LangRef.html" target="_blank">LLVM Language Reference Manual</a></p>
+<p><a href="https://llvm.org/docs/GetElementPtr.html" target="_blank">The Often Misunderstood GEP Instruction</a></p>
+<p><a href="https://www.youtube.com/playlist?list=PLs80hJOJiNWEinTG8zNcM_o82hnvSefWF" target="_blank">Youtube Tutorials</a></p>
+<p><a href="https://llvm-tutorial-cn.readthedocs.io/en/latest/" target="_blank">LLVM 教程中文版</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/71758789207b14d10f4ec412cd852e6a173cfc93" title="update" target="_blank">(7175878)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FuzzBuilder.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/fuzz/">Fuzz</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/captcha-ml/">
+            <span class="next-text nav-default">End-to-End Captcha Recognition With Few Labels: From SimGAN to Transfer Learning</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"FuzzBuilder%3a%20Automated%20building%20greybox%20fuzzing%20environment%20for%20C%2fC%2b%2b%20library - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=FuzzBuilder%3a%20Automated%20building%20greybox%20fuzzing%20environment%20for%20C%2fC%2b%2b%20library - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
