@@ -281,7 +281,7 @@
 <p>可将插入 interface 的 LLVM IR 翻译为如下 C 代码</p>
 <pre><code class="language-c">char* fuzzbuilder_buf;
 int fuzzbuilder_size;
-void main() {
+int main() {
 entry1:
   char *tmp = alloca(4096);  // GEP in llvm
   read_n1 = read(0, tmp, 4096);
@@ -316,11 +316,11 @@ link:
 <p>再将分支跳转简化为如下循环：</p>
 <pre><code class="language-c">char* fuzzbuilder_buf;
 int fuzzbuilder_size;
-void main() {
+int main() {
   char *tmp = alloca(4096);
   int read_n;
   while((read_n = read(0, tmp, 4096)) != -1) {
-    char * p = calloc(fuzz_builder_size + read_n + 1, 1);
+    char * p = calloc(fuzzbuilder_size + read_n + 1, 1);
     memcpy(p, fuzzbuilder_buf, fuzzbuilder_size);  // 1st: memcpy(p, 0, 0)
     memcpy(p + fuzzbuilder_size, tmp, read_n);
     free(fuzzbuider_buf);
@@ -383,7 +383,7 @@ void main() {
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/71758789207b14d10f4ec412cd852e6a173cfc93" title="update" target="_blank">(7175878)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/2278ef68d904f0234d16b651101d97c11b9e22f8" title="update" target="_blank">(2278ef6)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FuzzBuilder.md" target="_blank">更新历史</a>
     </span>
   </p>
