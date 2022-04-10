@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>sFuzz: 高效自适应的智能合约 fuzz - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/sfuzz/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="sFuzz: 高效自适应的智能合约 fuzz" />
+<meta property="og:description" content="前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/sfuzz/" />
+<meta property="article:published_time" content="2022-04-07T13:46:52+00:00" />
+<meta property="article:modified_time" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="name" content="sFuzz: 高效自适应的智能合约 fuzz">
+<meta itemprop="description" content="前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其">
+<meta itemprop="datePublished" content="2022-04-07T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2021-12-21T16:20:58+08:00" />
+<meta itemprop="wordCount" content="2621">
+
+
+
+<meta itemprop="keywords" content="论文笔记,安全,Fuzz,BlockChain," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sFuzz: 高效自适应的智能合约 fuzz"/>
+<meta name="twitter:description" content="前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">sFuzz: 高效自适应的智能合约 fuzz</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-04-07 13:46:52 &#43;0000 UTC"> 2022-04-07 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#前言">前言</a></li>
+        <li><a href="#正文">正文</a>
+          <ul>
+            <li><a href="#研究背景">研究背景</a></li>
+            <li><a href="#样例展示">样例展示</a></li>
+            <li><a href="#算法细节">算法细节</a>
+              <ul>
+                <li><a href="#init-polulation">Init Polulation</a></li>
+                <li><a href="#fit-to-survive">Fit To Survive</a></li>
+                <li><a href="#crossover-and-mutation">Crossover and Mutation</a></li>
+              </ul>
+            </li>
+            <li><a href="#具体实现">具体实现</a></li>
+            <li><a href="#效果验证">效果验证</a>
+              <ul>
+                <li><a href="#efficient">Efficient</a></li>
+                <li><a href="#effective">Effective</a></li>
+                <li><a href="#adaptiveness">Adaptiveness</a></li>
+              </ul>
+            </li>
+            <li><a href="#相关工作">相关工作</a></li>
+            <li><a href="#成果总结">成果总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="前言">前言</h2>
+<p>本文将对 ICSE 2020 会议论文 <em>sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts</em> 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其价值在于这种互补的策略使得 fuzz 更加高效，且达到了较高的代码覆盖率，可以发现更多漏洞。</p>
+<p>论文地址：<a href="https://dl.acm.org/doi/10.1145/3377811.3380334">https://dl.acm.org/doi/10.1145/3377811.3380334</a></p>
+<p>源码地址：<a href="https://github.com/duytai/sFuzz">https://github.com/duytai/sFuzz</a></p>
+<p>论文作者：<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Nguyen%2C&#43;T&#43;D" target="_blank">Tai D. Nguyen</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Pham%2C&#43;L&#43;H" target="_blank">Long H. Pham</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Sun%2C&#43;J" target="_blank">Jun Sun</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lin%2C&#43;Y" target="_blank">Yun Lin</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Minh%2C&#43;Q&#43;T" target="_blank">Quang Tran Minh</a></p>
+<h2 id="正文">正文</h2>
+<h3 id="研究背景">研究背景</h3>
+<p>现如今，智能合约作为图灵完备的程序在区块链上以分布式自治信任的方式执行，在给各行业带来革命性改变的同时，也有着极大的安全隐患。</p>
+<p>和传统程序不同，智能合约一旦部署上链就无法轻易更改，这使得漏洞无，近年来对以太坊智能合约的攻击日益增多，其中最著名的便是发生于 2016 年的 <a href="https://vessenes.com/deconstructing-thedao-attack-a-brief-code-tour/" target="_blank">The DAO Attack</a>，直接导致了以太坊的硬分叉与社区的分裂。</p>
+<p>本文主要关注自动化测试技术用于发掘智能合约中的漏洞，必须解决以下三个问题：</p>
+<ul>
+<li>如何运行测试用例</li>
+<li>如何生成测试用例</li>
+<li>the oracle problem</li>
+</ul>
+<p>这里需要解释一下 oracle 的概念，整个以太坊系统可以看作分布式的状态机，为了保证达成共识，避免状态的不一致，链上所有操作都是确定性 (deterministic) 的。但现实世界就是充满不确定性的，oracle 就是和链上链下沟通的中间件，而 oracle 本身又是中心化的，现实世界中的软件安全问题都会在其身上体现，具体有哪些安全问题本文并未详细说明。最早关于以太坊智能合约攻击的研究参见 <a href="https://eprint.iacr.org/2016/1007.pdf" target="_blank">A Survey of Attacks on Ethereum Smart Contracts SoK</a>，其列举了如 Gasless Send, Reentrancy 等漏洞，详见下表</p>
+<p><img src="/post_img/sFuzz/ethereum_vuln.png" alt="ethereum vulnerabilities"></p>
+<p>针对智能合约的自动化测试之前已经有一些研究，比如 <a href="https://dl.acm.org/doi/10.1145/3238147.3238177" target="_blank">ContractFuzzer</a> 和 <a href="https://dl.acm.org/doi/10.1145/2976749.2978309" target="_blank">Oyente</a> 分别用模糊测试 (fuzzing) 和符号执行 (symbolic execution) 技术来进行自动挖掘。而本文的工作结合了这两种互补的技术，并且使用了一种高效的自适应策略来选取 fuzzing 所用的种子 (seeds) 以解决 AFL-based fuzzing 难以覆盖具有严格进入条件的分支这一问题。</p>
+<h3 id="样例展示">样例展示</h3>
+<p><img src="/post_img/sFuzz/example.png" alt="Figure 1: An example with single objective function"></p>
+<p>上图为一个简单的猜数字游戏合约程序，调用函数 <code>start_quiz_game</code> 以设置问题和答案，调用函数 <code>Try</code> 来支付 100 finney 并猜测数字，如果答案正确则会向调用者转帐。但该合约程序存在 Gasless Send 漏洞，可能导致调用者的 fallback function 被执行，从而引发 out-of-gas exception。</p>
+<p>要挖掘合约中的漏洞，首先要建立一个区块链网络，配置相应的地址和数额，将合约部署在某一地址上，生成 test case（即一系列交易）来生成参数并调用函数 <code>start_quiz_game</code> 和 <code>Try</code>，但 AFL 随机生成数据的策略很难满足第二个条件，即仅有 1/2^256 的概率生成值为 100 的 uint 数据，所以很难覆盖到这一分支。sFuzz 使用了一种自适应的策略作为补充，定量计算 seed 与分支条件之间的距离，从而使 seed 能越来越接近满足分支条件。这一例子是仅包含一个 just-missed 分支的最简单情形，包含多个分支的 multi-objective 场景也能适用。</p>
+<h3 id="算法细节">算法细节</h3>
+<p>基于反馈的 fuzzing 主要思想就是将 test generation problem 变为 optimization problem,使用某种形式的反馈作为 objective function 来解决最优化问题，而 sFuzz 策略的自适应性在于其会根据反馈来改变 objective function，整体上看属于遗传算法，如下图所示。</p>
+<p><img src="/post_img/sFuzz/algo1.png" alt="Algorithm 1: The test generation algorithm"></p>
+<h4 id="init-polulation">Init Polulation</h4>
+<p>初始化配置，生成多个 test cases（即交易函数调用），在为参数生成随机值时需要注意考虑变长的类型如数组，会先在 [0,255] 内确定个数，再对应生成每个元素的随机值。每个 test case 都会编码成如下 bit vector 的形式</p>
+<p><img src="/post_img/sFuzz/testcase.png" alt="Figure 3: A generated test case"></p>
+<h4 id="fit-to-survive">Fit To Survive</h4>
+<p>适者生存阶段，通过设定如下距离函数来挑选新 seeds</p>
+<p><img src="/post_img/sFuzz/distance.png" alt="distance"></p>
+<p>该阶段算法如下：</p>
+<p><img src="/post_img/sFuzz/fitness.png" alt="Algorithm 2: Algorithm fitToSurvive(seeds)"></p>
+<p>策略受 search-based software testing (SBST) 启发但又更加高效，</p>
+<h4 id="crossover-and-mutation">Crossover and Mutation</h4>
+<p>这一阶段将之前生成的 seeds 进行变异，采用了 AFL 中的所有变异策略，还针对智能合约引入了一些如下新策略：</p>
+<p><img src="/post_img/sFuzz/mutation.png" alt="Table 1: Mutations for fix-length values"></p>
+<p>检查变异后的数据是否 valid，丢弃 invalid 和重复的结果。为了减少无效工作也同样采用了 AFL 中的启发式方法，比如当对某一块数据进行 WalkingByte 变异操作没有覆盖任何新分支则之后不再变异该块数据。</p>
+<h3 id="具体实现">具体实现</h3>
+<p>编写了约 4347 行 C++ 代码，主要有三个组件：</p>
+<ul>
+<li><em>runner</em> 管理 test case 的执行
+<ul>
+<li>获取智能合约的字节码及其 ABI（application binary interface）作为输入，并生成用于分析 ABI 的 bash 脚本</li>
+<li>设置用于部署智能合约的区块链网络，并创建一个随机地址池，部署 normal attacker 和 reentrancy attacker</li>
+</ul>
+</li>
+<li><em>libfuzzer</em> 解决 test 的生成问题
+<ul>
+<li>使用前文所述策略选择性地生成 test cases</li>
+<li>首先在运行时构建 CFG，因为在 fuzz 之前静态构建是很困难的，EVM 中分支跳转由操作码 <code>jumpi</code> 实现，其操作数是程序动态执行时的目标 PC 值，只有模拟整个栈才能获知，但代价太高。因此在 fuzz 过程中构建 CFG，当执行到 <code>jumpi</code> 时再记录目标并相应作为新节点添加到 CFG 中 。</li>
+<li>跳过不改变状态的 <code>view</code>, <code>pure</code>, <code>constant</code> 函数</li>
+</ul>
+</li>
+<li><em>liboracles</em> 解决 oracle problem
+<ul>
+<li>通过 EVM 提供的 hook 机制以监测 test case 的执行</li>
+<li>可能存在 false positive</li>
+</ul>
+</li>
+</ul>
+<h3 id="效果验证">效果验证</h3>
+<h4 id="efficient">Efficient</h4>
+<p><img src="/post_img/sFuzz/efficient.png" alt="Figure 5: Efficiency comparison"></p>
+<p>sFuzz 平均每秒可执行 208 个 test cases，明显比 ContractFuzzer 和 Oyente 高效，因为 ContractFuzzer 模拟整个区块链网络，而 sFuzz 仅模拟和智能合约漏洞相关的细节，且其基于 Node.js 和 Go，相比 C++ 低效。而 Oyente 采用符号执行，比 sFuzz 运行得更慢更是理所应当。</p>
+<h4 id="effective">Effective</h4>
+<p>测量分支覆盖率较困难，因此以覆盖到不同的分支数作为指标。</p>
+<p><img src="/post_img/sFuzz/effective.png" alt="Figure 6: Coverage comparison"></p>
+<p>绝大部分情况下 sFuzz 比 ContractFuzzer 更有效，少数例外也是由于 sFuzz 不改变状态的函数故而这些函数中的分支未被统计，而且 ContractFuzzer 生成 invalid 的 test cases 根本不符合编译器生成的 mandatory constraints 故而覆盖到了多余的分支。</p>
+<p>Oyente 在绝大部分情况下覆盖了更多的分支，因为符号执行可以满足几乎所有分支条件，能发现 integer overflow，但现实中许多 state variable 无法被任意赋值，很多条件根本无法满足，这是其方法上的重大缺陷。</p>
+<p>为了分析 sFuzz 的 soundness，作者手动检查了从结果中随机采样的智能合约，最终数量和真阳率结果如下表所示：</p>
+<h4 id="adaptiveness">Adaptiveness</h4>
+<p><img src="/post_img/sFuzz/adaptive.png" alt="effective of adaptive"></p>
+<p>图表说明 AFL 的策略容易覆盖大多数分支，而自适应策略平均来讲也贡献了三成的 test cases。而且仅仅是运行了两分钟的结果，延长运行时间效果还会提高。</p>
+<h3 id="相关工作">相关工作</h3>
+<p>智能合约 Fuzzer：ContractFuzzer 可以检查7种不同类型的漏洞，但并没有使用任何反馈来改进。Echidna 据说能够检查合约是否违反了某些用户预定义的属性，但未找到任何相关出版物。</p>
+<p>符号执行引擎：有 teEther 和 MAIAN，sFuzz 可以与之结合形成混合的 fuzzing engine</p>
+<p>还可与形式化验证 (formal verification) 和对智能合约的分析相联系</p>
+<h3 id="成果总结">成果总结</h3>
+<p>针对智能合约的 Fuzz 是较新的领域，ContractFuzzer 应该是最早且引用最多的文章，而本文提出的 sFuzz 主要贡献在于使用自适应的策略以有效地覆盖 AFL 无法进入的分支。个人有收获的点：对问题的定义，test case 的表示（将函数调用编码为 bit vector），遗传算法部分是关键但缺乏相关背景无法完全理解。</p>
+<h2 id="参考文献">参考文献</h2>
+<p>[1] Nguyen, Tai D., et al. &ldquo;sfuzz: An efficient adaptive fuzzer for solidity smart contracts.&rdquo; Proceedings of the ACM/IEEE 42nd International Conference on Software Engineering. 2020.</p>
+<p>[2] Jiang, Bo, Ye Liu, and W. K. Chan. &ldquo;Contractfuzzer: Fuzzing smart contracts for vulnerability detection.&rdquo; 2018 33rd IEEE/ACM International Conference on Automated Software Engineering (ASE). IEEE, 2018.</p>
+<p>[3] Atzei, Nicola, Massimo Bartoletti, and Tiziana Cimoli. &ldquo;A survey of attacks on ethereum smart contracts (sok).&rdquo; International conference on principles of security and trust. Springer, Berlin, Heidelberg, 2017.</p>
+<p>[4] Luu, Loi, et al. &ldquo;Making smart contracts smarter.&rdquo; Proceedings of the 2016 ACM SIGSAC conference on computer and communications security. 2016.</p>
+<p>[5] Grieco, Gustavo, et al. &ldquo;Echidna: effective, usable, and fast fuzzing for smart contracts.&rdquo; Proceedings of the 29th ACM SIGSOFT International Symposium on Software Testing and Analysis. 2020.</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2021-12-21 16:20:58 &#43;0800 &#43;0800">2021-12-21</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/5c31e0d63ac1e0d7b81c6f4a2fb232030f17b865" title="update" target="_blank">(5c31e0d)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/sFuzz.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/fuzz/">Fuzz</a>
+          <a href="/tags/blockchain/">BlockChain</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/fuzzbuilder/">
+            <span class="next-text nav-default">FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"sFuzz%3a%20%e9%ab%98%e6%95%88%e8%87%aa%e9%80%82%e5%ba%94%e7%9a%84%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6%20fuzz - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=sFuzz%3a%20%e9%ab%98%e6%95%88%e8%87%aa%e9%80%82%e5%ba%94%e7%9a%84%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6%20fuzz - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
