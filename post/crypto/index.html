@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个" /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="Materials Online Crypto by Stanford Cryptography by IIT Crypto Book Blog Mind Map [实验一、Shamir 秘密共享] 实验要求 实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下" /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -42,23 +42,23 @@
 
 
 <meta property="og:title" content="Modern Crypto Course" />
-<meta property="og:description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个" />
+<meta property="og:description" content="Materials Online Crypto by Stanford Cryptography by IIT Crypto Book Blog Mind Map [实验一、Shamir 秘密共享] 实验要求 实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/crypto/" />
 <meta property="article:published_time" content="2021-05-22T13:46:52+00:00" />
-<meta property="article:modified_time" content="2022-05-01T01:06:20+00:00" />
+<meta property="article:modified_time" content="2022-05-06T14:38:09+08:00" />
 <meta itemprop="name" content="Modern Crypto Course">
-<meta itemprop="description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个">
+<meta itemprop="description" content="Materials Online Crypto by Stanford Cryptography by IIT Crypto Book Blog Mind Map [实验一、Shamir 秘密共享] 实验要求 实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下">
 <meta itemprop="datePublished" content="2021-05-22T13:46:52+00:00" />
-<meta itemprop="dateModified" content="2022-05-01T01:06:20+00:00" />
-<meta itemprop="wordCount" content="184">
+<meta itemprop="dateModified" content="2022-05-06T14:38:09+08:00" />
+<meta itemprop="wordCount" content="333">
 
 
 
 <meta itemprop="keywords" content="密码学," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Modern Crypto Course"/>
-<meta name="twitter:description" content="Materials Cryptography by Stanford Cryptography by IIT Crypto Book 实验一、Shamir 秘密共享 要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能： 给定一个"/>
+<meta name="twitter:description" content="Materials Online Crypto by Stanford Cryptography by IIT Crypto Book Blog Mind Map [实验一、Shamir 秘密共享] 实验要求 实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -167,7 +167,13 @@
     <li>
       <ul>
         <li><a href="#materials">Materials</a></li>
-        <li><a href="#实验一shamir-秘密共享">实验一、Shamir 秘密共享</a></li>
+        <li><a href="#实验一shamir-秘密共享">[实验一、Shamir 秘密共享]</a>
+          <ul>
+            <li><a href="#实验要求">实验要求</a></li>
+            <li><a href="#实验原理">实验原理</a></li>
+          </ul>
+        </li>
+        <li><a href="#实验三实现-aes-的-cbc-和-ctr-模式加解密">[实验三、实现 AES 的 CBC 和 CTR 模式加解密]</a></li>
       </ul>
     </li>
   </ul>
@@ -176,17 +182,25 @@
 </div>
     <div class="post-content">
       <h2 id="materials">Materials</h2>
-<p><a href="https://www.coursera.org/learn/crypto" target="_blank">Cryptography by Stanford</a></p>
+<p><a href="http://crypto.stanford.edu/~dabo/courses/OnlineCrypto/" target="_blank">Online Crypto by Stanford</a></p>
 <p><a href="https://www.cse.iitb.ac.in/~mp/teach/crypto/s21/" target="_blank">Cryptography by IIT</a></p>
 <p><a href="https://toc.cryptobook.us/" target="_blank">Crypto Book</a></p>
-<h2 id="实验一shamir-秘密共享">实验一、Shamir 秘密共享</h2>
-<p>要求：实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能：</p>
+<p><a href="https://f7ed.com/categories/Cryptography-Boneh/" target="_blank">Blog</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/133308937" target="_blank">Mind Map</a></p>
+<h2 id="实验一shamir-秘密共享">[实验一、Shamir 秘密共享]</h2>
+<h3 id="实验要求">实验要求</h3>
+<p>实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下功能：</p>
 <ol>
 <li>给定一个数字，可以计算出对应的share</li>
 <li>给定k个share, 能够重构出秘密值</li>
 </ol>
+<h3 id="实验原理">实验原理</h3>
 <p><a href="https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing">https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing</a></p>
+<p>要建立一个 (k, n) 秘密共享方案，可以构建一个 k-1 次多项式，并在曲线上挑选 n 个点作为 share，这样只有当 k 个或更多的份额被集中起来时，多项式才能被重新生成。秘密值 (s) 被隐藏在多项式的常数项中（也即曲线在 y 轴截距），只有在成功重建曲线后才能获得。</p>
 <p>To establish a (t, n) secret sharing scheme, we can construct a polynomial of degree t-1 and pick n points on the curve as shares such that the polynomial will only be regenerated if t or more shares are pooled. The secret value (s) is concealed in the constant term of the polynomial (coefficient of 0-degree term or the curve’s y-intercept) which can only be obtained after the successful reconstruction of the curve.</p>
+<p><a href="https://www.geeksforgeeks.org/implementing-shamirs-secret-sharing-scheme-in-python/">https://www.geeksforgeeks.org/implementing-shamirs-secret-sharing-scheme-in-python/</a></p>
+<h2 id="实验三实现-aes-的-cbc-和-ctr-模式加解密">[实验三、实现 AES 的 CBC 和 CTR 模式加解密]</h2>
+<p><a href="https://github.com/matt-wu/AES">https://github.com/matt-wu/AES</a></p>
 
     </div>
 
@@ -198,8 +212,8 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-05-01 01:06:20 &#43;0000 UTC">2022-05-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/cd6674581bfbb7663201a3e3ba8b18d6fc1585ee" title="chore: update clicks" target="_blank">(cd66745)</a>
+        <span title="2022-05-06 14:38:09 &#43;0800 &#43;0800">2022-05-06</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/9a7b7a1969cf632c168d13ccedbecb24751051b6" title="update" target="_blank">(9a7b7a1)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Crypto.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -216,7 +230,7 @@
       <nav class="post-nav">
         <a class="prev" href="/post/ml-leaks/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">ML-Leaks: Membership Inference Attacks and Defenses on Machine Learning Models</span>
+            <span class="prev-text nav-default">ML-Leaks: 针对机器学习模型的成员推理攻击</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/server-hacked/">
