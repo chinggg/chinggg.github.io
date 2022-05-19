@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Fuzzing Evolution: How developers make Bitcoin more secure - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="[WIP] I find the evolution of Bitcoin&amp;rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
+Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than a single software." /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/bitcoin-fuzz/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Fuzzing Evolution: How developers make Bitcoin more secure" />
+<meta property="og:description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
+Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than a single software." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/bitcoin-fuzz/" />
+<meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
+<meta property="article:modified_time" content="2022-05-06T14:38:09+08:00" />
+<meta itemprop="name" content="Fuzzing Evolution: How developers make Bitcoin more secure">
+<meta itemprop="description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
+Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than a single software.">
+<meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-05-06T14:38:09+08:00" />
+<meta itemprop="wordCount" content="1549">
+
+
+
+<meta itemprop="keywords" content="Paper,Bitcoin,Fuzzing," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fuzzing Evolution: How developers make Bitcoin more secure"/>
+<meta name="twitter:description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
+Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than a single software."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Fuzzing Evolution: How developers make Bitcoin more secure</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-05-13 21:20:48 &#43;0800 &#43;0800"> 2022-05-13 </span>
+        <div class="post-category">
+            <a href="/categories/research/"> Research </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#background">Background</a>
+          <ul>
+            <li><a href="#coverage-guided-fuzzing">Coverage-guided Fuzzing</a></li>
+            <li><a href="#continuous-fuzzing-and-oss-fuzz">Continuous Fuzzing and OSS-Fuzz</a></li>
+          </ul>
+        </li>
+        <li><a href="#bitcoin-fuzzing-infrastructure">Bitcoin Fuzzing Infrastructure</a>
+          <ul>
+            <li><a href="#stage-1-proof-of-concept-2013-2016">Stage 1: Proof of Concept (2013-2016)</a></li>
+            <li><a href="#stage-2-standardized-fuzzing-2017---2018">Stage 2: Standardized Fuzzing (2017 - 2018)</a></li>
+            <li><a href="#stage-3-continuous-fuzzing-2019-2020">Stage 3: Continuous Fuzzing (2019-2020)</a></li>
+            <li><a href="#stage-4-embracing-oss-fuzz-2021---present">Stage 4: Embracing OSS-Fuzz (2021 - Present)</a></li>
+          </ul>
+        </li>
+        <li><a href="#software-testing-techniques">Software Testing Techniques</a>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#enhancing-diversity-by-ensemble-fuzzing">Enhancing Diversity by Ensemble fuzzing</a></li>
+                <li><a href="#increasing-variance-by-swarm-fuzzing">Increasing Variance by Swarm Fuzzing</a></li>
+              </ul>
+            </li>
+            <li><a href="#mutation-testing">Mutation Testing</a></li>
+          </ul>
+        </li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><strong>[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.</strong></p>
+<h2 id="intro">Intro</h2>
+<p>Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of  decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than a single software. There are several different implementations of Bitcoin written in various programming languages, like <a href="https://github.com/btcsuite/btcd" target="_blank">btcd</a>, <a href="https://github.com/bcoin-org/bcoin" target="_blank">bcoin</a> and <a href="https://github.com/bitcoin-s/bitcoin-s" target="_blank">bitcoin-s</a>. However, Bitcoin Core, written in C++, is the most popular implementation and serves as a reference for all other implementations. To a significant degree, the code of Bitcoin Core is Bitcoin, so we may use Bitcoin to refer in this paper. The main Bitcoin Core repo on GitHub has over 64,000 stars, and has been forked more than 32,000 times.</p>
+<p>Because of its fame and the high monetary value of Bitcoins, the Bitcoin protocol and its implementations are a high-value target for hackers.  This paper will describe how Bitcoin Core, as a popular open source software (OSS), use fuzzing to secure its codebase against potential vulnerabilities. Our main contributions are:</p>
+<ul>
+<li>We present the first insight into the long-term evolution of Bitcoin Core&rsquo;s fuzzing infrastructure by investigating the every footprint leaved by developers</li>
+<li>We describe the survey presented at ICSE 2022 about different software testing techniques and how they improve Bitcoin&rsquo;s fuzzing effect</li>
+</ul>
+<h2 id="background">Background</h2>
+<p>It is necessary background on coverage-guided fuzzing and OSS-Fuzz.</p>
+<h3 id="coverage-guided-fuzzing">Coverage-guided Fuzzing</h3>
+<p>Coverage-guided fuzzing (CGF), implemented by tools such as AFL, libFuzzer, and honggfuzz, is a popular bug detection method. CGF uses genetic search to find inputs that maximize code coverage. Algorithm 1 describes CGF at a high level. The algorithm maintains a pool of Inputs and the TotalCoverage of program p on Inputs. The user provides seed inputs I0 to instantiate Inputs. The fuzzer repeatedly picks an input i from the pool of Inputs and applies a mutation (e.g., increment, bit flip, or user-defined mutations) to produce i′. The fuzzer then executes program p on mutated input i′ to gather the coverage of program p on i′ and detect any error, such as crashes, assertion violations, timeouts,</p>
+<p>Fuzzers need an entrypoint into the program to provide test inputs; such an entrypoint is often called a fuzz target. libFuzzer-style fuzz targets — which AFL and honggfuzz also support and OSS-Fuzz uses — are functions that take in fuzzer-generated arbitrary bytestream input, transform the input to program-usable input data if needed, and execute the program under test with the input.</p>
+<h3 id="continuous-fuzzing-and-oss-fuzz">Continuous Fuzzing and OSS-Fuzz</h3>
+<p>Continuous fuzzing uses fuzzing as part of a continuous testing strategy to find regressions as software evolves. Several organizations incorporate fuzzing as part of their quality assurance strategy [1], [3], [16], [17] or offer tools that provide continuous fuzzing as a service [2], [4]–[6].</p>
+<p>OSS-Fuzz [6] is Google’s continuous fuzzing service for open source software projects, which combines modern fuzzing techniques with scalable, distributed execution. OSS-Fuzz uses ClusterFuzz [1], Google’s scalable fuzzing infrastructure as its back-end. Figure 1 illustrates OSS-Fuzz’s workflow. Developers in a participating OSS project write fuzz targets and provide instructions for building the software. OSS-Fuzz continuously builds the software and uploads it to ClusterFuzz. ClusterFuzz finds fuzz targets and uses the coverage-guided fuzzers AFL [9], libFuzzer [10], and honggfuzz [11] to fuzz the software. Upon detecting a bug, ClusterFuzz checks whether the bug is a duplicate of any previously found bugs, minimizes the buginducing input, and bisects the range of commits in which the regression occurred. If the bug is not a duplicate, then ClusterFuzz files a bug report on Monorail, an issue tracker. ClusterFuzz periodically verifies whether any previously found bugs are fixed; if so, OSS-Fuzz updates fixed bugs’ report.</p>
+<p><img src="https://github.com/google/oss-fuzz/raw/master/docs/images/process.png" alt=""></p>
+<h2 id="bitcoin-fuzzing-infrastructure">Bitcoin Fuzzing Infrastructure</h2>
+<h3 id="stage-1-proof-of-concept-2013-2016">Stage 1: Proof of Concept (2013-2016)</h3>
+<p>Neither Bitcoin or fuzzing is old technique. The first piece of code about fuzzing was introduced by contributor <a href="https://github.com/gavinandresen" target="_blank">gavinandresen</a> in <a href="https://github.com/bitcoin/bitcoin/pull/3173" target="_blank">PR#3173</a>, which just added a simple protected method in the <code>CNode</code> class. All it can do is to randomly corrupts 1-of-N sent messages. It was understandably primitive, since AFL, the widely-used generic fuzzer, does not even exist until 2 month later in 2013.</p>
+<p>Three years later in 2016, contributor <a href="https://github.com/pstratem" target="_blank">pstratem</a> first attempted to bring a simple fuzzing framework to Bitcoin in <a href="https://github.com/bitcoin/bitcoin/pull/7940" target="_blank">PR#7940</a>, but he did not make the code merged. Luckily, <a href="https://github.com/laanwj" target="_blank">laawj</a> resurrect pstratem&rsquo;s fuzzing framework as part of Bitcoin&rsquo;s test code in <a href="https://github.com/bitcoin/bitcoin/pull/9172" target="_blank">PR#9172</a>. This simple fuzzing framework test deserialization by reading input from <code>stdin</code>, which makes it compatible with AFL.</p>
+<h3 id="stage-2-standardized-fuzzing-2017---2018">Stage 2: Standardized Fuzzing (2017 - 2018)</h3>
+<p>In May 2017, Google announced rewards for open source projects that integrate fuzz targets into OSS-Fuzz. As a quick response, contributor <a href="https://github.com/practicalswift" target="_blank">practicalswift</a> proposed making Bitcoin ready for it in <a href="https://github.com/bitcoin/bitcoin/issues/10364" target="_blank">Issue#10364</a>, where developers made lots of discussion. He also added two more tests for deserialization routines used by <code>ProcessMessage</code> in <a href="https://github.com/bitcoin/bitcoin/pull/10409" target="_blank">PR#10409</a>, brought libFuzzer support in <a href="https://github.com/bitcoin/bitcoin/pull/10440" target="_blank">PR#10440</a>, made fuzzing ~200x faster by enabling AFL&rsquo;s deferred forkserver and persistent mode in <a href="https://github.com/bitcoin/bitcoin/pull/10415" target="_blank">PR#10415</a>. Thanks to his efforts, Bitcoin has made a big progress in setting up fuzz testing suites, but that is still not enough for production due to low code coverage. Besides, OSS-Fuzz&rsquo;s short bug disclosure period is not agreed by all members.</p>
+<p>Another interesting thing that happened in 2017 is that <a href="https://github.com/guidovranken" target="_blank">guidovranken</a>, known for <a href="https://github.com/guidovranken/cryptofuzz" target="_blank">fuzzing cryptographic libraries</a>, offered his <a href="https://github.com/guidovranken/bitcoin/tree/fuzzing/fuzzers" target="_blank">13 different fuzzers</a> implemented as libFuzzer fuzz targets in <a href="https://github.com/bitcoin/bitcoin/issues/11045" target="_blank">Issue#11045</a>. However, the existing simple fuzzer of Bitcoin is just a single binary that decides on the first few bits of the buffer what target to pick. This ineffective approach of switching between tests based on input is criticized for confusing the fuzzer with unnecessary re-use of fuzzing inputs, making it quite hard to see which fuzzers are still hitting new paths. It was not until Jan 2019 that <a href="https://github.com/MarcoFalke" target="_blank">MarcoFalke</a> managed to build fuzz targets into separate executables in <a href="https://github.com/bitcoin/bitcoin/pull/15043" target="_blank">PR#15043</a> by using different C preprocessor macros. He also renamed  <code>test/fuzz/test_bitcoin_fuzzy.cpp</code> to <code>test/fuzz/deserialize.cpp</code> in <a href="https://github.com/bitcoin/bitcoin/pull/15399" target="_blank">PR#15399</a>, which allows more fuzz targets that test different parts of Bitcoin code to be added in the future.</p>
+<h3 id="stage-3-continuous-fuzzing-2019-2020">Stage 3: Continuous Fuzzing (2019-2020)</h3>
+<p>2019 witnessed huge growth of Bitcoin&rsquo;s fuzzing infrastructure. To make fuzzing easily integrated with CI tests, <a href="https://github.com/MarcoFalke" target="_blank">MarcoFalke</a> added <em>test_runner.py</em>, a script which is still used now, in <a href="https://github.com/bitcoin/bitcoin/pull/15295" target="_blank">PR#15295</a>. He also simplified Makefile in <a href="https://github.com/bitcoin/bitcoin/pull/15504" target="_blank">PR#15504</a> by linking against <code>BasicTestingSetup</code>, which was shared with unit tests. After that, <a href="https://github.com/practicalswift" target="_blank">practicalswift</a> and he made lots of contribution to add more fuzzing harness for other part of Bitcoin&rsquo;s code, of which <a href="https://github.com/bitcoin/bitcoin/pull/17009/" target="_blank">PR#17009</a> is the first newly added fuzz harness.</p>
+<p>The increased number of fuzz targets also brings several downsides as discussed in <a href="https://github.com/bitcoin/bitcoin/issues/20088" target="_blank">Issue#20088</a>. Having many targets not only slowing down build process with coslty disk space and CPU time, but also makes writing new fuzz tests unnecessarily hard. In Decemeber 2020, <a href="https://github.com/MarcoFalke" target="_blank">MarcoFalke</a> made a huge refactoring with change of 100 files to link all targets once in <a href="https://github.com/bitcoin/bitcoin/pull/20560" target="_blank">PR#20560</a>. By specifying environment variables, different fuzz targets can be executed using only one binary. He proved that the single binary approach does not effect the fuzzing performance by showing benchmark results. So the basic architecture has not changed since then.</p>
+<h3 id="stage-4-embracing-oss-fuzz-2021---present">Stage 4: Embracing OSS-Fuzz (2021 - Present)</h3>
+<p>In May 2021, Bitcoin Core made its <a href="https://github.com/google/oss-fuzz/pull/5699" target="_blank">initial integration</a> into OSS-Fuzz. Till May 2022, <a href="https://github.com/google/oss-fuzz/pulls?q=is%3Apr&#43;bitcoin&#43;is%3Aclosed" target="_blank">34 pull requests</a> have been submitted to OSS-Fuzz for further improvement.</p>
+<p>By reviewing the history of Bitcoin&rsquo;s fuzzing evolution, we can learn that it is not easy for Bitcoin, which is probably the most running distributed software in the world, to integerate with OSS-Fuzz.</p>
+<h2 id="software-testing-techniques">Software Testing Techniques</h2>
+<p>Although Bitcoin Core has put much effort into fuzzing, it seemed that the fuzzing was “stuck”: neither code coverage nor found bugs were increasing with additional fuzzing time. Groce, Alex, et al. present their work <em>Looking for Lacunae in Bitcoin Core&rsquo;s Fuzzing Efforts</em> at ICSE 2022, which describes how researchers of <a href="https://chaincode.com/" target="_blank">Chaincode Labs</a> found the reason then applied various kinds of techniques to solve the problem.</p>
+<p>Saturation describe a common phenomenon when fuzzing softwares. That is, at first a particular fuzzer applied to a system will tend to continuously increase both coverage and discovery of previously-unknown bugs. But, at some point, the number of new bugs found by the fuzzer drops off, eventually approaching zero.</p>
+<p>The underlying reason for saturation is that any fuzzer (or other test generator) explores a space of generated tests according to some, perhaps very complex, probability distribution. Some bugs lie in the high-probability portion of this space, and other bugs lie in very low probability or even zero probability parts of the space.</p>
+<h4 id="enhancing-diversity-by-ensemble-fuzzing">Enhancing Diversity by Ensemble fuzzing</h4>
+<p>Ensemble fuzzing [7] is an approach that recognizes the need for diverse methods for test generation, at least in the context of fuzzing; using multiple fuzzers to seed each other and avoid saturation is a core motivation for ensemble fuzzing. Inspired by ensemble methods in machine learning [10], ensemble fuzzing runs multiple fuzzers, and uses inputs generated by each fuzzer to seed the other fuzzers.</p>
+<h4 id="increasing-variance-by-swarm-fuzzing">Increasing Variance by Swarm Fuzzing</h4>
+<p>WIP</p>
+<h3 id="mutation-testing">Mutation Testing</h3>
+<p>WIP</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>WIP</p>
+<h2 id="reference">Reference</h2>
+<p><a href="https://opensource.googleblog.com/2017/05/oss-fuzz-five-months-later-and.html" target="_blank">OSS-Fuzz: Five months later, and rewarding projects | Google Open Source Blog (googleblog.com)</a></p>
+<p><a href="https://guidovranken.com/2017/08/18/bitcoin-fuzzers/">https://guidovranken.com/2017/08/18/bitcoin-fuzzers/</a></p>
+<p><a href="https://en.bitcoin.it/wiki/Common_Vulnerabilities_and_Exposures" target="_blank">Common Vulnerabilities and Exposures</a></p>
+<p><a href="https://cryptoservices.github.io/fde/2018/12/14/bitcoin-orphan-TX-CVE.html" target="_blank">Bitcoin Orphan Transactions and CVE-2012-3789</a></p>
+<p><a href="https://github.com/bitcoin/bitcoin/issues/11045">https://github.com/bitcoin/bitcoin/issues/11045</a></p>
+<p><a href="https://jonasnick.github.io/blog/2015/05/09/fuzzing-bitcoin-consensus/">https://jonasnick.github.io/blog/2015/05/09/fuzzing-bitcoin-consensus/</a>)</p>
+<p><a href="https://b10c.me/blog/004-the-incomplete-history-of-bitcoin-development/" target="_blank">The Incomplete History of Bitcoin Development (b10c.me)</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-05-06 14:38:09 &#43;0800 &#43;0800">2022-05-06</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/a6dae068cdf21cc4a1947242514d42209bc6c385" title="update" target="_blank">(a6dae06)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Bitcoin-Fuzz.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/paper/">Paper</a>
+          <a href="/tags/bitcoin/">Bitcoin</a>
+          <a href="/tags/fuzzing/">Fuzzing</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/sfuzz/">
+            <span class="next-text nav-default">sFuzz: 高效自适应的智能合约 fuzz</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Fuzzing%20Evolution%3a%20How%20developers%20make%20Bitcoin%20more%20secure - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Fuzzing%20Evolution%3a%20How%20developers%20make%20Bitcoin%20more%20secure - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
