@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library - chinggg的博客</title>
+  <title>FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境 - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -41,23 +41,23 @@
 
 
 
-<meta property="og:title" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library" />
+<meta property="og:title" content="FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境" />
 <meta property="og:description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/fuzzbuilder/" />
 <meta property="article:published_time" content="2022-03-14T13:46:52+00:00" />
 <meta property="article:modified_time" content="2022-05-06T14:38:09+08:00" />
-<meta itemprop="name" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library">
+<meta itemprop="name" content="FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境">
 <meta itemprop="description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生">
 <meta itemprop="datePublished" content="2022-03-14T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2022-05-06T14:38:09+08:00" />
-<meta itemprop="wordCount" content="2593">
+<meta itemprop="wordCount" content="2595">
 
 
 
 <meta itemprop="keywords" content="论文笔记,安全,Fuzz," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library"/>
+<meta name="twitter:title" content="FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境"/>
 <meta name="twitter:description" content="本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生"/>
 
 <!--[if lte IE 9]>
@@ -147,7 +147,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">FuzzBuilder: Automated building greybox fuzzing environment for C/C&#43;&#43; library</h1>
+      <h1 class="post-title">FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2022-03-14 13:46:52 &#43;0000 UTC"> 2022-03-14 </span>
@@ -259,7 +259,8 @@
 <li>insert_operands: replacing operands of FA</li>
 </ul>
 <p>用户配置如下</p>
-<pre><code class="language-json">// seed.conf，收集 seeds 时使用
+<pre><code class="language-json">// https://github.com/libexpat/libexpat
+// seed.conf，收集 seeds 时使用
 {
     &quot;targets&quot; : [ [ &quot;XML_Parse&quot;, 2, 3 ]],
     &quot;files&quot; : [ &quot;xmlparse.bc&quot; ]
@@ -383,7 +384,7 @@ int main() {
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-05-06 14:38:09 &#43;0800 &#43;0800">2022-05-06</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/a6dae068cdf21cc4a1947242514d42209bc6c385" title="update" target="_blank">(a6dae06)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/f487d1b3734a04d4990a8baabb7753556ee27d43" title="update" target="_blank">(f487d1b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FuzzBuilder.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -424,9 +425,9 @@ int main() {
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"FuzzBuilder%3a%20Automated%20building%20greybox%20fuzzing%20environment%20for%20C%2fC%2b%2b%20library - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"FuzzBuilder%3a%20%e4%b8%ba%20C%2fC%2b%2b%20library%20%e8%87%aa%e5%8a%a8%e6%9e%84%e5%bb%ba%e7%81%b0%e7%9b%92%e6%a8%a1%e7%b3%8a%e6%b5%8b%e8%af%95%e7%8e%af%e5%a2%83 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=FuzzBuilder%3a%20Automated%20building%20greybox%20fuzzing%20environment%20for%20C%2fC%2b%2b%20library - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=FuzzBuilder%3a%20%e4%b8%ba%20C%2fC%2b%2b%20library%20%e8%87%aa%e5%8a%a8%e6%9e%84%e5%bb%ba%e7%81%b0%e7%9b%92%e6%a8%a1%e7%b3%8a%e6%b5%8b%e8%af%95%e7%8e%af%e5%a2%83 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>
