@@ -23,7 +23,7 @@
         width: 6%;
       }
     </style>
-    <img id="logo" src="icon.png" alt="">
+    <img id="logo" src="bitcoin-icon.png" alt="">
     
     <div class="reveal">
       <div class="slides">
@@ -68,7 +68,7 @@
 </section><section>
 <h4 id="orphan-transactions">orphan transactions</h4>
 <ul>
-<li>parent transaction (previous output) which is neither in the current best chain nor mempool</li>
+<li>have parent transaction which cannot be found in chain or mempool</li>
 <li>cannot be fully validated yet</li>
 <li>should be stored for later processing</li>
 </ul>
@@ -92,10 +92,10 @@
 </section><section>
 <h4 id="how-to-handle-orphan-transactions">How to handle orphan transactions?</h4>
 <ul>
-<li>Keep a &ldquo;list&rdquo; of orphan transactions</li>
+<li>When a transaction is determined as orphan, store it in a &ldquo;list&rdquo;</li>
 <li>Go through the list whenever a new non-orphan transaction is processed</li>
-<li>Recursively &ldquo;unorphaning&rdquo;</li>
-<li>For each transaction &ldquo;unorphaning&rdquo;, all related entries should be removed</li>
+<li>Recursively &ldquo;unorphaning&rdquo; transactions in the list</li>
+<li>For each &ldquo;unorphaned&rdquo; transaction, all related entries should be removed</li>
 </ul>
 </section><section>
 <p><img src="https://cryptoservices.github.io/images/bitcoin-orphan-tx-cve/orphans-0.png" alt=""></p>
@@ -103,9 +103,11 @@
 <h4 id="cve-2012-3789-1">CVE-2012-3789</h4>
 <ul>
 <li>limitless orphan allowed DoS attack</li>
-<li>memory exhaustion can happen on clients</li>
+<li>memory/CPU exhaustion can happen on clients</li>
 <li>Fix: a number/size threshold on the orphan store</li>
 </ul>
+</section><section>
+<p><img src="AddTx.png" alt=""></p>
 
 </section>
 </section><section>
