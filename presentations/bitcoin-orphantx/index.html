@@ -92,17 +92,20 @@
 </section><section>
 <h4 id="how-to-handle-orphan-transactions">How to handle orphan transactions?</h4>
 <ul>
-<li>When a transaction is determined as orphan, store it in a &ldquo;list&rdquo;</li>
-<li>Go through the list whenever a new non-orphan transaction is processed</li>
+<li>When new orphan transaction comes, store it in a &ldquo;list&rdquo;</li>
+<li>When new non-orphan transaction comes, go though the orphan list
+<ul>
+<li>there may be a transaction who can be &ldquo;unorphaned&rdquo;</li>
 <li>Recursively &ldquo;unorphaning&rdquo; transactions in the list</li>
-<li>For each &ldquo;unorphaned&rdquo; transaction, all related entries should be removed</li>
+</ul>
+</li>
 </ul>
 </section><section>
 <p><img src="https://cryptoservices.github.io/images/bitcoin-orphan-tx-cve/orphans-0.png" alt=""></p>
 </section><section>
 <h4 id="cve-2012-3789-1">CVE-2012-3789</h4>
 <ul>
-<li>limitless orphan allowed DoS attack</li>
+<li>limitless orphan transactions allowed DoS attack</li>
 <li>memory/CPU exhaustion can happen on clients</li>
 <li>Fix: a number/size threshold on the orphan store</li>
 </ul>
