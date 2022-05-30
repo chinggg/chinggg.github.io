@@ -48,13 +48,13 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/bitcoin-fuzz/" />
 <meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
-<meta property="article:modified_time" content="2022-05-06T14:38:09+08:00" />
+<meta property="article:modified_time" content="2022-05-30T11:03:04+08:00" />
 <meta itemprop="name" content="Fuzzing Evolution: How developers make Bitcoin more secure">
 <meta itemprop="description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
 Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto.">
 <meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-05-06T14:38:09+08:00" />
-<meta itemprop="wordCount" content="3514">
+<meta itemprop="dateModified" content="2022-05-30T11:03:04+08:00" />
+<meta itemprop="wordCount" content="3522">
 
 
 
@@ -288,8 +288,7 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <li>Then receive random messages from those random peers</li>
 </ul>
 <h3 id="fuzz-trophies">Fuzz Trophies</h3>
-<p>A collection of bugs found by developers via fuzzing can be found at <a href="https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies">https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies</a>. Some of them are actually exploitable vulnerabilities. For instance, <a href="https://nvd.nist.gov/vuln/detail/CVE-2017-18350" target="_blank">CVE-2017-18350</a> is
-a buffer overflow vulnerability which allows a malicious SOCKS proxy server to overwrite the program stack on systems with a signed  <code>char</code> type (including common 32-bit and 64-bit x86 PCs). The vulnerability was introduced in 2012 and kept unknown until practicalswift used fuzzing to find it and disclosed it to security team in 2017.</p>
+<p>A collection of bugs found by developers via fuzzing can be found at <a href="https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies">https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies</a>. Some of them are actually exploitable vulnerabilities. For instance, <a href="https://nvd.nist.gov/vuln/detail/CVE-2017-18350" target="_blank">CVE-2017-18350</a> is a buffer overflow vulnerability which allows a malicious SOCKS proxy server to overwrite the program stack on systems with a signed  <code>char</code> type (including common 32-bit and 64-bit x86 PCs). The vulnerability was introduced in 2012 and kept unknown until practicalswift used fuzzing to find it and disclosed it to security team in 2017. <a href="https://github.com/bitcoin/bitcoin/pull/19203/" target="_blank">PR#19203</a> added a regression fuzz harness for it.</p>
 <h2 id="software-testing-techniques-to-improve-fuzzing">Software Testing Techniques To Improve Fuzzing</h2>
 <p>Although Bitcoin Core has put much effort into fuzzing, it seemed that the fuzzing was stuck: neither code coverage nor found bugs were increasing with additional fuzzing time. This is a common phenomenon called <em>saturation</em> when fuzzing software. That is, at first a particular fuzzer applied to a system will tend to continuously increase both coverage and discovery of previously-unknown bugs. But, at some point, the number of new bugs found by the fuzzer drops off, eventually approaching zero.</p>
 <p>The underlying reason for saturation is that any fuzzer can explore a space of generated tests determined by a complex probability distribution. Some bugs lie in the high-probability portion of this space, and other bugs lie in very low probability or even zero probability parts of the space.</p>
@@ -336,8 +335,8 @@ a buffer overflow vulnerability which allows a malicious SOCKS proxy server to o
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-05-06 14:38:09 &#43;0800 &#43;0800">2022-05-06</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/82b00f20f08198392eb5ed046d969aa316731d26" title="update" target="_blank">(82b00f2)</a>
+        <span title="2022-05-30 11:03:04 &#43;0800 &#43;0800">2022-05-30</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/dae3baa5263571748a0b14a3e7f38f8a5c80560f" title="presentation: bitcoin txorphan" target="_blank">(dae3baa)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Bitcoin-Fuzz.md" target="_blank">更新历史</a>
     </span>
   </p>

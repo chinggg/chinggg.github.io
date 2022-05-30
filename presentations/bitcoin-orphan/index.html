@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>Bitcoin Orphan Transaction and its vulnerabilities</title>
+<meta name="description" content="chinggg的博客">
+<meta name="author" content="chinggg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/css/reset.css">
+<link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-js/css/theme/night.css" id="theme">
+<link rel="stylesheet" href="/highlight-js/default.min.css">
+    
+  </head>
+  <body>
+    
+    <style>
+      #logo {
+        position: absolute;
+        top: 1%;
+        left: 1%;
+        width: 6%;
+      }
+    </style>
+    <img id="logo" src="icon.png" alt="">
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h3 id="bitcoin-orphan-transaction-and-its-vulnerabilities">Bitcoin Orphan Transaction and its vulnerabilities</h3>
+<h4 id="in-5-minutes">in 5 minutes</h4>
+<p>by <a href="https://github.com/chinggg" target="_blank">chinggg</a></p>
+<p>2022.5.30</p>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="blockchain-and-transaction">Blockchain and Transaction</h3>
+</section><section>
+<p>Block =  Header + Transactions</p>
+<p><img src="blockchain-overview.svg" alt=""></p>
+</section><section>
+<p>Transaction = inputs + outputs</p>
+<p><img src="transaction-propagation.svg" alt=""></p>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="what-is-orphan-transaction">What is Orphan Transaction?</h3>
+</section><section>
+<p>We are not talking about <strong>stale blocks</strong></p>
+<ul>
+<li>successfully mined blocks that are <strong>not on the current best block chain</strong></li>
+<li>will be rejected by the network so they are often called <em>orphan</em></li>
+<li>but technically they still have valid parents and should be defined as <strong>stale blocks</strong></li>
+</ul>
+</section><section>
+<h4 id="orphan-blocks">orphan blocks</h4>
+<ul>
+<li>blocks whose previous hash field points to unknown blocks</li>
+<li>parent blocks have not been processed since P2P networks do not preserve order</li>
+<li>cannot be fully validated yet</li>
+</ul>
+</section><section>
+<h4 id="orphan-transactions">orphan transactions</h4>
+<ul>
+<li>parent transaction (previous output) which is neither in the current best chain nor mempool</li>
+<li>cannot be fully validated yet</li>
+<li>should be stored for later processing</li>
+</ul>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="bitcoin-core-and">Bitcoin Core and</h3>
+<h3 id="cve-2012-3789">CVE-2012-3789</h3>
+</section><section>
+<p>the <strong>reference implementation</strong></p>
+<p><img src="bitcoin-core.svg" alt=""></p>
+<h4 id="bitcoin-as-a-software">Bitcoin as a Software</h4>
+<ul>
+<li>Software have bugs</li>
+<li>Bitcoin is a software</li>
+<li>Bitcoin has bugs</li>
+</ul>
+</section><section>
+<h4 id="how-to-handle-orphan-transactions">How to handle orphan transactions?</h4>
+<ul>
+<li>Keep a &ldquo;list&rdquo; of orphan transactions</li>
+<li>Go through the list whenever a new non-orphan transaction is processed</li>
+<li>Recursively &ldquo;unorphaning&rdquo;</li>
+<li>For each transaction &ldquo;unorphaning&rdquo;, all related entries should be removed</li>
+</ul>
+</section><section>
+<p><img src="https://cryptoservices.github.io/images/bitcoin-orphan-tx-cve/orphans-0.png" alt=""></p>
+</section><section>
+<h4 id="cve-2012-3789-1">CVE-2012-3789</h4>
+<ul>
+<li>limitless orphan allowed DoS attack</li>
+<li>memory exhaustion can happen on clients</li>
+<li>Fix: a number/size threshold on the orphan store</li>
+</ul>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="future-work">Future Work</h3>
+</section><section>
+<p><img src="SoB2022.png" alt=""></p>
+</section><section>
+<p><img src="project.png" alt=""></p>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="thanks-for-reading">Thanks for reading!</h3>
+<p>References:</p>
+<p>[1] M. A. Imtiaz, D. Starobinski, and A. Trachtenberg, “Characterizing Orphan Transactions in the Bitcoin Network,” in 2020 IEEE International Conference on Blockchain and Cryptocurrency (ICBC), May 2020, pp. 1–9.</p>
+<p>[2] A. Groce, K. Jain, R. van Tonder, G. Tulajappa, and C. L. Goues, “Looking for lacunae in bitcoin core’s fuzzing efforts,” in International Conference on Software Engineering, 2022</p>
+
+</section>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
+
+<a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
+<script type="text/javascript">
+  var printLocationElement = document.getElementById('print-location');
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
+<script type="application/json" id="reveal-hugo-site-params">null</script>
+<script type="application/json" id="reveal-hugo-page-params">{"theme":"night"}</script>
+
+<script src="/reveal-js/js/reveal.js"></script>
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams));
+  Reveal.initialize(options);
+</script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/marked.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom-js/zoom.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+    
+    
+  </body>
+</html>
