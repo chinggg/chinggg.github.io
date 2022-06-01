@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chinggg" /><meta name="description" content="[WIP] I find the evolution of Bitcoin&amp;rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
-Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto." /><meta name="keywords" content="chinggg, blog" />
+<meta name="author" content="chinggg" /><meta name="description" content="Abstract Bitcoin is a widely used distributed system that is time-tested and recognized to be secure. However, most of the existing research focus on its theoretical security model, while ignoring the possible vulnerabilities in its software implementation. This paper will review how fuzzing, an increasingly popular automated vulnerability detection method, has been used in practice and refined stage by stage by Bitcoin Core developers. In addition, this paper will describe recent work published in ICSE 2022 that analyzes three different software testing techniques and summarizes their practical effects when applied to Bitcoin Core." /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -43,26 +42,23 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 
 
 <meta property="og:title" content="Fuzzing Evolution: How developers make Bitcoin more secure" />
-<meta property="og:description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
-Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto." />
+<meta property="og:description" content="Abstract Bitcoin is a widely used distributed system that is time-tested and recognized to be secure. However, most of the existing research focus on its theoretical security model, while ignoring the possible vulnerabilities in its software implementation. This paper will review how fuzzing, an increasingly popular automated vulnerability detection method, has been used in practice and refined stage by stage by Bitcoin Core developers. In addition, this paper will describe recent work published in ICSE 2022 that analyzes three different software testing techniques and summarizes their practical effects when applied to Bitcoin Core." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/bitcoin-fuzz/" />
 <meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
-<meta property="article:modified_time" content="2022-06-01T01:04:43+00:00" />
+<meta property="article:modified_time" content="2022-06-01T09:32:34+08:00" />
 <meta itemprop="name" content="Fuzzing Evolution: How developers make Bitcoin more secure">
-<meta itemprop="description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
-Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto.">
+<meta itemprop="description" content="Abstract Bitcoin is a widely used distributed system that is time-tested and recognized to be secure. However, most of the existing research focus on its theoretical security model, while ignoring the possible vulnerabilities in its software implementation. This paper will review how fuzzing, an increasingly popular automated vulnerability detection method, has been used in practice and refined stage by stage by Bitcoin Core developers. In addition, this paper will describe recent work published in ICSE 2022 that analyzes three different software testing techniques and summarizes their practical effects when applied to Bitcoin Core.">
 <meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-06-01T01:04:43+00:00" />
-<meta itemprop="wordCount" content="3522">
+<meta itemprop="dateModified" content="2022-06-01T09:32:34+08:00" />
+<meta itemprop="wordCount" content="4067">
 
 
 
 <meta itemprop="keywords" content="Paper,Bitcoin,Fuzzing," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Fuzzing Evolution: How developers make Bitcoin more secure"/>
-<meta name="twitter:description" content="[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.
-Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto."/>
+<meta name="twitter:description" content="Abstract Bitcoin is a widely used distributed system that is time-tested and recognized to be secure. However, most of the existing research focus on its theoretical security model, while ignoring the possible vulnerabilities in its software implementation. This paper will review how fuzzing, an increasingly popular automated vulnerability detection method, has been used in practice and refined stage by stage by Bitcoin Core developers. In addition, this paper will describe recent work published in ICSE 2022 that analyzes three different software testing techniques and summarizes their practical effects when applied to Bitcoin Core."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -168,8 +164,9 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#fuzzing-evolution-how-developers-make-bitcoin-more-secure">Fuzzing Evolution: How developers make Bitcoin more secure</a>
+    <li>
       <ul>
+        <li><a href="#abstract">Abstract</a></li>
         <li><a href="#intro">Intro</a></li>
         <li><a href="#background">Background</a>
           <ul>
@@ -199,6 +196,7 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
           </ul>
         </li>
         <li><a href="#conclusion-and-future-work">Conclusion and Future Work</a></li>
+        <li><a href="#acknowledgements">Acknowledgements</a></li>
         <li><a href="#reference">Reference</a></li>
       </ul>
     </li>
@@ -207,8 +205,9 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
   </div>
 </div>
     <div class="post-content">
-      <p><strong>[WIP] I find the evolution of Bitcoin&rsquo;s fuzzing infrastructure interesting, so I am writing a essay to make a survey of that.</strong></p>
-<h1 id="fuzzing-evolution-how-developers-make-bitcoin-more-secure">Fuzzing Evolution: How developers make Bitcoin more secure</h1>
+      <h2 id="abstract">Abstract</h2>
+<p>Bitcoin is a widely used distributed system that is time-tested and recognized to be secure. However, most of the existing research focus on its theoretical security model, while ignoring the possible vulnerabilities in its software implementation. This paper will review how fuzzing, an increasingly popular automated vulnerability detection method, has been used in practice and refined stage by stage by Bitcoin Core developers. In addition, this paper will describe recent work published in ICSE 2022 that analyzes three different software testing techniques and summarizes their practical effects when applied to Bitcoin Core.</p>
+<p><strong>Keywords</strong>: fuzzing, software testing, Bitcoin</p>
 <h2 id="intro">Intro</h2>
 <p>Bitcoin is one of the most prominent distributed software systems in the world, and a key part of a potentially revolutionary new form of decentralized financial (DeFi) tool, cryptocurrency. Due to its distributed nature, Bitcoin in some sense is the sum of the operations of the code executed by many independent nodes rather than the original software created by Satoshi Nakamoto. There are several different implementations of Bitcoin written in various programming languages, like <a href="https://github.com/btcsuite/btcd" target="_blank">btcd</a>, <a href="https://github.com/bcoin-org/bcoin" target="_blank">bcoin,</a> and <a href="https://github.com/bitcoin-s/bitcoin-s" target="_blank">bitcoin-s</a>. However, Bitcoin Core, written in C++, is the <em>reference implementation</em> of the Bitcoin system, meaning that it is the authoritative reference on how each part of the technology should be implemented. To a significant degree, the code of Bitcoin Core is Bitcoin, so we may mix these two terms in this paper. The main Bitcoin Core repo on GitHub has over 64,000 stars and has been forked more than 32,000 times.</p>
 <p>Because of Bitcoin&rsquo;s fame and the high monetary value, the Bitcoin protocol and its implementations are a high-value target for hackers. Though many works have been done to analyze the security model of Bitcoin, most of them focused on theory but ignore software implementation. This paper will describe how Bitcoin Core, as a popular open-source software (OSS), uses fuzzing to secure its codebase against potential vulnerabilities. Our main contributions are:</p>
@@ -228,6 +227,7 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <p><img src="https://github.com/google/oss-fuzz/raw/master/docs/images/process.png" alt=""></p>
 <h2 id="bitcoin-fuzzing-infrastructure">Bitcoin Fuzzing Infrastructure</h2>
 <h3 id="history">History</h3>
+<p><img src="/post_img/Bitcoin-Fuzz/timeline.png" alt=""></p>
 <h4 id="stage-1-proof-of-concept-2013-2016">Stage 1: Proof of Concept (2013-2016)</h4>
 <p>Neither Bitcoin nor fuzzing has a long history. The first piece of code about fuzzing was introduced by <a href="https://github.com/gavinandresen" target="_blank">Gavin Andresen</a> in <a href="https://github.com/bitcoin/bitcoin/pull/3173" target="_blank">PR#3173</a>, which just added a simple protected method in the <code>CNode</code> class. All it can do is randomly corrupt 1-of-N sent messages. It was understandably primitive, since AFL, the widely-used generic fuzzer, does not even exist until 2 months later in 2013.</p>
 <p>Three years later in 2016, <a href="https://github.com/pstratem" target="_blank">Patrick Strateman</a> first attempted to bring a simple fuzzing framework to Bitcoin in <a href="https://github.com/bitcoin/bitcoin/pull/7940" target="_blank">PR#7940</a>, but he did not make the code merged. Luckily, <a href="https://github.com/laanwj" target="_blank">laawj</a> resurrect pstratem&rsquo;s fuzzing framework as part of Bitcoin&rsquo;s test code in <a href="https://github.com/bitcoin/bitcoin/pull/9172" target="_blank">PR#9172</a>. This simple fuzzing framework test deserialization by reading input from <code>stdin</code>, which makes it compatible with AFL.</p>
@@ -290,9 +290,9 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <h3 id="fuzz-trophies">Fuzz Trophies</h3>
 <p>A collection of bugs found by developers via fuzzing can be found at <a href="https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies">https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies</a>. Some of them are actually exploitable vulnerabilities. For instance, <a href="https://nvd.nist.gov/vuln/detail/CVE-2017-18350" target="_blank">CVE-2017-18350</a> is a buffer overflow vulnerability which allows a malicious SOCKS proxy server to overwrite the program stack on systems with a signed  <code>char</code> type (including common 32-bit and 64-bit x86 PCs). The vulnerability was introduced in 2012 and kept unknown until practicalswift used fuzzing to find it and disclosed it to security team in 2017. <a href="https://github.com/bitcoin/bitcoin/pull/19203/" target="_blank">PR#19203</a> added a regression fuzz harness for it.</p>
 <h2 id="software-testing-techniques-to-improve-fuzzing">Software Testing Techniques To Improve Fuzzing</h2>
-<p>Although Bitcoin Core has put much effort into fuzzing, it seemed that the fuzzing was stuck: neither code coverage nor found bugs were increasing with additional fuzzing time. This is a common phenomenon called <em>saturation</em> when fuzzing software. That is, at first a particular fuzzer applied to a system will tend to continuously increase both coverage and discovery of previously-unknown bugs. But, at some point, the number of new bugs found by the fuzzer drops off, eventually approaching zero.</p>
+<p>Although Bitcoin Core has put much effort into fuzzing, it seemed that the fuzzing was stuck: neither code coverage nor found bugs were increasing with additional fuzzing time. This is a common phenomenon called <em><strong>saturation</strong></em> when fuzzing software. That is, at first a particular fuzzer applied to a system will tend to continuously increase both coverage and discovery of previously-unknown bugs. But, at some point, the number of new bugs found by the fuzzer drops off, eventually approaching zero.</p>
 <p>The underlying reason for saturation is that any fuzzer can explore a space of generated tests determined by a complex probability distribution. Some bugs lie in the high-probability portion of this space, and other bugs lie in very low probability or even zero probability parts of the space.</p>
-<p>Groce, Alex, et al. present their work <em>Looking for Lacunae in Bitcoin Core&rsquo;s Fuzzing Efforts</em> at ICSE 2022, which describes how researchers of <a href="https://chaincode.com/" target="_blank">Chaincode Labs</a> found applied various kinds of techniques to solve the problem. This section is a paraphrase of their work.</p>
+<p>Groce, Alex, et al. present their work <em>Looking for Lacunae in Bitcoin Core&rsquo;s Fuzzing Efforts</em> at ICSE 2022, which describes how researchers of <a href="https://chaincode.com/" target="_blank">Chaincode Labs</a> applied various kinds of techniques to solve the problem. This section is a paraphrase of their work.</p>
 <h3 id="enhancing-diversity-by-ensemble-fuzzing">Enhancing Diversity by Ensemble fuzzing</h3>
 <p>Ensemble fuzzing is an approach that recognizes the need for diverse methods for test generation, at least in the context of fuzzing; using multiple fuzzers to seed each other and avoid saturation is a core motivation for ensemble fuzzing. Inspired by ensemble methods in machine learning, ensemble fuzzing runs multiple fuzzers, and uses inputs generated by each fuzzer to seed the other fuzzers.</p>
 <p>Note that in one important sense Bitcoin Core is using ensemble fuzzing, in that OSS-Fuzz runs multiple fuzzers, including libFuzzer, AFL, and Honggfuzz) with different compilation flags and sanitizers. Additionally, the Bitcoin Core team has servers running different fuzzers. All of these are coordinated via the qa-assets repository to which our Eclipser-based tests were added. This is, however, a more manual and less controlled process than true ensemble cross-seeding on-the-fly during a fuzzing campaign, and there are suggestions that a well-chosen coordination strategy can significantly improve ensemble effectiveness.</p>
@@ -307,7 +307,7 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <h3 id="oracle-problem-and-mutation-testing">Oracle Problem and Mutation Testing</h3>
 <p>Many efforts have been done to generate various test input that could reach more code. However, sometimes code coverage is already high enough and no bugs could be found because fuzzers actually know nothing about correctness. What is a bug? That is the question to fuzzers.</p>
 <p>The only kind of bug that can be found easily without additional work is program crash, which is also the only behavior that AFL considers to be a bug. But programs can do bad things other than crash. For instance, a hello-world program will never crash, but it always fail to do the expected jobs.</p>
-<p>In software testing, we use <strong>oracle</strong> to describe a source of insight into whether a program run did what it was supposed to do. The general term for a way to decide if a particular execution of a program is “good” or “bad” (if a test fails or passes, for example) is <strong>oracle</strong>.</p>
+<p>In software testing, we use <em><strong>oracle</strong></em> to describe a source of insight into whether a program run did what it was supposed to do. The general term for a way to decide if a particular execution of a program is “good” or “bad” (if a test fails or passes, for example) is <strong>oracle</strong>.</p>
 <p>Adding <em>assert</em> statements is one well-established way to make programs have oracle power. An assert just checks that something that <em>ought</em> to be true at runtime <em>is true</em>, and crashes the program if it isn’t. Another way to get more crashes automatically is to compile a program with a sanitizer. For example when using clang, adding <code>-fsanitize=address</code> will make the program crash if it performs a variety of unsafe memory operations that might otherwise not cause a problem, or at least not an obvious problem leading to a crash.</p>
 <p>Mutation testing, compared with coverage, can provide more valuable information on oracle power. The basic idea of mutation testing is very simple: add new fake bugs by making small changes to the program then grade the testing effort according to how many bugs can be found.</p>
 <p>To perform mutation analysis on Bitcoin, researchers generated mutations for code in the <code>tx_verify.cpp</code> file. Fuzzing covers 96 of 98 lines of code, 8 of 8 functions, and 74 of 102 branches for this file, guaranteeing that mutation testing will not primarily reflect missing coverage. Comparing coverage to that for functional testing, the fuzz testing has very slightly lower branch coverage, but the numbers are almost identical (72.5% vs. 73%), and the fuzz testing covers different branches than the functional testing. The missing lines are different for functional and fuzz testing as well. Figure 2 summarizes mutation analysis of the file <code>tx_verify.cpp</code>, which is critical to checking transactions for correctness.</p>
@@ -316,14 +316,75 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
 <h2 id="conclusion-and-future-work">Conclusion and Future Work</h2>
 <p>One conclusion is that the most effective way to improve fuzzing at present might be not to focus on covering the code and state space, but to focus on increasing the oracle power of all Bitcoin Core testing. Arguably, the greatest weakness of traditional code coverage is that it focuses too much attention on the input side of testing and too little on the oracle side, which is easier for even dedicated testing efforts to neglect in the pursuit of covering every branch and path.</p>
 <p>Bitcoin Core is a open source software, which means everyone can contribute to its fuzzing infrastructure. Luckily, I got selected as one of the 83 students that will participate in <a href="https://blog.summerofbitcoin.org/summer-of-bitcoin-2022/" target="_blank">Summer of Bitcoin 2022</a>. Under the guidance of <a href="https://github.com/MarcoFalke" target="_blank">MarcoFalke</a>, I will add a specific fuzz target for orphan transaction handling, which was the source of several DoS attack vectors in the past. By contributing to Bitcoin Core, I can learn a lot about  transaction relay in the Bitcoin P2P network and hopefully find potential security issues in the code.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to Marco Falke and all the other Bitcoin developers for their excellent demonstration of open source collaboration, which was the basis for my research into the evolution of Bitcoin development.</p>
+<p>Thanks to the Summer of Bitcoin event organizing committee and sponsors like Chaincode Labs for guiding and supporting students in bitcoin development.</p>
+<p>Thanks to Professor Alex Groce of Northern Arizona University for his contributions to software security analysis and fuzzing. His papers and blogs are really informative and lively.</p>
 <h2 id="reference">Reference</h2>
-<p><a href="https://opensource.googleblog.com/2017/05/oss-fuzz-five-months-later-and.html" target="_blank">OSS-Fuzz: Five months later, and rewarding projects | Google Open Source Blog (googleblog.com)</a></p>
-<p><a href="https://guidovranken.com/2017/08/18/bitcoin-fuzzers/">https://guidovranken.com/2017/08/18/bitcoin-fuzzers/</a></p>
-<p><a href="https://en.bitcoin.it/wiki/Common_Vulnerabilities_and_Exposures" target="_blank">Common Vulnerabilities and Exposures in Bitcoin</a></p>
-<p><a href="https://cryptoservices.github.io/fde/2018/12/14/bitcoin-orphan-TX-CVE.html" target="_blank">Bitcoin Orphan Transactions and CVE-2012-3789</a></p>
-<p><a href="https://github.com/bitcoin/bitcoin/issues/11045">https://github.com/bitcoin/bitcoin/issues/11045</a></p>
-<p><a href="https://jonasnick.github.io/blog/2015/05/09/fuzzing-bitcoin-consensus/">https://jonasnick.github.io/blog/2015/05/09/fuzzing-bitcoin-consensus/</a>)</p>
-<p><a href="https://b10c.me/blog/004-the-incomplete-history-of-bitcoin-development/" target="_blank">The Incomplete History of Bitcoin Development (b10c.me)</a></p>
+<p>Groce, Alex, and Kush Jain. 2022. “Looking for Lacunae in Bitcoin Core’s
+Fuzzing Efforts.” <em>International Conference on Software Engineering</em>, 2.</p>
+<p>“Bug Disclosure Guidelines.” n.d. <em>OSS-Fuzz</em>.
+<a href="https://google.github.io/oss-fuzz/getting-started/bug-disclosure-guidelines/">https://google.github.io/oss-fuzz/getting-started/bug-disclosure-guidelines/</a>.</p>
+<p>Chen, Yuanliang, Yu Jiang, Fuchen Ma, Jie Liang, Mingzhe Wang, Chijin
+Zhou, Xun Jiao, and Zhuo Su. 2019a. “EnFuzz: Ensemble Fuzzing with Seed
+Synchronization Among Diverse Fuzzers.” In <em>USENIX Security Symposium</em>.</p>
+<p>“EnFuzz: Ensemble Fuzzing with Seed Synchronization Among
+Diverse Fuzzers.” In <em>28th USENIX Security Symposium (USENIX Security
+19)</em>, 1967–83. Santa Clara, CA: USENIX Association.
+<a href="https://www.usenix.org/conference/usenixsecurity19/presentation/chen-yuanliang">https://www.usenix.org/conference/usenixsecurity19/presentation/chen-yuanliang</a>.</p>
+<p>“ClusterFuzz.” n.d. <em>ClusterFuzz</em>.
+<a href="https://google.github.io/clusterfuzz/">https://google.github.io/clusterfuzz/</a>.</p>
+<p>“CVE-2012-3789.” n.d. <em>CVE-2012-3789 - Bitcoin Wiki</em>.
+<a href="https://en.bitcoin.it/wiki/CVE-2012-3789">https://en.bitcoin.it/wiki/CVE-2012-3789</a>.</p>
+<p>Dietterichl, Thomas G. 2002. “Ensemble Learning.” In <em>The Handbook of
+Brain Theory and Neural Networks</em>, edited by M. Arbib, 405–8. MIT Press.</p>
+<p>Fioraldi, Andrea, Dominik Maier, Heiko Eißfeldt, and Marc Heuse. 2020.
+“{AFL++}: Combining Incremental Steps of Fuzzing Research.” In <em>14th
+USENIX Workshop on Offensive Technologies (WOOT 20)</em>.</p>
+<p>Garay, Juan, Aggelos Kiayias, and Nikos Leonardos. 2015. “The Bitcoin
+Backbone Protocol: Analysis and Applications.” In <em>Annual International
+Conference on the Theory and Applications of Cryptographic Techniques</em>,
+281–310. Springer.</p>
+<p>Google, Project Zero team at. 2015. <em>Feedback and Data-Driven Updates to
+Google’s Disclosure Policy</em>.
+<a href="https://googleprojectzero.blogspot.com/2015/02/feedback-and-data-driven-updates-to.html">https://googleprojectzero.blogspot.com/2015/02/feedback-and-data-driven-updates-to.html</a>.</p>
+<p>Groce, Alex, Chaoqiang Zhang, Mohammad Amin Alipour, Eric Eide, Yang
+Chen, and John Regehr. 2013. “Help, Help, i’m Being Suppressed! The
+Significance of Suppressors in Software Testing.” In <em>2013 IEEE 24th
+International Symposium on Software Reliability Engineering (ISSRE)</em>,
+390–99. <a href="https://doi.org/10.1109/ISSRE.2013.6698892">https://doi.org/10.1109/ISSRE.2013.6698892</a>.</p>
+<p>Groce, Alex, Chaoqiang Zhang, Eric Eide, Yang Chen, and John Regehr.
+2012. “Swarm Testing.” In <em>Proceedings of the 2012 International
+Symposium on Software Testing and Analysis</em>, 78–88. ISSTA 2012. New
+York, NY, USA: Association for Computing Machinery.
+<a href="https://doi.org/10.1145/2338965.2336763">https://doi.org/10.1145/2338965.2336763</a>.</p>
+<p>Groce, Posted byAlex. 2021. “Oracles and Mutation Testing: Adding Bugs
+to Code for Fun and Profit.” <em>How to Test It</em>.
+<a href="https://howtotestit.wordpress.com/2021/03/31/oracles-and-mutation-testing-adding-bugs-to-code-for-fun-and-profit/">https://howtotestit.wordpress.com/2021/03/31/oracles-and-mutation-testing-adding-bugs-to-code-for-fun-and-profit/</a>.</p>
+<p>“Honggfuzz.” n.d. <em>Honggfuzz</em>. <a href="https://honggfuzz.dev/">https://honggfuzz.dev/</a>.</p>
+<p>Imtiaz, Muhammad Anas, David Starobinski, and Ari Trachtenberg. 2020.
+“Characterizing Orphan Transactions in the Bitcoin Network.” In <em>2020
+IEEE International Conference on Blockchain and Cryptocurrency (ICBC)</em>,
+1–9.</p>
+<p>Nakamoto, Satoshi. 2008. “Bitcoin Whitepaper.” <em>URL: Https://Bitcoin.
+Org/Bitcoin. Pdf-(: 17.07. 2019)</em>.</p>
+<p>“Oss-Fuzz: Five Months Later, and Rewarding Projects.” n.d. <em>Google Open
+Source Blog</em>.
+<a href="https://opensource.googleblog.com/2017/05/oss-fuzz-five-months-later-and.html">https://opensource.googleblog.com/2017/05/oss-fuzz-five-months-later-and.html</a>.</p>
+<p>Papadakis, Mike, Marinos Kintis, Jie Zhang, Yue Jia, Yves Le Traon, and
+Mark Harman. 2019. “Chapter Six - Mutation Testing Advances: An Analysis
+and Survey.” In, edited by Atif M. Memon, 112:275–378. Advances in
+Computers. Elsevier.
+<a href="https://doi.org/">https://doi.org/</a><a href="https://doi.org/10.1016/bs.adcom.2018.03.015">https://doi.org/10.1016/bs.adcom.2018.03.015</a>.</p>
+<p>Regehr, John. n.d. <em>The Saturation Effect in Fuzzing</em>.
+<a href="https://blog.regehr.org/archives/1796">https://blog.regehr.org/archives/1796</a>.</p>
+<p>Serebryany, Kosta. 2016. “Continuous Fuzzing with Libfuzzer and
+Addresssanitizer.” In <em>2016 IEEE Cybersecurity Development (SecDev)</em>,
+157–57. IEEE.</p>
+<p>Serebryany, Kostya. 2017. “OSS-Fuzz - Google’s Continuous Fuzzing
+Service for Open Source Software.” Vancouver, BC: USENIX Association.</p>
+<p>Sompolinsky, Yonatan, and Aviv Zohar. 2016. “Bitcoin’s Security Model
+Revisited.” <em>arXiv Preprint arXiv:1605.09193</em>.</p>
 
     </div>
 
@@ -335,8 +396,8 @@ Fuzzing Evolution: How developers make Bitcoin more secure Intro Bitcoin is one 
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-06-01 01:04:43 &#43;0000 UTC">2022-06-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/7c6428d11fc208d895faab6fcd2b16a578a9c717" title="chore: update clicks" target="_blank">(7c6428d)</a>
+        <span title="2022-06-01 09:32:34 &#43;0800 &#43;0800">2022-06-01</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/2b7adaa9e7f72ce072e1350566595b025363d760" title="Update Bitcoin-Fuzz" target="_blank">(2b7adaa)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Bitcoin-Fuzz.md" target="_blank">更新历史</a>
     </span>
   </p>
