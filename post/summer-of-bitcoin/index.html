@@ -50,14 +50,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/summer-of-bitcoin/" />
 <meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
-<meta property="article:modified_time" content="2022-06-01T09:32:34+08:00" />
+<meta property="article:modified_time" content="2022-06-02T17:19:01+08:00" />
 <meta itemprop="name" content="My Experience in Summer of Bitcoin 2022">
 <meta itemprop="description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
  When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke.">
 <meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-06-01T09:32:34+08:00" />
-<meta itemprop="wordCount" content="439">
+<meta itemprop="dateModified" content="2022-06-02T17:19:01+08:00" />
+<meta itemprop="wordCount" content="974">
 
 
 
@@ -176,6 +176,7 @@
       <ul>
         <li><a href="#onboarding-to-bitcoin-core">Onboarding to Bitcoin Core</a></li>
         <li><a href="#week-1">Week 1</a></li>
+        <li><a href="#week-2">Week 2</a></li>
       </ul>
     </li>
   </ul>
@@ -209,10 +210,62 @@
 <li>checkpoints</li>
 </ul>
 <p><a href="https://www.reddit.com/r/Bitcoin/comments/438hx0/a_trip_to_the_moon_requires_a_rocket_with/" target="_blank"><em>Scaling Bitcoin: A trip to the moon requires a rocket with multiple stages</em></a> describes the limitation of Bitcoin&rsquo;s capacity and scalability, which makes it inefficient for payment. Bitcoin&rsquo;s primary distinguishing values are monetary sovereignty, censorship resistance, trust cost minimization, international accessibility/borderless operation, etc. So it doesn&rsquo;t need to compete with Visa/Mastercard to succeed. The potential of scalable transactions may be achieved by upper layers such as <a href="https://lightning.network/" target="_blank">Lightning Network</a>.</p>
-<p>Do you believe that bitcoin needs to be competitive with Visa/Mastercard to succeed?</p>
+<p>Question: <strong>Do you believe that bitcoin needs to be competitive with Visa/Mastercard to succeed?</strong></p>
 <p>The article has explained the reasons why Bitcoin itself is not going to compete with Visa/Mastercard from a technical perspective.</p>
 <p>If we think from a sociological perspective, Bitcoin cannot replace traditional Visa/Mastercard because of its decentralized nature. The real world runs in a centralized way where the banks are supervised by the governments. Even Bitcoin itself is mostly traded in centralized cryptocurrency exchanges such as Binance, which need approval from regulators to operate. It will be suicide for Bitcoin to become more centralized in order to beat Visa/Mastercard.</p>
 <p>To conclude, I think it is difficult for Bitcoin to compete with Visa/Mastercard. But it does not have to be used for daily transactions to succeed. It can be a kind of investment just like gold.</p>
+<p>The answer from my partner:</p>
+<blockquote>
+<p>In my view, bitcoin is a digital currency, a store-of-value (incorruptible store of value), and a final settlement payment system (if you would like to see it in that way), so it does not compete with Visa or Mastercard, as they mainly focus on selling credits for its users.</p>
+<p>The bitcoin network needs to focus on its values: sovereignty, privacy, censorship resistance, and others, instead of trying to focus on TPS metrics such as other payment systems which are easily built and replicated in a centralized fashion. If the main values are maintained and persisted we get sound money, and sound infrastructure and not in competing with legacy payment systems.</p>
+<p>I agree with the text author in such a way that the bitcoin because of its core values is the base layer for other ideas, and payment focused systems/layers (such as the lightning network) can be built on, for example, the internet has the same layered structure, as application, transport, network layers, for bitcoin it’s the network layer and with a base protocol set that turns possible to build other layers like transport for lightning and even application layers such as the third-party centralized apps.</p>
+<p>All that said, bitcoin does not compete with payment or credit systems, it competes with systems that could be a solid base layer, sound money, and store of value, and all the rest can be relied on.</p>
+</blockquote>
+<h2 id="week-2">Week 2</h2>
+<p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/segwit">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/segwit</a></p>
+<p><strong>How does SegWit affect initial block download (IBD)?</strong></p>
+<p>As described in <a href="https://bitcoincore.org/en/2016/10/28/segwit-costs/#risks-due-to-larger-blocks" target="_blank">Segregated Witness Costs and Risks</a>, SegWit allows larger blocks, which means the transaction and storage cost will be higher.</p>
+<p>But I find that SegWit can actually speed up IBD by skipping download of historic signatures, as lised in <a href="https://bitcoincore.org/en/2017/03/08/release-0.14.0/#ibd" target="_blank">Bitcoin Core 0.14.0 Release Note of IBD Performance Improvements</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Major improvements in IBD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.5.0" target="_blank">0.5.0</a></td>
+<td>Skip verification of historic (checkpointed) signatures</td>
+</tr>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.8.0" target="_blank">0.8.0</a></td>
+<td>Switch to LevelDB &amp; parallel signature validation</td>
+</tr>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.10.0" target="_blank">0.10.0</a></td>
+<td>Headers-first sync and parallel block download</td>
+</tr>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.11.0" target="_blank">0.11.0</a></td>
+<td>Optional block file pruning to save disk space</td>
+</tr>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.12.0" target="_blank">0.12.0</a></td>
+<td>New fast signature validation library written from scratch (libsecp256k1)</td>
+</tr>
+<tr>
+<td><a href="https://bitcoin.org/en/release/v0.13.1" target="_blank">0.13.1</a></td>
+<td>Segwit to allow skipping download of historic signatures in the future</td>
+</tr>
+</tbody>
+</table>
+<p>The detail can be found in <a href="https://bitcoin.org/en/release/v0.13.1#segregated-witness-soft-fork" target="_blank">Bitcoin Core 0.13.1 Release Note</a></p>
+<blockquote>
+<ul>
+<li><strong>More efficient almost-full-node security</strong> Satoshi Nakamoto’s original Bitcoin paper describes a method for allowing newly-started full nodes to skip downloading and validating some data from historic blocks that are protected by large amounts of proof of work. Unfortunately, Nakamoto’s method can’t guarantee that a newly-started node using this method will produce an accurate copy of Bitcoin’s current ledger (called the UTXO set), making the node vulnerable to falling out of consensus with other nodes. Although the problems with Nakamoto’s method can’t be fixed in a soft fork, Segwit accomplishes something similar to his original proposal: it makes it possible for a node to optionally skip downloading some blockchain data (specifically, the segregated witnesses) while still ensuring that the node can build an accurate copy of the UTXO set for the block chain with the most proof of work. Segwit enables this capability at the consensus layer, but note that Bitcoin Core does not provide an option to use this capability as of this 0.13.1 release.</li>
+</ul>
+</blockquote>
 
     </div>
 
@@ -224,8 +277,8 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-06-01 09:32:34 &#43;0800 &#43;0800">2022-06-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/2b7adaa9e7f72ce072e1350566595b025363d760" title="Update Bitcoin-Fuzz" target="_blank">(2b7adaa)</a>
+        <span title="2022-06-02 17:19:01 &#43;0800 &#43;0800">2022-06-02</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/855a9d6adc6f4d779e888662a2522edb0967ef55" title="Summer of Bitcoin Week 2" target="_blank">(855a9d6)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Summer-of-Bitcoin.md" target="_blank">更新历史</a>
     </span>
   </p>
