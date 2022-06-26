@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>大讲堂和集市：浅谈学生参与开源的道与术 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="“青春才几年，疫情占三年”，大一就体验过家里蹲的我，在大三又尝到了宿舍蹲的滋味，不知不觉就到了毕业季，刷朋友圈看见高中老师带的新一批学生也吃" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/opensourcestu/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="大讲堂和集市：浅谈学生参与开源的道与术" />
+<meta property="og:description" content="“青春才几年，疫情占三年”，大一就体验过家里蹲的我，在大三又尝到了宿舍蹲的滋味，不知不觉就到了毕业季，刷朋友圈看见高中老师带的新一批学生也吃" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/opensourcestu/" />
+<meta property="article:published_time" content="2022-06-23T23:30:02+00:00" />
+<meta property="article:modified_time" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="name" content="大讲堂和集市：浅谈学生参与开源的道与术">
+<meta itemprop="description" content="“青春才几年，疫情占三年”，大一就体验过家里蹲的我，在大三又尝到了宿舍蹲的滋味，不知不觉就到了毕业季，刷朋友圈看见高中老师带的新一批学生也吃">
+<meta itemprop="datePublished" content="2022-06-23T23:30:02+00:00" />
+<meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="wordCount" content="2397">
+
+
+
+<meta itemprop="keywords" content="随笔，开源," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="大讲堂和集市：浅谈学生参与开源的道与术"/>
+<meta name="twitter:description" content="“青春才几年，疫情占三年”，大一就体验过家里蹲的我，在大三又尝到了宿舍蹲的滋味，不知不觉就到了毕业季，刷朋友圈看见高中老师带的新一批学生也吃"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">大讲堂和集市：浅谈学生参与开源的道与术</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-06-23 23:30:02 &#43;0000 UTC"> 2022-06-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%9A%8F%E7%AC%94/"> 随笔 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#反客为主">反客为主</a></li>
+            <li><a href="#从一到多">从一到多</a></li>
+            <li><a href="#开放共赢">开放共赢</a></li>
+            <li><a href="#理实交融">理实交融</a></li>
+            <li><a href="#写在最后">写在最后</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>“青春才几年，疫情占三年”，大一就体验过家里蹲的我，在大三又尝到了宿舍蹲的滋味，不知不觉就到了毕业季，刷朋友圈看见高中老师带的新一批学生也吃上了散伙饭，这才意识到离开高中已有三年了，而如今的我和高中时的我，有何区别呢？</p>
+<p>对大部分高中生来说，教室是全天候的学习场所，老师在讲台上传道授业，全班同学只需遵循老师的教诲，便能获得不错的成绩，最终体现在高考的分数上。而到了大学阶段，尤其是开始学习专业课后，讲堂的作用似乎开始减弱，上课似懂非懂，作业云里雾里，代码靠 CSDN，考试靠 B 站大学，已成了许多大学生的常态。疫情之下，网课和线上教学更是一地鸡毛，对大学生活的憧憬最终变成了迷茫和自我否定。</p>
+<p>如果你也有这样的感觉，那么开源或许能帮你走出困境，从心态上的转变到治学方法的改进，由内及外，开启不一样的大学生活。</p>
+<h3 id="反客为主">反客为主</h3>
+<blockquote>
+<p>无论做什么，我们都需要给自己一个理由。每天迫于生活压力，毫无主见地忙碌着，可称得上人生一大悲哀。</p>
+<p>在迈进大学校门的时候，我们面临的最大问题是：为什么要上课？也许是因为问题本身太过浅显，以至于我们甚至懒于思考。但我们之中又有谁真正有效地思考过这个问题呢？</p>
+</blockquote>
+<p>这里引用了 <a href="https://survivesjtu.gitbook.io/survivesjtumanual/li-zhi-pian/shi-bai-de-si-wei-fang-shi/bei-dong-si-wei" target="_blank">《上海交通大学生存手册》</a> 中的一段话，类似地，在进入计算机学院的时候，我们也该问问自己：为什么要选择计算机专业？</p>
+<p>分流排名高，家长亲友劝进，若因为这些原因而选择学习计算机，只能让自己处于被动。而真正对计算机充满兴趣的人会发现，与其端坐讲堂之中谨遵老师教诲，不如反客为主，走出课堂积极探索计算机世界的奥妙。而开源就是一个充满生机的集市，任何人都既可以是消费者，也可以是生产者，学习不光是被动接受的过程，而是需要主动探索、贡献和创造。在集市上淘宝，不是等待其他人告诉你一个最优解，也不是闷头发问盲目索取，而要主动调研市场，伺机而动，淘回来的东西在遵守开源协议的情况下加工加工，就可以自己摆摊吆喝了。疫情可以让讲堂蒙灰，却无法让开源的集市停摆，哪怕相隔万里，也能与世界相连。</p>
+<h3 id="从一到多">从一到多</h3>
+<p>高中时老师总说 “上了大学就轻松了”，而当时的我们全然不知高考只是起点，等到了大学才被告知还有绩点一说，若想要保研，之后的四年中，不仅每一场考试都要认真对待，就连选择哪个老师上的哪门课也有讲究。慢慢地我们还会发现，无论是升学还是就业，都少不了和分数打交道，我们的评价体系习惯用量化的分数来衡量一个人，不知不觉中，我们自己也成了单向度的人，从一开始就打听着终南捷径，却不知今后到底该走向何方。</p>
+<p>面对这些外在的指标和压力，我们必须保持头脑清醒，大学四年给了每个人充足的时间探索不同的领域，而那一串苍白的分数，在你毕业之时就将作废。</p>
+<p>作为普通学校的学生，难以触及名校所能提供的丰富资源，所幸参与开源没有门槛，任何人都能以一种舒适的方式获得成长的多样性。相比于传统意义上的各种竞赛，开源目前还是蓝海，十四五规划将开源提上议程后，包括中科院软件所和中国计算机学会在内的各大机构也纷纷举办活动支持学生参与开源，不仅计算机专业的学生可以参与代码开发，其他专业的学生也能以不同的身份参与社区治理，从设计运营到沟通组织，都能发挥自己的特长。</p>
+<h3 id="开放共赢">开放共赢</h3>
+<p>为了竞争有限的资源，我们习惯于限名额，排座次，你多便是我少，你进便是我退，每个人都是潜在的对手。在能力相差不大的情况下，维持信息差，闷声发大财有助于维持自己的竞争力。但在开源世界，信息的流动十分通畅，你固然可以选择少说多做，深藏身与名，却也不妨积极在社区发声布道，打造个人影响力，这方面可以学习印度学生，比如下图中这位小哥，自进入大学以来就积极投身开源并持续不断地输出内容，今年刚毕业就已坐拥几十万粉丝，并开创了属于自己的事业。</p>
+<p><img src="/post_img/OpenSourceStu/KunalKushwaha.webp" alt=""></p>
+<p>对于我们个人而言，即使没有那样的精力投入自媒体，也可以多输出技术博客，结交志趣相投的伙伴，互相交流技术，组队学习公开课，自发组织 <a href="https://en.wikipedia.org/wiki/Special_interest_group" target="_blank">特别兴趣小组（SIG）</a>，用开放与包容代替封闭与对立。同时我们可以看到，学术界和工业界也已吹起了一股开源之风，越来越多的论文选择开源实验代码，各大公司也都纷纷加入开源基金会以提高自己的影响力。</p>
+<h3 id="理实交融">理实交融</h3>
+<p>很多人对开源的理解仅仅停留在做课程设计时复制交差的代码和找工作时随手拿来包装的项目，只能增强动手能力，而于理论并无大益。对应付考试而言可能确实如此，但计算机学科是非常重视实操的，一个人可以通过死磕书本记下一堆结论和解题技巧拿到光鲜的成绩，但这对能力的提升帮助有限，如费曼所说</p>
+<blockquote>
+<p>What I cannot create, I do not understand</p>
+</blockquote>
+<p><img src="https://build-your-own-x.vercel.app/feynman.png" alt=""></p>
+<p>而在 GitHub 上就有 <a href="https://github.com/codecrafters-io/build-your-own-x" target="_blank">build-your-own-x</a> 这样一个仓库教你造轮子，汇集了许多教程，你可以从零创造整个计算机大厦的一砖一瓦。</p>
+<p>回到专业课的学习，B 站大学有看不完的视频任君挑选，但对学习计算机而言，光看视频相当于买椟还珠，精心设计的实验或许才是国外高校计算机教学的核心。国内高校往往只把实验作为点缀，只重报告形式，内容陈旧不堪，学生按照实验材料配置过时的环境屡屡踩坑，最终没有理解实验内容，却浪费许多时间大海捞针。而国外高校的实验则贯穿整个课堂，基本的框架已经搭好，学生只需按照学习进度逐步实现各项功能，最终亲手打造一个完整的项目。</p>
+<p>或许是受疫情线上教学的影响，越来越多的名校课程开源了自己的实验代码，外校学生只需 git clone 即可享受实验，在此过程中难免会接触到 Linux 下开发环境，对于提高计算机素养非常有帮助。实验和课程搭配学习，循序渐进，哪怕只有大一 C 语言基础也不会觉得吃力。在此之后就可以尝试探索感兴趣的方向，深入研究现实世界中的开源项目并作出贡献。</p>
+<h3 id="写在最后">写在最后</h3>
+<p>可能很多朋友看到标题就知道我在致敬 <a href="http://www.catb.org/~esr/writings/cathedral-bazaar/" target="_blank">《大教堂与集市》</a> 这本书，水平所限，本文只是从学生参与开源的角度做一些引申，尝试给出一些建议，若想深入了解开源文化可以去深入阅读一下原书，希望能对看到这篇文章的你有所帮助，也欢迎同学们加入 SHUOSC 的 QQ 大群（24061199）一起交流。校内社团招新即将开启，还请大家多多关注我们的微信公众号（SHU 开源社区），B 站帐号（上海大学开源社区）以及 <a href="https://github.com/shuosc" target="_blank">GitHub 主页</a>。</p>
+<p><img src="/post_img/OpenSourceStu/SHUOSC_QQ.webp" alt=""></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/061b57e074b9618fd5a39f7c28dbd3dd01252d5c" title="update 6/26" target="_blank">(061b57e)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/OpenSourceStu.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%9A%8F%E7%AC%94%E5%BC%80%E6%BA%90/">随笔，开源</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/mdperffuzz/">
+            <span class="next-text nav-default">MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e5%a4%a7%e8%ae%b2%e5%a0%82%e5%92%8c%e9%9b%86%e5%b8%82%ef%bc%9a%e6%b5%85%e8%b0%88%e5%ad%a6%e7%94%9f%e5%8f%82%e4%b8%8e%e5%bc%80%e6%ba%90%e7%9a%84%e9%81%93%e4%b8%8e%e6%9c%af - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e5%a4%a7%e8%ae%b2%e5%a0%82%e5%92%8c%e9%9b%86%e5%b8%82%ef%bc%9a%e6%b5%85%e8%b0%88%e5%ad%a6%e7%94%9f%e5%8f%82%e4%b8%8e%e5%bc%80%e6%ba%90%e7%9a%84%e9%81%93%e4%b8%8e%e6%9c%af - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

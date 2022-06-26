@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="论文信息 原文作者：Penghui Li; Yinxi Liu; Wei Meng 原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers 发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering) 原文链接：h" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/mdperffuzz/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug" />
+<meta property="og:description" content="论文信息 原文作者：Penghui Li; Yinxi Liu; Wei Meng 原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers 发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering) 原文链接：h" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/mdperffuzz/" />
+<meta property="article:published_time" content="2022-06-18T13:46:52+00:00" />
+<meta property="article:modified_time" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="name" content="MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug">
+<meta itemprop="description" content="论文信息 原文作者：Penghui Li; Yinxi Liu; Wei Meng 原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers 发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering) 原文链接：h">
+<meta itemprop="datePublished" content="2022-06-18T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="wordCount" content="2061">
+
+
+
+<meta itemprop="keywords" content="论文笔记，安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug"/>
+<meta name="twitter:description" content="论文信息 原文作者：Penghui Li; Yinxi Liu; Wei Meng 原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers 发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering) 原文链接：h"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-06-18 13:46:52 &#43;0000 UTC"> 2022-06-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#论文信息">论文信息</a></li>
+        <li><a href="#问题背景">问题背景</a></li>
+        <li><a href="#理解现有-bug">理解现有 bug</a></li>
+        <li><a href="#mdperffuzz-系统设计">MdPerfFuzz 系统设计</a>
+          <ul>
+            <li><a href="#syntax-tree-based-mutation-strategy">Syntax-Tree Based Mutation Strategy</a></li>
+            <li><a href="#fitness-function-and-performance-bug-detection">Fitness Function and Performance Bug Detection</a></li>
+            <li><a href="#bug-de-duplication">Bug De-Duplication</a></li>
+          </ul>
+        </li>
+        <li><a href="#实验效果">实验效果</a>
+          <ul>
+            <li><a href="#实验一横向对比挖掘-performance-bug">实验一：横向对比挖掘 performance bug</a></li>
+            <li><a href="#实验二研究其他-markdown-编译器的漏洞">实验二：研究其他 Markdown 编译器的漏洞</a></li>
+          </ul>
+        </li>
+        <li><a href="#讨论与相关工作">讨论与相关工作</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="论文信息">论文信息</h2>
+<p>原文作者：<a href="https://ieeexplore.ieee.org/author/37089249902" target="_blank">Penghui Li</a>; <a href="https://ieeexplore.ieee.org/author/37088948962" target="_blank">Yinxi Liu</a>; <a href="https://ieeexplore.ieee.org/author/37088948225" target="_blank">Wei Meng</a></p>
+<p>原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers</p>
+<p>发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering)</p>
+<p>原文链接：https://seclab.cse.cuhk.edu.hk/papers/ase21_mdperffuzz.pdf</p>
+<p>代码链接：https://github.com/cuhk-seclab/MdPerfFuzz</p>
+<h2 id="问题背景">问题背景</h2>
+<p>Markdown 被广泛使用在 GitHub 等代码托管平台和 WordPress 等 CMS 系统中，Markdown 编译器中可能存在的漏洞却没有得到重视，尤其是性能问题容易成为 DoS 攻击面。</p>
+<p>作者调研了主流 Markdown 编译器的 49 个性能 bug，观察出根本原因是* the specific ways that Markdown compilers handle the language’s context-sensitive features*，回溯法在特制输入下会达到最坏时间复杂度，而若强行施加上限则影响功能性。</p>
+<p>由于性能问题的成因是 algorithmic complexity，本文重点关注 CPU-exhaustion 而不是 memory，在 17，18 年分别有 SlowFuzz 和 PerfFuzz 等工作。而本文开发了 MdPerfFuzz 这一工具以高效地发掘 Markdown 编译器中的漏洞，并基于 trace 得到的路径相似性去除重复结果。</p>
+<h2 id="理解现有-bug">理解现有 bug</h2>
+<p>收集 CommonMark specification 和 4 个代表性编译器的 49 个 bug，从以下角度分析：</p>
+<ul>
+<li>
+<p>发现方式：大部分是手动审计得到，仅有 5 个是用 OSS-Fuzz 等自动工具获得</p>
+</li>
+<li>
+<p>发现和修复时间：2015 年前很少有报告 bug，2018-2020 年来数量持续增长（可能与 markdown 的流行趋势吻合），而大部分 bug 在报告一月内被修复，少部分修复极慢的 bug 是通常与 CommonMark specification 本身的模糊性有关，一些 patch 直接导致对 spec 的修改。</p>
+</li>
+<li>
+<p>根本原因：</p>
+<ul>
+<li>主要是 worst-cases in super-linear algorithms</li>
+<li>unoptimized code 导致多余开销</li>
+<li>problematic implementations 未能完全符合 CommonMark specification，比如缺乏 unicode 支持导致死循环。</li>
+</ul>
+</li>
+</ul>
+<p>解决方案：enforcing limits，或者引入 logic change，比如优化低效代码或重写 regex。</p>
+<h2 id="mdperffuzz-系统设计">MdPerfFuzz 系统设计</h2>
+<p>静态分析方法假阳率过高，因此本文选择使用 fuzz 发掘性能漏洞，但面临着两大挑战，其一是 Markdown 文档的搜索空间太大，难以高效生成测试输入以发掘 bug，其二是多个独特的测试输入可能引发同一个 performance bug，且无法通过 memory footprints 来区分，针对以上问题，本文开发了 MdPerfFuzz，架构如下图：</p>
+<p><img src="/post_img/MdPerfFuzz/MdPerfFuzz.webp" alt=""></p>
+<p>具体实现基于之前的 SOTA 工作 PerfFuzz，其本身也是 AFL-based。而 Markdown 语法会被 ANTLR4 编译得到 parser，引入 syntax-tree based mutation strategy 作为一个扩展，修改 AFL 的 showmap 功能来 trace execution 获得 CFG edge hit counts。</p>
+<h3 id="syntax-tree-based-mutation-strategy">Syntax-Tree Based Mutation Strategy</h3>
+<p>作者花大量时间分析 CommonMark specification 并对其语法建模，给定的测试数据会先被解析成 AST，而后遍历 AST 并随机替换其中的子树</p>
+<p><img src="/post_img/MdPerfFuzz/MdAST.webp" alt=""></p>
+<h3 id="fitness-function-and-performance-bug-detection">Fitness Function and Performance Bug Detection</h3>
+<p>覆盖反馈的 fuzz 工作基本都以新覆盖的代码量为指标，但对于性能 bug 来说，循环迭代次数非常关键，和之前的工作类似，MdPerfFuzz 考虑 CFG edge hit counts，即 CFG 中一条边被同一测试数据访问的次数，能够探索 computationally expensive paths。</p>
+<p>之前的工作依赖手动分析来判别 bug，而 MdPerfFuzz 以 total execution path length 为指标，即 CFG edge hit counts 之和，先用大量普通数据获取通常情况下的执行表现，计算 total execution path length 的均值和标准差，根据切比雪夫不等式筛选与均值偏离 k 倍标准差的 case，判定为 bug。</p>
+<h3 id="bug-de-duplication">Bug De-Duplication</h3>
+<p>与 memory corruption 不同，同一 performance bugs 可能拥有不同的 call stack，而本文提出的去重方法基于 execution traces 的相似程度。对每个 bug report 构造一个 edge-hit-count vector，第 i 个元素代表 CFG 第 i 个结点的 hit count，对两个向量计算 cosine 值即为其相似程度，若超过一定阈值即认定为同一 bug。</p>
+<h2 id="实验效果">实验效果</h2>
+<h3 id="实验一横向对比挖掘-performance-bug">实验一：横向对比挖掘 performance bug</h3>
+<p>限制 6 小时，输入大小 200 字节，并根据经验取切比雪夫不等式中 k=5，相似度阈值为 0.91</p>
+<p>像在其他工作中一样限制输入大小是不让搜索空间过大，为了验证在实际场景中的真实影响，还可根据发现的 pattern 构造更大的输入，手动分析得到新 bug。但观察假阳案例会发现手动构造更大的输入有时反而不影响性能，因为开发者可能已经设了限制，过大输入会直接被舍弃。</p>
+<p><img src="/post_img/MdPerfFuzz/performance.webp" alt=""></p>
+<h3 id="实验二研究其他-markdown-编译器的漏洞">实验二：研究其他 Markdown 编译器的漏洞</h3>
+<p>利用 MdPerfFuzz 得到的 exploit 构造扩展的 dataset 以研究非 C/C++编写的 Markdown 编译器，以及其真实软件中的应用，比如代码托管平台上的 Markdown 渲染器和静态网站生成器（如 Hugo）。</p>
+<p>结果也发现了许多 bug，虽然由于不能 trace 而无法去重，但构造的测试输入已被分类成了 45 种 pattern 以针对特定的 feature，故而可以认为是互不相同的。</p>
+<p><img src="/post_img/MdPerfFuzz/evaluation.webp" alt=""></p>
+<p>如果是服务端渲染 Markdown，可能造成较大的危害，以部署在 Nginx 上的 GitLab 和 PHP 模块 Parsedown 为例，两分钟内发起 8 次请求即可将 8 核 CPU 负载打满。</p>
+<p><img src="/post_img/MdPerfFuzz/serverCPU.webp" alt=""></p>
+<h2 id="讨论与相关工作">讨论与相关工作</h2>
+<p>Mitigating performance bugs：保护机制需在功能性和安全性之间取得平衡</p>
+<p>Bug de-duplication：Trace-based analysis 很有效但不是所有语言都有插桩工具可用，未来可考虑语言无关的去重方式比如转成某种 IR 进行</p>
+<p>相关的研究领域有对桌面/移动/服务器端的应用比如浏览器上的性能 bug 进行研究，还有 pypi,npm 生态系统中的 ReDoS 问题进行研究，编译器中的 bug 也有人研究，但没有重点关注性能问题，本文对 Markdown 编译器中性能 bug 的研究也可以拓展到其它类型的 bug，比如 memory corruption，也可能扩展到其它语言。</p>
+<p>在研究方法上，静态分析可以用来检测 vulerable pattern，比如 repeated loops，fuzz 等动态执行方法也得到广泛应用，比如 grammar-aware fuzzing 可以生成语法正确的输入，learning-based fuzzing 用神经网络模型对 AST 子树进行替换。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/061b57e074b9618fd5a39f7c28dbd3dd01252d5c" title="update 6/26" target="_blank">(061b57e)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/MdPerfFuzz.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E5%AE%89%E5%85%A8/">论文笔记，安全</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/opensourcestu/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">大讲堂和集市：浅谈学生参与开源的道与术</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/fuzzsurvey/">
+            <span class="next-text nav-default">智能模糊测试技术综述</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"MdPerfFuzz%3a%20%e7%90%86%e8%a7%a3%e5%b9%b6%e6%8c%96%e6%8e%98%20Markdown%20%e7%bc%96%e8%af%91%e5%99%a8%e7%9a%84%e6%80%a7%e8%83%bd%20bug - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=MdPerfFuzz%3a%20%e7%90%86%e8%a7%a3%e5%b9%b6%e6%8c%96%e6%8e%98%20Markdown%20%e7%bc%96%e8%af%91%e5%99%a8%e7%9a%84%e6%80%a7%e8%83%bd%20bug - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

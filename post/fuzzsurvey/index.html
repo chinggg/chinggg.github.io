@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>智能模糊测试技术综述 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="忽略标题中的智能 解释模糊测试技术：背景、定义、技术原理、意义、当前国内外热点研究方向； 模糊测试技术（Fuzzing）是一种流行的软件测试技术" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/fuzzsurvey/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="智能模糊测试技术综述" />
+<meta property="og:description" content="忽略标题中的智能 解释模糊测试技术：背景、定义、技术原理、意义、当前国内外热点研究方向； 模糊测试技术（Fuzzing）是一种流行的软件测试技术" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/fuzzsurvey/" />
+<meta property="article:published_time" content="2022-06-10T13:46:52+00:00" />
+<meta property="article:modified_time" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="name" content="智能模糊测试技术综述">
+<meta itemprop="description" content="忽略标题中的智能 解释模糊测试技术：背景、定义、技术原理、意义、当前国内外热点研究方向； 模糊测试技术（Fuzzing）是一种流行的软件测试技术">
+<meta itemprop="datePublished" content="2022-06-10T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
+<meta itemprop="wordCount" content="1757">
+
+
+
+<meta itemprop="keywords" content="安全,Fuzz," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="智能模糊测试技术综述"/>
+<meta name="twitter:description" content="忽略标题中的智能 解释模糊测试技术：背景、定义、技术原理、意义、当前国内外热点研究方向； 模糊测试技术（Fuzzing）是一种流行的软件测试技术"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">智能模糊测试技术综述</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-06-10 13:46:52 &#43;0000 UTC"> 2022-06-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#参考资料">参考资料</a></li>
+        <li><a href="#常用编译脚本">常用编译脚本</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><del>忽略标题中的<strong>智能</strong></del></p>
+<p>解释<strong>模糊测试技术</strong>：背景、定义、技术原理、意义、当前国内外热点研究方向；</p>
+<p>模糊测试技术（Fuzzing）是一种流行的软件测试技术，通过自动化生成并执行大量的随机测试用例来发现产品或协议的未知漏洞。最早的应用是威斯康星大学的Barton Miller于1988年在课程实验中用随机数据来轰炸UNIX程序直至崩溃，其后被广泛用于软件测试和漏洞挖掘。模糊测试的技术本质是生成随机测试用例来进行测试验证，所以是不确定的，恰当选取测试数据的变异和生成策略可以提升代码覆盖率从而发掘更多的漏洞。目前的热点研究方向是与符号执行等程序分析技术结合，并探索在更多领域中的应用场景。</p>
+<p>解释 <strong>网络协议栈模糊测试</strong>：网络协议栈是什么、本技术必要性、本技术原理、意义。</p>
+<p>网络协议栈一般指TCP/IP协议栈，是现代网络通信的基础组件，其可靠性和安全性十分重要。但对网络协议栈进行模糊测试是非常困难的。首先，网络协议栈的输入是具有依赖关系的数据包和系统调用，因此生成有效的测试用例是比较有挑战性的；其次，网络协议栈在运行过程中具有很多状态迁移的情况，而现有的测试方法目标在于覆盖更多的状态而非状态迁移；最后，网络协议栈中，语义缺陷的比例远大于内存缺陷，而现有的检查器只能检测内存缺陷，无法检测语义缺陷。AFLNet 采用了一种新的变异方法，使用状态反馈来指导模糊测试，能识别状态空间中的渐进区域，并系统地引导覆盖这些区域。结果表明，AFLnet 在代码覆盖范围、状态空间的覆盖范围和 bug 查找能力方面大大优于最先进的技术。</p>
+<p>解释： <strong>内核模糊测试</strong>：内核是什么、本技术必要性、本技术原理、意义。参考Syzkaller。</p>
+<p>操作系统内核是最复杂的计算机程序之一，挖掘内核中隐藏的错误和漏洞对提高系统的整体安全具有重要意义。Syzkaller 利用系统调用对内核进行 fuzzing，优势在于会根据内核的代码路径覆盖信息来更新 fuzz 用的变异数据，以达到尽可能大的代码覆盖率。针对内核驱动中包含的复杂结构体，用白盒审计的方式往往难以发现深层次问题，通过模糊测试可以很容易找到一些隐藏深处的代码安全漏洞。</p>
+<p>解释： <strong>链接库模糊测试</strong>：链接库是什么、本技术必要性、本技术原理、意义。参考libfuzzer。</p>
+<p>链接库是一种不可执行的二进制代码文件，程序底层往往依赖链接库以复用现成的代码，基础库中的漏洞也会威胁上层应用的安全。由于库本身不是可执行程序，需要自己编写测试入口，将LibFuzzer和要被测试的库链接在一起，fuzzer会跟踪哪些代码区域已经测试过，然后在输入数据的语料库上产生变异，来最大化代码覆盖。其中代码覆盖的信息由LLVM的SanitizerCoverage插桩提供。</p>
+<p>解释： <strong>可执行程序模糊测试</strong>：可执行程序、本技术必要性、本技术原理、意义。参考afl。</p>
+<p>可执行程序是直接运行在用户终端或服务器上的程序，也是最直接的攻击入口，使用模糊测试技术能够发掘许多0day漏洞。目前最流行的模糊测试工具是 AFL，通过编译时插桩实现覆盖率引导，其变异策略采用了遗传算法以不断生成测试用例，学术界和工业界都有很多新的工作基于 AFL 完成。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/American_fuzzy_lop%27s_afl-fuzz_running_on_a_test_program.png/600px-American_fuzzy_lop%27s_afl-fuzz_running_on_a_test_program.png" alt=""></p>
+<p>解释： <strong>分布式模糊测试</strong>：硬件参数具体内容、本技术必要性、本技术原理、意义。参考clusterFuzz。</p>
+<p>分布式模糊测试可以解释为对分布式系统的模糊测试，但这里指使用分布式的方法开展模糊测试，由于现代大型软件往往不在单机上构建部署，使用分布式架构进行可扩展的模糊测试很有必要。 ClusterFuzz 就是一款提供端到端的模糊测试工具，从错误检测到分类排查，再到错误报告的生成，整个流程都是自动化的。早在 2012 年，Google 就使用该款工具每天针对各种 Chrome 版本运行 5000 万个测试用例。</p>
+<p><img src="https://google.github.io/clusterfuzz/images/overview.png" alt="overview"></p>
+<h2 id="参考资料">参考资料</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/43432370" target="_blank">Fuzzing技术总结（Brief Surveys on Fuzz Testing） - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.anquanke.com/post/id/243861" target="_blank">AFLNET：一种针对网络协议的灰盒模糊测试器 - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<p><a href="https://dl.ccf.org.cn/video/videoDetail.html?_ack=1&amp;id=5972969131771904" target="_blank">面向TCP协议栈的模糊测试框架 (ccf.org.cn)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/454613247" target="_blank">基于关系学习的内核模糊测试 HEALER - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.freebuf.com/sectool/323886.html" target="_blank">Syzkaller入门知识总结 - FreeBuf网络安全行业门户</a></p>
+<p><a href="https://github.com/secfigo/Awesome-Fuzzing" target="_blank">secfigo/Awesome-Fuzzing</a></p>
+<p><a href="https://github.com/wcventure/FuzzingPaper" target="_blank">wcventure/FuzzingPaper</a></p>
+<h2 id="常用编译脚本">常用编译脚本</h2>
+<pre><code class="language-sh">#!/bin/sh
+# Run this script in source dir then it will build/ and install/
+
+AFL_CC=1
+SANITIZE=1
+if [[ $AFL_CC ]]; then
+  export CC=afl-clang-lto
+  export CXX=afl-clang-lto++
+  #export CC=afl-gcc-fast
+  #export CXX=afl-g++-fast
+else
+  export CC=clang
+  export CXX=clang++
+fi
+
+if [[ $SANITIZE ]]; then
+  export AFL_USE_ASAN=1
+  export CFLAGS=&quot;-g -O0 -fno-omit-frame-pointer -fsanitize=address&quot;
+  export CPPFLAGS=&quot;-g -O0 -fno-omit-frame-pointer -fsanitize=address&quot;
+  export LDFLAGS=&quot;-O0 -fsanitize=address&quot;
+else
+  export CFLAGS=&quot;-g&quot;
+  export CPPFLAGS=&quot;-g&quot;
+fi
+
+export PREFIX=`realpath ./install`
+mv ./install ./oldinstall
+if [[ -f ./meson.build ]]; then
+   meson build --prefix=$PREFIX
+   ninja -C build
+elif [[ -f ./CMakeLists.txt ]]; then
+  rm -rf build &amp;&amp; mkdir build &amp;&amp; cd build
+  cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$PREFIX -DENABLE_STATIC=On -DBUILD_SHARED_LIBS=Off -DBUILD_STATIC_LIBS=On
+else
+  ./configure --disable-shared --enable-static --prefix=$PREFIX
+fi
+bear -- make -j$(nproc)
+make install
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/061b57e074b9618fd5a39f7c28dbd3dd01252d5c" title="update 6/26" target="_blank">(061b57e)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FuzzSurvey.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/fuzz/">Fuzz</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mdperffuzz/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MdPerfFuzz: 理解并挖掘 Markdown 编译器的性能 bug</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/bitcoin-fuzz/">
+            <span class="next-text nav-default">Fuzzing Evolution: How developers make Bitcoin more secure</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e6%99%ba%e8%83%bd%e6%a8%a1%e7%b3%8a%e6%b5%8b%e8%af%95%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e6%99%ba%e8%83%bd%e6%a8%a1%e7%b3%8a%e6%b5%8b%e8%af%95%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

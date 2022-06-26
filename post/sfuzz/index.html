@@ -46,11 +46,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/sfuzz/" />
 <meta property="article:published_time" content="2022-04-07T13:46:52+00:00" />
-<meta property="article:modified_time" content="2022-06-02T17:19:01+08:00" />
+<meta property="article:modified_time" content="2022-06-26T12:25:27+08:00" />
 <meta itemprop="name" content="sFuzz: 高效自适应的智能合约 fuzz">
 <meta itemprop="description" content="前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其">
 <meta itemprop="datePublished" content="2022-04-07T13:46:52+00:00" />
-<meta itemprop="dateModified" content="2022-06-02T17:19:01+08:00" />
+<meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
 <meta itemprop="wordCount" content="2628">
 
 
@@ -214,27 +214,27 @@
 <li>the oracle problem</li>
 </ul>
 <p>这里需要解释一下 oracle 的概念，整个以太坊系统可以看作分布式的状态机，为了保证达成共识，避免状态的不一致，链上所有操作都是确定性 (deterministic) 的。但现实世界就是充满不确定性的，oracle 就是和链上链下沟通的中间件，而 oracle 本身又是中心化的，现实世界中的软件安全问题都会在其身上体现，具体有哪些安全问题本文并未详细说明。最早关于以太坊智能合约攻击的研究参见 <a href="https://eprint.iacr.org/2016/1007.pdf" target="_blank">A Survey of Attacks on Ethereum Smart Contracts SoK</a>，其列举了如 Gasless Send, Reentrancy 等漏洞，详见下表</p>
-<p><img src="/post_img/sFuzz/ethereum_vuln.png" alt="ethereum vulnerabilities"></p>
+<p><img src="/post_img/sFuzz/ethereum_vuln.webp" alt="ethereum vulnerabilities"></p>
 <p>针对智能合约的自动化测试之前已经有一些研究，比如 <a href="https://dl.acm.org/doi/10.1145/3238147.3238177" target="_blank">ContractFuzzer</a> 和 <a href="https://dl.acm.org/doi/10.1145/2976749.2978309" target="_blank">Oyente</a> 分别用模糊测试 (fuzzing) 和符号执行 (symbolic execution) 技术来进行自动挖掘。而本文的工作结合了这两种互补的技术，并且使用了一种高效的自适应策略来选取 fuzzing 所用的种子 (seeds) 以解决 AFL-based fuzzing 难以覆盖具有严格进入条件的分支这一问题。</p>
 <h3 id="样例展示">样例展示</h3>
-<p><img src="/post_img/sFuzz/example.png" alt="Figure 1: An example with single objective function"></p>
+<p><img src="/post_img/sFuzz/example.webp" alt="Figure 1: An example with single objective function"></p>
 <p>上图为一个简单的猜数字游戏合约程序，调用函数 <code>start_quiz_game</code> 以设置问题和答案，调用函数 <code>Try</code> 来支付 100 finney 并猜测数字，如果答案正确则会向调用者转帐。但该合约程序存在 Gasless Send 漏洞，可能导致调用者的 fallback function 被执行，从而引发 out-of-gas exception。</p>
 <p>要挖掘合约中的漏洞，首先要建立一个区块链网络，配置相应的地址和数额，将合约部署在某一地址上，生成 test case（即一系列交易）来生成参数并调用函数 <code>start_quiz_game</code> 和 <code>Try</code>，但 AFL 随机生成数据的策略很难满足第二个条件，即仅有 1/2^256 的概率生成值为 100 的 uint 数据，所以很难覆盖到这一分支。sFuzz 使用了一种自适应的策略作为补充，定量计算 seed 与分支条件之间的距离，从而使 seed 能越来越接近满足分支条件。这一例子是仅包含一个 just-missed 分支的最简单情形，包含多个分支的 multi-objective 场景也能适用。</p>
 <h3 id="算法细节">算法细节</h3>
 <p>基于反馈的 fuzzing 主要思想就是将 test generation problem 变为 optimization problem,使用某种形式的反馈作为 objective function 来解决最优化问题，而 sFuzz 策略的自适应性在于其会根据反馈来改变 objective function，整体上看属于遗传算法，如下图所示。</p>
-<p><img src="/post_img/sFuzz/algo1.png" alt="Algorithm 1: The test generation algorithm"></p>
+<p><img src="/post_img/sFuzz/algo1.webp" alt="Algorithm 1: The test generation algorithm"></p>
 <h4 id="init-polulation">Init Polulation</h4>
 <p>初始化配置，生成多个 test cases（即交易函数调用），在为参数生成随机值时需要注意考虑变长的类型如数组，会先在 [0,255] 内确定个数，再对应生成每个元素的随机值。每个 test case 都会编码成如下 bit vector 的形式</p>
-<p><img src="/post_img/sFuzz/testcase.png" alt="Figure 3: A generated test case"></p>
+<p><img src="/post_img/sFuzz/testcase.webp" alt="Figure 3: A generated test case"></p>
 <h4 id="fit-to-survive">Fit To Survive</h4>
 <p>适者生存阶段，通过设定如下距离函数来挑选新 seeds</p>
-<p><img src="/post_img/sFuzz/distance.png" alt="distance"></p>
+<p><img src="/post_img/sFuzz/distance.webp" alt="distance"></p>
 <p>该阶段算法如下：</p>
-<p><img src="/post_img/sFuzz/fitness.png" alt="Algorithm 2: Algorithm fitToSurvive(seeds)"></p>
+<p><img src="/post_img/sFuzz/fitness.webp" alt="Algorithm 2: Algorithm fitToSurvive(seeds)"></p>
 <p>策略受 search-based software testing (SBST) 启发但又更加高效，</p>
 <h4 id="crossover-and-mutation">Crossover and Mutation</h4>
 <p>这一阶段将之前生成的 seeds 进行变异，采用了 AFL 中的所有变异策略，还针对智能合约引入了一些如下新策略：</p>
-<p><img src="/post_img/sFuzz/mutation.png" alt="Table 1: Mutations for fix-length values"></p>
+<p><img src="/post_img/sFuzz/mutation.webp" alt="Table 1: Mutations for fix-length values"></p>
 <p>检查变异后的数据是否 valid，丢弃 invalid 和重复的结果。为了减少无效工作也同样采用了 AFL 中的启发式方法，比如当对某一块数据进行 WalkingByte 变异操作没有覆盖任何新分支则之后不再变异该块数据。</p>
 <h3 id="具体实现">具体实现</h3>
 <p>编写了约 4347 行 C++ 代码，主要有三个组件：</p>
@@ -261,16 +261,16 @@
 </ul>
 <h3 id="效果验证">效果验证</h3>
 <h4 id="efficient">Efficient</h4>
-<p><img src="/post_img/sFuzz/efficient.png" alt="Figure 5: Efficiency comparison"></p>
+<p><img src="/post_img/sFuzz/efficient.webp" alt="Figure 5: Efficiency comparison"></p>
 <p>sFuzz 平均每秒可执行 208 个 test cases，明显比 ContractFuzzer 和 Oyente 高效，因为 ContractFuzzer 模拟整个区块链网络，而 sFuzz 仅模拟和智能合约漏洞相关的细节，且其基于 Node.js 和 Go，相比 C++ 低效。而 Oyente 采用符号执行，比 sFuzz 运行得更慢更是理所应当。</p>
 <h4 id="effective">Effective</h4>
 <p>测量分支覆盖率较困难，因此以覆盖到不同的分支数作为指标。</p>
-<p><img src="/post_img/sFuzz/effective.png" alt="Figure 6: Coverage comparison"></p>
+<p><img src="/post_img/sFuzz/effective.webp" alt="Figure 6: Coverage comparison"></p>
 <p>绝大部分情况下 sFuzz 比 ContractFuzzer 更有效，少数例外也是由于 sFuzz 不改变状态的函数故而这些函数中的分支未被统计，而且 ContractFuzzer 生成 invalid 的 test cases 根本不符合编译器生成的 mandatory constraints 故而覆盖到了多余的分支。</p>
 <p>Oyente 在绝大部分情况下覆盖了更多的分支，因为符号执行可以满足几乎所有分支条件，能发现 integer overflow，但现实中许多 state variable 无法被任意赋值，很多条件根本无法满足，这是其方法上的重大缺陷。</p>
 <p>为了分析 sFuzz 的 soundness，作者手动检查了从结果中随机采样的智能合约，最终数量和真阳率结果如下表所示：</p>
 <h4 id="adaptiveness">Adaptiveness</h4>
-<p><img src="/post_img/sFuzz/adaptive.png" alt="effective of adaptive"></p>
+<p><img src="/post_img/sFuzz/adaptive.webp" alt="effective of adaptive"></p>
 <p>图表说明 AFL 的策略容易覆盖大多数分支，而自适应策略平均来讲也贡献了三成的 test cases。而且仅仅是运行了两分钟的结果，延长运行时间效果还会提高。</p>
 <h3 id="相关工作">相关工作</h3>
 <p>智能合约 Fuzzer：ContractFuzzer 可以检查7种不同类型的漏洞，但并没有使用任何反馈来改进。Echidna 据说能够检查合约是否违反了某些用户预定义的属性，但未找到任何相关出版物。</p>
@@ -295,8 +295,8 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-06-02 17:19:01 &#43;0800 &#43;0800">2022-06-02</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/855a9d6adc6f4d779e888662a2522edb0967ef55" title="Summer of Bitcoin Week 2" target="_blank">(855a9d6)</a>
+        <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/061b57e074b9618fd5a39f7c28dbd3dd01252d5c" title="update 6/26" target="_blank">(061b57e)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/sFuzz.md" target="_blank">更新历史</a>
     </span>
   </p>
