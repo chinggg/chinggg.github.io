@@ -51,7 +51,7 @@
 <meta itemprop="description" content="论文信息 原文作者：Penghui Li; Yinxi Liu; Wei Meng 原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers 发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering) 原文链接：h">
 <meta itemprop="datePublished" content="2022-06-18T13:46:52+00:00" />
 <meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
-<meta itemprop="wordCount" content="2061">
+<meta itemprop="wordCount" content="2059">
 
 
 
@@ -194,11 +194,11 @@
 <p>原文作者：<a href="https://ieeexplore.ieee.org/author/37089249902" target="_blank">Penghui Li</a>; <a href="https://ieeexplore.ieee.org/author/37088948962" target="_blank">Yinxi Liu</a>; <a href="https://ieeexplore.ieee.org/author/37088948225" target="_blank">Wei Meng</a></p>
 <p>原文标题：Understanding and Detecting Performance Bugs in Markdown Compilers</p>
 <p>发表会议：ASE 2021 (The 36th IEEE/ACM International Conference on Automated Software Engineering)</p>
-<p>原文链接：https://seclab.cse.cuhk.edu.hk/papers/ase21_mdperffuzz.pdf</p>
-<p>代码链接：https://github.com/cuhk-seclab/MdPerfFuzz</p>
+<p>原文链接：<a href="https://seclab.cse.cuhk.edu.hk/papers/ase21_mdperffuzz.pdf">https://seclab.cse.cuhk.edu.hk/papers/ase21_mdperffuzz.pdf</a></p>
+<p>代码链接：<a href="https://github.com/cuhk-seclab/MdPerfFuzz">https://github.com/cuhk-seclab/MdPerfFuzz</a></p>
 <h2 id="问题背景">问题背景</h2>
 <p>Markdown 被广泛使用在 GitHub 等代码托管平台和 WordPress 等 CMS 系统中，Markdown 编译器中可能存在的漏洞却没有得到重视，尤其是性能问题容易成为 DoS 攻击面。</p>
-<p>作者调研了主流 Markdown 编译器的 49 个性能 bug，观察出根本原因是* the specific ways that Markdown compilers handle the language’s context-sensitive features*，回溯法在特制输入下会达到最坏时间复杂度，而若强行施加上限则影响功能性。</p>
+<p>作者调研了主流 Markdown 编译器的 49 个性能 bug，观察出根本原因是 <em>the specific ways that Markdown compilers handle the language’s context-sensitive features</em>，回溯法在特制输入下会达到最坏时间复杂度，而若强行施加上限则影响功能性。</p>
 <p>由于性能问题的成因是 algorithmic complexity，本文重点关注 CPU-exhaustion 而不是 memory，在 17，18 年分别有 SlowFuzz 和 PerfFuzz 等工作。而本文开发了 MdPerfFuzz 这一工具以高效地发掘 Markdown 编译器中的漏洞，并基于 trace 得到的路径相似性去除重复结果。</p>
 <h2 id="理解现有-bug">理解现有 bug</h2>
 <p>收集 CommonMark specification 和 4 个代表性编译器的 49 个 bug，从以下角度分析：</p>
@@ -259,7 +259,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/aacf294f152cb1869ecb871f1819479f895bc7da" title="update 6/26" target="_blank">(aacf294)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/e46a7fcb128fde479ed85f751701d10339f09590" title="update 6/26" target="_blank">(e46a7fc)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/MdPerfFuzz.md" target="_blank">更新历史</a>
     </span>
   </p>
