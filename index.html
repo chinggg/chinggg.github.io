@@ -47,7 +47,7 @@
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chinggg.github.io/" />
-<meta property="og:updated_time" content="2022-06-26T12:25:27+08:00" />
+<meta property="og:updated_time" content="2022-07-07T13:14:39+08:00" />
 <meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
@@ -225,27 +225,6 @@
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/crypto/">Modern Crypto Course</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Materials Online Crypto by Stanford Cryptography by IIT Crypto Book Blog Mind Map [实验一、Shamir 秘密共享] 实验要求 实现一个（k,n）-Shamir 秘密共享方案，其中k=3，n=4，包含以下
-    </div>
-    <div class="read-more">
-      <a href="/post/crypto/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/ml-leaks/">ML-Leaks: 针对机器学习模型的成员推理攻击</a></h1>
     <div class="post-meta">
       <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
@@ -261,27 +240,6 @@
     </div>
     <div class="read-more">
       <a href="/post/ml-leaks/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ollvm/">LLVM Pass 混淆学习</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2021-05-22 13:46:52 &#43;0000 UTC"> 2021-05-22 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Materials Home · obfuscator-llvm/obfuscator Wiki (github.com) LLVM 入门教程之 Pass 编写 - Yuuoniy&rsquo;s blog 基于LLVM Pass实现控制流平坦化-软件逆向-看雪论坛 Category: llvm | LeadroyaL 系列博客 ollvm源码分析 - Pass之S
-    </div>
-    <div class="read-more">
-      <a href="/post/ollvm/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -345,6 +303,59 @@
     </div>
     <div class="read-more">
       <a href="/post/fart/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/android-hook/">Android Hook</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2021-11-17 16:38:08 &#43;0800 &#43;0800"> 2021-11-17 </span>
+      <div class="post-category">
+          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想
+    </div>
+    <div class="read-more">
+      <a href="/post/android-hook/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/btrfs/">Btrfs 踩坑记录</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2021-11-28 20:50:22 &#43;0800 &#43;0800"> 2021-11-28 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>用上 Btrfs 不到两个月，还没怎么享受透明压缩和增量快照带来的好处，却已为它熬过几个艰难的夜晚</p>
+<p>先是 WinBtrfs 的问题，<code>btrfs check --repair</code> 幸运地修回来，果断注册表里改成只读</p>
+<p>但之后在 Arch 中作死用 VMWare 从物理磁盘启动自身，却造成了毁灭性后果，整个系统突然变为 ro，重启后果然 transid error 无法进入</p>
+<p>老规矩先抢救数据， restore 到 ext4 格式的移动硬盘（exFAT 真没用）</p>
+<p>这次虽然 transid 只差了 1，但 check 后发现问题比上次更为严重，<code>check -b</code>, <code>check -s 1</code> 结果都不妙</p>
+<p>记下 <code>btrfs-find-root</code> 的结果以备之后 repair</p>
+<p>但可惜 repair 也无能为力，可能还让事情更糟了，试了 <code>rescue zero-log</code> 也没救回</p>
+<p>神奇的是进 Win 还能正常识别文件，也不知道是 repair 还是 rescue 让 btrfs 分区能直接挂载了</p>
+<p>现在问题变成了 EIO，理论上是盘坏了但它肯定没坏，数据都还能读但无法恢复正常</p>
+<p>没办法，趁还可以挂载 btrfs 分区，<code>rsync -aviHAXKhP</code> 再备份一遍到移动硬盘（注意 exclude 快照和无用大目录，否则等一晚上）</p>
+<p>把 btrfs 分区格了再从移动硬盘拖回去，子卷化，改 fstab，重做 grub 引导，终于进入了熟悉的 Arch</p>
+<p>然而用户配置等方面还是有问题，可能第二回的备份不全，把之前备份的配置覆盖回去。pacman 还有数据不一致问题，overwrite 解决</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/btrfs/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -50,14 +50,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/summer-of-bitcoin/" />
 <meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
-<meta property="article:modified_time" content="2022-06-26T12:25:27+08:00" />
+<meta property="article:modified_time" content="2022-07-07T13:14:39+08:00" />
 <meta itemprop="name" content="My Experience in Summer of Bitcoin 2022">
 <meta itemprop="description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
  When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke.">
 <meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-06-26T12:25:27+08:00" />
-<meta itemprop="wordCount" content="1038">
+<meta itemprop="dateModified" content="2022-07-07T13:14:39+08:00" />
+<meta itemprop="wordCount" content="1527">
 
 
 
@@ -175,10 +175,16 @@
     <li>
       <ul>
         <li><a href="#onboarding-to-bitcoin-core">Onboarding to Bitcoin Core</a></li>
-        <li><a href="#week-1">Week 1</a></li>
-        <li><a href="#week-2">Week 2</a></li>
-        <li><a href="#week-3">Week 3</a></li>
-        <li><a href="#week-4">Week 4</a></li>
+        <li><a href="#fuzzing-orphan-transaction">Fuzzing Orphan Transaction</a></li>
+        <li><a href="#the-low-level-fuzz-target">The low-level fuzz target</a></li>
+        <li><a href="#seminars">Seminars</a>
+          <ul>
+            <li><a href="#week-1">Week 1</a></li>
+            <li><a href="#week-2">Week 2</a></li>
+            <li><a href="#week-3">Week 3</a></li>
+            <li><a href="#week-4">Week 4</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -186,7 +192,7 @@
   </div>
 </div>
     <div class="post-content">
-      <p>What is Summer of Bitcoin?</p>
+      <p><strong>What is Summer of Bitcoin?</strong></p>
 <blockquote>
 <p>a global, online summer internship program focused on introducing university students to bitcoin open-source development and design</p>
 </blockquote>
@@ -197,7 +203,44 @@
 <p><a href="https://github.com/bitcoin/bitcoin/blob/master/doc/developer-notes.md">https://github.com/bitcoin/bitcoin/blob/master/doc/developer-notes.md</a></p>
 <p><a href="https://github.com/chaincodelabs/onboarding-to-bitcoin-core">https://github.com/chaincodelabs/onboarding-to-bitcoin-core</a></p>
 <p><a href="https://github.com/chaincodelabs/bitcoin-core-onboarding/blob/main/1.0_bitcoin_core_architecture.asciidoc">https://github.com/chaincodelabs/bitcoin-core-onboarding/blob/main/1.0_bitcoin_core_architecture.asciidoc</a></p>
-<h2 id="week-1">Week 1</h2>
+<p>To compile the fuzzer with lcov enabled:</p>
+<pre><code class="language-bash">fuzzopt=&quot;--enable-fuzz --with-sanitizers=fuzzer&quot;
+lcovopt=&quot;--enable-lcov --enable-lcov-branch-coverage&quot;                                                    
+CC=clang CXX=clang++ ./configure --enable-debug --with-gui=no $fuzzopt $lcovopt
+make -j$(nproc)
+</code></pre>
+<p>To test fuzz target and generate coverage report:</p>
+<pre><code class="language-bash"># put seed corpus in qa-assets/fuzz_seed_corpus
+TARGET=orphanage
+FUZZ=$TARGET ./src/test/fuzz/fuzz
+# find . -name &quot;*.gcda&quot; -type f -delete
+make cov_fuzz  # generate html report under fuzz.coverage
+</code></pre>
+<h2 id="fuzzing-orphan-transaction">Fuzzing Orphan Transaction</h2>
+<p>I made a 5-minute <a href="../../presentations/bitcoin-orphantx">presentation</a> to my classmates, trying to illustrate what orphan transaction is and why it can cause problems.</p>
+<p>I also written an article about Bitcoin&rsquo;s fuzzing infrastracture, which has been posted on Summer of Bitcoin&rsquo;s <a href="https://blog.summerofbitcoin.org/fuzzing-evolution-how-developers-make-bitcoin-more-secure/" target="_blank">official blog</a>.</p>
+<p>The code that handles orphan transactions is in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/txorphanage.cpp" target="_blank"><code>src/txorphanage.cpp</code></a>, of which the <a href="https://marcofalke.github.io/btc_cov/fuzz.coverage/src/txorphanage.cpp.gcov.html" target="_blank">code coverage</a> is about 65%.</p>
+<p>To be specific, 3 out of 8 functions are not covered yet, which are listed below.</p>
+<pre><code class="language-cpp">void TxOrphanage::AddChildrenToWorkSet(const CTransaction&amp; tx, std::set&lt;uint256&gt;&amp; orphan_work_set) const
+std::pair&lt;CTransactionRef, NodeId&gt; TxOrphanage::GetTx(const uint256&amp; txid) const
+void TxOrphanage::EraseForBlock(const CBlock&amp; block)
+</code></pre>
+<p>I find that <code>AddChildrenToWorkSet</code> will be called only when a new tx is validated, then it iterate over its children and try to find some orphan who use it as prevout. These orphans will be added to workset and be processed before a new non-orphan is processed, where <code>GetTx</code> is called.</p>
+<h2 id="the-low-level-fuzz-target">The low-level fuzz target</h2>
+<p>After learning a bit about bitcoin p2p network transaction replay, I just trying to base the orphanage fuzz target on the existing <code>process_message</code> harness. However, I find it difficult to <strong>simulate the orphan and unorphan process</strong> by consuming random datastream, so fine-grained construction of transaction is needed.</p>
+<p>My mentor kindly reminded me that I could take a look at the <code>tx_pool_standard</code> target, which constructs well defined transactions. After some research, I was still confused about the setup process, like <code>PeerManager</code>, <code>mempool</code> and transaction validation. Again it was my mentor that gave me some hints.</p>
+<blockquote>
+<p>For orphan handling we don&rsquo;t care about the layout of the transaction itself.</p>
+<p>The goal of fuzzing low level (on a &ldquo;unit test&rdquo;/function level) is obviously finer control and mocking capabilities, however it may be less relevant to &ldquo;real world&rdquo; program execution. Thus, it may also be interesting to fuzz on a higher level of, let&rsquo;s say <code>PeerManager</code>.</p>
+<p>I think if you want to implement the low level, you wouldn&rsquo;t need a mempool, just transactions and the txorphanage.</p>
+<p>If you want to implement the higher level, you will likely need a similar module setup to the process_messages fuzz target. However, the transaction creation part would likely be the same for both fuzz targets.</p>
+<p>Implementing a fuzz target for just the functions in txoprhanage should indeed be simpler.</p>
+<p>I think you can just remove the chainstate/mempool stuff from the <a href="https://github.com/bitcoin/bitcoin/blob/master/src/test/fuzz/tx_pool.cpp#L140" target="_blank"><code>tx_pool_standard</code></a> and then call into txorphanage wherever it called into mempool. (After all, txorphanage is just like the mempool a data structure to store transactions).</p>
+<p>The tx-creation function you can leave as-is or simplify a bit, as most parts aren&rsquo;t needed.</p>
+</blockquote>
+<p>After some dumb <a href="https://github.com/chinggg/bitcoin/commit/3a41d2764820a2b09beb2472068299ef71869a97#diff-94749187f350958b70219c5f9d28fe06ff5245086c92339275ee137db8b2461f" target="_blank">commits</a>, I created <a href="https://github.com/bitcoin/bitcoin/pull/25447" target="_blank">PR#25447</a> to add low-level fuzz target for txorphanage.</p>
+<h2 id="seminars">Seminars</h2>
+<h3 id="week-1">Week 1</h3>
 <p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/welcome-to-the-bitcoin-protocol">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/welcome-to-the-bitcoin-protocol</a></p>
 <p><a href="https://gist.github.com/harding/dabea3d83c695e6b937bf090eddf2bb3" target="_blank"><em>bitcoin-paper-errata-and-details</em></a> describes known problems in Satoshi Nakamoto&rsquo;s whitepaper and terminology changes in Bitcoin&rsquo;s implementation.</p>
 <p><a href="https://queue.acm.org/detail.cfm?id=3136559" target="_blank"><em>Bitcoin’s Academic Pedigree</em></a> is a complete survey tracing the origins of the key ideas that Nakamoto applied to Bitcoin. By reading this, we can zero in on Nakamoto&rsquo;s true leap of insight—the specific, complex way in which the underlying components are put together</p>
@@ -223,7 +266,7 @@
 <p>I agree with the text author in such a way that the bitcoin because of its core values is the base layer for other ideas, and payment focused systems/layers (such as the lightning network) can be built on, for example, the internet has the same layered structure, as application, transport, network layers, for bitcoin it’s the network layer and with a base protocol set that turns possible to build other layers like transport for lightning and even application layers such as the third-party centralized apps.</p>
 <p>All that said, bitcoin does not compete with payment or credit systems, it competes with systems that could be a solid base layer, sound money, and store of value, and all the rest can be relied on.</p>
 </blockquote>
-<h2 id="week-2">Week 2</h2>
+<h3 id="week-2">Week 2</h3>
 <p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/segwit">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/segwit</a></p>
 <p><strong>How does SegWit affect initial block download (IBD)?</strong></p>
 <p>As described in <a href="https://bitcoincore.org/en/2016/10/28/segwit-costs/#risks-due-to-larger-blocks" target="_blank">Segregated Witness Costs and Risks</a>, SegWit allows larger blocks, which means the transaction and storage cost will be higher.</p>
@@ -268,11 +311,11 @@
 <li><strong>More efficient almost-full-node security</strong> Satoshi Nakamoto’s original Bitcoin paper describes a method for allowing newly-started full nodes to skip downloading and validating some data from historic blocks that are protected by large amounts of proof of work. Unfortunately, Nakamoto’s method can’t guarantee that a newly-started node using this method will produce an accurate copy of Bitcoin’s current ledger (called the UTXO set), making the node vulnerable to falling out of consensus with other nodes. Although the problems with Nakamoto’s method can’t be fixed in a soft fork, Segwit accomplishes something similar to his original proposal: it makes it possible for a node to optionally skip downloading some blockchain data (specifically, the segregated witnesses) while still ensuring that the node can build an accurate copy of the UTXO set for the block chain with the most proof of work. Segwit enables this capability at the consensus layer, but note that Bitcoin Core does not provide an option to use this capability as of this 0.13.1 release.</li>
 </ul>
 </blockquote>
-<h2 id="week-3">Week 3</h2>
+<h3 id="week-3">Week 3</h3>
 <p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/mining-network-prop">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/mining-network-prop</a></p>
 <p><strong>Can you ensure the transaction will be processed even if you send it with low fees? Which mechanisms do you have to ensure a stuck transaction (due to low fees) gets processed?</strong></p>
 <p><a href="https://zh.braiins.com/blog/btc-transaction-stuck">https://zh.braiins.com/blog/btc-transaction-stuck</a></p>
-<h2 id="week-4">Week 4</h2>
+<h3 id="week-4">Week 4</h3>
 <p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/p2p">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/p2p</a></p>
 <p><strong>What is the rationale behind the &ldquo;new&rdquo;/&ldquo;tried&rdquo; table design? Were there any prior inspirations within the field of distributed computing?</strong></p>
 <p><a href="https://residency.chaincode.com/presentations/bitcoin/ethan_heilman_p2p.pdf">https://residency.chaincode.com/presentations/bitcoin/ethan_heilman_p2p.pdf</a></p>
@@ -287,8 +330,8 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-06-26 12:25:27 &#43;0800 &#43;0800">2022-06-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/e46a7fcb128fde479ed85f751701d10339f09590" title="update 6/26" target="_blank">(e46a7fc)</a>
+        <span title="2022-07-07 13:14:39 &#43;0800 &#43;0800">2022-07-07</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/7adb88c377fe3bfaf327aaa4a111c80d4f0b2287" title="update 7/7" target="_blank">(7adb88c)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Summer-of-Bitcoin.md" target="_blank">更新历史</a>
     </span>
   </p>

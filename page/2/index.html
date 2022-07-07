@@ -47,7 +47,7 @@
 <meta property="og:description" content="chinggg的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://chinggg.github.io/" />
-<meta property="og:updated_time" content="2022-06-26T12:25:27+08:00" />
+<meta property="og:updated_time" content="2022-07-07T13:14:39+08:00" />
 <meta itemprop="name" content="chinggg的博客">
 <meta itemprop="description" content="chinggg的博客">
 <meta name="twitter:card" content="summary"/>
@@ -139,59 +139,6 @@
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-hook/">Android Hook</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2021-11-17 16:38:08 &#43;0800 &#43;0800"> 2021-11-17 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Frida 万金油动态调试工具，配合自己收集定制的 hook 模板代码，稍作修改就可以快速查看 Java 层的类及其方法成员信息和 Native 层函数的参数与返回值，便于验证自己的想
-    </div>
-    <div class="read-more">
-      <a href="/post/android-hook/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/btrfs/">Btrfs 踩坑记录</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2021-11-28 20:50:22 &#43;0800 &#43;0800"> 2021-11-28 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>用上 Btrfs 不到两个月，还没怎么享受透明压缩和增量快照带来的好处，却已为它熬过几个艰难的夜晚</p>
-<p>先是 WinBtrfs 的问题，<code>btrfs check --repair</code> 幸运地修回来，果断注册表里改成只读</p>
-<p>但之后在 Arch 中作死用 VMWare 从物理磁盘启动自身，却造成了毁灭性后果，整个系统突然变为 ro，重启后果然 transid error 无法进入</p>
-<p>老规矩先抢救数据， restore 到 ext4 格式的移动硬盘（exFAT 真没用）</p>
-<p>这次虽然 transid 只差了 1，但 check 后发现问题比上次更为严重，<code>check -b</code>, <code>check -s 1</code> 结果都不妙</p>
-<p>记下 <code>btrfs-find-root</code> 的结果以备之后 repair</p>
-<p>但可惜 repair 也无能为力，可能还让事情更糟了，试了 <code>rescue zero-log</code> 也没救回</p>
-<p>神奇的是进 Win 还能正常识别文件，也不知道是 repair 还是 rescue 让 btrfs 分区能直接挂载了</p>
-<p>现在问题变成了 EIO，理论上是盘坏了但它肯定没坏，数据都还能读但无法恢复正常</p>
-<p>没办法，趁还可以挂载 btrfs 分区，<code>rsync -aviHAXKhP</code> 再备份一遍到移动硬盘（注意 exclude 快照和无用大目录，否则等一晚上）</p>
-<p>把 btrfs 分区格了再从移动硬盘拖回去，子卷化，改 fstab，重做 grub 引导，终于进入了熟悉的 Arch</p>
-<p>然而用户配置等方面还是有问题，可能第二回的备份不全，把之前备份的配置覆盖回去。pacman 还有数据不一致问题，overwrite 解决</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/btrfs/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/appre/">AppRE</a></h1>
@@ -446,6 +393,48 @@ Client Program recv(ip)
     </div>
     <div class="read-more">
       <a href="/post/captcha-ml/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/fuzzbuilder/">FuzzBuilder: 为 C/C&#43;&#43; library 自动构建灰盒模糊测试环境</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-03-14 13:46:52 &#43;0000 UTC"> 2022-03-14 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      本文将对 ACSAC 2019 会议论文 FuzzBuilder: Automated building greybox fuzzing environment for C/C++ library 进行解读。这篇论文的主要亮点是利用单元测试为没有可执行文件的库自动生成 Fuzz 环境，通过修改 LLVM IR 以收集 seeds 并生
+    </div>
+    <div class="read-more">
+      <a href="/post/fuzzbuilder/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/sfuzz/">sFuzz: 高效自适应的智能合约 fuzz</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-04-07 13:46:52 &#43;0000 UTC"> 2022-04-07 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      前言 本文将对 ICSE 2020 会议论文 sFuzz: An Efficient Adaptive Fuzzer for Solidity Smart Contracts 进行解读。这篇论文的主要研究内容是综合运用 AFL 的策略和自适应方法来 fuzz 智能合约，并开发为一整套工具，其
+    </div>
+    <div class="read-more">
+      <a href="/post/sfuzz/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
