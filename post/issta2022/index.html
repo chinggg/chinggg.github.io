@@ -51,7 +51,7 @@
 <meta itemprop="description" content="ISSTA (The International Symposium on Software Testing and Analysis) 是软件测试与分析方面最著名的国际会议之一，也是中国计算机学会推荐的A类国际学术会议（CCF-A）。由于疫情原因，原本计划在">
 <meta itemprop="datePublished" content="2022-07-22T17:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-07-22T17:25:08+08:00" />
-<meta itemprop="wordCount" content="5207">
+<meta itemprop="wordCount" content="5224">
 
 
 
@@ -204,7 +204,8 @@
 <p><a href="https://youtu.be/Lp2-HAg6ekg" target="_blank">Combining Solution Reuse and Bound Tightening for Efficient Analysis of Evolving Systems</a></p>
 <p>Clay Stevens University of Nebraska-Lincoln, Hamid Bagheri University of Nebraska-Lincoln</p>
 </blockquote>
-<p>这篇文章应该是程序形式化验证方面的工作，文中关键概念如 relational bound, bound tightening 和 solution reuse 都从未接触过，无法理解本文具体内容。</p>
+<p>这篇文章被评为了 ACM SIGSOFT distingushed paper，应该是程序形式化验证方面的工作，可惜文中关键的概念如 relational bound, bound tightening 和 solution reuse 我都从未接触过，无法理解本文具体内容。</p>
+<p><img src="/post_img/ISSTA2022/bound_tightening.webp" alt=""></p>
 <blockquote>
 <p><a href="https://youtu.be/6j8toSxzOjY" target="_blank">Evolution-Aware Detection of Order-Dependent Flaky Tests</a></p>
 <p>Chengpeng Li University of Texas at Austin, August Shi University of Texas at Austin</p>
@@ -223,7 +224,7 @@
 </blockquote>
 <p>UCL 这位姐姐做的幻灯片真是我见过最精美的，图片、动效和字体有种手绘风，不过这样呈现的信息密度较低，而且光看幻灯片很难感知到整体和单页内容的结构，演讲者需要确保自己表达流畅层层引入，观众也要专注听讲才能跟上。与之对立的常见风格是把干货内容文字放在幻灯片中，演讲时照着念，这样就算口语不佳，在表意上也不会有大问题。</p>
 <p><img src="/post_img/ISSTA2022/evaluation_measures.webp" alt=""></p>
-<p>参会当时光被其形式所震撼，没看懂具体内容，会后复盘了一下，其实就是对所有 defect prediction 工作中用到的 evaluation measures 进行调研，是对评价指标的评价。具体来说就是统计历年来 defect prediction 这一工作中用到的指标，比如 AUC, p-meaure, recall, precision 等等，这些看起来只是统计学中的不同度量方法，但背后其实反映了在对研究进行评价时的多样性。正如作者在第一张幻灯片中所做的比喻，同一个方块从不同的 viewpoints 和 angles 上观察，既可能是 square 也可能是 diamond。不过对于 defect prediction 这一关键概念，作者只用一两页带过，之后都是在对不同 evaluation measures 被用到的次数做排序和分析，似乎把 defection prediction 换成其他任何研究问题都毫无违和感。总之结论就是，evaluation measures 的选择是在做研究时必须关注的大问题，现在的研究在评价指标选取上没有原理可依，只能部分地反映模型性能，会造成 data imbalance。</p>
+<p>参会当时光被其形式所震撼，没看懂具体内容，会后复盘了一下，其实就是对所有 defect prediction 工作中用到的 evaluation measures 进行调研，是对评价指标的评价。具体来说就是统计历年来 defect prediction 这一工作中用到的指标，比如 AUC, p-measure, recall, precision 等等，这些看起来只是统计学中的不同度量方法，但背后其实反映了在对研究进行评价时的多样性。正如作者在第一张幻灯片中所做的比喻，同一个方块从不同的 viewpoints 和 angles 上观察，既可能是 square 也可能是 diamond。不过对于 defect prediction 这一关键概念，作者只用一两页带过，之后都是在对不同 evaluation measures 被用到的次数做排序和分析，似乎把 defection prediction 换成其他任何研究问题都毫无违和感。总之结论就是，evaluation measures 的选择是在做研究时必须关注的大问题，现在的研究在评价指标选取上没有原理可依，只能部分地反映模型性能，会造成 data imbalance。</p>
 <h3 id="0200---0300-session-1-3-oracles-models-and-measurement-a">02:00 - 03:00 Session 1-3: Oracles, Models, and Measurement A</h3>
 <p>这一段三篇论文和印度博士姐姐 Anurata Prabha Hridi 分担，第二个视频放完之后由我主持，有些紧张一度担心自己视频没放出声音，结束后立马得到对方的肯定。</p>
 <blockquote>
@@ -319,7 +320,7 @@
 <p><img src="/post_img/ISSTA2022/TensileFuzz_workflow.webp" alt=""></p>
 <p>会议时我没有太明白 input field detection 是怎么做的，因为作者举例是用 ZIP 这种明确的格式，就提问是否用到 dictionary 来表示文件结构，作者回答 &ldquo;This is a good question. But actually not.&rdquo; 最后我理解下来 fields 应该就是把输入当成字符串，通过 SMT Solver 来求解的，并不需要在开始给出结构，要弄懂原理可以看论文中的公式推导。</p>
 <p><img src="/post_img/ISSTA2022/TensileFuzz_results.webp" alt=""></p>
-<p>实验结果如下图，TensileFuzz 在除了 lame 之外的所有程序上表现更优，因为 lame 这个 MP3 编码器中有很多算术关系，Angora 这种基于梯度的 fuzzer 会更加高效。</p>
+<p>实验结果如上图，TensileFuzz 在除了 lame 之外的所有程序上表现更优，因为 lame 这个 MP3 编码器中有很多算术关系，Angora 这种基于梯度的 fuzzer 会更加高效。</p>
 <h2 id="总结">总结</h2>
 <p>作为学生志愿者没有物质上的回报，却要付出 10h+ 的时间，因为时差要连续三天熬夜导致身心俱疲。</p>
 <p>但为了理解会议内容，增进和作者的互动，我也走马观花看了一些论文，接触了之前完全不了解的方向。</p>
@@ -338,7 +339,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-07-22 17:25:08 &#43;0800 &#43;0800">2022-07-22</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/09634ad729214de8b08969671d0aa40beacb1007" title="Add ISSTA 2022" target="_blank">(09634ad)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/2c3f66120415e689fb4f3891fc6209fa2b5afccd" title="Add ISSTA 2022" target="_blank">(2c3f661)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/ISSTA2022.md" target="_blank">更新历史</a>
     </span>
   </p>
