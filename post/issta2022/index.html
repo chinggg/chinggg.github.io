@@ -51,7 +51,7 @@
 <meta itemprop="description" content="ISSTA (The International Symposium on Software Testing and Analysis) 是软件测试与分析方面最著名的国际会议之一，也是中国计算机学会推荐的A类国际学术会议（CCF-A）。由于疫情原因，原本计划在">
 <meta itemprop="datePublished" content="2022-07-22T17:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-07-22T17:25:08+08:00" />
-<meta itemprop="wordCount" content="5075">
+<meta itemprop="wordCount" content="5206">
 
 
 
@@ -210,6 +210,7 @@
 <p>Chengpeng Li University of Texas at Austin, August Shi University of Texas at Austin</p>
 </blockquote>
 <p>Flaky test 是指软件测试中结果不可靠的测试，其结果时而 pass，时而 fail，本文第二作者 Prof. August Shi 在 UIUC 读博时的导师 Darko Marinov 似乎就在这方面颇有研究。本文重点关注由测试顺序不同导致的 order-dependent flaky test，这是最常见的三种 flaky test 之一，其原因是一些测试（polluter）会污染程序中的 shared state（比如测试类中的 static 变量），从而影响依赖这些状态的测试（victim），polluter 和 victim 的引入和最后的修复在时间上可能间隔很久。作者提到先前的工作 iDFlakies（查了下就是 August Shi 在 UIUC 读博期间发表）可以对一份代码用随机的顺序运行测试来检测 order-dependent flaky test，但因为无法预知何时产生 flaky test，在每次变动时都要运行检测，开销会很大，实际开发中经常运用 Regression Test Selection (RTS) 技术，分析代码的变化及其与测试间的依赖关系，只运行测试的对应一部分子集以减小开销。</p>
+<p><img src="/post_img/ISSTA2022/InclDflakies.webp" alt=""></p>
 <p>基于 RTS 技术，本文提出了 InclDFlakies 以更高效地检测新引入的 flaky tests，通过对代码类和测试类进行分析可以执行更少的测试，只要分析时间+运行更少测试的时间比 baseline iDFlakies 更短就是成功，实验结果确实如此。</p>
 <blockquote>
 <p><a href="https://youtu.be/rAirmnUsC1k" target="_blank">jTrans: Jump-Aware Transformer for Binary Code Similarity Detection</a></p>
@@ -222,9 +223,9 @@
 </blockquote>
 <p>UCL 这位姐姐做的幻灯片真是我见过最精美的，图片、动效和字体有种手绘风，不过这样呈现的信息密度较低，而且光看幻灯片很难感知到整体和单页内容的结构，演讲者需要确保自己表达流畅层层引入，观众也要专注听讲才能跟上。与之对立的常见风格是把干货内容文字放在幻灯片中，演讲时照着念，这样就算口语不佳，在表意上也不会有大问题。</p>
 <p><img src="/post_img/ISSTA2022/evaluation_measures.webp" alt=""></p>
-<p>参会当时光被其形式所震撼，没看懂具体内容，会后复盘了一下，其实就是对所有 defect prediction 工作中用到的 evaluation measures 进行调研，是对评价指标的评价。具体来说就是统计历年来 defect prediction 这一工作中用到的指标，比如 AUC, p-meaure, recall, precision 等等，这些看起来只是统计学中的不同度量方法，但背后其实反映了在对研究进行评价时的多样性。正如作者在第一张幻灯片中所做的比喻，同一个方块从不同的 viewpoints 和 angles 上观察，既可能是 square 也可能是 diamond。不过对于 defect prediction 这一关键概念，作者只用一两页带过，之后都是在对不同 evaluation measures 被用到的次数做排序和分析，似乎把 defection prediction 换成其他任何研究问题都毫无违和感。总之结论就是，evaluation measures 的选择是在做研究时必须关注的大问题，现在的研究在评价指标选取上没有原理可依，只能部分地反映性能，会造成 data imbalance。</p>
+<p>参会当时光被其形式所震撼，没看懂具体内容，会后复盘了一下，其实就是对所有 defect prediction 工作中用到的 evaluation measures 进行调研，是对评价指标的评价。具体来说就是统计历年来 defect prediction 这一工作中用到的指标，比如 AUC, p-meaure, recall, precision 等等，这些看起来只是统计学中的不同度量方法，但背后其实反映了在对研究进行评价时的多样性。正如作者在第一张幻灯片中所做的比喻，同一个方块从不同的 viewpoints 和 angles 上观察，既可能是 square 也可能是 diamond。不过对于 defect prediction 这一关键概念，作者只用一两页带过，之后都是在对不同 evaluation measures 被用到的次数做排序和分析，似乎把 defection prediction 换成其他任何研究问题都毫无违和感。总之结论就是，evaluation measures 的选择是在做研究时必须关注的大问题，现在的研究在评价指标选取上没有原理可依，只能部分地反映模型性能，会造成 data imbalance。</p>
 <h3 id="0200---0300-session-1-3-oracles-models-and-measurement-a">02:00 - 03:00 Session 1-3: Oracles, Models, and Measurement A</h3>
-<p>这一段三篇论文和印度博士姐姐分担，第二个视频放完之后由我主持，有些紧张一度担心自己视频没放出声音，结束后立马得到对方的肯定。</p>
+<p>这一段三篇论文和印度博士姐姐 Anurata Prabha Hridi 分担，第二个视频放完之后由我主持，有些紧张一度担心自己视频没放出声音，结束后立马得到对方的肯定。</p>
 <blockquote>
 <p><a href="https://youtu.be/bvlS-_hSNkY" target="_blank">Using Pre-trained Language Models to Resolve Textual and Semantic Merge Conflicts (Experience Paper)</a></p>
 <p>Jialu Zhang Yale University, Todd Mytkowicz Microsoft Research, Mike Kaufman Microsoft Corporation, Ruzica Piskac Yale University, Shuvendu K. Lahiri Microsoft Research</p>
@@ -242,7 +243,8 @@
 <p><a href="https://youtu.be/KDrfzsWqZDU" target="_blank">An Extensive Study on Pre-trained Models for Program Understanding and Generation</a></p>
 <p>Zhengran Zeng Southern University of Science and Technology, Hanzhuo Tan Southern University of Science and Technology, The Hong Kong Polytechnic University, Haotian Zhang , Jing Li, Hanzhuo Tan Southern University of Science and Technology, The Hong Kong Polytechnic University, Haotian Zhang The Hong Kong Polytech University, Jing Li The Hong Kong Polytech University, Yuqun Zhang Southern University of Science and Technology, Lingming Zhang University of Illinois at Urbana-Champaign</p>
 </blockquote>
-<p>一个调研性质的工作，评估了当前的预训练模型在程序理解和生成上的效果和鲁棒性，还发现了这些预训练模型都易受对抗样本的攻击，最后给出了一些 practical guidelines。</p>
+<p>UIUC 张令明老师组里的工作，评估了当前的预训练模型在程序理解和生成（Program Understanding and Generation, PUG）上的效果和鲁棒性，还发现了这些预训练模型都易受对抗样本的攻击，最后给出了一些 practical guidelines。这个问题还是比较新颖且具有现实意义的，像 GitHub Copilot 就是基于大规模预训练模型的产品，或许就有被攻击的风险。</p>
+<p><img src="/post_img/ISSTA2022/PUG_pre-trained.webp" alt=""></p>
 <h2 id="day2">Day2</h2>
 <p>前一天熬夜导致今天精力不足，基本是印度老哥 Sumit 带飞，我在下面鼓掌。</p>
 <h3 id="0020---0120-session-1-6-concurrency-iot-embedded-a">00:20 - 01:20 Session 1-6: Concurrency, IoT, Embedded A</h3>
@@ -267,7 +269,7 @@
 </blockquote>
 <p>这两篇论文都是探讨如何检测程序中一些的并发问题，比如死锁和原子性违反，没有细看。</p>
 <h2 id="day3">Day3</h2>
-<p>期待已久的 fuzzing 专场，不过 SV 工作有点小意外，原本该主持 Zoom 会议的 John 持续失联，因此两个 Session 全部由我独自主持，还好 Sonal Mahajan 和 Donghwan Shin 两位 SV Co-Chair 一直在鼓励我并在台下随时提供支持。感觉今天会议气氛有点冷，几乎每篇论文的 Q&amp;A 环节都无人提问，一直是我自己试图通过提问来暖场。</p>
+<p>期待已久的 fuzzing 专场，不过 SV 工作有点小意外，原本该主持 Zoom 会议的 John 持续失联，因此两个 Session 全部由我独自主持，还好 Sonal Mahajan 和 Donghwan Shin 两位 SV Co-Chair 一直在鼓励我并在台下随时提供支持。感觉今天会议气氛有点冷，每篇论文都没有人开麦提问，都是我自己提问来试图暖场。</p>
 <h3 id="2300---0000-session-1-9-fuzzing-and-friends-a">23:00 - 00:00 Session 1-9: Fuzzing and Friends A</h3>
 <blockquote>
 <p><a href="https://youtu.be/q8XOOYWw3Bk" target="_blank">Almost Correct Invariants: Synthesizing Inductive Invariants by Fuzzing Proofs</a></p>
@@ -278,7 +280,7 @@
 <p>现有的工作比如 <a href="https://code2inv.cis.upenn.edu/home" target="_blank">Code2Inv</a> 对程序进行逻辑编码并使用定理证明器来合成 inductive loop invariants，但问题是程序中可能包含 opaque operations，无法获得其形式语义，比如外部函数和系统调用等，这时基于逻辑编码的现有工作就失效了。而本文就使用 proof fuzzing 来检查生成 inductive loop invariants 的正确性，开发了工具 <a href="https://hub.docker.com/r/acharver1/achar" target="_blank">ACHAR</a>，通过设置 Reach Oracle 来判断 invariant 是否合法。最终实验结果在性能上确实稍好于 Code2Inv。</p>
 <p><img src="/post_img/ISSTA2022/proof_fuzzing.webp" alt=""></p>
 <p><img src="/post_img/ISSTA2022/ACHAR.webp" alt=""></p>
-<p>因为从 ACHAR 的结构图中看到可以用 AFL 作为后端，Q&amp;A 环节我问了下该如何理解 proof fuzzing 中的覆盖导向，Sumit 的回答语速较快没太听清，似乎是说没覆盖导向应该也可以。</p>
+<p>因为从 ACHAR 的结构图中看到可以用 AFL 作为后端，我提问该如何理解 proof fuzzing 中的覆盖导向，Sumit 的回答语速较快没太听清，似乎是说没覆盖导向应该也可以。</p>
 <p>另外 ACHAR 在梵语中是 immovable 和 invariant 的意思，在其他工作几乎清一色命名为 XXXFuzz 很容易撞车的今天，这名字显得很有文化。</p>
 <blockquote>
 <p><a href="https://youtu.be/OyIGR1iWmDM" target="_blank">MDPFuzz: Testing Models Solving Markov Decision Processes</a></p>
@@ -289,12 +291,12 @@
 <p><a href="https://youtu.be/IOLpTbdfa1o" target="_blank">SnapFuzz: High-Throughput Fuzzing of Network Applications</a></p>
 <p>Anastasios Andronidis Imperial College London, Cristian Cadar Imperial College London</p>
 </blockquote>
-<p>这篇文章比较接近传统意义上的 fuzz 所以还算比较好理解，早在 5 月<a href="https://zhuanlan.zhihu.com/p/512067250" target="_blank">知乎上就有对这篇 SnapFuzz 的解读</a>，可能是因为其在性能上十几倍的提升实在亮眼，天下武功唯快不破。作者 Anastasios Andronidis 的展示非常清晰，从 fuzz 的基本概念讲起，提到网络 fuzz 的痛点是通信协议的 awareness 和 statefulness，需要对副作用进行隔离和重置，又介绍了 SOTA 工作如 AFL Net，其仍然需要大量人力用于配置网络参数和重置状态，性能也较差。</p>
+<p>这篇文章比较接近传统意义上的 fuzz 所以还算比较好理解，早在 5 月<a href="https://zhuanlan.zhihu.com/p/512067250" target="_blank">知乎上就有对这篇 SnapFuzz 的解读</a>，可能是因为其在性能上十几倍的提升实在亮眼，毕竟天下武功唯快不破。作者 Anastasios Andronidis 的展示非常清晰，从 fuzz 的基本概念讲起，提到网络 fuzz 的痛点是通信协议的 awareness 和 statefulness，需要对副作用进行隔离和重置，又介绍了 SOTA 工作如 AFL Net，其仍然需要大量人力用于配置网络参数和重置状态，性能也较差。</p>
 <p>作者举了 dcmqrscp 这个例子，fuzzer 需要被配置在初始化和接发网络包的时候进行等待，每次文件读写操作也需要维持文件系统的状态。</p>
 <p><img src="/post_img/ISSTA2022/dcmqrscp.webp" alt=""></p>
 <p>为了提升 fuzzer 性能，作者使出了浑身解数，下图展示了 SnapFuzz 的关键组成部分</p>
 <p><img src="/post_img/ISSTA2022/SnapFuzz_components.webp" alt=""></p>
-<p>Q&amp;A 环节我先提问 SnapFuzz 运用二进制重写等技术是否会导致一些兼容性问题，老哥打开摄像头爽快回答 &ldquo;That&rsquo;s a really good question&rdquo;，估计他早已料到会有这种问题，在论文的 limitations 这节里已经阐述了一些特殊场景下可能的问题。看时间还够我又问了下是否支持对二进制的 fuzz 和是否能基于 QEMU 对 IoT 固件中的网络服务进行 fuzz，老哥也耐心回答说因为基于 AFLNet 开发的，可以通过源码插桩获得更多覆盖率信息，直接对二进制 fuzz 应该也可以，但没有测试过到底能否在 QEMU 上做 fuzz。</p>
+<p>Q&amp;A 环节我先提问 SnapFuzz 运用二进制重写等技术是否会导致一些兼容性问题，老哥打开摄像头爽快回答 &ldquo;That&rsquo;s a really good question&rdquo;，估计他早已料到会有这种问题，在论文的 limitations 这节里已经阐述了一些特殊场景下可能的问题，大部分情况下还是正常工作的。看时间还够我又问了下是否支持对二进制的 fuzz 和是否能基于 QEMU 对 IoT 固件中的网络服务进行 fuzz，老哥也耐心回答说因为基于 AFLNet 开发的，可以通过源码插桩获得更多覆盖率信息，直接对二进制 fuzz 应该也可以，但没有测试过到底能否在 QEMU 上做 fuzz。</p>
 <h3 id="0040---0120-session-1-11-fuzzing-and-friends-d">00:40 - 01:20 Session 1-11: Fuzzing and Friends D</h3>
 <blockquote>
 <p><a href="https://youtu.be/BFXH9uTbr5M" target="_blank">Efficient Greybox Fuzzing of Applications in Linux-based IoT Devices via Enhanced User-mode Emulation</a></p>
@@ -305,25 +307,25 @@
 <p><img src="/post_img/ISSTA2022/EQUAFL_overview.webp" alt=""></p>
 <p>观察记录不同的行为也需要相应的手段，以启动变量的设置为例，argv 和 env 可能存在各种地方，不过我们知道每当新进程启动，内核都会调用 <code>do_execve</code> 函数，通过分析 Linux 内核源码可以找到哪些地方能 dump 出 argv 和 env 的值。</p>
 <p><img src="/post_img/ISSTA2022/EQUAFL_approach.webp" alt=""></p>
-<p>会议时没太理解技术细节，感觉理论上确实做到了兼容和性能的统一，于是 Q&amp;A 环节我就问这个工作 workload 怎样，observation 和 replay 都能自动化进行还是需要人工。作者回答说实验的时候只是针对了几个特定的设备，对于每种设备来说自动化程度应该还是挺高的。</p>
+<p>会议时没太理解技术细节，感觉理论上确实做到了兼容和性能的统一，实验结果也是远远超过 SOTA，于是 Q&amp;A 环节我就问这个工作 workload 怎样，observation 和 replay 都能自动化进行还是需要人工。作者回答说实验的时候只是针对了几个特定的设备，对于每种设备来说自动化程度应该还是挺高的。</p>
 <blockquote>
 <p><a href="https://youtu.be/NjcPTuAZg7Y" target="_blank">TensileFuzz: Facilitating Seed Input Generation in Fuzzing via String Constraint Solving</a></p>
 <p>Xuwei Liu Purdue University, Wei You Renmin University of China, Zhuo Zhang Purdue University, Xiangyu Zhang Purdue University</p>
 </blockquote>
-<p>普渡大学张翔宇老师组里的工作，fuzz 中 seed 的生成算是个老大难问题，直接影响覆盖效果，作者提到现有的工作主要是符号执行和基于梯度的搜索以及 hybrid fuzzing，但在这些技术在某种场合也无法奏效。作者以 ZIP 格式为例，说明了 hybrid fuzzer 无法执行过全部的检查，而 string solver 更适合求解这些约束。</p>
+<p>普渡大学张翔宇老师组里的工作，fuzz 中 seed 的生成算是个老大难问题，直接影响代码覆盖率，作者提到现有的工作主要是符号执行和基于梯度的搜索以及 hybrid fuzzing，但在这些技术在某种场合也无法奏效。作者以 ZIP 格式为例，说明了 hybrid fuzzer 无法执行过全部的检查，而 string solver 更适合求解这些约束。</p>
 <p><img src="/post_img/ISSTA2022/ZIP.webp" alt=""></p>
 <p><img src="/post_img/ISSTA2022/TensileFuzz_motivation.webp" alt=""></p>
-<p>整体 workflow 如下图所示，后面看了论文里的图比这张更复杂</p>
+<p>整体 workflow 如下图所示，后面看了论文里的图比这张还更复杂。</p>
 <p><img src="/post_img/ISSTA2022/TensileFuzz_workflow.webp" alt=""></p>
-<p>会议时我没有太明白 input field detection 是怎么做的，因为例子是 ZIP 这种明确格式，Q&amp;A 环节就提问是否用到 dictionary 来表示文件结构，作者回答 &ldquo;This is a good question. But actually not.&rdquo; 最后我理解下来 fields 应该就是把输入当成字符串，通过 SMT Solver 来求解的，看论文里也是有很多公式推导。</p>
+<p>会议时我没有太明白 input field detection 是怎么做的，因为作者举例是用 ZIP 这种明确的格式，就提问是否用到 dictionary 来表示文件结构，作者回答 &ldquo;This is a good question. But actually not.&rdquo; 最后我理解下来 fields 应该就是把输入当成字符串，通过 SMT Solver 来求解的，并不需要在开始给出结构，要弄懂原理可以看论文中的公式推导。</p>
 <p><img src="/post_img/ISSTA2022/TensileFuzz_results.webp" alt=""></p>
 <p>实验结果如下图，TensileFuzz 在除了 lame 之外的所有程序上表现更优，因为 lame 这个 MP3 编码器中有很多算术关系，Angora 这种基于梯度的 fuzzer 会更加高效。</p>
 <h2 id="总结">总结</h2>
 <p>作为学生志愿者没有物质上的回报，却要付出 10h+ 的时间，因为时差要连续三天熬夜导致身心俱疲。</p>
 <p>但为了理解会议内容，增进和作者的互动，我也走马观花看了一些论文，接触了之前完全不了解的方向。</p>
 <p>与此同时，我也算第一次参与了学术会议的组织，与会者观看直播时的岁月静好，其实背后都是志愿者的负重前行。</p>
-<p>感谢 Sonal Mahajan 和 Donghwan Shin 两位 SV Co-Chair 以及其他 SV 对我的鼓励和支持，尽管我们素未相识，却能互相信任，一起努力保障线上会议的正常开展，这本身就是一件很有意思的事。我也曾在开源世界感受过这种弱连接的神奇，故而非常珍惜和世界各地的研究者交流的机会，希望之后的自己能一直保持这种开放的心态，这或许和代码工作本身的开源一样重要。</p>
-<p><img src="/post_img/ISSTA2022/SV_zoom.webp" alt=""></p>
+<p>感谢 Sonal Mahajan 和 Donghwan Shin 两位 SV Co-Chair 以及其他 SV 对我的鼓励和支持，尽管我们素未相识，却能互相信任，一起努力保障线上会议的正常开展，这本身就是一件很有意思的事。我也曾在开源世界感受过这种弱连接的神奇，故而非常珍惜和世界各地的研究者交流的机会，或许也正是因为之前的开源经历，我才能以本科生的身份入选为志愿者，希望之后的自己能一直保持这种开放的心态，这可能和代码工作本身的开源同样重要。</p>
+<p><img src="/post_img/ISSTA2022/zoom.webp" alt=""></p>
 
     </div>
 
@@ -336,7 +338,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-07-22 17:25:08 &#43;0800 &#43;0800">2022-07-22</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/5e9085ad254cc6455fd14574893d8c69ab74dea0" title="Add ISSTA 2022" target="_blank">(5e9085a)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/d75261b4cf0821254938ce4291c6d6f1db457f2c" title="Add ISSTA 2022" target="_blank">(d75261b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/ISSTA2022.md" target="_blank">更新历史</a>
     </span>
   </p>
