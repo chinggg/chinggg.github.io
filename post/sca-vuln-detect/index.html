@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/sca-vuln-detect/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection" />
+<meta property="og:description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/sca-vuln-detect/" />
+<meta property="article:published_time" content="2022-07-26T15:20:48+08:00" />
+<meta property="article:modified_time" content="2022-07-26T15:47:39+08:00" />
+<meta itemprop="name" content="静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection">
+<meta itemprop="description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作">
+<meta itemprop="datePublished" content="2022-07-26T15:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-07-26T15:47:39+08:00" />
+<meta itemprop="wordCount" content="2292">
+
+
+
+<meta itemprop="keywords" content="学术,安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection"/>
+<meta name="twitter:description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-07-26 15:20:48 &#43;0800 &#43;0800"> 2022-07-26 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#研究动机">研究动机</a></li>
+        <li><a href="#研究对象">研究对象</a>
+          <ul>
+            <li><a href="#静态分析器">静态分析器</a></li>
+            <li><a href="#漏洞分类">漏洞分类</a></li>
+            <li><a href="#漏洞数据">漏洞数据</a></li>
+          </ul>
+        </li>
+        <li><a href="#实验设计">实验设计</a>
+          <ul>
+            <li><a href="#评估粒度">评估粒度</a></li>
+            <li><a href="#指标场景">指标场景</a></li>
+            <li><a href="#实验结果">实验结果</a>
+              <ul>
+                <li><a href="#rq1-static-analyzer-effectiveness">RQ.1: Static Analyzer Effectiveness</a></li>
+                <li><a href="#rq2-effectiveness-increase-by-analyzer-combinations">RQ.2: Effectiveness Increase by Analyzer Combinations</a></li>
+                <li><a href="#rq3-best-vs-worst-detected-vulnerabilitiess">RQ.3: Best vs. Worst Detected Vulnerabilitiess</a></li>
+              </ul>
+            </li>
+            <li><a href="#总结展望">总结展望</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作者在在真实 CVE 数据上对静态分析工具检测漏洞的效果做了详细的评估。</p>
+<h2 id="研究动机">研究动机</h2>
+<p>静态分析技术由于较低的部署成本和性能开销被广泛用于代码安全检测中，不过高误报率（high false positive rate）是其广为人知的一大缺点。至于其究竟能否有效地检测出代码中的漏洞，也就是假阴性率（false negetive rate），则是另一个问题，之前较少有人研究。本文作者发现先前的工作都是在 Julie Test Suite 这种人造数据集上进行，其中的人造漏洞本来就很容易发现，所以静态分析工具都宣称能达到 80% 左右的检测率。然而静态分析器在检测实际漏洞时的效果如何？不同的静态分析工具有有何优劣，组合起来在效果上有何提升？哪些种类的漏洞更容易被发现？这就是本文想要回答的三大问题。</p>
+<h2 id="研究对象">研究对象</h2>
+<h3 id="静态分析器">静态分析器</h3>
+<p>作者将静态分析技术分成两类：语法分析（Syntactic Static Analysis）只是搜寻一些可能引入漏洞的代码，比如对memcpy这种函数的调用，所以对源代码应用即可，无需编译信息；语义分析（Semantic Static Analysis）需要考虑控制流或数据流信息，所以要先将源代码转换成抽象语法树或控制流图等更抽象的表示，尽管语义分析一般会伴随着<a href="https://zh.wikipedia.org/wiki/%E4%B8%8D%E5%8F%AF%E5%88%A4%E5%AE%9A%E9%97%AE%E9%A2%98" target="_blank">不可判定性问题</a>，但它可能发现更多复杂的漏洞。</p>
+<p>具体到本文中将研究的静态分析产品，作者选取了 6 款 C/C++ 静态分析工具，其中 5 款是开源的，即Flawfinder (FLF), Cppcheck (CPC), Infer (IFR), CodeChecker (CCH), CodeQL (CQL)，剩下一款隐去姓名的商业软件，称为 CommSCA (CSA)，它们都实现了 SOTA 的静态分析技术，被广泛用于之前的 benchmark 工作中。</p>
+<h3 id="漏洞分类">漏洞分类</h3>
+<p>Common Weakness Enumeration (CWE) 是一种漏洞分类系统，每种漏洞类型都被赋予唯一的编号，不同类型之间还可具有树形层级关系，顶部的 CWE 更多代表抽象的 class，底部的 CWE 则表示更具体的漏洞 type，不同静态分析器中对漏洞的描述都可以被归到 CWE 体系中。</p>
+<p><img src="/post_img/SCA-vuln-detect/fig1-CWE-map.webp" alt=""></p>
+<p>因为 C 语言中很多漏洞都紧密关联，比如 double-free (CWE-415) 和 use-after-free (CWE-416) 非常接近，都属于 Expired Pointer Dereference (CWE-825)。有些静态分析器可能给出了接近但不完全相同的 CWE，这种情况应当算作成功识别，所以比较时粒度不能太细，作者根据 <a href="https://doi.org/10.1016/j.infsof.2015.08.002" target="_blank">Goseva-Popstojanova 和 Perhinschi 的现有工作</a> 把相近的 vulnerability types 归为 classes，最终确定了如下 5 个 CWE 大类：</p>
+<ul>
+<li>Improper Control of a Resource Through its Lifetime (CWE-664)</li>
+<li>Incorrect Calculation (CWE-682)</li>
+<li>Insufficient Control-Flow Management (CWE-691)</li>
+<li>Improper Check or Handling of Exceptional Conditions (CWE-703)</li>
+<li>Improper Neutralization (CWE-707)</li>
+</ul>
+<p>需要注意，不是每种 CWE 都被所有静态分析器支持的。作者调研了各个静态分析器的文档，对于每个 CWE 大类，若文档中提到能检测该类别下一种具体的漏洞，就认为静态分析器支持该种 CWE 大类，最终得到如下 CWE 支持性表格：</p>
+<p><img src="/post_img/SCA-vuln-detect/table2-CWE-support.webp" alt=""></p>
+<h3 id="漏洞数据">漏洞数据</h3>
+<p>现有工作基本都是基于 Juliet Test Suite 这种合成数据集，而真实 bug 的数据集数量较少且种类单一或根本就没指出漏洞类型，还好有 <a href="https://doi.org/10.1145/3410220.3456276" target="_blank">Magma</a> 这个原本针对 fuzzer 设计的 benchmark 是从 CVE 报告构建而来，包含了118 个漏洞，还使用了 front-porting 技术，能把在老版本软件中已发现的 bug 插入到新版本中。</p>
+<p>本文除了利用 Magma 数据集，还额外包括了 binutils 和 FFmpeg 中的 81 个 non-front-ported 漏洞，也就是已被记录的真实漏洞。</p>
+<h2 id="实验设计">实验设计</h2>
+<h3 id="评估粒度">评估粒度</h3>
+<p>静态分析工具一般会标注代码中错误显现的位置而非漏洞产生的根源，而CVE 报告对 fault (root cause) 和 error (manifestation) 的呈现并不是非常的完整，比如有些 CVE 给出 patch 的 commit 记录，从中可发现 fault 的根本原因，而有些只是在文字描述中给出了 error 显现的位置，所以本文决定将漏洞位置的粒度设置在函数的层面上。</p>
+<p>为了让评估结果有效，必须确保 fault 和 error 出现在相同的函数中，否则对于只指出 fault 位置的 CVE 就无法判断静态分析是否检测成功，作者采用 Fault-Error Conformity (FEC) 这个指标，即对于某一漏洞，fault和 error 重叠的函数个数与 error 所在函数的个数之比，结果如下表：</p>
+<p><img src="/post_img/SCA-vuln-detect/table3-FEC.webp" alt=""></p>
+<p>可以看到所有漏洞的 FEC 非 1 即 0，可能是因为本来多数漏洞就只有一处函数会显现 error，所以若 fault 与 error 位置相同即为  1，否则即为 0。</p>
+<p>表格中看出不同应用各个漏洞的 FEC 基本都为 1，这说明对于多数漏洞 fault 和 error 都出现在相同的函数，所以设置 function-level 的粒度是合理的。</p>
+<h3 id="指标场景">指标场景</h3>
+<p>本文设置了 Vuln. Detection Ratio 和 Marked Function Ratio 这两个指标：前者是检测到的漏洞与所有漏洞的数量之比，即召回率；后者是被标记的函数与所有函数的数量之比，可用来估算误报的程度。</p>
+<p><img src="/post_img/SCA-vuln-detect/evaluate-metrics.webp" alt=""></p>
+<p>本文受 <a href="https://doi.org/10.1145/2351676.2351685" target="_blank">Thung 等人工作</a>的启发，设置了四个不同的评估场景（scenario）来评判漏洞是否被检测成功，即是否需要比较漏洞种类确保符合，是否要检测出漏洞影响的所有函数，这样能调整松紧程度，从不同的角度检验静态分析器的效果。</p>
+<h3 id="实验结果">实验结果</h3>
+<h4 id="rq1-static-analyzer-effectiveness">RQ.1: Static Analyzer Effectiveness</h4>
+<p><img src="/post_img/SCA-vuln-detect/fig5.webp" alt=""></p>
+<p>从被测程序的角度看，Poppler, FFmpeg, 和 Libpng 的漏洞检出率很低，作者分析了可能的原因：Poppler 是的被测程序中唯一一个用 C++ 编写的，尽管本文所测得静态分析器都支持 C/C++，但主要关注的还是 C，对 C++ 只有最基本的支持；FFmpeg 是被测程序中最大的，足有四十余万行代码，很可能触发了静态分析器所能分析的深度上限；Libpng 则是 Table 3 中 FEC 相对最低的，其 error 和 fault 位置的差异可能导致了静态分析的低检出率。</p>
+<p><img src="/post_img/SCA-vuln-detect/fig6.webp" alt=""></p>
+<p>从分析工具的角度看，CommSCA, CodeQL 和 Flawfinder 表现最佳，Cppcheck, CodeChecker 和 Infer 表现最差，但即使是效果最好的 CommSCA 能检测出的漏洞也几乎不过半数。</p>
+<h4 id="rq2-effectiveness-increase-by-analyzer-combinations">RQ.2: Effectiveness Increase by Analyzer Combinations</h4>
+<p><img src="/post_img/SCA-vuln-detect/fig7.webp" alt=""></p>
+<p>在不同场景下对多种静态分析工具进行组合搭配，在达到高检测率的同时尽可能使用更少的静态分析工具，结果表明最优的搭配一般能提升两三成的检测率，但同时会增加 15% 的误报可能，而且仍然有大概一般的漏洞无法被检出。</p>
+<h4 id="rq3-best-vs-worst-detected-vulnerabilitiess">RQ.3: Best vs. Worst Detected Vulnerabilitiess</h4>
+<p><img src="/post_img/SCA-vuln-detect/fig8.webp" alt=""></p>
+<p>实验结果表明 CWE-{664,703} 比 CWE-{682,707,691} 更容易被静态分析，表现最差的两类 CWE 恰好就是 Table 2 中被静态分析器支持最少的那两类，而即使是表现最好的的 CWE-{664,703} 也有近半未被静态分析检出。</p>
+<h3 id="总结展望">总结展望</h3>
+<p>作者称本文是未来对静态分析检测漏洞进行研究的基础，之后计划分析如此多漏洞无法被检测的深层的原因，以找到改进静态分析工具的方法并理解这类工具的普遍限制。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-07-26 15:47:39 &#43;0800 &#43;0800">2022-07-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/9be1dabaef54bec7f50db0474d0f9e9b87ff4e8e" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(9be1dab)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/SCA-vuln-detect.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/issta2022/">
+            <span class="next-text nav-default">ISSTA 2022 学生志愿者云参会小记</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e9%9d%99%e6%80%81%e5%88%86%e6%9e%90%e6%a3%80%e6%b5%8b%e6%bc%8f%e6%b4%9e%e7%9c%9f%e7%9a%84%e6%9c%89%e6%95%88%e5%90%97%ef%bc%9aAn%20Empirical%20Study%20on%20the%20Effectiveness%20of%20Static%20C%20Code%20Analyzers%20for%20Vulnerability%20Detection - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e9%9d%99%e6%80%81%e5%88%86%e6%9e%90%e6%a3%80%e6%b5%8b%e6%bc%8f%e6%b4%9e%e7%9c%9f%e7%9a%84%e6%9c%89%e6%95%88%e5%90%97%ef%bc%9aAn%20Empirical%20Study%20on%20the%20Effectiveness%20of%20Static%20C%20Code%20Analyzers%20for%20Vulnerability%20Detection - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
