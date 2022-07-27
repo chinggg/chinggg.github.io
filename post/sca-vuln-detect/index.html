@@ -220,6 +220,7 @@
 <h3 id="漏洞数据">漏洞数据</h3>
 <p>现有工作基本都是基于 Juliet Test Suite 这种合成数据集，而真实 bug 的数据集数量较少且种类单一或根本就没指出漏洞类型，还好有 <a href="https://doi.org/10.1145/3410220.3456276" target="_blank">Magma</a> 这个原本针对 fuzzer 设计的 benchmark 是从 CVE 报告构建而来，包含了118 个漏洞，还使用了 front-porting 技术，能把在老版本软件中已发现的 bug 插入到新版本中。</p>
 <p>本文除了利用 Magma 数据集，还额外包括了 binutils 和 FFmpeg 中的 81 个 non-front-ported 漏洞，也就是已被记录的真实漏洞。</p>
+<p><img src="/post_img/SCA-vuln-detect/benchmark-dataset.webp" alt=""></p>
 <h2 id="实验设计">实验设计</h2>
 <h3 id="评估粒度">评估粒度</h3>
 <p>静态分析工具一般会标注代码中错误显现的位置而非漏洞产生的根源，而CVE 报告对 fault (root cause) 和 error (manifestation) 的呈现并不是非常的完整，比如有些 CVE 给出 patch 的 commit 记录，从中可发现 fault 的根本原因，而有些只是在文字描述中给出了 error 显现的位置，所以本文决定将漏洞位置的粒度设置在函数的层面上。</p>
@@ -257,7 +258,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-07-26 15:47:39 &#43;0800 &#43;0800">2022-07-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/d7469d396ed5709053376d6f39f8280c845d70a8" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(d7469d3)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/9537c5be98bd3d5be1cefe07ffa1c0129299316e" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(9537c5b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/SCA-vuln-detect.md" target="_blank">更新历史</a>
     </span>
   </p>
