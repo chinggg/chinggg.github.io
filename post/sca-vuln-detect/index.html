@@ -51,7 +51,7 @@
 <meta itemprop="description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作">
 <meta itemprop="datePublished" content="2022-07-26T15:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-07-26T15:47:39+08:00" />
-<meta itemprop="wordCount" content="2426">
+<meta itemprop="wordCount" content="2466">
 
 
 
@@ -195,15 +195,15 @@
   </div>
 </div>
     <div class="post-content">
-      <p>今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作者在在真实 CVE 数据上对静态分析工具检测漏洞的效果做了详细的评估。</p>
+      <p>今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作者在真实 CVE 数据上对静态分析工具检测漏洞的效果做了详细的评估。</p>
 <p>论文地址：<a href="https://doi.org/10.1145/3533767.3534380">https://doi.org/10.1145/3533767.3534380</a></p>
 <p>Artifacts 地址：<a href="https://doi.org/10.5281/zenodo.6515687">https://doi.org/10.5281/zenodo.6515687</a></p>
 <p>视频地址：<a href="https://www.youtube.com/watch?v=N6kePNadUV8">https://www.youtube.com/watch?v=N6kePNadUV8</a></p>
 <h2 id="研究动机">研究动机</h2>
-<p>静态分析技术由于较低的部署成本和性能开销被广泛用于代码安全检测中，不过高误报率（high false positive rate）是其广为人知的一大缺点。至于其究竟能否有效地检测出代码中的漏洞，也就是假阴性率（false negetive rate），则是另一个问题，之前较少有人研究。本文作者发现先前的工作都是在 Julie Test Suite 这种人造数据集上进行，其中的人造漏洞本来就很容易发现，所以静态分析工具都宣称能达到 80% 左右的检测率。然而静态分析器在检测实际漏洞时的效果如何？不同的静态分析工具有有何优劣，组合起来在效果上有何提升？哪些种类的漏洞更容易被发现？这就是本文想要回答的三大问题。</p>
+<p>静态分析技术由于较低的部署成本和性能开销被广泛用于代码安全检测中，不过高误报率（high false positive rate）是其广为人知的一大缺点。至于其究竟能否有效地检测出代码中的漏洞，也就是假阴性率（false negetive rate）是否够低，则是另一个问题，之前较少有人研究。本文作者发现先前的工作都是在 Juliet Test Suite 这种人造数据集上进行，其中人为合成的漏洞本来就很容易发现，所以静态分析工具都宣称能达到 80% 左右的检测率。然而静态分析器在检测实际漏洞时的效果如何？不同的静态分析工具有有何优劣，组合起来在效果上有何提升？哪些种类的漏洞更容易被发现？这就是本文想要回答的三大问题。</p>
 <h2 id="研究对象">研究对象</h2>
 <h3 id="静态分析器">静态分析器</h3>
-<p>作者将静态分析技术分成两类：语法分析（Syntactic Static Analysis）只是搜寻一些可能引入漏洞的代码，比如对memcpy这种函数的调用，所以对源代码应用即可，无需编译信息；语义分析（Semantic Static Analysis）需要考虑控制流或数据流信息，所以要先将源代码转换成抽象语法树或控制流图等更抽象的表示，尽管语义分析一般会伴随着<a href="https://zh.wikipedia.org/wiki/%E4%B8%8D%E5%8F%AF%E5%88%A4%E5%AE%9A%E9%97%AE%E9%A2%98" target="_blank">不可判定性问题</a>，但它可能发现更多复杂的漏洞。</p>
+<p>作者将静态分析技术分成两类：语法分析（Syntactic Static Analysis）只是搜寻一些可能引入漏洞的代码，比如对memcpy这种函数的调用，所以对源代码应用即可，无需编译信息；语义分析（Semantic Static Analysis）需要考虑控制流或数据流信息，所以要先将源代码转换成抽象语法树、调用图和控制流图等更抽象的表示，尽管语义分析一般会伴随着<a href="https://zh.wikipedia.org/wiki/%E4%B8%8D%E5%8F%AF%E5%88%A4%E5%AE%9A%E9%97%AE%E9%A2%98" target="_blank">不可判定性问题</a>，但它可能发现更多复杂的漏洞。</p>
 <p>具体到本文中将研究的静态分析产品，作者选取了 6 款 C/C++ 静态分析工具，其中 5 款是开源的，即Flawfinder (FLF), Cppcheck (CPC), Infer (IFR), CodeChecker (CCH), CodeQL (CQL)，剩下一款隐去姓名的商业软件，称为 CommSCA (CSA)，它们都实现了 SOTA 的静态分析技术，被广泛用于之前的 benchmark 工作中。</p>
 <h3 id="漏洞分类">漏洞分类</h3>
 <p>Common Weakness Enumeration (CWE) 是一种漏洞分类系统，每种漏洞类型都被赋予唯一的编号，不同类型之间还可具有树形层级关系，顶部的 CWE 更多代表抽象的 class，底部的 CWE 则表示更具体的漏洞 type，不同静态分析器中对漏洞的描述都可以被归到 CWE 体系中。</p>
@@ -216,16 +216,16 @@
 <li>Improper Check or Handling of Exceptional Conditions (CWE-703)</li>
 <li>Improper Neutralization (CWE-707)</li>
 </ul>
-<p>需要注意，不是每种 CWE 都被所有静态分析器支持的。作者调研了各个静态分析器的文档，对于每个 CWE 大类，若文档中提到能检测该类别下一种具体的漏洞，就认为静态分析器支持该种 CWE 大类，最终得到如下 CWE 支持性表格：</p>
+<p>需要注意，不是每种 CWE 都被所有静态分析器支持的。作者调研了各个静态分析器的文档，对于每个 CWE 大类，若文档中提到能检测该类别中一种具体的漏洞，就认为静态分析器支持该种 CWE 大类，最终得到如下 CWE 支持性表格：</p>
 <p><img src="/post_img/SCA-vuln-detect/table2-CWE-support.webp" alt=""></p>
 <h3 id="漏洞数据">漏洞数据</h3>
 <p>现有工作基本都是基于 Juliet Test Suite 这种合成数据集，而真实 bug 的数据集数量较少且种类单一或根本就没指出漏洞类型，还好有 <a href="https://doi.org/10.1145/3410220.3456276" target="_blank">Magma</a> 这个原本针对 fuzzer 设计的 benchmark 是从 CVE 报告构建而来，包含了118 个漏洞，还使用了 front-porting 技术，能把在老版本软件中已发现的 bug 插入到新版本中。</p>
-<p>本文除了利用 Magma 数据集，还额外包括了 binutils 和 FFmpeg 中的 81 个 non-front-ported 漏洞，也就是已被记录的真实漏洞。</p>
+<p>本文除了利用 Magma 数据集，还额外包括了 binutils 和 FFmpeg 中的 81 个 non-front-ported 真实漏洞。</p>
 <p><img src="/post_img/SCA-vuln-detect/benchmark-dataset.webp" alt=""></p>
 <h2 id="实验设计">实验设计</h2>
 <h3 id="评估粒度">评估粒度</h3>
 <p>静态分析工具一般会标注代码中错误显现的位置而非漏洞产生的根源，而CVE 报告对 fault (root cause) 和 error (manifestation) 的呈现并不是非常的完整，比如有些 CVE 给出 patch 的 commit 记录，从中可发现 fault 的根本原因，而有些只是在文字描述中给出了 error 显现的位置，所以本文决定将漏洞位置的粒度设置在函数的层面上。</p>
-<p>为了让评估结果有效，必须确保 fault 和 error 出现在相同的函数中，否则对于只指出 fault 位置的 CVE 就无法判断静态分析是否检测成功，作者采用 Fault-Error Conformity (FEC) 这个指标，即对于某一漏洞，fault和 error 重叠的函数个数与 error 所在函数的个数之比，结果如下表：</p>
+<p>为了确保评估结果有效，fault 和 error 应当出现在相同的函数中，否则对于只指出 fault 位置的 CVE 就无法判断静态分析是否检测成功，作者采用 Fault-Error Conformity (FEC) 这个指标，即对于某一漏洞，fault和 error 重叠的函数个数与 error 所在函数的个数之比，结果如下表：</p>
 <p><img src="/post_img/SCA-vuln-detect/table3-FEC.webp" alt=""></p>
 <p>可以看到所有漏洞的 FEC 非 1 即 0，可能是因为本来多数漏洞就只有一处函数会显现 error，所以若 fault 与 error 位置相同即为  1，否则即为 0。</p>
 <p>表格中看出不同应用各个漏洞的 FEC 基本都为 1，这说明对于多数漏洞 fault 和 error 都出现在相同的函数，所以设置 function-level 的粒度是合理的。</p>
@@ -241,10 +241,10 @@
 <p>从分析工具的角度看，CommSCA, CodeQL 和 Flawfinder 表现最佳，Cppcheck, CodeChecker 和 Infer 表现最差，但即使是效果最好的 CommSCA 能检测出的漏洞也几乎不过半数。</p>
 <h4 id="rq2-effectiveness-increase-by-analyzer-combinations">RQ.2: Effectiveness Increase by Analyzer Combinations</h4>
 <p><img src="/post_img/SCA-vuln-detect/fig7.webp" alt=""></p>
-<p>在不同场景下对多种静态分析工具进行组合搭配，在达到高检测率的同时尽可能使用更少的静态分析工具，结果表明最优的搭配一般能提升两三成的检测率，但同时会增加 15% 的误报可能，而且仍然有大概一般的漏洞无法被检出。</p>
+<p>在不同场景下对多种静态分析工具进行组合搭配，在达到高检测率的同时尽可能使用更少的静态分析工具，结果表明最优的搭配一般能提升两三成的检测率，但同时会增加 15% 的误报可能，而且仍然有大概一半的漏洞无法被检出。</p>
 <h4 id="rq3-best-vs-worst-detected-vulnerabilitiess">RQ.3: Best vs. Worst Detected Vulnerabilitiess</h4>
 <p><img src="/post_img/SCA-vuln-detect/fig8.webp" alt=""></p>
-<p>实验结果表明 CWE-{664,703} 比 CWE-{682,707,691} 更容易被静态分析，表现最差的两类 CWE 恰好就是 Table 2 中被静态分析器支持最少的那两类，而即使是表现最好的的 CWE-{664,703} 也有近半未被静态分析检出。</p>
+<p>实验结果表明 CWE-664（资源生命周期控制不当）和 CWE-703（异常条件检查或处理不当） 比 CWE-{682,707,691} 更容易被静态分析，表现最差的两类 CWE 恰好就是 Table 2 中被静态分析器支持最少的那两类，而即使是表现最好的的 CWE-{664,703} 也有近半未被静态分析检出。</p>
 <h3 id="总结展望">总结展望</h3>
 <p>作者称本文是未来对静态分析检测漏洞进行研究的基础，之后计划分析如此多漏洞无法被检测的深层的原因，以找到改进静态分析工具的方法并理解这类工具的普遍限制。</p>
 
@@ -259,7 +259,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-07-26 15:47:39 &#43;0800 &#43;0800">2022-07-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/312f78bccd6b4ca738bb17ae505aa893cfe60143" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(312f78b)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/1dcec8437a6b8538ce5f57fc866abc2f6fa81adc" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(1dcec84)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/SCA-vuln-detect.md" target="_blank">更新历史</a>
     </span>
   </p>
