@@ -51,7 +51,7 @@
 <meta itemprop="description" content="今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作">
 <meta itemprop="datePublished" content="2022-07-26T15:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-07-26T15:47:39+08:00" />
-<meta itemprop="wordCount" content="2292">
+<meta itemprop="wordCount" content="2378">
 
 
 
@@ -196,6 +196,8 @@
 </div>
     <div class="post-content">
       <p>今天给大家推荐的是来自 ISSTA 2022 的一篇论文 An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection，作者是慕尼黑工业大学的 Stephan Lipp, Sebastian Banescu 和 Alexander Pretschner，作者在在真实 CVE 数据上对静态分析工具检测漏洞的效果做了详细的评估。</p>
+<p>论文地址：<a href="https://doi.org/10.1145/3533767.3534380">https://doi.org/10.1145/3533767.3534380</a></p>
+<p>Artifacts 地址：<a href="https://doi.org/10.5281/zenodo.6515687">https://doi.org/10.5281/zenodo.6515687</a></p>
 <h2 id="研究动机">研究动机</h2>
 <p>静态分析技术由于较低的部署成本和性能开销被广泛用于代码安全检测中，不过高误报率（high false positive rate）是其广为人知的一大缺点。至于其究竟能否有效地检测出代码中的漏洞，也就是假阴性率（false negetive rate），则是另一个问题，之前较少有人研究。本文作者发现先前的工作都是在 Julie Test Suite 这种人造数据集上进行，其中的人造漏洞本来就很容易发现，所以静态分析工具都宣称能达到 80% 左右的检测率。然而静态分析器在检测实际漏洞时的效果如何？不同的静态分析工具有有何优劣，组合起来在效果上有何提升？哪些种类的漏洞更容易被发现？这就是本文想要回答的三大问题。</p>
 <h2 id="研究对象">研究对象</h2>
@@ -255,7 +257,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-07-26 15:47:39 &#43;0800 &#43;0800">2022-07-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/9be1dabaef54bec7f50db0474d0f9e9b87ff4e8e" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(9be1dab)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/d7469d396ed5709053376d6f39f8280c845d70a8" title="Add ISSTA 2022 SCA vuln detect" target="_blank">(d7469d3)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/SCA-vuln-detect.md" target="_blank">更新历史</a>
     </span>
   </p>
