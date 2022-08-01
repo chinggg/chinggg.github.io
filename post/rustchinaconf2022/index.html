@@ -51,11 +51,11 @@
 <meta itemprop="description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是">
 <meta itemprop="datePublished" content="2022-08-01T09:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-08-01T10:07:58+08:00" />
-<meta itemprop="wordCount" content="2063">
+<meta itemprop="wordCount" content="2064">
 
 
 
-<meta itemprop="keywords" content="学术,软工," />
+<meta itemprop="keywords" content="会议,Rust," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Rust China Conf 2022 快速复盘"/>
 <meta name="twitter:description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是"/>
@@ -198,7 +198,7 @@
 </blockquote>
 <p>陈鹏老师在 IEEE S&amp;P 2018 上发表了 <a href="https://web.cs.ucdavis.edu/~hchen/paper/chen2018angora.pdf" target="_blank">Angora: Efficient Fuzzing by Principled Search</a>，用他幻灯片中的话说「可能是第一个用 Rust 实现的开源 Fuzzer」，注意这里指的是 Rust 来生成输入，对 Rust 代码进行测试是另一类工作。</p>
 <p><img src="/post_img/RustChinaConf2022/RustFuzzers.webp" alt=""></p>
-<p>好的 Fuzzer 要能生成高质量的输入，最原始的输入可无状态的分布中获得，但为了达到更好的效果需要借助覆盖反馈和 type aware 生成有状态的分布，幻灯片中结合 Rust 实例代码讲解了生成和变异行为的实现。</p>
+<p>好的 Fuzzer 要能生成高质量的输入，最原始的输入可从无状态的分布中获得，但为了达到更好的效果需要借助覆盖反馈和 type aware 生成有状态的分布，幻灯片中结合 Rust 实例代码讲解了生成和变异行为的实现。</p>
 <p><img src="/post_img/RustChinaConf2022/FuzzCov.webp" alt=""></p>
 <p><img src="/post_img/RustChinaConf2022/FuzzGen.webp" alt=""></p>
 <p><img src="/post_img/RustChinaConf2022/FuzzMutate.webp" alt=""></p>
@@ -219,7 +219,7 @@
 <p><img src="/post_img/RustChinaConf2022/NEAR_codemap.webp" alt=""></p>
 <p>Rust 的包管理器 Cargo 对于小项目来说有很好的默认值，但对于有一定规模的项目来说并没有严格的规范，较为灵活，对于10万-100万行的项目，更推荐扁平结构而不是树形层级。</p>
 <p><img src="/post_img/RustChinaConf2022/ProjectFlat.webp" alt=""></p>
-<p>Rust 项目的构建时间普遍较长，这不止耗费机器资源，还会让开发者因为等待而进行上下文切换上，付出精力成本，也影响对项目的第一印象。而优化构建速度并不遵循二八定律，当编译时间长到一定程度后，并不是修改关键少数几行就能够大大加快编译速度的。
+<p>Rust 项目的构建时间普遍较长，这不止耗费机器资源，还会让开发者因等待编译而进行上下文切换，付出精力成本，也影响对项目的第一印象。而优化构建速度并不遵循二八定律，当编译时间长到一定程度后，并不是修改关键少数几行就能够大大加快编译速度的。
 解决构建问题的银弹只有持续优化，平时就关注 CI 的构建时间，尽可能限制在 10 分钟内。在构建时可使用 <code>--timings</code> 选项分析哪些项目影响编译用时，阅读 <code>Cargo.lock</code> 观察是否有不必要依赖。</p>
 <p><img src="/post_img/RustChinaConf2022/RustTestWrong.webp" alt=""></p>
 <p><img src="/post_img/RustChinaConf2022/ScalableTestInfra.webp" alt=""></p>
@@ -234,7 +234,7 @@
 <p><img src="/post_img/RustChinaConf2022/rustc.webp" alt=""></p>
 <p>赵老师首先回顾了 LLVM 基本架构和 rustc 编译源码过程，介绍了虚假控制流和控制流平坦化这两种常见的混淆技术，并以 Web Assembly 代码混淆为例进行讲解。</p>
 <p><img src="/post_img/RustChinaConf2022/rust_probstack.webp" alt="">为了评估混淆系统的可靠性，在 RustCrypto 等库上开启全局混淆进行测试，发现并解决了一些兼容性问题，还给出了两个具体案例分析。</p>
-<p>混淆对性能和生成文件的体积也会有一定影响，使用 MD5 操作进行评估，在不同混淆级别下的执行速度做了一个曲线图，详情见官方回放。</p>
+<p>混淆对性能和生成文件的体积也会有一定影响，使用 MD5 操作进行评估，在不同混淆级别下的执行速度做了曲线图对比，详情见官方回放。</p>
 <blockquote>
 <p>Rust API可靠性分析与验证</p>
 <p>姜剑峰，蚂蚁集团高级工程师</p>
@@ -262,7 +262,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-08-01 10:07:58 &#43;0800 &#43;0800">2022-08-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/72d29080ae616bec79d11729592924ab3eedb9af" title="Rust China Conf 2022" target="_blank">(72d2908)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/db06e9aaab780ba5ab1a5b98b754e85cc6d6c0df" title="Rust China Conf 2022" target="_blank">(db06e9a)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/RustChinaConf2022.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -274,8 +274,8 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
-          <a href="/tags/%E8%BD%AF%E5%B7%A5/">软工</a>
+          <a href="/tags/%E4%BC%9A%E8%AE%AE/">会议</a>
+          <a href="/tags/rust/">Rust</a>
           </div>
       <nav class="post-nav">
         
