@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Rust China Conf 2022 快速复盘 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/rustchinaconf2022/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Rust China Conf 2022 快速复盘" />
+<meta property="og:description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/rustchinaconf2022/" />
+<meta property="article:published_time" content="2022-08-01T09:20:48+08:00" />
+<meta property="article:modified_time" content="2022-08-01T10:07:58+08:00" />
+<meta itemprop="name" content="Rust China Conf 2022 快速复盘">
+<meta itemprop="description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是">
+<meta itemprop="datePublished" content="2022-08-01T09:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-08-01T10:07:58+08:00" />
+<meta itemprop="wordCount" content="2063">
+
+
+
+<meta itemprop="keywords" content="学术,软工," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rust China Conf 2022 快速复盘"/>
+<meta name="twitter:description" content="第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Rust China Conf 2022 快速复盘</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-08-01 09:20:48 &#43;0800 &#43;0800"> 2022-08-01 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%B0%E5%BD%95/"> 记录 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#主会场">主会场</a></li>
+        <li><a href="#分会场rust-语言研究与应用">分会场：Rust 语言研究与应用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>第二届中国 Rust 开发者大会（Rust China Conf）原本该于 2021 年底在上海西岸智塔举办，可惜由于疫情延期到了今年，以全线上的方式开展，为时一天，上午是主会场，下午是多个分会场及 workshop 同时进行。会议内容之后会有官方的录播和回顾，本文只是对自己所参与两个会场的内容做简要整理，以让读者能够快速捕捉感兴趣的话题。</p>
+<h2 id="主会场">主会场</h2>
+<p>9:00 -12:00，包括四个专题分享和圆桌论坛</p>
+<blockquote>
+<p>Rustdoc：你可以用它做什么，以及它的未来</p>
+<p>Guillaume Gomez，华为工程师，Rustdoc Team Leader</p>
+</blockquote>
+<p>介绍了 rustdoc 的功能特性和一些高级用法，由于时差原因没有 Q&amp;A 环节，详细内容请见官方回放。</p>
+<blockquote>
+<p>Rust 计算加速技术解读及高性能代码重构实践</p>
+<p>李原，华为工程师</p>
+</blockquote>
+<p>SIMD 是提高程序计算性能的重要方式，Rust 中的 SIMD 架构设计如下图：</p>
+<p><img src="/post_img/RustChinaConf2022/SIMD_architecture.webp" alt=""></p>
+<p>具体实现有 stdarch 和 portable-simd，还介绍了其他计算加速技术，并举例说明了 SIMD 重构中的关键点定位和方法实践，详细内容可见官方回放。</p>
+<p><img src="/post_img/RustChinaConf2022/rust_stdarch.webp" alt=""></p>
+<p><img src="/post_img/RustChinaConf2022/rust_portable-simd.webp" alt=""></p>
+<blockquote>
+<p>从零开始实现Rust Fuzzer</p>
+<p>陈鹏，腾讯安全大数据实验室安全研究员</p>
+</blockquote>
+<p>陈鹏老师在 IEEE S&amp;P 2018 上发表了 <a href="https://web.cs.ucdavis.edu/~hchen/paper/chen2018angora.pdf" target="_blank">Angora: Efficient Fuzzing by Principled Search</a>，用他幻灯片中的话说「可能是第一个用 Rust 实现的开源 Fuzzer」，注意这里指的是 Rust 来生成输入，对 Rust 代码进行测试是另一类工作。</p>
+<p><img src="/post_img/RustChinaConf2022/RustFuzzers.webp" alt=""></p>
+<p>好的 Fuzzer 要能生成高质量的输入，最原始的输入可无状态的分布中获得，但为了达到更好的效果需要借助覆盖反馈和 type aware 生成有状态的分布，幻灯片中结合 Rust 实例代码讲解了生成和变异行为的实现。</p>
+<p><img src="/post_img/RustChinaConf2022/FuzzCov.webp" alt=""></p>
+<p><img src="/post_img/RustChinaConf2022/FuzzGen.webp" alt=""></p>
+<p><img src="/post_img/RustChinaConf2022/FuzzMutate.webp" alt=""></p>
+<p>除了生成高质量输入，Fuzzer 在执行时还需要考虑捕获异常，比如 Panic, Abort 和 Unsafe，并保留上下文以复现异常。</p>
+<p><img src="/post_img/RustChinaConf2022/FuzzTrait.webp" alt=""></p>
+<p>总之 Rust 能帮助开发者抽象输入生成，编写高效执行的 Fuzzer 并尽量避免 Fuzzer 自身的漏洞，其提供的 trait 系统也能让 Fuzzer 更加开箱即用，避免引入额外的代码和人工成本。</p>
+<blockquote>
+<p>复杂 Rust 开源项目的维护</p>
+<p>Robert Yan， Near Proctol 工程师</p>
+</blockquote>
+<p>主讲人维护着代码行数超过 17 万的开源项目 <a href="https://github.com/near/nearcore" target="_blank">NEAR</a>，2021年开发者活跃度增长了四倍，本场分享可以说是维护 Rust 大型开源项目的经验心得，其中一些建议并不局限于 Rust 项目，所有开源项目都可以借鉴。</p>
+<p>为项目维护一份简短的 <a href="https://github.com/near/nearcore/blob/master/docs/architecture.md" target="_blank">architecture 文档</a>可以让开发者快速上手，其中可包括：</p>
+<ul>
+<li>鸟瞰图，描绘整个项目的结构</li>
+<li>代码地图（Code Map），简洁地描述主要模块之间的关系，列出文件名即可而无需维护链接，显式地指出架构不变量（architectural invariants）</li>
+</ul>
+<p><img src="/post_img/RustChinaConf2022/NEAR_architecture.webp" alt=""></p>
+<p><img src="/post_img/RustChinaConf2022/NEAR_codemap.webp" alt=""></p>
+<p>Rust 的包管理器 Cargo 对于小项目来说有很好的默认值，但对于有一定规模的项目来说并没有严格的规范，较为灵活，对于10万-100万行的项目，更推荐扁平结构而不是树形层级。</p>
+<p><img src="/post_img/RustChinaConf2022/ProjectFlat.webp" alt=""></p>
+<p>Rust 项目的构建时间普遍较长，这不止耗费机器资源，还会让开发者因为等待而进行上下文切换上，付出精力成本，也影响对项目的第一印象。而优化构建速度并不遵循二八定律，当编译时间长到一定程度后，并不是修改关键少数几行就能够大大加快编译速度的。
+解决构建问题的银弹只有持续优化，平时就关注 CI 的构建时间，尽可能限制在 10 分钟内。在构建时可使用 <code>--timings</code> 选项分析哪些项目影响编译用时，阅读 <code>Cargo.lock</code> 观察是否有不必要依赖。</p>
+<p><img src="/post_img/RustChinaConf2022/RustTestWrong.webp" alt=""></p>
+<p><img src="/post_img/RustChinaConf2022/ScalableTestInfra.webp" alt=""></p>
+<p>在编写测试代码时也要注意避免一些误区，让测试的基础设施具有可扩展性，详细内容可见官方回放。</p>
+<h2 id="分会场rust-语言研究与应用">分会场：Rust 语言研究与应用</h2>
+<p>这个分会场虽然围绕 Rust 语言，但说是安全专场也没问题，从代码混淆，模糊测试，再到编码规范，可以看成是安全开发流程中不断左移的三个阶段。</p>
+<blockquote>
+<p>基于LLVM Rust代码混淆设计与实现</p>
+<p>赵禅，蚂蚁集团基础安全部安全专家</p>
+</blockquote>
+<p>C/C++ 开发的程序经常会使用代码混淆增大逆向难度，而随着 Rust 被越来越多的人使用，对 Rust 代码进行混淆也很有必要。Rust 大量使用 LLVM 作为其编译链工具，而现有的混淆工具大多都是作为 LLVM Pass 来提供混淆功能，其中最著名的便是 <a href="https://github.com/obfuscator-llvm/obfuscator" target="_blank">OLLVM</a>，但其基于 LLVM 4.0 进行开发，与 Rust 不兼容，赵老师及其团队便自行设计实现了基于 LLVM 的 Rust 代码混淆系统。</p>
+<p><img src="/post_img/RustChinaConf2022/rustc.webp" alt=""></p>
+<p>赵老师首先回顾了 LLVM 基本架构和 rustc 编译源码过程，介绍了虚假控制流和控制流平坦化这两种常见的混淆技术，并以 Web Assembly 代码混淆为例进行讲解。</p>
+<p><img src="/post_img/RustChinaConf2022/rust_probstack.webp" alt="">为了评估混淆系统的可靠性，在 RustCrypto 等库上开启全局混淆进行测试，发现并解决了一些兼容性问题，还给出了两个具体案例分析。</p>
+<p>混淆对性能和生成文件的体积也会有一定影响，使用 MD5 操作进行评估，在不同混淆级别下的执行速度做了一个曲线图，详情见官方回放。</p>
+<blockquote>
+<p>Rust API可靠性分析与验证</p>
+<p>姜剑峰，蚂蚁集团高级工程师</p>
+</blockquote>
+<p>Rust 语言结合静态检查与动态检查来实现内存安全，但语言本身提供的这些机制并不足以保证 API 的可靠性：</p>
+<p><img src="/post_img/RustChinaConf2022/RustAPIReliable.webp" alt=""></p>
+<p>而常见的可靠性分析方法也都有其局限：</p>
+<p><img src="/post_img/RustChinaConf2022/ReliableApproach.webp" alt=""></p>
+<p>其中模糊测试技术已得到了较普遍的应用，上午的主会场中陈鹏老师就分享了如何用 Rust 从零开始实现 Fuzzer，而姜老师在复旦大学 Artisan-Lab 读研期间发表于 ASE 2021 的论文 <a href="https://doi.org/10.1109/ASE51524.2021.9678813" target="_blank">RULF: Rust Library Fuzzing via API Dependency Graph Traversal</a> 则是通过合成 API 调用代码来测试 Rust Library，值得一提的是这个工作基于 rustdoc 来提取 API 的签名信息，也算是主会场第一个分享「Rustdoc：你可以用它做什么」的真实案例，详情可见论文或官方回放。</p>
+<p><img src="/post_img/RustChinaConf2022/RULF.webp" alt=""></p>
+<blockquote>
+<p>你为什么需要「Rust 编码规范」</p>
+<p>张汉东，独立企业咨询师</p>
+</blockquote>
+<p>作为国内知名的 Rust 布道者，张汉东老师致力于推广统一的 Rust 编码规范，目前<a href="https://rust-coding-guidelines.github.io/rust-coding-guidelines-zh/" target="_blank">《Rust 编码规范》中文版</a> V 1.0 Beta 版已经发布试行，希望能够翻译推广到国外，详情可见官方回放。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-08-01 10:07:58 &#43;0800 &#43;0800">2022-08-01</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/72d29080ae616bec79d11729592924ab3eedb9af" title="Rust China Conf 2022" target="_blank">(72d2908)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/RustChinaConf2022.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E8%BD%AF%E5%B7%A5/">软工</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/sca-vuln-detect/">
+            <span class="next-text nav-default">静态分析检测漏洞真的有效吗：An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Rust%20China%20Conf%202022%20%e5%bf%ab%e9%80%9f%e5%a4%8d%e7%9b%98 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Rust%20China%20Conf%202022%20%e5%bf%ab%e9%80%9f%e5%a4%8d%e7%9b%98 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
