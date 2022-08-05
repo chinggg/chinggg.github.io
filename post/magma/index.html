@@ -51,7 +51,7 @@
 <meta itemprop="description" content="之前我们分享过 ISSTA 2022 中一篇对静态分析检测漏洞效果进行评估的文章，与其他使用 LAVA-M 合成数据集的工作不同，它的数据集主要基于 Magma，包含了一百多个">
 <meta itemprop="datePublished" content="2022-08-05T15:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-08-05T19:51:35+08:00" />
-<meta itemprop="wordCount" content="3070">
+<meta itemprop="wordCount" content="3068">
 
 
 
@@ -203,7 +203,7 @@
 <li>Performance metrics: 触发 crash 的数量和代码覆盖率都是广泛应用的指标，但没有证据表明两者和发现漏洞的数量有强关联，而判定 ground-truth bug 需要大量专家经验</li>
 <li>Targets: 要有多样性和现实性</li>
 <li>Seed selection: 在各论重复实验和不同 fuzzer 评估中应当保持一致</li>
-<li>Trial duration (timeout): 一次 trial 是指 fuzzer 在目标程序上的一次运行，时间必须固定。f</li>
+<li>Trial duration (timeout): 一次 trial 是指 fuzzer 在目标程序上的一次运行，时间必须固定</li>
 <li>Number of trials: fuzz 这种随机性强的技术需要大量重复，fuzzing campaign 是指在同一目标上运行固定次数的 trial</li>
 </ul>
 <p>本文对比了现存的 fuzzer benchmark，不是 target 数量少就是 bug 种类单一，用人工合成 bug 的难以评估 fuzzer 在真实复杂软件上的效果，用真实 bug 的分布都较为稀疏而且缺乏 ground truth。</p>
@@ -224,7 +224,7 @@
 <h3 id="目标程序的多样性分析">目标程序的多样性分析</h3>
 <p>首先目标程序（即含有 bug 的被测程序）的选择，论文发布时只有 7 个目标程序（截止到 2022 年 8 月，最新版是 v1.2 已经有 9 个目标程序）。文中为了表现其选择的多样性，列了一张表格说明各程序的不同特性。</p>
 <p><img src="/post_img/Magma/targets.webp" alt=""></p>
-<p>为了和现有其他 benchmark 比较目标程序的多样性，从中选取了两百多个 subject（就是 fuzz 可执行程序，文中说是 Libfuzzer 的术语，但网上查证没有结果），使用 Intel Pin 来记录其指令执行，并按照 Intel XED 将指令分类，最后做了一个主成分分析（Principal Component Analysis, PCA）来显示不同 benchmark 所用目标程序的差异，取前四个主成分，在二维平面上的结果如下图所示。</p>
+<p>为了和现有其他 benchmark 比较目标程序的多样性，从中选取了两百多个 subject（就是 fuzz 可执行程序，文中说是 libFuzzer 的术语，但网上查证没有结果），使用 Intel Pin 来记录其指令执行，并按照 Intel XED 将指令分类，最后做了一个主成分分析（Principal Component Analysis, PCA）来显示不同 benchmark 所用目标程序的差异，取前四个主成分，在二维平面上的结果如下图所示。</p>
 <p><img src="/post_img/Magma/PCA_scatter.webp" alt=""></p>
 <h3 id="漏洞多样性和前向移植">漏洞多样性和前向移植</h3>
 <p>在 Bug 的选择上本文也和其他 benchmark 做了比较，Magma 所选 bug 覆盖的 CWE 种类数仅次于 CGC，bug 密度（平均每个目标程序所含的 bug 数）仅次于 LAVA-M，但其他两个都只用了合成的 bug，不能反映现实世界中漏洞的多样性。</p>
@@ -266,7 +266,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-08-05 19:51:35 &#43;0800 &#43;0800">2022-08-05</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/518a7e3b0029ee5eb25cf0d95eff0008139ee169" title="Magma: A Ground-Truth Fuzzing Benchmark" target="_blank">(518a7e3)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/2755173aa038d5e7e12e33a48eb68216b9bcb000" title="Magma: A Ground-Truth Fuzzing Benchmark" target="_blank">(2755173)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Magma.md" target="_blank">更新历史</a>
     </span>
   </p>
