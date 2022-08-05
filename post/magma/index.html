@@ -51,7 +51,7 @@
 <meta itemprop="description" content="之前我们分享过 ISSTA 2022 中一篇对静态分析检测漏洞效果进行评估的文章，与其他使用 LAVA-M 合成数据集的工作不同，它的数据集主要基于 Magma，包含了一百多个">
 <meta itemprop="datePublished" content="2022-08-05T15:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-08-05T19:51:35+08:00" />
-<meta itemprop="wordCount" content="3033">
+<meta itemprop="wordCount" content="3070">
 
 
 
@@ -252,8 +252,8 @@
 <p>评估部分的最后一段 LAVA-M 再做了下比较，结论就是 LAVA-M 中的 bug 种类太单一，对能检测 magic-value 的 fuzzer 有很明显的倾向性。</p>
 <h2 id="总结讨论">总结讨论</h2>
 <p>文末再次强调 Magma 和其他现有 benchmark 不同之处就在于能提供唾手可得的 ground truth，但也承认总共 118 个 bug 中只有 45% 有能证明触发的 PoV，作者把生成更多的 PoV 作为 open challenge，之后 Magma 也会持续进化以获得更多带 PoV 的 bug。</p>
-<p>Magma 的插桩没有收集关于 detected bug 的信息，因为 detection 是 fuzzer 的特性而不只和 bug 本身有关，但可以通过 post-processing 来评估这一指标，结论就是老生常谈的 bug 不限于 crash，需要考虑 bug 的不同表现。就检测 bug 的不同时机而言，reach 主要体现路径探索能力，trigger 和 detect 则更多依赖约束生成求解能力，关注 detect 也能帮助识别那些 bug 更不容易被现存的 santitization 技术发现</p>
-<p>个人认为比较可惜的一点是没有对 fuzzer 在检测不同种类 CWE 的 bug 上的效果做一个对比，文中甚至没有列出具体覆盖了哪些 CWE。</p>
+<p>Magma 的插桩没有收集关于 detected bug 的信息，因为 detection 是 fuzzer 的特性而不只和 bug 本身有关，但可以通过 post-processing 来评估这一指标，结论就是老生常谈的 bug 不限于 crash，需要考虑 bug 的不同表现。就检测 bug 的不同时机而言，reach 主要体现路径探索能力，trigger 和 detect 则更多依赖约束生成求解能力，关注 detect 也能帮助识别哪些 bug 更不容易被现存的 santitization 技术发现。</p>
+<p>个人认为比较可惜的一点是没有对 fuzzer 在检测不同种类 CWE 的 bug 上的效果做一个对比，文中甚至没有列出具体覆盖了哪些 CWE，而之前介绍 ISSTA 2022 上 <a href="https://chinggg.github.io/post/sca-vuln-detect/" target="_blank">An Empirical Study on the Effectiveness of Static C Code Analyzers for Vulnerability Detection</a> 这篇工作倒是重点着墨 CWE 分类。</p>
 
     </div>
 
@@ -266,7 +266,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-08-05 19:51:35 &#43;0800 &#43;0800">2022-08-05</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/7f6adf677668e6b3f4ed109a2261043fe93e0f58" title="Magma: A Ground-Truth Fuzzing Benchmark" target="_blank">(7f6adf6)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/518a7e3b0029ee5eb25cf0d95eff0008139ee169" title="Magma: A Ground-Truth Fuzzing Benchmark" target="_blank">(518a7e3)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Magma.md" target="_blank">更新历史</a>
     </span>
   </p>
