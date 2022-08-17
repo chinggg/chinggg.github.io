@@ -51,7 +51,7 @@
 <meta itemprop="description" content="要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，">
 <meta itemprop="datePublished" content="2022-08-17T12:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-08-17T13:11:22+08:00" />
-<meta itemprop="wordCount" content="2957">
+<meta itemprop="wordCount" content="2976">
 
 
 
@@ -228,7 +228,7 @@
 <p><img src="/post_img/FixReverter/Fig10_venn.webp" alt=""></p>
 <p>这几个 fuzzer 之间比较的结果和 Magma 的结论一样，AFL++ 综合表现最好。不过更重要的是用 fuzz 的结果来评估 FixReverter 和 RevBugBench 本身的作用，作者考虑如下三个问题：</p>
 <ul>
-<li>FixReverter 是否注入了 fuzzer 能发现的 bug？由于静态分析天然具有 conservative 和 overapproximate 的特性，注入的数千个 bug 中只触发了两百个 individual cause，但不同</li>
+<li>FixReverter 是否注入了 fuzzer 能发现的 bug？由于静态分析天然具有 conservative 和 overapproximate 的特性，注入的数千个 bug 中只触发了两百个 individual cause，但从不同 fuzzer 得到的结果看还是有大量 bug 能被发现。</li>
 <li>FixReverter 是否能注入难以发现的 bug？根据上面的文氏图，只有约 40% 的 individual bug 能被所有 fuzzer 检测，约 19% 的 individual 只会被一种 fuzzer 检测，这说明 FixReverter 注入的 bug 不会对单个 fuzzer 过拟合。</li>
 <li>RevBugBench 中的 fuzzer 是否能检测 combination causes？从表中结果来看，所有程序都能检测到 combination causes，不同 fuzzer 的相对性能在使用 individual causes 或 all causes 作为指标时表现相一致。</li>
 </ul>
@@ -251,7 +251,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-08-17 13:11:22 &#43;0800 &#43;0800">2022-08-17</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/64eadedc4dcee021aa1747109e2bec987da76d66" title="Add FixReverter" target="_blank">(64eaded)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/855bf5b6ef7dc4cdec4f674d96a2bf6cb86ccc3f" title="Add FixReverter" target="_blank">(855bf5b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FixReverter.md" target="_blank">更新历史</a>
     </span>
   </p>
