@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>FixReverter：为 fuzz benchmark 插入真实 bug 的方法 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/fixreverter/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="FixReverter：为 fuzz benchmark 插入真实 bug 的方法" />
+<meta property="og:description" content="要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/fixreverter/" />
+<meta property="article:published_time" content="2022-08-17T12:20:48+08:00" />
+<meta property="article:modified_time" content="2022-08-17T13:11:22+08:00" />
+<meta itemprop="name" content="FixReverter：为 fuzz benchmark 插入真实 bug 的方法">
+<meta itemprop="description" content="要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，">
+<meta itemprop="datePublished" content="2022-08-17T12:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-08-17T13:11:22+08:00" />
+<meta itemprop="wordCount" content="2957">
+
+
+
+<meta itemprop="keywords" content="学术,安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FixReverter：为 fuzz benchmark 插入真实 bug 的方法"/>
+<meta name="twitter:description" content="要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">FixReverter：为 fuzz benchmark 插入真实 bug 的方法</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-08-17 12:20:48 &#43;0800 &#43;0800"> 2022-08-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#背景动机">背景动机</a></li>
+        <li><a href="#bugfix-pattern">Bugfix Pattern</a></li>
+        <li><a href="#fixreverter">FixReverter</a></li>
+        <li><a href="#revbugbench">RevBugBench</a></li>
+        <li><a href="#总结展望">总结展望</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>要实现一个 fuzzing benchmark，必不可少的一步是制作 bug 数据集，以往的工作要么耗费人力使用真实 CVE，要么牺牲现实性自动插入人工合成的 bug，而我们之前讲过的 Magma 虽然使用了 forward-porting 来将真实 bug 插入到软件的最新版本，但获得 ground-truth 仍离不开大量人力。今天推荐的文章 FixReverter 则独具慧眼地从大量 CVE 的修复中总结出三种 bugfix pattern，通过语法匹配来自动识别程序中的 bugfix ，逆转这些 bugfix 即可自动插入具有现实性的 bug。我们在一个月前就注意到了这个工作，但文章直到上周 USENIX Security 2022 会议进行时才公布，还获得了 distinguished paper award。</p>
+<h2 id="背景动机">背景动机</h2>
+<p>和 Magma 一样，为了证明自己发明新 benchmark 的必要性和优越性，作者上来先规定了四个小目标（Goal）：</p>
+<ul>
+<li>目标程序应当和现实世界相关</li>
+<li>程序中应当包含现实 bug</li>
+<li>要能清晰地判定 bug 触发以避免去重（deduplication)的问题</li>
+<li>benchmark 要能抵抗过拟合（overfitting）</li>
+</ul>
+<p>实际上这几个目标和 Magma 所提出的理想 benchmark 属性有所重合，Magma 中定义的 diversity 已包含了前两个目标强调的现实性，第三个目标则体现为 Magma 中的 verifiablity，这些目标已经被 Magma 用来对 FuzzBench, UniFuzz, CGC 等 benchmark 进行了批判。而最后一个目标防止 overfitting 其实 Magma 作者也有考虑，其在论文中表示这是 static benchmark 的通病，不过 Magma 采用 forward-porting 快速更新目标程序可以一定程度上减缓这个问题。</p>
+<p>FixReverter 就利用抗过拟合这一点证明了自己工作的价值：自动注入 bug 来构建的 benchmark 可以抵御 overfitting，而且和 LAVA 这种注入合成 bug 的方法不同，FixReverter 通过观察大量 bugfix 归纳出了三种常见修复模式（bugfix pattern），可以通过自动匹配并逆转程序中的修复模式来达到注入现实 bug 的效果，作者还基于 FixReverter 开发了 RevBugBench，并集成到 FuzzBench 中对 5 种 fuzzer 进行了评测。</p>
+<h2 id="bugfix-pattern">Bugfix Pattern</h2>
+<p>通过观察六个开源软件和 Magma 数据集中一共 814 个 CVE，作者最终使用了 170 个 CVE 匹配出三种通用的修复模式，即 <em>conditional-abort</em> (ABORT), <em>conditional-execute</em> (EXEC) 和 <em>conditional-assign</em> (ASSIGN)。</p>
+<p><strong>ABORT</strong> 就是在下游代码解引用（dereference）某一变量之前检查其是否满足某一不变式（invariant），若不满足则直接跳出控制流，如下图就是 ABORT 模式修复空指针解引用的一个例子：</p>
+<p><img src="/post_img/FixReverter/Fig2_ABORT_CVE.webp" alt=""></p>
+<p><strong>EXEC</strong> 就是在现有条件语句里再加上一个布尔表达式来检查条件体里被解引用的变量是否满足某一不变式，这样的修复使 true 分支的条件更为严格，如下图就是 EXEC 模式修复空指针引用的一个例子：</p>
+<p><img src="/post_img/FixReverter/Fig3_EXEC_CVE.webp" alt=""></p>
+<p><strong>ASSIGN</strong> 就是在下游代码解引用某一变量之前加上一个 if 语句给变量赋新值，如下图就是 ASSIGN 模式修复越界写错误的一个例子：</p>
+<p><img src="/post_img/FixReverter/Fig4_ASSIGN_CVE.webp" alt=""></p>
+<p>这三种模式都和条件语句相关，解引用代码所处的位置可能在条件表达式内或是随后的程序中，这影响了不同 pattern 所适用的语义条件（semantic condition）。</p>
+<h2 id="fixreverter">FixReverter</h2>
+<p>整体架构如下图所示：</p>
+<p><img src="/post_img/FixReverter/Fig1_arch.webp" alt=""></p>
+<p>首先用上下文无关文法（context-free grammar, CFG）定义了下图所示的修复模式和条件表达式：</p>
+<p><img src="/post_img/FixReverter/Fig5_CFG_pat.webp" alt=""></p>
+<p><img src="/post_img/FixReverter/Fig6_CFG_cond_expr.webp" alt=""></p>
+<p>在这些密密麻麻的语法中，有一些终结符（terminal）代表 <em>tracer</em>，用来识别被解引用的变量。</p>
+<p>FixReverter 用 Clang LibTool 实现了语法匹配器（syntax matcher）来读入上面提到的这些语法文件，将其转化为状态机，然后以访问者模式遍历 Clang AST，在遇到的每个语句中寻找 token 并喂给状态机来匹配定义的 pattern，收集到的 token 会被放入 JSON 文件中以供后续阶段使用。</p>
+<p>FixReverter 的静态可达性和依赖分析（static reachability &amp; dependence analysis）会收集 syntax matcher 输出的 tracer，判断其是否在给定的入点可达，以及随后的解引用是否依赖于 tracer。从污点分析的角度看，tracer 就是 source，随后的解引用是 sink，比如读写 traced pointer。当 bugfix 被逆转，程序直接执行到 sink 处就可能触发 bug。</p>
+<p>静态分析的具体实现基于 Phasar 框架，并扩展了其现有的 IFDSTaintAnalysis 模块，解决了其中一些问题，但仍受限于其 unsound 的控制流分析，可能会导致漏报。</p>
+<p>FixReverter 的 bug 注入器（injecter）基于 Clang LibTool 实现，注入的代码能够区分 fuzz 执行中 not reached, reached, trigger 的三种状态，这部分和 Magma 类似，通过插入预处理宏来适应不同的场景。如下图所示，当 <code>FRCOV</code> 宏未定义时，原本的 ABORT 模式被替换为 <code>if(0) continue</code>，没有引入新的分支所以不会让控制流敏感的 fuzzer 产生 bias。而当定义了 <code>FRCOV</code> 宏之后，可以启用额外的逻辑来检查是否满足 trigger 条件，并和 reach 区分，用于之后的 traige 过程。此外，单个 injection 是否被开启也可以通过环境变量控制，最终会影响下图中 <code>injectFlag[529]</code> 的值。</p>
+<p><img src="/post_img/FixReverter/Fig7_example.webp" alt=""></p>
+<p>当然这样注入的 bug 可能有一些质量并不高，RixReverter 会用 <em>naive bug filter</em> 筛除掉，具体来说就是导致程序自带单元测试失败，或是用 fuzz 的初始输入就能触发的 bug 会被丢弃。</p>
+<p>当 fuzzer 导致程序产生 crash，作者还希望 FixReverter 报告原因，这并没有看上去那么简单，因为一个条件被触发并不意味着 dependent variable 一定（must）会被解引用，而只是能够（could）。运行单个输入可能触发好几个 injection，所以需要一个诊断（triage）的过程来判断哪些是产生 crash 的必要 bug，最终区分如下两类原因：</p>
+<ul>
+<li>当程序输入 $I$ 在注入单个 bug（假设为 $A$ ）就足以导致 crash 时，认为是触发 $A$ 是 individual cause</li>
+<li>当程序输入只有在注入多个 bug（假设为 $A$, $B$）才导致 crash 时，认为触发原因是 combination of $A$ and $B$</li>
+</ul>
+<p>Bug triage 的算法如下所示，就是先找 invidudual causes 再找 combination causes。</p>
+<p><img src="/post_img/FixReverter/Fig8_triage_algo.webp" alt=""></p>
+<h2 id="revbugbench">RevBugBench</h2>
+<p>有了 FixReverter 这个 bug 注入器后就能做一个 benchmark，作者共选择了 10 个目标程序，其中 8 个来自 FuzzBench，另外 2 个是 binutils 中常用的两个工具。如下表所示，经过语法匹配、静态分析和最终筛选之后一共注入了超过 7900 个 bug，静态分析丢弃了最初语法匹配所得 bug 中的 71% ，而 naive bug filter 只筛除了 102 个 bug。</p>
+<p><img src="/post_img/FixReverter/table1.webp" alt=""></p>
+<p>FuzzBench 是一个集成了许多 fuzzer 的 benchmark 服务，但其主要关注的是代码覆盖率，用 stack trace 来区分 bug 的方式并不可靠，作者把 RevBugBench 集成到 FuzzBench 以对不同 fuzzer 探索现实应用中 bug 的能力做大规模且可复现的评估。具体来说扩展了 FuzzBench 的三个关键组件，即 <em>benchmarks</em> (target programs), <em>measurer</em> (on-the-fly result analyzer) 和 <em>reporter</em> (statistical analysis of results)。</p>
+<p>最终在 AFL, libFuzzer, AFL++, Eclipser 和 FairFuzz 这 5 个 fuzzer 上的实验结果如下表所示，其中 MetaFuzzer 是所有 fuzzer 发现 bug 之和，代表了结果的上界。</p>
+<p><img src="/post_img/FixReverter/table2.webp" alt=""></p>
+<p>不同 fuzzer 所发现 individual bugs 的文氏图如下：</p>
+<p><img src="/post_img/FixReverter/Fig10_venn.webp" alt=""></p>
+<p>这几个 fuzzer 之间比较的结果和 Magma 的结论一样，AFL++ 综合表现最好。不过更重要的是用 fuzz 的结果来评估 FixReverter 和 RevBugBench 本身的作用，作者考虑如下三个问题：</p>
+<ul>
+<li>FixReverter 是否注入了 fuzzer 能发现的 bug？由于静态分析天然具有 conservative 和 overapproximate 的特性，注入的数千个 bug 中只触发了两百个 individual cause，但不同</li>
+<li>FixReverter 是否能注入难以发现的 bug？根据上面的文氏图，只有约 40% 的 individual bug 能被所有 fuzzer 检测，约 19% 的 individual 只会被一种 fuzzer 检测，这说明 FixReverter 注入的 bug 不会对单个 fuzzer 过拟合。</li>
+<li>RevBugBench 中的 fuzzer 是否能检测 combination causes？从表中结果来看，所有程序都能检测到 combination causes，不同 fuzzer 的相对性能在使用 individual causes 或 all causes 作为指标时表现相一致。</li>
+</ul>
+<h2 id="总结展望">总结展望</h2>
+<p>作者通过观察 CVE 中的 bugfix pattern，运用语法匹配和静态分析来查找并逆转这些 pattern，提出了 FixReverter 这一自动注入 bug 的框架，让 benchmark 随着新插入的 bug 和新的 pattern 不断进化。</p>
+<p>作者表示后续会在静态分析上进行改进，让结果更加 sound。还有就是扩展新的 bugfix pattern，作者计划引入新的 pattern 不涉及控制流变化，而是定义新的 semantic condition。</p>
+<p>此外，作者在社交媒体上表示除了已经释出的 artifact，月末还将发布论文附录来介绍 artifacts，大家可以持续关注！</p>
+<p><img src="/post_img/FixReverter/tweet.webp" alt=""></p>
+<p>论文地址：<a href="https://www.usenix.org/system/files/sec22-zhang-zenong.pdf">https://www.usenix.org/system/files/sec22-zhang-zenong.pdf</a></p>
+<p>Artifact 地址：<a href="https://zenodo.org/record/6831960">https://zenodo.org/record/6831960</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-08-17 13:11:22 &#43;0800 &#43;0800">2022-08-17</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/64eadedc4dcee021aa1747109e2bec987da76d66" title="Add FixReverter" target="_blank">(64eaded)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/FixReverter.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/magma/">
+            <span class="next-text nav-default">Magma: A Ground-Truth Fuzzing Benchmark</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"FixReverter%ef%bc%9a%e4%b8%ba%20fuzz%20benchmark%20%e6%8f%92%e5%85%a5%e7%9c%9f%e5%ae%9e%20bug%20%e7%9a%84%e6%96%b9%e6%b3%95 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=FixReverter%ef%bc%9a%e4%b8%ba%20fuzz%20benchmark%20%e6%8f%92%e5%85%a5%e7%9c%9f%e5%ae%9e%20bug%20%e7%9a%84%e6%96%b9%e6%b3%95 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
