@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LibAFL：构建模块化可复用 fuzzer 的框架 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="如今系统安全方向的论文在代码开源上已经展开了激烈的军备竞赛，一篇文章动辄成千上万行的代码量，今天我们推荐的这篇 LibAFL 则更胜一筹，先有开源工具再顺" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/libafl/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="LibAFL：构建模块化可复用 fuzzer 的框架" />
+<meta property="og:description" content="如今系统安全方向的论文在代码开源上已经展开了激烈的军备竞赛，一篇文章动辄成千上万行的代码量，今天我们推荐的这篇 LibAFL 则更胜一筹，先有开源工具再顺" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/libafl/" />
+<meta property="article:published_time" content="2022-08-24T20:20:48+08:00" />
+<meta property="article:modified_time" content="2022-08-24T21:17:52+08:00" />
+<meta itemprop="name" content="LibAFL：构建模块化可复用 fuzzer 的框架">
+<meta itemprop="description" content="如今系统安全方向的论文在代码开源上已经展开了激烈的军备竞赛，一篇文章动辄成千上万行的代码量，今天我们推荐的这篇 LibAFL 则更胜一筹，先有开源工具再顺">
+<meta itemprop="datePublished" content="2022-08-24T20:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-08-24T21:17:52+08:00" />
+<meta itemprop="wordCount" content="2148">
+
+
+
+<meta itemprop="keywords" content="学术,安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LibAFL：构建模块化可复用 fuzzer 的框架"/>
+<meta name="twitter:description" content="如今系统安全方向的论文在代码开源上已经展开了激烈的军备竞赛，一篇文章动辄成千上万行的代码量，今天我们推荐的这篇 LibAFL 则更胜一筹，先有开源工具再顺"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LibAFL：构建模块化可复用 fuzzer 的框架</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-08-24 20:20:48 &#43;0800 &#43;0800"> 2022-08-24 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+
+    <div class="post-content">
+      <p>如今系统安全方向的论文在代码开源上已经展开了激烈的军备竞赛，一篇文章动辄成千上万行的代码量，今天我们推荐的这篇 LibAFL 则更胜一筹，先有开源工具再顺便写了篇论文，还发到了 CCS 2022。</p>
+<p>Fuzzing 研究百花齐放，工具层出不穷，很多都基于 AFL/AFL++ 进行二次开发，互相之间却又不兼容，让引入新特性和验证工作效果非常麻烦，本文作者身为 AFL++ 社区的主要维护者，对目前 fuzzer 界分裂的现状深感不满，认为这不仅是工程问题，更反映了目前对 fuzzer 的实体（entity）缺乏一个标准的定义，于是他提出了如下 9 个实体来定义 modern fuzzer 的组成：</p>
+<ul>
+<li><strong>Input</strong>：程序的输入。重点是其在 fuzzer 内部的表现形式，最常见的就是 byte array，不过其不适用于一些特殊场景，比如 grammar fuzzer 会将输入存储为 AST 等结构，在发送给目标程序前才会序列化为字节序列。</li>
+<li><strong>Corpus</strong>：输入和其附属元数据的存储。若位于内存中会导致较大的资源消耗，若位于磁盘则方便用户观察 fuzzer 的状态，代价是速度受到磁盘读写的瓶颈制约，主流 fuzzer 大多选择后者。此外，存储时还要区分有助于进化的 <em>interesting</em> testcase 和最终触发 crash 的 <em>solution</em>。</li>
+<li><strong>Scheduler</strong>：从 corpus 中选取 testcase 的调度策略。最朴素的即先进先出或随机选择，近年来也有工作利用调度来给 testcase 排优先级或是防止 testcase 爆炸。</li>
+<li><strong>Stage</strong>：定义对单个 testcase 进行的操作（action）。在 scheduler 选择了一个 testcase 后，fuzzer 会在其上进行分阶段的操作，比如 AFL 中的 <em>random havoc</em> stage 会对输入进行多种变异操作，许多 fuzzer 都有 minimization phase 以在保持覆盖率的同时减小 testcase，这也是一种 stage。</li>
+<li><strong>Observer</strong>：提供一次执行目标程序的信息。从对 fuzzer state 的影响看，observer 的快照应当和执行本身应当是等效的，这样在分布式 fuzzer 或是执行很慢的目标程序上会比较有帮助。覆盖导向型 fuzzer 中常用的 coverage map 就是一种 observer。</li>
+<li><strong>Executor</strong>：用 fuzzer 的输入来执行目标程序。不同 fuzzer 在这方面区别可能很大，libFuzzer 这种 in-memory fuzzer 只需调用 harness 函数，Nyx 这种 hypervisor-based fuzzer 则每次执行都要从快照重启整个系统。</li>
+<li><strong>Feedback</strong>：将程序执行的结果分类以决定是否将其加入 corpus。大多数情况下 Feedback 和 observer 紧密相连但又有所不同，feedback 通常处理一个或多个 observer 报告的信息来判断 execution 是否 &ldquo;interesting&rdquo;，是否是满足条件的 <em>solution</em>，比如可观测的 crash。</li>
+<li><strong>Mutator</strong>：从一个或多个输入生成新的 testcase。这部分通常是定制 fuzzer 时最常改动的，不同 mutator 可以组合，往往还和特定的输入类型绑定，比如传统 fuzzer 中常见的是比特级别的变异，比如 bit flip 和 blocks swapping，而 grammar fuzzer 中的 mutator 则可交换 AST 上的节点来进行变异。</li>
+<li><strong>Generator</strong>：凭空产生新的输入。有随机生成的，也有 Nautilus 这种基于语法的。</li>
+</ul>
+<p>基于上面这许多抽象的定义，作者用 Rust 实现了 LibAFL，有三个主要组成部分：核心组件 <strong>LibAFL Core</strong>, 在目标程序中运行的 <strong>LibAFL Targets</strong>，提供编译 wrapper 的 <strong>LibAFL CC</strong>，除此之外还包含了几个插桩后端（Instrumentation Backends），下图描绘了 LibAFL Core 的架构：</p>
+<p><img src="/post_img/LibAFL/CoreArch.webp" alt=""></p>
+<p>从图中可以看到 LibAFL 的组成部分，除了 State, Fuzzer 和 Events Manager 这三个大模块之外，大部分都一一对应前文所定义的 9 大实体。总之，模块化的设计让 LibAFL 天生具有极强的 <strong>Extensibility</strong>，基于 Rust 实现，独立于平台和不依赖标准库带来了 <strong>Portability</strong>，Event Manager 使得多节点并行 fuzz 的 <strong>Scalability</strong> 成为可能，这便是 LibAFL 设计之初所遵循的三个原则。</p>
+<p>实验部分主要是用 LibAFL 实现了各种 fuzzing 技术并评估其在解决不同问题上的效果，这里就不一一展示了，看完只觉得略有些恐怖，LibAFL 就像手术刀一样把所有 fuzz 技术都剖析得清清楚楚，有没有可能之后所有的 fuzz 工作都需要用 LibAFL 实现一下才能服众？</p>
+<p>在文末作者还介绍了目前的缺陷主要是缺少链接时优化（Link Time Optimization） passes，不能分析整个程序的控制流图，无法实现 directed fuzzing，不过这一特性的支持只是时间问题。未来可以着重关注并实现的强大功能是 concolic tracing API，可以解决传统 concolic fuzzer 中 concolic engine 和 fuzzer 难以协作和伸缩性差的问题。</p>
+<p>简要介绍完了论文，我们再来关注一下项目本身一些有趣的点：</p>
+<p>作者选择用 Rust 实现 LibAFL，并在文中特意强调了零开销抽象带来的好处，无独有偶，在结束不久的的第二届中国 Rust 开发者大会上，陈鹏老师展示了如何用 Rust 从零实现 fuzzer，他发表在 IEEE S&amp;P 2018 的 <a href="https://web.cs.ucdavis.edu/~hchen/paper/chen2018angora.pdf" target="_blank">Angora: Efficient Fuzzing by Principled Search</a> 就是「第一个用 Rust 实现的开源 fuzzer」，详情可见 <a href="https://mp.weixin.qq.com/s?__biz=MzAwOTA3MjQwMQ==&amp;mid=2651134665&amp;idx=1&amp;sn=073dde23a3f36562b76cbeb6e37d1cba&amp;chksm=809480b7b7e309a126a28f5dc10749fe62e3facc4d42205df208452d91321dce7faf0db5ae05" target="_blank">SHU 开源社区的这篇推文</a>，总之我们期待 Rust 在安全研究中得到广泛应用。</p>
+<p>其他论文放出的开源代码往往只有作者自己维护，而 LibAFL 则从一开始就是 AFL++ 社区的开源项目，如果你感兴趣，就有机会直接贡献代码。本文第三作者就在 Google Summer of Code 2021 中为 LibAFL 实现了 AFLFast 和 MOpt 这两种 scheduler，目前已是项目的主要维护者之一，而今年的 Google Summer of Code 则有另一位学生将 Nyx 引入 LibAFL，这可能说明了参与开源和进行研究也是相辅相成的，总有人在论文发到飞起的同时还能让 GitHub 绿点满满，让人不得不佩服。</p>
+<p><img src="/post_img/LibAFL/contributors.webp" alt=""></p>
+<p>论文地址：<a href="https://www.s3.eurecom.fr/docs/ccs22_fioraldi.pdf">https://www.s3.eurecom.fr/docs/ccs22_fioraldi.pdf</a></p>
+<p>项目地址：<a href="https://github.com/AFLplusplus/LibAFL">https://github.com/AFLplusplus/LibAFL</a></p>
+<p>Artifacts 地址：<a href="https://github.com/AFLplusplus/libafl_paper_artifacts">https://github.com/AFLplusplus/libafl_paper_artifacts</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-08-24 21:17:52 &#43;0800 &#43;0800">2022-08-24</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/214db6b2d574f0b4206441cc3cbc2c931eeb0126" title="LibAFL" target="_blank">(214db6b)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/LibAFL.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/fixreverter/">
+            <span class="next-text nav-default">FixReverter：为 fuzz benchmark 插入真实 bug 的方法</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"LibAFL%ef%bc%9a%e6%9e%84%e5%bb%ba%e6%a8%a1%e5%9d%97%e5%8c%96%e5%8f%af%e5%a4%8d%e7%94%a8%20fuzzer%20%e7%9a%84%e6%a1%86%e6%9e%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=LibAFL%ef%bc%9a%e6%9e%84%e5%bb%ba%e6%a8%a1%e5%9d%97%e5%8c%96%e5%8f%af%e5%a4%8d%e7%94%a8%20fuzzer%20%e7%9a%84%e6%a1%86%e6%9e%b6 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
