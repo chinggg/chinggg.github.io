@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>My Experience in Summer of Bitcoin 2022 - chinggg的博客</title>
+  <title>My Summer of Bitcoin 2022 Experience - chinggg的博客</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -18,7 +18,7 @@
 
 <meta name="author" content="chinggg" /><meta name="description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
- When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke." /><meta name="keywords" content="chinggg, blog" />
+ When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and one of the 5 students to contribute to Bitcoin Core under the guidance of Marco Falke." /><meta name="keywords" content="chinggg, blog" />
 
 
 <meta name="baidu-site-verification" content="chinggg" />
@@ -43,30 +43,30 @@
 
 
 
-<meta property="og:title" content="My Experience in Summer of Bitcoin 2022" />
+<meta property="og:title" content="My Summer of Bitcoin 2022 Experience" />
 <meta property="og:description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
- When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke." />
+ When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and one of the 5 students to contribute to Bitcoin Core under the guidance of Marco Falke." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/summer-of-bitcoin/" />
 <meta property="article:published_time" content="2022-05-13T21:20:48+08:00" />
-<meta property="article:modified_time" content="2022-08-24T21:17:52+08:00" />
-<meta itemprop="name" content="My Experience in Summer of Bitcoin 2022">
+<meta property="article:modified_time" content="2022-08-25T23:18:39+08:00" />
+<meta itemprop="name" content="My Summer of Bitcoin 2022 Experience">
 <meta itemprop="description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
- When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke.">
+ When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and one of the 5 students to contribute to Bitcoin Core under the guidance of Marco Falke.">
 <meta itemprop="datePublished" content="2022-05-13T21:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-08-24T21:17:52+08:00" />
-<meta itemprop="wordCount" content="1527">
+<meta itemprop="dateModified" content="2022-08-25T23:18:39+08:00" />
+<meta itemprop="wordCount" content="1901">
 
 
 
 <meta itemprop="keywords" content="Bitcoin,Fuzzing,Open-Source," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="My Experience in Summer of Bitcoin 2022"/>
+<meta name="twitter:title" content="My Summer of Bitcoin 2022 Experience"/>
 <meta name="twitter:description" content="What is Summer of Bitcoin?
  a global, online summer internship program focused on introducing university students to bitcoin open-source development and design
- When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and contribute to Bitcoin Core under the guidance of Marco Falke."/>
+ When I started to write my proposal for it, there was only one week to go before the deadline. Luckily, my experience with OSS-Fuzz and my efforts paid off. I am proud to become one of the 83 students who will participate in Summer of Bitcoin 2022 and one of the 5 students to contribute to Bitcoin Core under the guidance of Marco Falke."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -155,7 +155,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">My Experience in Summer of Bitcoin 2022</h1>
+      <h1 class="post-title">My Summer of Bitcoin 2022 Experience</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2022-05-13 21:20:48 &#43;0800 &#43;0800"> 2022-05-13 </span>
@@ -177,6 +177,8 @@
         <li><a href="#onboarding-to-bitcoin-core">Onboarding to Bitcoin Core</a></li>
         <li><a href="#fuzzing-orphan-transaction">Fuzzing Orphan Transaction</a></li>
         <li><a href="#the-low-level-fuzz-target">The low-level fuzz target</a></li>
+        <li><a href="#the-bug-in-fuzz-target-itself">The bug in Fuzz Target itself</a></li>
+        <li><a href="#package-relay">Package Relay</a></li>
         <li><a href="#seminars">Seminars</a>
           <ul>
             <li><a href="#week-1">Week 1</a></li>
@@ -196,7 +198,7 @@
 <blockquote>
 <p>a global, online summer internship program focused on introducing university students to bitcoin open-source development and design</p>
 </blockquote>
-<p>When I started to write <a href="https://docs.google.com/document/d/1KgP0871STVvxfwstPy3-QeKYUPs8lS1kPEaDAylTVAU" target="_blank">my proposal</a> for it, there was only one week to go before the deadline. Luckily, my experience with <a href="https://google.github.io/oss-fuzz" target="_blank">OSS-Fuzz</a> and my efforts paid off. I am proud to become one of the 83 students who will participate in <a href="https://blog.summerofbitcoin.org/summer-of-bitcoin-2022/" target="_blank">Summer of Bitcoin 2022</a> and contribute to <a href="https://www.summerofbitcoin.org/project-ideas-details?recordId=recCchSe44H6ABRWH" target="_blank">Bitcoin Core</a> under the guidance of <a href="https://github.com/MarcoFalke" target="_blank">Marco Falke</a>.</p>
+<p>When I started to write <a href="https://docs.google.com/document/d/1KgP0871STVvxfwstPy3-QeKYUPs8lS1kPEaDAylTVAU" target="_blank">my proposal</a> for it, there was only one week to go before the deadline. Luckily, my experience with <a href="https://google.github.io/oss-fuzz" target="_blank">OSS-Fuzz</a> and my efforts paid off. I am proud to become one of the 83 students who will participate in <a href="https://blog.summerofbitcoin.org/summer-of-bitcoin-2022/" target="_blank">Summer of Bitcoin 2022</a> and one of the 5 students to contribute to <a href="https://www.summerofbitcoin.org/project-ideas-details?recordId=recCchSe44H6ABRWH" target="_blank">Bitcoin Core</a> under the guidance of <a href="https://github.com/MarcoFalke" target="_blank">Marco Falke</a>.</p>
 <h2 id="onboarding-to-bitcoin-core">Onboarding to Bitcoin Core</h2>
 <p>After a Jitsi meeting with my mentor, I get some resources.</p>
 <p><a href="https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies">https://github.com/bitcoin-core/bitcoin-devwiki/wiki/Fuzz-Trophies</a></p>
@@ -218,7 +220,7 @@ make cov_fuzz  # generate html report under fuzz.coverage
 </code></pre>
 <h2 id="fuzzing-orphan-transaction">Fuzzing Orphan Transaction</h2>
 <p>I made a 5-minute <a href="../../presentations/bitcoin-orphantx">presentation</a> to my classmates, trying to illustrate what orphan transaction is and why it can cause problems.</p>
-<p>I also written an article about Bitcoin&rsquo;s fuzzing infrastracture, which has been posted on Summer of Bitcoin&rsquo;s <a href="https://blog.summerofbitcoin.org/fuzzing-evolution-how-developers-make-bitcoin-more-secure/" target="_blank">official blog</a>.</p>
+<p>I also wrote an article about Bitcoin&rsquo;s fuzzing infrastracture, which has been posted on Summer of Bitcoin&rsquo;s <a href="https://blog.summerofbitcoin.org/fuzzing-evolution-how-developers-make-bitcoin-more-secure/" target="_blank">official blog</a>.</p>
 <p>The code that handles orphan transactions is in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/txorphanage.cpp" target="_blank"><code>src/txorphanage.cpp</code></a>, of which the <a href="https://marcofalke.github.io/btc_cov/fuzz.coverage/src/txorphanage.cpp.gcov.html" target="_blank">code coverage</a> is about 65%.</p>
 <p>To be specific, 3 out of 8 functions are not covered yet, which are listed below.</p>
 <pre><code class="language-cpp">void TxOrphanage::AddChildrenToWorkSet(const CTransaction&amp; tx, std::set&lt;uint256&gt;&amp; orphan_work_set) const
@@ -238,7 +240,27 @@ void TxOrphanage::EraseForBlock(const CBlock&amp; block)
 <p>I think you can just remove the chainstate/mempool stuff from the <a href="https://github.com/bitcoin/bitcoin/blob/master/src/test/fuzz/tx_pool.cpp#L140" target="_blank"><code>tx_pool_standard</code></a> and then call into txorphanage wherever it called into mempool. (After all, txorphanage is just like the mempool a data structure to store transactions).</p>
 <p>The tx-creation function you can leave as-is or simplify a bit, as most parts aren&rsquo;t needed.</p>
 </blockquote>
-<p>After some dumb <a href="https://github.com/chinggg/bitcoin/commit/3a41d2764820a2b09beb2472068299ef71869a97#diff-94749187f350958b70219c5f9d28fe06ff5245086c92339275ee137db8b2461f" target="_blank">commits</a>, I created <a href="https://github.com/bitcoin/bitcoin/pull/25447" target="_blank">PR#25447</a> to add low-level fuzz target for txorphanage.</p>
+<p>After some dumb <a href="https://github.com/chinggg/bitcoin/commit/3a41d2764820a2b09beb2472068299ef71869a97#diff-94749187f350958b70219c5f9d28fe06ff5245086c92339275ee137db8b2461f" target="_blank">commits</a>, I created <a href="https://github.com/bitcoin/bitcoin/pull/25447" target="_blank">PR#25447</a> to add low-level fuzz target for txorphanage, which got merged after lots of review and discussion.</p>
+<h2 id="the-bug-in-fuzz-target-itself">The bug in Fuzz Target itself</h2>
+<p>Soon after the <code>txorphan</code> fuzz target get merged, my mentor reminded me there was a bug in the fuzz target: <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=48914">https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=48914</a></p>
+<p>I quickly found that that was due to a wrong assertion. <code>AddTx</code> will return false when tx has weight larger than the max limit, I thought it will not have too much weight so I just asserted it should return true if tx is not in <code>m_orphans</code>.</p>
+<p>I submitted the fix in <a href="https://github.com/bitcoin/bitcoin/pull/25624">https://github.com/bitcoin/bitcoin/pull/25624</a> and it got merged.</p>
+<p>Another bug did not appear until a week later:</p>
+<blockquote>
+<p>Interestingly, it looks like oss-fuzz found another issue, but didn&rsquo;t report it until now: <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49347">https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49347</a></p>
+</blockquote>
+<p>There are 3 orphans and all of them are erased due to expiration in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/txorphanage.cpp#L113-L128">https://github.com/bitcoin/bitcoin/blob/master/src/txorphanage.cpp#L113-L128</a>. nErased is used to count  them but the function only returned nEvicted, which is 0 since they were counted only in the last loop.</p>
+<p>I thought it was a confusing behavior and<code>nErased</code> should be added to <code>nEvicted</code> so the function return the correct number of <strong>removed</strong> tx, but my mentor argued that returning void is enough. Finally the PR <a href="https://github.com/bitcoin/bitcoin/pull/25683">https://github.com/bitcoin/bitcoin/pull/25683</a> is merged to make small refactoring and fix the error.</p>
+<blockquote>
+<p><code>LimitOrphans()</code> removes expired transactions from the orphanage and additionally evicts transactions at random should the limit still be exceeded after removing expired transactions. Before this PR, the number of evicted transactions (excluding the number of expired transactions) was returned, which let to hitting an asserting in the fuzz tests that assumed the return value to be the total number of removed transactions (evicted + expired).</p>
+</blockquote>
+<h2 id="package-relay">Package Relay</h2>
+<blockquote>
+<p>I am actually thinking that we could look into fuzzing package relay, as package relay will potentially replace txorphans.</p>
+<p>So my basic idea would be to get a nice function to create a &ldquo;package&rdquo; of transactions. This primitive will be likely be needed by both high-level orphan acceptance handling, as well as mempool package acceptance handling.</p>
+</blockquote>
+<p>The definition of a package: <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md#definitions">https://github.com/bitcoin/bitcoin/blob/master/doc/policy/packages.md#definitions</a></p>
+<p>I have made a <a href="https://github.com/bitcoin/bitcoin/pull/25778" target="_blank">draft PR</a> to test package processing, currently it contains some faults, my mentor and I are not so familiar with package processing so we are still trying to figure out the root cause.</p>
 <h2 id="seminars">Seminars</h2>
 <h3 id="week-1">Week 1</h3>
 <p>Reading material: <a href="https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/welcome-to-the-bitcoin-protocol">https://chaincode.gitbook.io/seminars/bitcoin-protocol-development/welcome-to-the-bitcoin-protocol</a></p>
@@ -330,8 +352,8 @@ void TxOrphanage::EraseForBlock(const CBlock&amp; block)
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-08-24 21:17:52 &#43;0800 &#43;0800">2022-08-24</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/214db6b2d574f0b4206441cc3cbc2c931eeb0126" title="LibAFL" target="_blank">(214db6b)</a>
+        <span title="2022-08-25 23:18:39 &#43;0800 &#43;0800">2022-08-25</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/baac2206974002da4c789e2037ef86ddf207c409" title="Summer of Bitcoin" target="_blank">(baac220)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Summer-of-Bitcoin.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -372,9 +394,9 @@ void TxOrphanage::EraseForBlock(const CBlock&amp; block)
       <img src="/img/spinner.svg">
       <p class="post-content">
         评论正在加载中...如果评论较长时间无法加载，你可以
-        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"My%20Experience%20in%20Summer%20of%20Bitcoin%202022 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"My%20Summer%20of%20Bitcoin%202022%20Experience - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
         或者
-        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=My%20Experience%20in%20Summer%20of%20Bitcoin%202022 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=My%20Summer%20of%20Bitcoin%202022%20Experience - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
         。
       </p>
     </div>
