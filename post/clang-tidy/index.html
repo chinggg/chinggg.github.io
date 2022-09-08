@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Clang-Tidy Checker with Transformer - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="Documents https://clang.llvm.org/docs/LibASTMatchersReference.html https://clang.llvm.org/extra/clang-tidy/ https://clang.llvm.org/extra/clang-tidy/Contributing.html https://clang.llvm.org/docs/ClangTransformerTutorial.html Equal Null 论文 FixReverter 提出了三种 bugfix pattern，尝试用 Clang Transformer 添加 clang-tidy checker 来快速复现，但遇到了一些问题。 比如论文中提到 Abort Pattern，以 binutils 中的 bfd/compress.c 为" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/clang-tidy/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Clang-Tidy Checker with Transformer" />
+<meta property="og:description" content="Documents https://clang.llvm.org/docs/LibASTMatchersReference.html https://clang.llvm.org/extra/clang-tidy/ https://clang.llvm.org/extra/clang-tidy/Contributing.html https://clang.llvm.org/docs/ClangTransformerTutorial.html Equal Null 论文 FixReverter 提出了三种 bugfix pattern，尝试用 Clang Transformer 添加 clang-tidy checker 来快速复现，但遇到了一些问题。 比如论文中提到 Abort Pattern，以 binutils 中的 bfd/compress.c 为" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/clang-tidy/" />
+<meta property="article:published_time" content="2022-09-08T13:46:52+00:00" />
+<meta property="article:modified_time" content="2022-09-08T22:56:14+08:00" />
+<meta itemprop="name" content="Clang-Tidy Checker with Transformer">
+<meta itemprop="description" content="Documents https://clang.llvm.org/docs/LibASTMatchersReference.html https://clang.llvm.org/extra/clang-tidy/ https://clang.llvm.org/extra/clang-tidy/Contributing.html https://clang.llvm.org/docs/ClangTransformerTutorial.html Equal Null 论文 FixReverter 提出了三种 bugfix pattern，尝试用 Clang Transformer 添加 clang-tidy checker 来快速复现，但遇到了一些问题。 比如论文中提到 Abort Pattern，以 binutils 中的 bfd/compress.c 为">
+<meta itemprop="datePublished" content="2022-09-08T13:46:52+00:00" />
+<meta itemprop="dateModified" content="2022-09-08T22:56:14+08:00" />
+<meta itemprop="wordCount" content="317">
+
+
+
+<meta itemprop="keywords" content="Static Analysis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Clang-Tidy Checker with Transformer"/>
+<meta name="twitter:description" content="Documents https://clang.llvm.org/docs/LibASTMatchersReference.html https://clang.llvm.org/extra/clang-tidy/ https://clang.llvm.org/extra/clang-tidy/Contributing.html https://clang.llvm.org/docs/ClangTransformerTutorial.html Equal Null 论文 FixReverter 提出了三种 bugfix pattern，尝试用 Clang Transformer 添加 clang-tidy checker 来快速复现，但遇到了一些问题。 比如论文中提到 Abort Pattern，以 binutils 中的 bfd/compress.c 为"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Clang-Tidy Checker with Transformer</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-08 13:46:52 &#43;0000 UTC"> 2022-09-08 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#documents">Documents</a></li>
+        <li><a href="#equal-null">Equal Null</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="documents">Documents</h2>
+<p><a href="https://clang.llvm.org/docs/LibASTMatchersReference.html">https://clang.llvm.org/docs/LibASTMatchersReference.html</a></p>
+<p><a href="https://clang.llvm.org/extra/clang-tidy/">https://clang.llvm.org/extra/clang-tidy/</a></p>
+<p><a href="https://clang.llvm.org/extra/clang-tidy/Contributing.html">https://clang.llvm.org/extra/clang-tidy/Contributing.html</a></p>
+<p><a href="https://clang.llvm.org/docs/ClangTransformerTutorial.html">https://clang.llvm.org/docs/ClangTransformerTutorial.html</a></p>
+<h2 id="equal-null">Equal Null</h2>
+<p>论文 <a href="https://chinggg.github.io/post/fixreverter/" target="_blank">FixReverter</a> 提出了三种 bugfix pattern，尝试用 Clang Transformer 添加 clang-tidy checker 来快速复现，但遇到了一些问题。</p>
+<p>比如论文中提到 Abort Pattern，以 binutils 中的 <a href="https://sourceware.org/git/?p=binutils-gdb.git;a=blobdiff;f=bfd/compress.c;h=c854a204fd97ac00812c227ec36679b015c1d1f5;hp=f881c074b856d8da7c8626890b1abc3377948123;hb=e63d123268f23a4cbc45ee55fb6dbc7d84729da3;hpb=c185f580b2b3baf7cee762c8ab31ab6925b9534a" target="_blank">bfd/compress.c</a> 为例，插入了判断指针为 NULL 的 if 语句，但我的 checker 居然无法发现这种简单的 NULL 判断。</p>
+<p><img src="https://chinggg.github.io/post_img/FixReverter/Fig2_ABORT_CVE.webp" alt=""></p>
+<p>但 checker 在我构造的测试程序上表现良好：</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstdlib&gt;
+#include &lt;cstring&gt;
+
+struct O {
+  int x;
+  char *s;
+};
+
+struct M {
+  int num;
+  char *name;
+  O *o;
+};
+
+int main() {
+  const char *s = &quot;hello world&quot;;
+  M *m = (M *)malloc(sizeof(M));
+  if (m == NULL || m-&gt;num == 0 || m-&gt;name + 1 == NULL || m-&gt;o == NULL) {
+    return -1;
+  }
+  size_t len = strlen(s);
+  if (s == NULL) {
+    puts(&quot;NULL!!&quot;);
+    return -1;
+  }
+  if (strlen(s) &gt; 4) return -1;
+  else if (sizeof(s) &lt; puts(s)) return 1;
+  for (int i = 0; i &lt; len; i++) {
+    if (s[i] == ' ') {
+      break;
+    }
+  }
+  return 0;
+}
+</code></pre>
+<p>以判断 NULL 为例，实现 matcher 的核心代码如下，能在测试程序上正常运行，但对 <code>bfd/compress.c</code> 运行没有任何结果</p>
+<pre><code class="language-cpp">auto PtrVar = hasType(isAnyPointer());
+auto PtrTracer = expr(anyOf(declRefExpr(PtrVar), memberExpr(member(PtrVar))));
+auto EqNull = binaryOperator(hasOperatorName(&quot;==&quot;), hasOperands(PtrTracer, ignoringImpCasts(nullPointerConstant())));
+</code></pre>
+<p>即使将上述代码复制进 <code>bfd/compress.c</code> 依然无法识别出结果，用 <code>clang-query</code> 亦无法匹配成功。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-09-08 22:56:14 &#43;0800 &#43;0800">2022-09-08</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/6bcfc379fa91041edc97b6b3d7b13ce7ea1f8e92" title="Clang Tidy" target="_blank">(6bcfc37)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Clang-Tidy.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/static-analysis/">Static Analysis</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/libafl/">
+            <span class="next-text nav-default">LibAFL：构建模块化可复用 fuzzer 的框架</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Clang-Tidy%20Checker%20with%20Transformer - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Clang-Tidy%20Checker%20with%20Transformer - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
