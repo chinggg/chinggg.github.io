@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="KLEE 是知名的符号执行引擎，甚至还有专门的学术会议，第三届 KLEE Workshop 于本月 15-16 日在伦敦召开，大家也可以选择线上免费参会。今天分享的这篇名为 Characterizing and Improving Bug-Finders with Synthetic Bugs" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/evalklee-saner22/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs" />
+<meta property="og:description" content="KLEE 是知名的符号执行引擎，甚至还有专门的学术会议，第三届 KLEE Workshop 于本月 15-16 日在伦敦召开，大家也可以选择线上免费参会。今天分享的这篇名为 Characterizing and Improving Bug-Finders with Synthetic Bugs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/evalklee-saner22/" />
+<meta property="article:published_time" content="2022-09-14T12:20:48+08:00" />
+<meta property="article:modified_time" content="2022-09-14T23:01:53+08:00" />
+<meta itemprop="name" content="用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs">
+<meta itemprop="description" content="KLEE 是知名的符号执行引擎，甚至还有专门的学术会议，第三届 KLEE Workshop 于本月 15-16 日在伦敦召开，大家也可以选择线上免费参会。今天分享的这篇名为 Characterizing and Improving Bug-Finders with Synthetic Bugs">
+<meta itemprop="datePublished" content="2022-09-14T12:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-09-14T23:01:53+08:00" />
+<meta itemprop="wordCount" content="1987">
+
+
+
+<meta itemprop="keywords" content="学术,安全,符号执行," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs"/>
+<meta name="twitter:description" content="KLEE 是知名的符号执行引擎，甚至还有专门的学术会议，第三届 KLEE Workshop 于本月 15-16 日在伦敦召开，大家也可以选择线上免费参会。今天分享的这篇名为 Characterizing and Improving Bug-Finders with Synthetic Bugs"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-14 12:20:48 &#43;0800 &#43;0800"> 2022-09-14 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+
+    <div class="post-content">
+      <p>KLEE 是知名的符号执行引擎，甚至还有专门的学术会议，第三届 KLEE Workshop 于本月 15-16 日在伦敦召开，大家也可以选择线上免费参会。今天分享的这篇名为 Characterizing and Improving Bug-Finders with Synthetic Bugs 的论文就对 KLEE 发现 bug 的能力做了评估，论文发表于 SANER &lsquo;22，其作者 Brendan Dolan-Gavitt 正是 LAVA 这一自动合成 bug 语料库的开发者，故而论文中用 LAVA 和 Juliet 这两种合成数据集上的表现评估 KLEE 的效果，通过分析哪些 bug 未能被发现来揭示 KLEE 的可靠性（soundness）问题。</p>
+<p>LAVA 是一个源码级别的自动 bug 注入工具，可以向 coreutils 这种 C 程序注入数千个漏洞，尽管支持插入多种 bug，本文中只考虑内存安全 bug 如指针越界读写。</p>
+<p>Juliet Test Suite 由 NSA 开发，包含  64099 个测试用例，按 Common Weakness Enumeration (CWE) 系统分类，其中大多数程序不需要输入且只有一条路径。由于其原本是用于测试静态分析工具，所以用于 KLEE 时需要很多微调，比如调用 <code>klee_make_symbolic</code> 来将程序中的 <code>rand</code> 函数调用符号化。</p>
+<p>本文中的测试分为两部分：首先是对小型程序的测试，作者期待 KLEE 能够探索小型程序的所有路径，所以一旦有 bug 未被发现都表明 KLEE 的可靠性有问题；现实世界中的大型程序则可能有更丰富的特性，不过 KLEE 可能在给定时间内可能难以执行到 bug，作者修改了 KLEE 让其可以根据给定的路径以 concolic 的方式执行，这样就能测试 KLEE 在走到正确路径的情况下能否找到注入的 bug。</p>
+<p>具体来说，对于小型程序测试，作者编写了 62 行的 C 程序 <a href="https://moyix.net/toy.c" target="_blank">toy.c</a>，用 LAVA 自动生成了 159 个含有单个 bug 的变体，除此之外还从 Juliet Test Suite 中选取了能够成功编译得 LLVM bitcode 的程序，并筛去其中含有 KLEE 明确不支持特性的程序，有一些 CWE 类型比如 (CWE546: Suspicious Comment) 根本不在 KLEE 这种作用于 LLVM IR 的工具的应用场景内，标记为 out of scope，还有些 CWE 理论上可被 KLEE 支持但需要额外修改，标记为 unimplemented，详见下表，最终仅保留 17603 个测试用例。</p>
+<p><img src="/post_img/EvalKLEE/UnsupportedCWE.webp" alt=""></p>
+<p>对于现实软件的测试则选取了 coreutils 中的十个程序，注入了两千多个 bug，并选择了 200 个具有独特 attack point 的 bug，配有触发 bug 的输入。尽管 KLEE 有自己的 concolic 模式让用户提供输入文件，但作者发现光是这一输入文件不足以让 KLEE 按特定路径执行，于是自己修改了 KLEE，先 trace 一遍记录相关信息，再次运行 <code>Executor::fork</code> 时就不真的 fork 而是挑选和 trace 相匹配的后继状态。</p>
+<p>在用 LAVA 自动生成的 159 个小型 bug 程序变体上，KLEE v1.4 只发现了 68 个，而 KLEE v2.2 则发现了 150 个。为了理解为什么 KLEE v1.4 漏报了许多漏洞，作者将插入的 bug 分为两类，一些是插在用户自定义的函数（即程序 main 源码）中，另一些是插在外部函数（如 libc 函数）调用的参数中。KLEE v1.4 漏报的 bug 大部分属于后者，因为其不检查传递给外部函数的指针，剩余少数漏报的 bug 则多是由于缺乏浮点数支持，KLEE v2.2 漏报的 5 个也是如此。</p>
+<p><img src="/post_img/EvalKLEE/table3.webp" alt=""></p>
+<p>由于 LAVA 注入的 bug 都是简单的指针错误，作者还在 Juliet Test Suite 上进行测试，在总共 17603 个支持的测试用例上，KLEE 报告了 18868 个 true postive, 732 个 false positive，和 2013 个 false negative，报告 bug 比测试用例还多是因为设置了 KLEE 记录所有的错误，只有在一个 testcase 没有生成任何报告的情况下才认为其是 false negative，即漏报。</p>
+<p>作者发现部分 false positive（误报）是由于程序本身执行错误，还有一些是因为不支持 C++ 或是 Juliet Test Suite 本身的问题。部分 false negative（漏报）则是由于 KLEE 实现上的一些限制，因为 Juliet Test Suite 原本针对静态分析器故而没有提供触发输入，难以使用 concolic execution 来执行可触发 bug 的路径，导致无法区分漏报究竟是由于尚未探索到路径还是 KLEE 本身的可靠性问题。</p>
+<p><img src="/post_img/EvalKLEE/table4.webp" alt=""></p>
+<p>而如前所述，在用 LAVA 给 coreutils 插入 bug 时使用了 concolic execution 以让 KLEE 按触发 bug 的路径执行程序，排除了路径爆炸问题造成的影响。最终结论是 KLEE 在现实应用上检测 bug 的能力尚可，主要问题是 KLEE 采用的 uClibc 和 glibc 的差异较大，可能造成误报或漏报。</p>
+<p>根据以上实验结果，作者对 KLEE 给出了中肯的评价：尽管 KLEE 在浮点数、外部函数和 C++ 语言特性支持上存在一些限制，但这些都是文档中明确表示的已知缺陷，除此之外用户不太会遇到其他问题，作者认为这恰恰是 KLEE 作为一个成熟的符号执行引擎的标志。因此，当使用 KLEE 测试现实软件时，应当更多专注特性的支持和与其他库的交互，比如实现更多系统调用和支持多线程，这些工作已经部分存在于科研向的 fork 中，希望能被添加到上游并持续维护。</p>
+<p>最后作者还提出了对符号执行引擎 test suite 的迫切需求，不同于针对静态分析工具的 Juliet Test Suite，它应该：</p>
+<ul>
+<li>带有触发输入（triggering inputs）作为基准真相（ground truth）</li>
+<li>包含广范围的 bug，囊括多种 CWE</li>
+<li>关注能被符号执行检测的 bug 种类，避免或标注出仅适用于静态分析的 bug</li>
+<li>将程序输入和不确定性来源标准化，使之能容易地被符号化</li>
+</ul>
+<p>论文地址：<a href="https://messlab.moyix.net/papers/evalklee_saner22.pdf">https://messlab.moyix.net/papers/evalklee_saner22.pdf</a></p>
+<p>Juliet Test Suite 地址：<a href="https://github.com/yh570/Juliet_test_suite">https://github.com/yh570/Juliet_test_suite</a></p>
+<p>LAVA Corpus 地址：<a href="https://github.com/yh570/LAVA_corpus">https://github.com/yh570/LAVA_corpus</a></p>
+<p>Concolic KLEE 地址：<a href="https://github.com/yh570/Concolic_klee">https://github.com/yh570/Concolic_klee</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-09-14 23:01:53 &#43;0800 &#43;0800">2022-09-14</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/a01082fd778e9eac378e8e1ec41d7b5c33726105" title="Eval KLEE" target="_blank">(a01082f)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/EvalKLEE-SANER22.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/">符号执行</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/clang-tidy/">
+            <span class="next-text nav-default">Clang-Tidy Checker with Transformer</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e7%94%a8%e5%90%88%e6%88%90%20bug%20%e8%af%84%e4%bc%b0KLEE%ef%bc%9aCharacterizing%20and%20Improving%20Bug-Finders%20with%20Synthetic%20Bugs - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e7%94%a8%e5%90%88%e6%88%90%20bug%20%e8%af%84%e4%bc%b0KLEE%ef%bc%9aCharacterizing%20and%20Improving%20Bug-Finders%20with%20Synthetic%20Bugs - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
