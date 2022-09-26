@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Evocatio: Conjuring Bug Capabilities from a Single PoC - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/evocatio/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Evocatio: Conjuring Bug Capabilities from a Single PoC" />
+<meta property="og:description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/evocatio/" />
+<meta property="article:published_time" content="2022-09-26T12:20:48+08:00" />
+<meta property="article:modified_time" content="2022-09-26T19:59:56+08:00" />
+<meta itemprop="name" content="Evocatio: Conjuring Bug Capabilities from a Single PoC">
+<meta itemprop="description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和">
+<meta itemprop="datePublished" content="2022-09-26T12:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-09-26T19:59:56+08:00" />
+<meta itemprop="wordCount" content="2739">
+
+
+
+<meta itemprop="keywords" content="学术,安全,fuzzing," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Evocatio: Conjuring Bug Capabilities from a Single PoC"/>
+<meta name="twitter:description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Evocatio: Conjuring Bug Capabilities from a Single PoC</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-26 12:20:48 &#43;0800 &#43;0800"> 2022-09-26 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#背景动机">背景动机</a></li>
+        <li><a href="#架构设计">架构设计</a>
+          <ul>
+            <li><a href="#capability-detection-capsan">Capability detection (CapSan)</a></li>
+            <li><a href="#capability-discovery-capfuzz">Capability discovery (CapFuzz)</a></li>
+          </ul>
+        </li>
+        <li><a href="#实验评估">实验评估</a></li>
+        <li><a href="#讨论总结">讨论总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和优先级？今天分享的论文 Evocatio: Conjuring Bug Capabilities from a Single PoC 就尝试通过自动探索 <em><strong>bug capability</strong></em> 解决这一问题（evocatio 是拉丁语中 calling forth 和 conjure，即呼唤的意思）</p>
+<h2 id="背景动机">背景动机</h2>
+<p>先前有工作基于 root cause 对 PoC 聚类来辅助评估一堆 PoC 里的 bug 数量，但仅仅是聚类并不足以揭示攻击者可以如何利用 bug 造成怎样的漏洞，仍然需要大量人力分析 bug 的危害，关键是理解 bug capability。</p>
+<p>从内存漏洞的角度看，capability 可以由 bug 类型，访存类型（读/写），访问长度，访存对象名称，在对象内的偏移，内存位置（栈/堆/全局） 这六个属性来定义，比如 <code>(OOB, read, 5, buffer, 10, stack)</code> 可以定义栈上变量 buffer 的第 10 个字节开始的长度为 5 的越界读。</p>
+<p>覆盖引导的 fuzzer 往往只关注寻找 bug，当遇到触发相同执行路径的 PoC，仅保留第一个而丢弃其他所有，把评估 bug capability 的重任交在了开发者身上。</p>
+<p>理论上漏洞自动利用生成（Automatic Exploit Generation, AEG）技术可以用来评估 bug capability，但大多数 AEG 工具依赖符号执行，受到固有的路径发散和路径爆炸问题限制。</p>
+<p>因此作者提出了 Evocatio 来评估 bug capability，本文主要贡献如下：</p>
+<ul>
+<li>开发了 Evocatio 来帮助开发者从一个 PoC 揭开新的攻击能力，以优先修复关键 bug</li>
+<li>展示了 Evocatio 对内存 bug 的应用场景：定量评估 bug 严重性分数和验证 patch 有效性</li>
+<li>在 38 个 bug 上评估 Evocatio 发现 bug capability、发掘 bug 攻击能力和产生新 PoC 的效果</li>
+</ul>
+<p>那么 bug capability 到底如何在源码中体现？作者举了下图这个例子来说明其 motivation</p>
+<p><img src="/post_img/Evocatio/motivating.webp" alt=""></p>
+<p>图中的程序包含一个堆缓冲区溢出，要触发这一漏洞，首先必须满足 <code>src</code> 的前两个字节分别为 &lsquo;a&rsquo; 和 &lsquo;b&rsquo;，作者把这两个字节称为 <em>control-flow bytes</em>，因为它们影响程序的控制流，进而决定程序是否满足触发 bug 的约束条件。在第 21 行中输入 <code>src[40-43]</code> 被读取，影响 <code>dest</code> 这段数据的大小，最终决定堆缓冲区溢出的长度，作者把这四个字节称为 <em>capability bytes</em>。又因为第 22 行 if 语句中 <code>src[40-42]</code> 既影响控制流又在上一行影响程序的数据流，所以这三个字节同时属于两种类型。从 bytes 的长度分类，<code>foo</code> 函数中的四个 <em>capability bytes</em> 可以分为两种，其中 <code>src[4]</code> 是 single capability bytes，只有单个字节，<code>src[20]</code> - <code>src[23]</code> 是 sequences of capability bytes，是一连串字节。</p>
+<h2 id="架构设计">架构设计</h2>
+<p>Evocatio 的工作流程如下图所示：</p>
+<p><img src="/post_img/Evocatio/workflow.webp" alt=""></p>
+<p>主要有以下两个组成部分：</p>
+<h3 id="capability-detection-capsan">Capability detection (CapSan)</h3>
+<p>在 fuzzing 中要提取 PoC 的 capability 最自然的方式是用 sanitizer，作者修改了 ASAN 以让 sanitizer 在检测到缓冲区越界（Out-of-Bounds, OOB）错误后仍然继续执行直到抵达新的数据结构，这样以完整地探索 OOB capability。</p>
+<h3 id="capability-discovery-capfuzz">Capability discovery (CapFuzz)</h3>
+<p><em><strong>Critical Bytes Inference</strong></em> 如前所述，程序输入中只有一小部分会影响程序行为和 bug capability，因此需要理解哪些字节是 critical bytes。之前已经有工作成功利用 single-byte inference 来改进 fuzzer 的 code coverage，而 Evocatio 则用 single-bytes inference 来判断哪些字节会促进新的 bug capability，就是逐字节枚举测试其是否影响 control flow 或 data flow；bytes-sequence inference 的搜索空间则更大，不可能穷举，故使用类似 fuzzing 的方法，先随机选择一段 bytes sequance 并随机变异，这样可能发现新的 bug capability，不过得到的整段 bytes 中会有一些冗余的杂音，作者使用基于分治策略的 ByteSequenceReduction 来减小变异程度尽可能恢复更多冗余字节。两者结合即为 critical bytes inference，算法如下所示：</p>
+<p><img src="/post_img/Evocatio/inference-algo.webp" alt=""></p>
+<p><em><strong>Critical Bytes Prioritization</strong></em> 在 critical bytes inference 找出大量 capability byte sequence 后，还需要对其排序，优先变异更可能触发新 capability 的字节，即 <em>most energetic sequence</em>，这可以通过动态地更新 sequence 对最近发现 capability 的贡献来实现。</p>
+<p><em><strong>Mutation</strong></em> 为了发现具有相同执行路径的新 crash，CapFuzz 只对影响数据流的 critical bytes 进行变异，算法如下图所示：</p>
+<p><img src="/post_img/Evocatio/mutation-algo.webp" alt=""></p>
+<p><em><strong>Seed Retention</strong></em> 每次新产生测试用例都要检查验证其引入了 capability 才保留在队列，为了在 capability 数量增大时保持查询高效，使用哈希表存储所有 capabilities</p>
+<p><em><strong>Seed Selection</strong></em> 和传统覆盖引导型 fuzzer 一样，CapFuzz 会将触发程序新路径的测试用例存储在队列中以备之后变异，如何选择最有用的 seed，作者的标准是优先考虑新 sequence 和 energetic sequence 产生的 seed。</p>
+<p>CapSan 利用 ASan 的 API 来获取运行时崩溃的信息，CapFuzz 则修改了 AFL++ 来使用 capability 作为引导的指标。</p>
+<h2 id="实验评估">实验评估</h2>
+<p>作者在 6 种类型 的 38 个 bug 上做实验，希望回答以下四个问题：</p>
+<ul>
+<li><strong>RQ1</strong> 相比于其他工具，Evocatio 能否发现更多的 capabilities？</li>
+<li><strong>RQ2</strong> Evocatio 设计中的不同组件如何影响其效果？</li>
+<li><strong>RQ3</strong> Evocatio 能否用于漏洞严重性评分？</li>
+<li><strong>RQ4</strong> Evocatio 能否用于测试 patch？</li>
+</ul>
+<p>对于第一个问题，目前唯一可以拿来对比的竞品只有 AFL++ 的 crash exploration mode (afl-cexp)，结果表明 Evocatio 发现的不同 capabilities 数量是 afl-cexp 的十倍，因为 afl-cexp 不关注数据流的变化，尽管它能获得很多新的 PoC，但只能触发不同执行路径下的相同 capabilities。</p>
+<p>对于第二个问题，作者设计了 retention only, critical bytes only, full design 这三种不同的配置，对比它们之间的效果，结果证明了 critical byte inference 和 most energetic sequences 这两种设计的有效性。</p>
+<p>对于第三个问题，作者以可读写的地址范围、越界读写对象数量，越界读写对象大小和不同偏移数为指标，用 Evocatio 对 bug 进行自动评分，并和原 CVE 在 <em>Common Vulnerability Scoring System</em> (<em>CVSS</em>) 中的 <em>impact metric</em> 进行比较，一些 CVE 在 Evocatio 中的影响评分不如 CVSS，是由于 Evocatio 对 bug 在特定应用中的影响缺乏先验知识从而低估其严重性；一些 CVE 在 Evocatio 中的影响评分高于 CVSS，因为 Evocatio 能发现原本未知的漏洞利用类型，这就能帮助开发者快速预估漏洞的严重性，增进对 bug 的理解。</p>
+<p>对于最后一个问题，作者选择了 16 个能找到补丁的 bug，在打过补丁的代码上再重放产生的 PoC，发现其中 7 个仍然能触发 crash，这说明 44% 的 bug 并没有被正确修复。</p>
+<p>除此之外作者还给出了两个 case study，以 CVE-2018-7871 为例分析了 Evocatio 如何能够提升 bug 的威胁类型，将越界读转化为越界写，又以 sudo 的高危漏洞 CVE-2021-3156 为例，展示了 Evocatio 能在 10 分钟之内从 1 字节的堆内存溢出 PoC 生成多达 120 字节长度的越界写，而AFL++ 的 crash mode 经过 8 小时的 fuzz 也未能产生任何新的 PoC。</p>
+<h2 id="讨论总结">讨论总结</h2>
+<p>作者首先表明 Evocaio 的目标不是替代 CVSS 和手动分析，而是希望专注于 &ldquo;interesting&rdquo; 的 bug，和 CVSS 一起来帮助判断 bug 的严重性。</p>
+<p>作者也指出了本文工作的一些限制：critical bytes 是和输入长度有关的，为避免在 fuzzing 时破坏 critical bytes，尚不支持探索和输入长度有关的 capability；因为 null pointer deference 和 double free 不直接导致 memory corruption，目前 Evocatio 无法发现这两类相关的 capability，留待后续工作；评分系统指标过于单一，无法泛化到其他 bug type，需要留待后续对 capability detection 做出改进。</p>
+<p>这篇论文其实也可以看作 data flow 在 fuzz 中的应用，不过其视角颇为独特，从 bug capability 的概念入手，在越界读写这一种类型的漏洞利用增强上取得了较好的效果，结合 sudo 高危漏洞的案例，具有较强的现实意义。</p>
+<p>论文地址：<a href="https://nebelwelt.net/files/22CCS.pdf">https://nebelwelt.net/files/22CCS.pdf</a></p>
+<p>代码地址（尚未释出）：<a href="https://github.com/HexHive/Evocatio">https://github.com/HexHive/Evocatio</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-09-26 19:59:56 &#43;0800 &#43;0800">2022-09-26</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/7f1a94ac34042e6b4c29d297fc26f6410087336b" title="Evocatio: Conjuring Bug Capabilities from a Single PoC" target="_blank">(7f1a94a)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Evocatio.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/fuzzing/">fuzzing</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/evalklee-saner22/">
+            <span class="next-text nav-default">用合成 bug 评估KLEE：Characterizing and Improving Bug-Finders with Synthetic Bugs</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Evocatio%3a%20Conjuring%20Bug%20Capabilities%20from%20a%20Single%20PoC - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Evocatio%3a%20Conjuring%20Bug%20Capabilities%20from%20a%20Single%20PoC - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
