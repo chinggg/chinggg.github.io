@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和">
 <meta itemprop="datePublished" content="2022-09-26T12:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-09-26T19:59:56+08:00" />
-<meta itemprop="wordCount" content="2739">
+<meta itemprop="wordCount" content="2750">
 
 
 
@@ -211,7 +211,7 @@
 <p><img src="/post_img/Evocatio/mutation-algo.webp" alt=""></p>
 <p><em><strong>Seed Retention</strong></em> 每次新产生测试用例都要检查验证其引入了 capability 才保留在队列，为了在 capability 数量增大时保持查询高效，使用哈希表存储所有 capabilities</p>
 <p><em><strong>Seed Selection</strong></em> 和传统覆盖引导型 fuzzer 一样，CapFuzz 会将触发程序新路径的测试用例存储在队列中以备之后变异，如何选择最有用的 seed，作者的标准是优先考虑新 sequence 和 energetic sequence 产生的 seed。</p>
-<p>CapSan 利用 ASan 的 API 来获取运行时崩溃的信息，CapFuzz 则修改了 AFL++ 来使用 capability 作为引导的指标。</p>
+<p>CapSan 利用 ASan 的 API 来获取运行时崩溃的信息，CapFuzz 则修改了 AFL++ 来使用 capability 作为引导的指标，使用 7 千行 C 代码写成。</p>
 <h2 id="实验评估">实验评估</h2>
 <p>作者在 6 种类型 的 38 个 bug 上做实验，希望回答以下四个问题：</p>
 <ul>
@@ -243,7 +243,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-09-26 19:59:56 &#43;0800 &#43;0800">2022-09-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/7f1a94ac34042e6b4c29d297fc26f6410087336b" title="Evocatio: Conjuring Bug Capabilities from a Single PoC" target="_blank">(7f1a94a)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/545355b2e059a7aa2b49384a71934e6b091b4a80" title="Evocatio: Conjuring Bug Capabilities from a Single PoC" target="_blank">(545355b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Evocatio.md" target="_blank">更新历史</a>
     </span>
   </p>
