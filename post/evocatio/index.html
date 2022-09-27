@@ -51,7 +51,7 @@
 <meta itemprop="description" content="Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和">
 <meta itemprop="datePublished" content="2022-09-26T12:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-09-26T19:59:56+08:00" />
-<meta itemprop="wordCount" content="2750">
+<meta itemprop="wordCount" content="2751">
 
 
 
@@ -182,15 +182,15 @@
   </div>
 </div>
     <div class="post-content">
-      <p>Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和优先级？今天分享的论文 Evocatio: Conjuring Bug Capabilities from a Single PoC 就尝试通过自动探索 <em><strong>bug capability</strong></em> 解决这一问题（evocatio 是拉丁语中 calling forth 和 conjure，即呼唤的意思）</p>
+      <p>Fuzzing 等动态软件测试技术可以快速生成 PoC 测试用例来触发程序中的 bug，但当开发者获得了大量的 PoC 后，又该如何在人力有限的情况下快速地分析 bug 的严重性和优先级？今天分享的论文 Evocatio: Conjuring Bug Capabilities from a Single PoC 就尝试通过自动探索 <em><strong>bug capability</strong></em> 解决这一问题（evocatio 在拉丁语中是 calling forth 和 conjure，即呼唤的意思）</p>
 <h2 id="背景动机">背景动机</h2>
 <p>先前有工作基于 root cause 对 PoC 聚类来辅助评估一堆 PoC 里的 bug 数量，但仅仅是聚类并不足以揭示攻击者可以如何利用 bug 造成怎样的漏洞，仍然需要大量人力分析 bug 的危害，关键是理解 bug capability。</p>
-<p>从内存漏洞的角度看，capability 可以由 bug 类型，访存类型（读/写），访问长度，访存对象名称，在对象内的偏移，内存位置（栈/堆/全局） 这六个属性来定义，比如 <code>(OOB, read, 5, buffer, 10, stack)</code> 可以定义栈上变量 buffer 的第 10 个字节开始的长度为 5 的越界读。</p>
+<p>从内存漏洞的角度看，capability 可以由 bug 类型，访存类型（读/写），访存长度，访存对象名称，在对象内的偏移，内存位置（栈/堆/全局） 这六个属性来定义，比如 <code>(OOB, read, 5, buffer, 10, stack)</code> 可以定义栈上变量 buffer 的第 10 个字节开始的长度为 5 的越界读。</p>
 <p>覆盖引导的 fuzzer 往往只关注寻找 bug，当遇到触发相同执行路径的 PoC，仅保留第一个而丢弃其他所有，把评估 bug capability 的重任交在了开发者身上。</p>
 <p>理论上漏洞自动利用生成（Automatic Exploit Generation, AEG）技术可以用来评估 bug capability，但大多数 AEG 工具依赖符号执行，受到固有的路径发散和路径爆炸问题限制。</p>
 <p>因此作者提出了 Evocatio 来评估 bug capability，本文主要贡献如下：</p>
 <ul>
-<li>开发了 Evocatio 来帮助开发者从一个 PoC 揭开新的攻击能力，以优先修复关键 bug</li>
+<li>开发了 Evocatio 来帮助开发者从一个 PoC 揭示新的攻击能力，以优先修复关键 bug</li>
 <li>展示了 Evocatio 对内存 bug 的应用场景：定量评估 bug 严重性分数和验证 patch 有效性</li>
 <li>在 38 个 bug 上评估 Evocatio 发现 bug capability、发掘 bug 攻击能力和产生新 PoC 的效果</li>
 </ul>
@@ -243,7 +243,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-09-26 19:59:56 &#43;0800 &#43;0800">2022-09-26</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/545355b2e059a7aa2b49384a71934e6b091b4a80" title="Evocatio: Conjuring Bug Capabilities from a Single PoC" target="_blank">(545355b)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/64d15392d8b17a36f0cf29b2166e318b3b98a712" title="Evocatio: Conjuring Bug Capabilities from a Single PoC" target="_blank">(64d1539)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Evocatio.md" target="_blank">更新历史</a>
     </span>
   </p>
