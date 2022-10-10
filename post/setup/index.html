@@ -46,12 +46,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/setup/" />
 <meta property="article:published_time" content="2020-10-28T04:45:41+00:00" />
-<meta property="article:modified_time" content="2022-10-01T01:25:08+00:00" />
+<meta property="article:modified_time" content="2022-10-10T11:32:12+08:00" />
 <meta itemprop="name" content="Setup">
 <meta itemprop="description" content="Network For hardware stuff, see Wireless SSH Key-Auth ssh-keygen -t rsa host {shortName} Hostname {address} Port 22 User {username} IdentityFile {path/to/key} do not forget to set private key 600 Win10-OpenSSH-Server Install from Settings UI : Optional Features Install from PowerShell : Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 ===Start-Service Start-Service sshd # OPTIONAL but recommended: Set-Service -Name sshd -StartupType &#39;Automatic&#39; # then back to local machine: ssh username@servername Win32-OpenSSH PS: Set-ExecutionPolicy RemoteSigned or">
 <meta itemprop="datePublished" content="2020-10-28T04:45:41+00:00" />
-<meta itemprop="dateModified" content="2022-10-01T01:25:08+00:00" />
-<meta itemprop="wordCount" content="3558">
+<meta itemprop="dateModified" content="2022-10-10T11:32:12+08:00" />
+<meta itemprop="wordCount" content="3615">
 
 
 
@@ -481,20 +481,26 @@ setw -g mode-keys vi
 <p>insert text at the beginning: <code>sed -i '1i text' FILENAME</code></p>
 <h2 id="windows">Windows</h2>
 <h3 id="快速配置">快速配置</h3>
-<p>手装：</p>
-<ul>
-<li>Git</li>
-<li>VS Code</li>
-<li>VS</li>
-<li>Firefox</li>
-<li>Windows Terminal, WinGet 保证最新版</li>
-</ul>
+<p><code>wsreset -i</code> 安装商店，商店中安装 winget 和 terminal</p>
+<p><code>winget insall Git.Git</code></p>
+<p>手装 VS Code</p>
 <pre><code class="language-powershell">Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+irm https://raw.fastgit.org/scoopinstaller/install/master/install.ps1 | iex
 scoop bucket add extras versions java retools
 scoop install sudo dismplusplus
 </code></pre>
 <p>编辑 <code>.ssh/config</code></p>
+<p>Windows Terminal 加 Git Bash</p>
+<pre><code class="language-json">            {
+                &quot;guid&quot;: &quot;{00000000-0000-0000-ba54-000000000002}&quot;,
+                &quot;commandline&quot;: &quot;%USERPROFILE%/scoop/apps/git/current/usr/bin/bash.exe -l -i&quot;,
+                &quot;icon&quot;: &quot;%USERPROFILE%/scoop/apps/git/current/usr/share/git/git-for-windows.ico&quot;,
+                &quot;name&quot; : &quot;Git Bash&quot;,
+                &quot;startingDirectory&quot; : &quot;%USERPROFILE%&quot;
+            },
+</code></pre>
+<p><a href="https://blog.frytea.com/archives/599/" target="_blank">LTSC 2021 激活</a> 注意别在官网下称评估试用版无法激活</p>
+<p>民间下载地址 <a href="https://mirrors.lolinet.com/iso/windows/zh-cn_windows_10_enterprise_ltsc_2021_x64_dvd_033b7312.iso">https://mirrors.lolinet.com/iso/windows/zh-cn_windows_10_enterprise_ltsc_2021_x64_dvd_033b7312.iso</a></p>
 <h3 id="win7">Win7</h3>
 <p>only support Python3.8, does not support Docker</p>
 <p>KB3063858 if fail to install Python</p>
@@ -749,8 +755,8 @@ sytemctl suspend
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-10-01 01:25:08 &#43;0000 UTC">2022-10-01</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/b3690dfd94067c48ef8e44d19d03ec40cb9885fd" title="chore: update clicks" target="_blank">(b3690df)</a>
+        <span title="2022-10-10 11:32:12 &#43;0800 &#43;0800">2022-10-10</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/156441b38d2aabc70d9e89d01979f69459c27afd" title="GSoC 2022 Qiling" target="_blank">(156441b)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Setup.md" target="_blank">更新历史</a>
     </span>
   </p>
