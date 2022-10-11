@@ -48,13 +48,13 @@ Motivation As a binary emulation framework, Qiling has done a nice job in emulat
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinggg.github.io/post/gsoc22-qiling/" />
 <meta property="article:published_time" content="2022-10-08T12:20:48+08:00" />
-<meta property="article:modified_time" content="2022-10-11T09:33:53+08:00" />
+<meta property="article:modified_time" content="2022-10-11T17:40:01+08:00" />
 <meta itemprop="name" content="GSoC 2022 - Qiling Binary Emulation Meet R2 Static Analysis">
 <meta itemprop="description" content="Hello. I’m chinggg, a participant of GSoC 2022 with Qiling. For the past few months, I’ve been working on bridging Qiling with Radare2 (also known as r2) to enhance binary emulation with static analysis.
 Motivation As a binary emulation framework, Qiling has done a nice job in emulation. But Qiling has limited ability to analyze binaries, users have to rely on other tools for useful information like function addresses then hardcode them, which is inconvenient.">
 <meta itemprop="datePublished" content="2022-10-08T12:20:48+08:00" />
-<meta itemprop="dateModified" content="2022-10-11T09:33:53+08:00" />
-<meta itemprop="wordCount" content="1119">
+<meta itemprop="dateModified" content="2022-10-11T17:40:01+08:00" />
+<meta itemprop="wordCount" content="2263">
 
 
 
@@ -171,9 +171,10 @@ Motivation As a binary emulation framework, Qiling has done a nice job in emulat
     <li>
       <ul>
         <li><a href="#motivation">Motivation</a></li>
-        <li><a href="#introduce-r2-extension">Introduce R2 extension</a></li>
+        <li><a href="#introduce-r2-extension-and-human-friendly-disassembler">Introduce R2 extension and human-friendly disassembler</a></li>
         <li><a href="#share-memory-between-unicorn-and-radare2">Share memory between Unicorn and Radare2</a></li>
         <li><a href="#showcase-de-obfuscation-plugin-against-ollvm-control-flow-flattening">Showcase: De-obfuscation plugin against OLLVM control-flow flattening</a></li>
+        <li><a href="#conclusion-and-future-work">Conclusion and Future Work</a></li>
       </ul>
     </li>
   </ul>
@@ -185,10 +186,141 @@ Motivation As a binary emulation framework, Qiling has done a nice job in emulat
 <h2 id="motivation">Motivation</h2>
 <p>As a binary emulation framework, Qiling has done a nice job in emulation. But Qiling has limited ability to analyze binaries, users have to rely on other tools for useful information like function addresses then hardcode them, which is inconvenient.</p>
 <p>My entire project aims to bridge Qiling with other static analysis software, thus providing users with binary information like symbols and high-level concepts like function, basic block and control flow graph. The robustness and usability of the project should also be improved to make everything tidy, which may involve some refactoring.</p>
-<h2 id="introduce-r2-extension">Introduce R2 extension</h2>
+<h2 id="introduce-r2-extension-and-human-friendly-disassembler">Introduce R2 extension and human-friendly disassembler</h2>
 <p>As originally posted in the <a href="https://github.com/qilingframework/qiling/discussions/1083#discussioncomment-2051209" target="_blank">GitHub discussion</a>, we have multiple choices like <a href="https://github.com/pwndbg/pwndbg/issues/844" target="_blank">IDA Pro</a>, <a href="https://github.com/justfoxing/ghidra_bridge" target="_blank">Ghidra</a>, <a href="https://github.com/s3rvac/retdec-python" target="_blank">RetDec</a> and <a href="https://github.com/Vector35/binaryninja-api" target="_blank">BinaryNinja</a>. But we finally choose radare2 since it&rsquo;s open source and <a href="https://github.com/wtdcode" target="_blank">@lazymio</a> has wrote a self-contained Python binding <a href="https://github.com/radareorg/radare2-bindings/tree/master/r2libr" target="_blank">r2libr</a> for it.</p>
 <p>Radare2 is a command-line reverse engineering framework with a shell-like UI, where users enter commands then get results. The result is always returned as string, but most commands can print in JSON format, which can be easily converted to Python dictionary. So Qiling can get the necessary information and store them as custom objects, on top of which more high level methods could be built.</p>
-<p>For better maintainability, I use <a href="https://docs.python.org/3/library/dataclasses.html" target="_blank">dataclass</a> to organize JSON data got from r2.</p>
+<p>For better maintainability, I use <a href="https://docs.python.org/3/library/dataclasses.html" target="_blank">dataclass</a> to organize JSON data got from r2 and make a useful base class.</p>
+<pre><code class="language-python">class R2Data:
+    def __init__(self, **kwargs):
+        names = set([f.name for f in fields(self)])
+        for k, v in kwargs.items():
+            if k in names:
+                setattr(self, k, v)
+
+    def __str__(self):
+        kvs = []
+        for k, v in sorted(self.__dict__.items()):
+            if k.startswith(&quot;_&quot;) or not isinstance(v, (int, str)):
+                continue
+            v = hex(v) if isinstance(v, int) else v
+            kvs.append(f&quot;{k}={v}&quot;)
+        return (f&quot;{self.__class__.__name__}(&quot; + &quot;, &quot;.join(kvs) + &quot;)&quot;)
+    
+    __repr__ = __str__
+
+    @cached_property
+    def start_ea(self):
+        return getattr(self, 'addr', None) or getattr(self, 'offset', None) or getattr(self, 'vaddr', None)
+
+    @cached_property
+    def end_ea(self):
+        size = getattr(self, 'size', None) or getattr(self, 'length', None)
+        if (self.start_ea or size) is None:
+            return None
+        return self.start_ea + size
+
+    def __contains__(self, target):
+        if isinstance(target, int):
+            return self.start_ea &lt;= target &lt; (self.end_ea or 1&lt;&lt;32)
+        else:
+            return self.start_ea &lt;= target.start_ea and ((target.end_ea or target.start_ea) &lt;= (self.end_ea or 1&lt;&lt;32))
+</code></pre>
+<p>So I can add r2 data structures as inherited classes with just a few lines of code:</p>
+<pre><code class="language-python">@dataclass(unsafe_hash=True, init=False)
+class Function(R2Data):
+    name: str
+    offset: int
+    size: int
+    signature: str
+
+@dataclass(unsafe_hash=True, init=False)
+class Instruction(R2Data):
+    offset: int
+    size: int
+    opcode: str  # raw opcode
+    disasm: str = ''  # flag resolved opcode
+    bytes: bytes
+    type: str
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.bytes = bytes.fromhex(kwargs[&quot;bytes&quot;])
+
+    def is_jcond(self):
+        return self.type in (&quot;cjmp&quot;, &quot;cmov&quot;)
+</code></pre>
+<p>After that, we can build the <code>R2</code> class to create radare2 instance and using our familiar command line interface to get useful data about the binary.</p>
+<pre><code class="language-python">class R2:
+    def __init__(self, ql: &quot;Qiling&quot;, baseaddr=(1 &lt;&lt; 64) - 1, loadaddr=0):
+        self.ql = ql
+        self.analyzed = False
+        self._r2c = libr.r_core.r_core_new()
+
+    def _cmd(self, cmd: str) -&gt; str:
+        r = libr.r_core.r_core_cmd_str(
+            self._r2c, ctypes.create_string_buffer(cmd.encode(&quot;utf-8&quot;)))
+        return ctypes.string_at(r).decode('utf-8')
+
+    def _cmdj(self, cmd: str) -&gt; Union[Dict, List[Dict]]:
+        return json.loads(self._cmd(cmd))
+
+    @cached_property
+    @aaa
+    def functions(self) -&gt; Dict[str, Function]:
+        fcn_lst = self._cmdj(&quot;aflj&quot;)
+        return {dic['name']: Function(**dic) for dic in fcn_lst}
+</code></pre>
+<p>A nice feature of radare2 is the <a href="https://book.rada.re/basic_commands/flags.html" target="_blank">flag</a> system, which can associate a name with a given offset in a file. Symbols, sections and analyzed functions are already flagged by default. So we can design functions to convert between <em>address</em> and <em>name + offset</em> easily:</p>
+<pre><code class="language-python">def at(self, addr: int, parse=False) -&gt; Union[str, Tuple[str, int]]:
+    '''Given an address, return [name, offset] or &quot;name + offset&quot;'''
+    name = self._cmd(f'fd {addr}').strip()
+    if parse:
+        try:
+            name, offset = name.split(' + ')
+            offset = int(offset)
+        except ValueError:  # split fail when offset=0
+            offset = 0
+        return name, offset
+    return name
+
+def where(self, name: str, offset: int=0) -&gt; int:
+    '''Given a name (+ offset), return its address (0 when not found)'''
+    if offset != 0:  # name can already have offset, multiple + is allowd
+        name += f' + {offset}'
+    addr = self._cmd(f'?v {name}').strip()  # 0x0 when name is not found
+    return int(addr, 16)
+</code></pre>
+<p>Now we have these APIs provided by r2, but what can be done to enhance Qiling? I think some improvements can be made to the existing disassembler to make it print human-friendly disassembly with <strong>addresses already resolved as flags</strong> just as what we see in r2. But keep in mind that r2 is now still an extension instead of part of Qiling itself, which means Qiling cannot keep a persistent r2 instance internally. So I made a hook-like disassembler function in r2 and monky patch the original disassembler to try it first.</p>
+<pre><code class="language-python">def disassembler(self, ql: 'Qiling', addr: int, size: int, filt: Pattern[str]=None) -&gt; int:
+    '''A human-friendly monkey patch of QlArchUtils.disassembler powered by r2, can be used for hook_code
+        :param ql: Qiling instance
+        :param addr: start address for disassembly
+        :param size: size in bytes
+        :param filt: regex pattern to filter instructions
+        :return: progress of dissembler, should be equal to size if success
+    '''
+    anibbles = ql.arch.bits // 4
+    progress = 0
+    for inst in self.dis_nbytes(addr, size):
+        if inst.type.lower() in ('invalid', 'ill'):
+            break  # stop disasm
+        name, offset = self.at(inst.offset, parse=True)
+        if filt is None or filt.search(name):
+            ql.log.info(f'{inst.offset:0{anibbles}x} [{name:20s} + {offset:#08x}] {inst.bytes.hex(&quot; &quot;):20s} {inst.disasm}')
+        progress = inst.offset + inst.size - addr
+    if progress &lt; size:
+        ql.arch.utils.disassembler(ql, addr + progress, size - progress)
+    return progress
+
+# In qiling/arch/utils.py
+if verbosity &gt;= QL_VERBOSE.DISASM:
+    try:  # monkey patch disassembler
+        from qiling.extensions.r2 import R2
+        r2 = R2(self.ql)
+        self._disasm_hook = self.ql.hook_code(r2.disassembler)
+    except (ImportError, ModuleNotFoundError):
+        self._disasm_hook = self.ql.hook_code(self.disassembler)
+</code></pre>
 <h2 id="share-memory-between-unicorn-and-radare2">Share memory between Unicorn and Radare2</h2>
 <p>Although the r2 extension can provide some useful APIs for users, the integration is not complete since r2 was only used for parsing binary information statically. The r2 extension was unaware of the memory emulated in Qiling, so it fails under some circumstances (eg. <code>ql.patch</code> can modify the binary at any time or the binary can dynamically unpack itself during runtime)</p>
 <p>Keeping the memory consistency between Qiling and radare2 is difficult, so instead of maintaining two independent memory content, reusing the memory in Qiling seems to be the solution.</p>
@@ -265,11 +397,73 @@ def map_ptr(self, addr: int, size: int, perms: int = UC_PROT_ALL, buf: Optional[
 
      self.map_info = tmp_map_info
 </code></pre>
-<p>People may assume <code>map_info</code> is changed only in functions like <code>map</code> and <code>unmap</code> which will also call the corresponding unicorn API, but it is possible to directly call <code>change_mapinfo</code> in the implementation of <code>syscall_mmap</code>.</p>
-<p>After lots of struggle, memory in Qiling can be accessed directly, so we can refactor r2 extension to set up using the memory map in Qiling instead of file path or binary data.</p>
+<p>People may assume <code>map_info</code> is changed only in functions like <code>map</code> and <code>unmap</code> which will also call the corresponding unicorn API, but it is possible to directly call <code>change_mapinfo</code> in the implementation of <code>syscall_mmap</code>. So it&rsquo;s really tricky to debug memory related errors, I even make an utility function as a hook to assert the memory consistency on each instruction, which may help me find the root cause (i.e. address where memory inconsistency starts):</p>
+<pre><code class="language-python">def assert_mem_equal(ql: 'Qiling'):
+    map_info = ql.mem.map_info
+    mem_regions = list(ql.uc.mem_regions())
+    assert len(map_info) == len(mem_regions), f'len: map_info={len(map_info)} != mem_regions={len(mem_regions)}'
+    for i, mem_region in enumerate(mem_regions):
+        s, e, p, label, _, data = map_info[i]
+        if (s, e - 1, p) != mem_region:
+            ql.log.error('map_info:')
+            print('\n'.join(ql.mem.get_formatted_mapinfo()))
+            ql.log.error('uc.mem_regions:')
+            print('\n'.join(f'{s:010x} - {e:010x}   {uc2perm(p)}' for (s, e, p) in mem_regions))
+            raise AssertionError(f'(start, end, perm): map_info={(s, e - 1, p)} != mem_region={mem_region}')
+        uc_mem = ql.mem.read(mem_region[0], mem_region[1] - mem_region[0] + 1)
+        assert len(data) == len(uc_mem), f'len of {i} mem: map_info={len(data)} != mem_region={len(uc_mem)}'
+        if data != uc_mem:
+            Path('/tmp/uc_mem.bin').write_bytes(uc_mem)
+            Path('/tmp/map_info.bin').write_bytes(data)
+            raise AssertionError(f'Memory region {i} {s:#x} - {e:#x} != map_info[{i}] {label}')
+</code></pre>
+<p>After lots of struggle, memory in Qiling can be accessed directly, so we can refactor r2 extension to set up using the memory map in Qiling instead of file path or binary data. We made it using <a href="https://book.rada.re/plugins/ioplugins.html" target="_blank">RBuffer</a>, which is just yet another undocumented feature provided by r2.</p>
+<pre><code class="language-python">def _rbuf_map(self, cbuf: ctypes.Array[ctypes.c_ubyte], perm: int = UC_PROT_ALL, addr: int = 0, delta: int = 0):
+    rbuf = libr.r_buf_new_with_pointers(cbuf, len(cbuf), False)  # last arg `steal` = False
+    rbuf = ctypes.cast(rbuf, ctypes.POINTER(libr.r_io.struct_r_buf_t))
+    desc = libr.r_io_open_buffer(self._r2i, rbuf, UC_PROT_ALL, 0)  # last arg `mode` is always 0 in r2 code
+    libr.r_io.r_io_map_add(self._r2i, desc.contents.fd, desc.contents.perm, delta, addr, len(cbuf))
+
+def _setup_mem(self, ql: 'Qiling'):
+    if not hasattr(ql, '_mem'):
+        return
+    for start, _end, perms, _label, _mmio, _buf in ql.mem.map_info:
+        cbuf = ql.mem.cmap[start]
+        self._rbuf_map(cbuf, perms, start)
+    # set architecture and bits for r2 asm
+    arch = self._qlarch2r(ql.arch.type)
+    self._cmd(f&quot;e,asm.arch={arch},asm.bits={ql.arch.bits}&quot;)
+    self._cmd(&quot;oba&quot;)  # load bininfo and update flags
+</code></pre>
 <h2 id="showcase-de-obfuscation-plugin-against-ollvm-control-flow-flattening">Showcase: De-obfuscation plugin against OLLVM control-flow flattening</h2>
-<p>Qiling has an IDA plugin that can recover OLLVM-protected program against control-flow flattening</p>
+<p>We will not explain in details how <em>OLLVM</em> works because it is already very well explained from the project website (<a href="http://o-llvm.org/" target="_blank">http://o-llvm.org</a>). To summarize, it flatten the original control flow using a big while-switch loop with many cases to hide real  logic.</p>
+<p>Qiling has an IDA plugin that can recover OLLVM-protected program against control-flow flattening. With a click of mouse, users can identify real and fake blocks then patch the program.</p>
+<p>However, not everyone is willing to use IDA and sometimes Hex-Rays microcode APIs can be very confusing. So</p>
+<pre><code class="language-python">class BasicBlock(R2Data):
+    addr: int
+    size: int
+    inputs: int
+    outputs: int
+    ninstr: int
+    jump: Optional[int] = None
+    fail: Optional[int] = None
+
+    @cached_property
+    def start(self):
+        return self.addr
+
+    @cached_property
+    def end(self):
+        return self.addr + self.size
+</code></pre>
+<p>Given a function obfuscated by control flow flattening, its should contain basic blocks that can be classified into different types as below.</p>
+<p><img src="/post_img/Qiling/deflat-block-type.webp" alt=""></p>
+<p><img src="https://blog.quarkslab.com/resources/2014-12-04_ollvm/images/2_code_flat.png" alt=""></p>
+<p>The predispatcher can be easily discovered since it is the block with max in-degree in the control flow graph. Then dispatcher is just the block that predispatcher should jump to. The return blocks are those who terminate without having a jump destination. The real blocks contain more than one instructions and have successor is the dispatcher.</p>
+<p>Now we have obtained different types of blocks using very basic static analysis, so what&rsquo;s the role of Qiling here? Using emulation to search for real execution paths&hellip;&hellip;</p>
 <p>To be continued&hellip; Demo has been done in <a href="https://github.com/chinggg/qiling/tree/r2deflat">https://github.com/chinggg/qiling/tree/r2deflat</a></p>
+<h2 id="conclusion-and-future-work">Conclusion and Future Work</h2>
+<p>&hellip;.</p>
 
     </div>
 
@@ -281,8 +475,8 @@ def map_ptr(self, addr: int, size: int, perms: int = UC_PROT_ALL, buf: Optional[
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        <span title="2022-10-11 09:33:53 &#43;0800 &#43;0800">2022-10-11</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/3e264169cfde335955d9816cfdff5e1a3465796b" title="MAB-Malware" target="_blank">(3e26416)</a>
+        <span title="2022-10-11 17:40:01 &#43;0800 &#43;0800">2022-10-11</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/62bedefbbd81c123f005ab45bf639ca2e59b8530" title="Qiling" target="_blank">(62bedef)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/GSoC22-Qiling.md" target="_blank">更新历史</a>
     </span>
   </p>
