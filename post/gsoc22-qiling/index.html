@@ -54,7 +54,7 @@ Motivation As a binary emulation framework, Qiling has done a nice job in emulat
 Motivation As a binary emulation framework, Qiling has done a nice job in emulation. But Qiling has limited ability to analyze binaries, users have to rely on other tools for useful information like function addresses then hardcode them, which is inconvenient.">
 <meta itemprop="datePublished" content="2022-10-08T12:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-10-11T17:40:01+08:00" />
-<meta itemprop="wordCount" content="2263">
+<meta itemprop="wordCount" content="2596">
 
 
 
@@ -174,7 +174,7 @@ Motivation As a binary emulation framework, Qiling has done a nice job in emulat
         <li><a href="#introduce-r2-extension-and-human-friendly-disassembler">Introduce R2 extension and human-friendly disassembler</a></li>
         <li><a href="#share-memory-between-unicorn-and-radare2">Share memory between Unicorn and Radare2</a></li>
         <li><a href="#showcase-de-obfuscation-plugin-against-ollvm-control-flow-flattening">Showcase: De-obfuscation plugin against OLLVM control-flow flattening</a></li>
-        <li><a href="#conclusion-and-future-work">Conclusion and Future Work</a></li>
+        <li><a href="#reflections-and-future-work">Reflections and Future Work</a></li>
       </ul>
     </li>
   </ul>
@@ -436,9 +436,9 @@ def _setup_mem(self, ql: 'Qiling'):
     self._cmd(&quot;oba&quot;)  # load bininfo and update flags
 </code></pre>
 <h2 id="showcase-de-obfuscation-plugin-against-ollvm-control-flow-flattening">Showcase: De-obfuscation plugin against OLLVM control-flow flattening</h2>
-<p>We will not explain in details how <em>OLLVM</em> works because it is already very well explained from the project website (<a href="http://o-llvm.org/" target="_blank">http://o-llvm.org</a>). To summarize, it flatten the original control flow using a big while-switch loop with many cases to hide real  logic.</p>
+<p>We will not explain in details how <em>OLLVM</em> works because it is already very well explained in its <a href="https://github.com/obfuscator-llvm/obfuscator/wiki/Control-Flow-Flattening" target="_blank">wiki</a>. To summarize, it flatten the original control flow using a big while-switch loop with many cases to hide real  logic.</p>
 <p>Qiling has an IDA plugin that can recover OLLVM-protected program against control-flow flattening. With a click of mouse, users can identify real and fake blocks then patch the program.</p>
-<p>However, not everyone is willing to use IDA and sometimes Hex-Rays microcode APIs can be very confusing. So</p>
+<p>However, not everyone is willing to use IDA and sometimes Hex-Rays microcode APIs can be very confusing. So we implement a new de-flatten plugin that can be used in terminal using r2 extension.</p>
 <pre><code class="language-python">class BasicBlock(R2Data):
     addr: int
     size: int
@@ -447,23 +447,19 @@ def _setup_mem(self, ql: 'Qiling'):
     ninstr: int
     jump: Optional[int] = None
     fail: Optional[int] = None
-
-    @cached_property
-    def start(self):
-        return self.addr
-
-    @cached_property
-    def end(self):
-        return self.addr + self.size
 </code></pre>
 <p>Given a function obfuscated by control flow flattening, its should contain basic blocks that can be classified into different types as below.</p>
 <p><img src="/post_img/Qiling/deflat-block-type.webp" alt=""></p>
 <p><img src="https://blog.quarkslab.com/resources/2014-12-04_ollvm/images/2_code_flat.png" alt=""></p>
 <p>The predispatcher can be easily discovered since it is the block with max in-degree in the control flow graph. Then dispatcher is just the block that predispatcher should jump to. The return blocks are those who terminate without having a jump destination. The real blocks contain more than one instructions and have successor is the dispatcher.</p>
-<p>Now we have obtained different types of blocks using very basic static analysis, so what&rsquo;s the role of Qiling here? Using emulation to search for real execution paths&hellip;&hellip;</p>
-<p>To be continued&hellip; Demo has been done in <a href="https://github.com/chinggg/qiling/tree/r2deflat">https://github.com/chinggg/qiling/tree/r2deflat</a></p>
-<h2 id="conclusion-and-future-work">Conclusion and Future Work</h2>
-<p>&hellip;.</p>
+<p>Now we have obtained different types of blocks using very basic static analysis, so what&rsquo;s the role of Qiling here? Emulation makes the de-obf much more robust and general and can work under less assumptions, like the optimization level, the complexity of original control flow or even the version of the Hexrays decompiler because we try to avoid matching fixed microcode patterns.</p>
+<p>In order to find real control flow, we start emulation from the beginning of every real block with a <code>guide_hook</code>, which will stop emulation if reaching another real block or return block, thus getting paths from real blocks to real blocks. More work should be done for blocks containing conditional branch instruction like <code>cmov</code>, since they have multiple potential states which may lead to different paths. So we emulate these blocks twice and force set different register values to cover both conditions and hopefully get two destinations.</p>
+<p>For conditional branch instruction in x86 binaries, I can only think of <code>cmov</code> instruction. Manually comparing the operand is enough since it has. But if we want to support more architecture, we need some kind of immediate representation that is platform indepedant. Luckily r2 can provide <a href="https://book.rada.re/disassembling/esil.html" target="_blank">ESIL</a> for each instruction, which describe the opcode semantics. Given ESIL of a conditional branch instruction, we want to get exactly the source and destination under different branches, though I have no idea which instructions we may meet specifically in other architectures like ARM.</p>
+<p>Demo for has been done in <a href="https://github.com/chinggg/qiling/tree/r2deflat">https://github.com/chinggg/qiling/tree/r2deflat</a></p>
+<h2 id="reflections-and-future-work">Reflections and Future Work</h2>
+<p>Introducing new feature for a project is usually welcomed, while replacing the old implementation in the core part with new one requires agreement from all maintainers, which may involve much effort on debating.  Adding new components without cautious consideration will make the code hard to maintain in the further.</p>
+<p>Both my mentor and I did not expect the obstacles on memory management that block our progress for weeks. Now there are still two memory related bugs <a href="https://github.com/qilingframework/qiling/issues/1136" target="_blank">#1136</a> and <a href="https://github.com/qilingframework/qiling/issues/1137" target="_blank">#1137</a>, which already existed even before I started contributing. Maybe further refactoring on <code>QlMemoryManager</code> is needed in the future.</p>
+<p>Now the ability of r2 has not been fully exploited yet, we expect more work can be done to support more file formats and more useful analysis.</p>
 
     </div>
 
@@ -476,7 +472,7 @@ def _setup_mem(self, ql: 'Qiling'):
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-10-11 17:40:01 &#43;0800 &#43;0800">2022-10-11</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/62bedefbbd81c123f005ab45bf639ca2e59b8530" title="Qiling" target="_blank">(62bedef)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/fb587926b5bfcc2ffb2aade8742bc7935d4ec3a8" title="Qiling" target="_blank">(fb58792)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/GSoC22-Qiling.md" target="_blank">更新历史</a>
     </span>
   </p>
