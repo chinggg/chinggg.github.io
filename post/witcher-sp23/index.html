@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Toss a Fault to Your Witcher - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/witcher-sp23/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="Toss a Fault to Your Witcher" />
+<meta property="og:description" content="在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/witcher-sp23/" />
+<meta property="article:published_time" content="2022-10-19T12:20:48+08:00" />
+<meta property="article:modified_time" content="2022-10-20T10:10:45+08:00" />
+<meta itemprop="name" content="Toss a Fault to Your Witcher">
+<meta itemprop="description" content="在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往">
+<meta itemprop="datePublished" content="2022-10-19T12:20:48+08:00" />
+<meta itemprop="dateModified" content="2022-10-20T10:10:45+08:00" />
+<meta itemprop="wordCount" content="1818">
+
+
+
+<meta itemprop="keywords" content="学术,安全,fuzzing,web," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Toss a Fault to Your Witcher"/>
+<meta name="twitter:description" content="在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Toss a Fault to Your Witcher</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-10-19 12:20:48 &#43;0800 &#43;0800"> 2022-10-19 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BA%E6%96%87/"> 论文 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#挑战一-如何检测-web-应用漏洞被触发">挑战一 如何检测 Web 应用漏洞被触发？</a></li>
+            <li><a href="#挑战二-如何生成能打通-web-应用程序的合理输入">挑战二 如何生成能打通 Web 应用程序的合理输入？</a></li>
+            <li><a href="#挑战三-如何有效收集覆盖率信息">挑战三 如何有效收集覆盖率信息？</a></li>
+            <li><a href="#挑战四-如何有效变异测试用例">挑战四 如何有效变异测试用例？</a></li>
+            <li><a href="#rq1-witcher-使用的增强性技术是否有效">RQ1: Witcher 使用的增强性技术是否有效？</a></li>
+            <li><a href="#rq2-witcher-识别-web-应用程序中的漏洞效果如何">RQ2: Witcher 识别 Web 应用程序中的漏洞效果如何？</a></li>
+            <li><a href="#rq3-witcher-的代码覆盖率和漏洞扫描效果与黑盒漏洞扫描器和其他工作相比如何">RQ3: Witcher 的代码覆盖率和漏洞扫描效果与黑盒漏洞扫描器和其他工作相比如何？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往局限于某一种编程语言而难以迁移，黑盒的扫描器则仅能发现预定义的规则模板所覆盖的漏洞。今天我们分享的这篇论文 <em>Toss a Fault to Your Witcher</em> 就利用覆盖引导变异的灰盒模糊测试技术来检测 Web 应用程序的 SQL 和命令注入漏洞，作者来自 UCSB SecLab 和 ASU SEFCOM 这两个安全研究大组，目前论文已被 IEEE S &amp; P 2023 接收。</p>
+<p>Witcher 的整体架构如下图所示：</p>
+<p><img src="/post_img/Witcher-SP23/overview.webp" alt=""></p>
+<p>作者归纳了对 Web 应用程序进行 fuzz 的四个难题，并针对性地设计了不同组件来予以解决。</p>
+<h3 id="挑战一-如何检测-web-应用漏洞被触发">挑战一 如何检测 Web 应用漏洞被触发？</h3>
+<p>检测程序中是否存在漏洞实际上就是要判断程序是否处于 vulnerable program state，对传统二进制软件来说，检测到段错误（segmentation fault）就表示触发了漏洞，但 Web 应用程序的程序来说没有直接的触发信号。为此作者设计了 <strong>Fault Escalator</strong>，通过修改 shell 的源码并 hook libc 中用于和数据库通信的 recv 函数，使得当产生 SQL 或命令注入漏洞时，会自动触发段错误。</p>
+<p>这里还需注意，对于 SQL 注入漏洞的判断实际上是比较困难的，本文作者是以产生语法错误作为存在 SQL 注入的依据，因为一旦 fuzzer 的输入在未经检查的情况下被拼接为 SQL 语句，大概率会在解析时产生语法错误，不过最终是否存在可利用的漏洞还需在实验中进一步辨别。</p>
+<h3 id="挑战二-如何生成能打通-web-应用程序的合理输入">挑战二 如何生成能打通 Web 应用程序的合理输入？</h3>
+<p>Web 应用通常只接受 HTTP 和 CGI 请求，而 fuzzer 生成的输入往往无法满足相应结构从而难以探索程序的输入空间。因此作者设计了 <strong>Request Harness</strong> 来将 fuzz 生成的输入翻译成有效的 HTTP 或 CGI 请求。</p>
+<p>以上两个难题的解决使得对 Web 应用的 fuzz 成为可能，接下来就是要改进对 Web 应用进行 fuzz 的效果。</p>
+<h3 id="挑战三-如何有效收集覆盖率信息">挑战三 如何有效收集覆盖率信息？</h3>
+<p>覆盖导向型的 fuzzer 需要插桩目标应用程序来收集覆盖率信息，但对解释性语言编写的 Web 应用程序来说，插桩收集到的往往是解释器本身而非目标 Web 应用程序的覆盖率信息，这种信息大多是噪音，使得 fuzzer 无法有效探索目标程序的输入空间。为此作者设计了 <strong>Coverage Accountant</strong> 来更精确地收集覆盖信息，不同类型的解释型语言都需要先将源码翻译成字节码，然后再逐条执行字节码指令，Coverage Accountant 就是在解释器执行指令过程中将代码行数、参数等信息传给 Witcher。</p>
+<h3 id="挑战四-如何有效变异测试用例">挑战四 如何有效变异测试用例？</h3>
+<p>传统 fuzzer 往往把输入当作无结构的比特流来变异，难以利用 Web 应用中的上下文信息（比如网页表单中的变量名）。因此作者实现了 <strong>HTTP-specific Input Mutations</strong> 以在变量的层面上对参数进行变异，具体来说就是为 AFL 增加了两个 mutation stage，使得 HTTP 参数在爬虫收集到的变量字典中以杂交的方式变异。</p>
+<p>实验评估主要回答以下三个问题：</p>
+<h3 id="rq1-witcher-使用的增强性技术是否有效">RQ1: Witcher 使用的增强性技术是否有效？</h3>
+<p>设置了四个配置 AFL, AFLHR, WiCR, WiCHR 代表启用/禁用 coverage acccountant 和 HTTP mutator 的四种情况，在 10 个 microtest 测试代码上运行，结果如下表所示，Witcher 的两种增强性技术极大地改进了 fuzz 效果。</p>
+<p><img src="/post_img/Witcher-SP23/table1.webp" alt=""></p>
+<h3 id="rq2-witcher-识别-web-应用程序中的漏洞效果如何">RQ2: Witcher 识别 Web 应用程序中的漏洞效果如何？</h3>
+<p>为了测试 Witcher 扫描 Web 应用漏洞的实际表现，使用了不同种类应用组成的数据集，其中有 8 个 PHP 应用，5 个路由器固件和 Java / Python / Node.js 应用各一个，共有 36 个已知的漏洞，对于每个漏洞都人工验证其是否 exploitable。</p>
+<p>本轮实验的结果如下表所示，可以看出 Witcher 不仅检测到了超过六成的已知漏洞，还能许多发现未知的漏洞。而未检测出的漏洞大多是由于攻击点本身没被 crawler 爬取到，比如有些 URL 需要一系列点击操作才能触达或者根本是界面中不显示的隐藏后门。</p>
+<p><img src="/post_img/Witcher-SP23/table2.webp" alt=""></p>
+<h3 id="rq3-witcher-的代码覆盖率和漏洞扫描效果与黑盒漏洞扫描器和其他工作相比如何">RQ3: Witcher 的代码覆盖率和漏洞扫描效果与黑盒漏洞扫描器和其他工作相比如何？</h3>
+<p>Burp 是知名的商业黑盒漏洞扫描器，实验中设置了 Burp (solo) 和 BurpPlus Witcher 两种配置，分别采用内置 crawler 和 Witcher 的 crawler 提供的请求，后者能专注对比 Burp 和 Witcher 在输入生成上的效果，可以看出 Witcher 效果远胜 Burp。唯一的不足是 Witcher 专注于单页请求而不像 Burp 那样可能触发多个页面的状态。</p>
+<p><img src="/post_img/Witcher-SP23/table3.webp" alt=""></p>
+<p>Black Widow 和 WebFuzz 是今年对 Web 应用进行 fuzz 的工作，但它们主要关注 XSS 漏洞，因此本文只比较了其触发的代码行数，可以看出 Witcher 几乎占据绝对优势。</p>
+<p><img src="/post_img/Witcher-SP23/table4.webp" alt=""></p>
+<p>作者在文末也说明了 Witcher 的一些不足，首先是目前仅限于发现 SQL 和命令注入漏洞，而且在注入类漏洞中也只限于检测到单次请求的反射型漏洞，对于涉及多次请求的存储型漏洞，则无法精确判断具体是哪次输入触发漏洞。这种每次只 fuzz 一个 URL 的设计也使得它难以完整地感知 Web 应用的状态，作者认为可以结合一些相关工作来增进对其 Web 应用状态的理解，并支持发掘文件包含、XSS 等更多类型的漏洞。</p>
+<p>论文地址：<a href="https://doi.ieeecomputersociety.org/10.1109/SP46215.2023.00007">https://doi.ieeecomputersociety.org/10.1109/SP46215.2023.00007</a></p>
+<p>代码尚未释出</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2022-10-20 10:10:45 &#43;0800 &#43;0800">2022-10-20</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/719fcc3de9cb258aa694f1be5270ef21c94c7663" title="Witcher SP23" target="_blank">(719fcc3)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Witcher-SP23.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%AD%A6%E6%9C%AF/">学术</a>
+          <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          <a href="/tags/fuzzing/">fuzzing</a>
+          <a href="/tags/web/">web</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/qiling-gsoc22/">
+            <span class="next-text nav-default">GSoC 2022 - Qiling Binary Emulation Meet R2 Static Analysis</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"Toss%20a%20Fault%20to%20Your%20Witcher - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=Toss%20a%20Fault%20to%20Your%20Witcher - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
