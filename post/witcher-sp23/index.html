@@ -51,7 +51,7 @@
 <meta itemprop="description" content="在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往">
 <meta itemprop="datePublished" content="2022-10-19T12:20:48+08:00" />
 <meta itemprop="dateModified" content="2022-10-20T10:10:45+08:00" />
-<meta itemprop="wordCount" content="1818">
+<meta itemprop="wordCount" content="2029">
 
 
 
@@ -185,19 +185,19 @@
 </div>
     <div class="post-content">
       <p>在 Web 应用漏洞程序频出的当下，人们提出了许多技术来自动发掘 Web 应用程序中的漏洞，但这些技术也都有各自的缺点：白盒静态分析工具不仅需要源码，还往往局限于某一种编程语言而难以迁移，黑盒的扫描器则仅能发现预定义的规则模板所覆盖的漏洞。今天我们分享的这篇论文 <em>Toss a Fault to Your Witcher</em> 就利用覆盖引导变异的灰盒模糊测试技术来检测 Web 应用程序的 SQL 和命令注入漏洞，作者来自 UCSB SecLab 和 ASU SEFCOM 这两个安全研究大组，目前论文已被 IEEE S &amp; P 2023 接收。</p>
-<p>Witcher 的整体架构如下图所示：</p>
+<p>Witcher 基于 AFL 开发，其整体架构如下图所示：</p>
 <p><img src="/post_img/Witcher-SP23/overview.webp" alt=""></p>
 <p>作者归纳了对 Web 应用程序进行 fuzz 的四个难题，并针对性地设计了不同组件来予以解决。</p>
 <h3 id="挑战一-如何检测-web-应用漏洞被触发">挑战一 如何检测 Web 应用漏洞被触发？</h3>
-<p>检测程序中是否存在漏洞实际上就是要判断程序是否处于 vulnerable program state，对传统二进制软件来说，检测到段错误（segmentation fault）就表示触发了漏洞，但 Web 应用程序的程序来说没有直接的触发信号。为此作者设计了 <strong>Fault Escalator</strong>，通过修改 shell 的源码并 hook libc 中用于和数据库通信的 recv 函数，使得当产生 SQL 或命令注入漏洞时，会自动触发段错误。</p>
+<p>检测程序中是否存在漏洞实际上就是要判断程序是否处于 vulnerable program state，对传统二进制软件来说，检测到段错误（segmentation fault）就表示触发了漏洞，但 Web 应用程序来说没有直接的触发信号。为此作者设计了 <strong>Fault Escalator</strong>，通过修改 shell 的源码并 hook libc 中用于和数据库通信的 recv 函数，使得当产生 SQL 或命令注入漏洞时，会自动触发段错误。</p>
 <p>这里还需注意，对于 SQL 注入漏洞的判断实际上是比较困难的，本文作者是以产生语法错误作为存在 SQL 注入的依据，因为一旦 fuzzer 的输入在未经检查的情况下被拼接为 SQL 语句，大概率会在解析时产生语法错误，不过最终是否存在可利用的漏洞还需在实验中进一步辨别。</p>
 <h3 id="挑战二-如何生成能打通-web-应用程序的合理输入">挑战二 如何生成能打通 Web 应用程序的合理输入？</h3>
-<p>Web 应用通常只接受 HTTP 和 CGI 请求，而 fuzzer 生成的输入往往无法满足相应结构从而难以探索程序的输入空间。因此作者设计了 <strong>Request Harness</strong> 来将 fuzz 生成的输入翻译成有效的 HTTP 或 CGI 请求。</p>
+<p>Web 应用通常只接受 HTTP 和 CGI 请求，而 fuzzer 生成的 seeds 往往不满足相应结构，不能直接用来探索目标程序的输入空间。因此作者设计了 <strong>Request Harness</strong> 作为 fuzzer 和目标 Web 应用程序之间的桥梁，将 fuzz 生成的输入翻译成有效的 HTTP 或 CGI 请求并发送给目标 Web 应用程序。具体来说，fuzzer 产生的 seeds 符合空字符分割的格式，包含 cookie，查询参数，POST 载荷等参数，harness 会构造对目标攻击点 URL 的请求，加入这些必要的参数后将请求发送给目标 Web 应用程序。当 <strong>Fault Escalator</strong> 发现漏洞触发时会就把段错误传回给 harness 进程，从而让 fuzzer 自动感知到错误。</p>
 <p>以上两个难题的解决使得对 Web 应用的 fuzz 成为可能，接下来就是要改进对 Web 应用进行 fuzz 的效果。</p>
 <h3 id="挑战三-如何有效收集覆盖率信息">挑战三 如何有效收集覆盖率信息？</h3>
-<p>覆盖导向型的 fuzzer 需要插桩目标应用程序来收集覆盖率信息，但对解释性语言编写的 Web 应用程序来说，插桩收集到的往往是解释器本身而非目标 Web 应用程序的覆盖率信息，这种信息大多是噪音，使得 fuzzer 无法有效探索目标程序的输入空间。为此作者设计了 <strong>Coverage Accountant</strong> 来更精确地收集覆盖信息，不同类型的解释型语言都需要先将源码翻译成字节码，然后再逐条执行字节码指令，Coverage Accountant 就是在解释器执行指令过程中将代码行数、参数等信息传给 Witcher。</p>
+<p>覆盖导向型的 fuzzer 需要插桩目标应用程序来收集覆盖率信息，但对解释性语言编写的 Web 应用程序来说，插桩收集到的往往是解释器本身而非目标 Web 应用程序的覆盖率信息，这种信息大多是噪音，使得 fuzzer 无法有效探索目标程序的输入空间。为此作者设计了 <strong>Coverage Accountant</strong> 来更精确地收集覆盖信息，不同类型的解释型语言都需要先将源码翻译成字节码，然后再逐条执行字节码指令，Coverage Accountant 就是在解释器执行指令过程中将代码行数、参数等信息传给 Witcher。而对于 CGI 程序来说则只需使用 AFL 的编译插桩或 QEMU 动态插桩。</p>
 <h3 id="挑战四-如何有效变异测试用例">挑战四 如何有效变异测试用例？</h3>
-<p>传统 fuzzer 往往把输入当作无结构的比特流来变异，难以利用 Web 应用中的上下文信息（比如网页表单中的变量名）。因此作者实现了 <strong>HTTP-specific Input Mutations</strong> 以在变量的层面上对参数进行变异，具体来说就是为 AFL 增加了两个 mutation stage，使得 HTTP 参数在爬虫收集到的变量字典中以杂交的方式变异。</p>
+<p>传统 fuzzer 往往把输入当作无结构的比特流来变异，难以利用 Web 应用中的上下文信息（比如网页表单中的变量名）。因此作者实现了 <strong>HTTP-specific Input Mutations</strong> 以在变量的层面上对参数进行变异，具体来说就是为 AFL 增加了两个 mutation stage，使得 HTTP 参数在爬虫收集到的变量字典中以杂交的方式变异，从而使生成的测试用例更可能触发新的执行路径。</p>
 <p>实验评估主要回答以下三个问题：</p>
 <h3 id="rq1-witcher-使用的增强性技术是否有效">RQ1: Witcher 使用的增强性技术是否有效？</h3>
 <p>设置了四个配置 AFL, AFLHR, WiCR, WiCHR 代表启用/禁用 coverage acccountant 和 HTTP mutator 的四种情况，在 10 个 microtest 测试代码上运行，结果如下表所示，Witcher 的两种增强性技术极大地改进了 fuzz 效果。</p>
@@ -226,7 +226,7 @@
     <span class="item-title">上次更新</span>
     <span class="item-content">
         <span title="2022-10-20 10:10:45 &#43;0800 &#43;0800">2022-10-20</span>
-        <a href="https://github.com/chinggg/hugo-blog/commit/719fcc3de9cb258aa694f1be5270ef21c94c7663" title="Witcher SP23" target="_blank">(719fcc3)</a>
+        <a href="https://github.com/chinggg/hugo-blog/commit/b384e9c785da316c9c1b50913e4591412ff9d463" title="Witcher SP23" target="_blank">(b384e9c)</a>
         ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/Witcher-SP23.md" target="_blank">更新历史</a>
     </span>
   </p>
