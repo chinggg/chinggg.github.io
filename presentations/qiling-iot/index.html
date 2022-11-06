@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>Qiling Framework: Demystifying IoT Firmware with Emulation</title>
+<meta name="description" content="chinggg的博客">
+<meta name="author" content="chinggg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/css/reset.css">
+<link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-js/css/theme/night.css" id="theme">
+<link rel="stylesheet" href="/highlight-js/default.min.css">
+    
+  </head>
+  <body>
+    
+    <style>
+      #logo {
+        position: absolute;
+        top: 1%;
+        left: 1%;
+        width: 8%;
+      }
+    </style>
+    <img id="logo" src="qiling.webp" alt="">
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h2 id="qiling-framework">Qiling Framework</h2>
+<h4 id="demystifying-iot-firmware-with-emulation">Demystifying IoT Firmware with Emulation</h4>
+<p>by <a href="https://github.com/chinggg" target="_blank">chinggg</a></p>
+<p>2022.11.7</p>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="play-with-iot-firmware">Play with IoT firmware</h3>
+</section><section>
+<p>Preparation:</p>
+<ul>
+<li>Get firmware
+<ul>
+<li>download from Internet or dump physically</li>
+</ul>
+</li>
+<li>Extract rootfs
+<ul>
+<li><code>binwalk</code> is all your need</li>
+<li><code>squashfs-tools</code>, <code>sasquatch</code>, <code>firmware-mod-kit</code></li>
+</ul>
+</li>
+</ul>
+<pre><code>.
+├── bin
+├── cfg
+├── dev
+├── etc -&gt; /var/etc
+├── etc_ro
+├── home -&gt; /var/home
+├── init -&gt; bin/busybox
+├── lib
+├── mnt
+├── proc
+├── root -&gt; /var/root
+├── sbin
+├── sys
+├── tmp
+├── usr
+├── var
+├── webroot -&gt; var/webroot
+└── webroot_ro
+</code></pre>
+</section><section>
+<h4 id="the-qemu-way-user-mode">The QEMU way (user mode)</h4>
+<pre><code class="language-sh">❯ sudo chroot . /qemu-arm-static /bin/httpd
+init_core_dump 1816: rlim_cur = 0, rlim_max = 0
+init_core_dump 1825: open core dump success
+init_core_dump 1834: rlim_cur = 5242880, rlim_max = 5242880
+
+
+Yes:
+
+      ****** WeLoveLinux******
+
+ Welcome to ...
+</code></pre>
+</section><section>
+<h4 id="the-qemu-way-system-mode">The QEMU way (system mode)</h4>
+<ul>
+<li>Repack the firmware image</li>
+<li>Boot with QEMU</li>
+</ul>
+<pre><code class="language-sh">qemu-system-arm -cpu arm1176 -M versatilepb -kernel /path/to/kernelqemu-4.4.34-jessie -append &quot;console=ttyAMA0 root=/dev/sda rootfstype=ext2 rw&quot; -hda /path/to/rootrootfs.img -nographic
+</code></pre>
+</section><section>
+<p>Issues at runtime:</p>
+<ul>
+<li>Missing files (configuration, shared object)</li>
+<li>Check error then exit</li>
+<li>Segmentation fault</li>
+</ul>
+</section><section>
+<p>Solutions:</p>
+<ul>
+<li>Fake environment with required file</li>
+<li>Function hijacking with <code>LD_PRELOAD</code></li>
+<li><code>strace</code> and reverse engineering</li>
+</ul>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="qilings-debut">Qiling&rsquo;s Debut</h3>
+</section><section>
+<h3 id="from-qemu-to-unicorn-engine">From QEMU to Unicorn Engine</h3>
+<ul>
+<li>Lightweight: focus on CPU emulation</li>
+<li>Flexible: run off the shelf without any context</li>
+<li>Instrumentation: register handlers for events</li>
+</ul>
+</section><section>
+<h3 id="from-unicorn-engine-to-qiling">From Unicorn Engine to Qiling</h3>
+<ul>
+<li>File Formats: ELF, PE, Mach-O, EVM, DOS</li>
+<li>OS Context: syscall, IO, file system</li>
+<li>Extension: IDA, GDB and now Radare2</li>
+</ul>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="demo-1-router-webui">Demo 1: router WebUI</h3>
+</section><section>
+<p><a href="https://github.com/qilingframework/qiling/blob/dev/examples/tendaac1518_httpd.py" target="_blank">tendaac1518_httpd.py</a></p>
+</section><section>
+<p><img src="https://i.loli.net/2020/07/18/KG8UQHESaV2YyWp.png" alt=""></p>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="demo-2-fuzzing-with-ql_afl">Demo 2: fuzzing with ql_afl</h3>
+</section><section>
+<p><a href="https://github.com/qilingframework/qiling/tree/dev/examples/fuzzing/tenda_ac15" target="_blank">fuzz_tendaac15_httpd.py</a></p>
+<pre><code class="language-python">def main(input_file, enable_trace=False):
+    ql = Qiling([&quot;rootfs/bin/httpd&quot;], &quot;rootfs&quot;, verbose=QL_VERBOSE.DEBUG, console = True if enable_trace else False)
+
+    # save current emulated status
+    ql.restore(snapshot=&quot;snapshot.bin&quot;)
+
+    # return should be 0x7ff3ca64
+    fuzz_mem=ql.mem.search(b&quot;CCCCAAAA&quot;)
+    target_address = fuzz_mem[0]
+
+    def place_input_callback(_ql: Qiling, input: bytes, _):
+        _ql.mem.write(target_address, input)
+
+    def start_afl(_ql: Qiling):
+        &quot;&quot;&quot;
+        Callback from inside
+        &quot;&quot;&quot;
+        ql_afl_fuzz(_ql, input_file=input_file, place_input_callback=place_input_callback, exits=[ql.os.exit_point])
+
+    ql.hook_address(callback=start_afl, address=0x10930+8)
+
+    try:
+        ql.run(begin = 0x10930+4, end = 0x7a0cc+4)
+        os._exit(0)
+    except:
+        if enable_trace:
+            print(&quot;\nFuzzer Went Shit&quot;)
+        os._exit(0)
+</code></pre>
+</section><section>
+<p><img src="https://i.loli.net/2020/07/18/VXBFCYS4NejlKhn.png" alt=""></p>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="recent-work">Recent Work</h3>
+</section><section>
+<h4 id="radare2-extenstionhttpsjing6netlifyappprojectqiling-gsoc22"><a href="https://jing6.netlify.app/project/qiling-gsoc22/" target="_blank">Radare2 extenstion</a></h4>
+<p><img src="https://jing6.netlify.app/post_img/Qiling/graph-cmp.webp" alt=""></p>
+</section><section>
+<h4 id="reversing-mcu-with-firmware-emulationhttpswwwblackhatcomeu-22arsenalschedulereversing-mcu-with-firmware-emulation-29553"><a href="https://www.blackhat.com/eu-22/arsenal/schedule/#reversing-mcu-with-firmware-emulation-29553" target="_blank">Reversing MCU with Firmware Emulation</a></h4>
+<p><img src="Qiling_BH_MCU.webp" alt=""></p>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<p>Thanks for reading!</p>
+<p>Star us on <a href="https://github.com/qilingframework/qiling" target="_blank">GitHub</a></p>
+<p>Read the docs at <a href="https://docs.qiling.io/">https://docs.qiling.io/</a></p>
+
+</section>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
+
+<a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
+<script type="text/javascript">
+  var printLocationElement = document.getElementById('print-location');
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
+<script type="application/json" id="reveal-hugo-site-params">null</script>
+<script type="application/json" id="reveal-hugo-page-params">{"theme":"night"}</script>
+
+<script src="/reveal-js/js/reveal.js"></script>
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams));
+  Reveal.initialize(options);
+</script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/marked.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom-js/zoom.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+    
+    
+  </body>
+</html>
