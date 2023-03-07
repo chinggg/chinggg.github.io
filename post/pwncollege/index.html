@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>拼搏百天，我在pwn.college拿到了蓝带——黑客、开源和CS教育的革新 - chinggg的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chinggg" /><meta name="description" content="本文已首发于微信公众号 新年的第一篇推文，我们介绍一下来自大洋彼岸的计算机安全课程 pwn.college。在黑客行话中 pwn 就是入侵成功的意思，p" /><meta name="keywords" content="chinggg, blog" />
+
+
+<meta name="baidu-site-verification" content="chinggg" />
+<meta name="google-site-verification" content="R-pe5fMn8y2i91GFmYpudXwbv7bMLv4XYoHqLWB3Y9I" />
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://chinggg.github.io/post/pwncollege/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.299b56866ca7e5e86584d6353e1e1a12be9d049f05d134ced7e689b415569dc5.css" rel="stylesheet">
+
+
+
+
+
+<meta property="og:title" content="拼搏百天，我在pwn.college拿到了蓝带——黑客、开源和CS教育的革新" />
+<meta property="og:description" content="本文已首发于微信公众号 新年的第一篇推文，我们介绍一下来自大洋彼岸的计算机安全课程 pwn.college。在黑客行话中 pwn 就是入侵成功的意思，p" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinggg.github.io/post/pwncollege/" />
+<meta property="article:published_time" content="2023-02-11T20:20:48+08:00" />
+<meta property="article:modified_time" content="2023-03-07T10:42:54+08:00" />
+<meta itemprop="name" content="拼搏百天，我在pwn.college拿到了蓝带——黑客、开源和CS教育的革新">
+<meta itemprop="description" content="本文已首发于微信公众号 新年的第一篇推文，我们介绍一下来自大洋彼岸的计算机安全课程 pwn.college。在黑客行话中 pwn 就是入侵成功的意思，p">
+<meta itemprop="datePublished" content="2023-02-11T20:20:48+08:00" />
+<meta itemprop="dateModified" content="2023-03-07T10:42:54+08:00" />
+<meta itemprop="wordCount" content="3187">
+
+
+
+<meta itemprop="keywords" content="随笔,开源," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="拼搏百天，我在pwn.college拿到了蓝带——黑客、开源和CS教育的革新"/>
+<meta name="twitter:description" content="本文已首发于微信公众号 新年的第一篇推文，我们介绍一下来自大洋彼岸的计算机安全课程 pwn.college。在黑客行话中 pwn 就是入侵成功的意思，p"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">chinggg的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/links/">
+        <li class="mobile-menu-item">链接</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/ranking/">
+        <li class="mobile-menu-item">排行</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">搜索</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">chinggg的博客</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/links/">链接</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/ranking/">排行</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">搜索</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">拼搏百天，我在pwn.college拿到了蓝带——黑客、开源和CS教育的革新</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-02-11 20:20:48 &#43;0800 &#43;0800"> 2023-02-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%9A%8F%E7%AC%94/"> 随笔 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+
+    <div class="post-content">
+      <blockquote>
+<p>本文已首发于微信公众号</p>
+</blockquote>
+<hr>
+<p>新年的第一篇推文，我们介绍一下来自大洋彼岸的计算机安全课程 pwn.college。在黑客行话中 pwn 就是入侵成功的意思，pwn 也是 CTF 安全竞赛中的重要题型，而课程的创立者 <a href="http://yancomm.net/" target="_blank">Yan Shoshitaishvili</a> 就曾是知名 CTF 战队 Shellphish 的队长，并创立了 Order of the Overflow 连续组织了四年的 DEF CON CTF。如今作为亚利桑那州立大学教授的 Yan 在从事安全研究的同时还热衷于传道授业，打造了这一整套课程来让学生在实践中夯实计算机安全的基础，开启黑客之路。</p>
+<p>如果读者熟悉 CTF 夺旗赛的形式，应当知道 CTF 获胜的条件就是拿到 flag，它通常是一个特征明显，含有 <code>{}</code> 的字符串。而在不同类型的题目中，考察的知识点五花八门，flag 所在的位置和呈现形式多种多样，解题思路可以非常天马行空。pwn.college 的解题方式则是固定的，所有题目都会启动一个服务器实例，将答案存在 <code>/flag</code> 文件中，这个文件只有 <code>root</code> 用户可读，而学生只能控制 <code>hacker</code> 用户，解题的关键就是 <code>/challenge</code> 目录下的 SUID 程序，这些程序可以 <code>root</code> 权限运行，学生必须利用程序中的漏洞以获取 <code>/flag</code> 文件内容。</p>
+<p>pwn.college 的主体就是其精心设计的 CTF 习题 ，课程没有考试，重在让学生通过解题实践加深对计算机安全的理解。在 ASU 的教学中，每一门课对应一个 dojo，每个 dojo 中有一系列模块，每个模块对应不同的知识点和习题。以 CSE 466 Computer Systems Security 为例， 这门课程在 2021 年秋季学期一共有 14 个模块共 472 道题目，覆盖了计算机系统安全的基础内容。</p>
+<p><img src="/post_img/pwn/dojo.webp" alt="Archive CSE466 F2021 Dojo"></p>
+<p>第一个模块 Program Interaction 就有 142 道题，学习曲线及其友好，由易到难覆盖命令行基本操作，标准输入输出，管道，进程间交互，网络 socket 等内容，每一道题通过判题脚本限制学生使用命令行，Bash/Python 脚本和编译后的 C 程序来实现类似的功能，看似简单的程序交互也能玩出不同的花样。</p>
+<p>Program Misuse 模块则介绍 SUID 特权程序及其安全隐患，看过五十多个程序的 man page 才知道原来他们都能用来读取 <code>/flag</code>。</p>
+<p>Assembly Refresher 模块则用 21 道题目让学生从零入门 x86 汇编，第一道题还在学 <code>mov</code> 指令，最后一道题就要用汇编实现一个函数统计一段内存中出现次数最多的字节。</p>
+<p>学完汇编后就有 14 道题练习 Shellcode Injection，尽管 pwntools 自带了许多 shellcode，学生仍有必要学习从零开始编译自己的 shellcode，并绕过长度限制和字符限制以最终获得 flag。</p>
+<p>其后的 Sandboxing 模块则介绍了常用于隔离文件系统的 <code>chroot</code> 和屏蔽系统调用的 <code>seccomp</code>，学生将在 13 道题中编写 shellcode，理解这两种隔离机制的缺陷并绕过它们获取 flag。</p>
+<p>Debugging Refresher 模块仅用 8 道题就让学生掌握了 GDB 动态调试程序的基本方法，之后的模块中需要大量使用 GDB 进行调试。</p>
+<p>Reverse Engineering 模块共有 38 道题，从这一模块开始题目更加复杂，每道题会拆成两个版本：有提示的 teaching challenge 和无提示的 testing challenge，学生需要综合利用静态分析和动态调试工具逆向程序逻辑，还原被混淆的 license key，或直接 patch 程序以获得 flag。后半部分题目更是引入了自制的 Yan85 虚拟机混淆，大大提高了逆向难度。（这里剧透一下，Yan85 会在后续的模块中反复出现）</p>
+<p>Memory Errors 模块开始才算真正进入了 CTF 中 pwn 类型的内容，学生将会学习利用栈溢出执行恶意代码，并在合适的场景下绕过 Stack Canary 和 ASLR 等保护机制。</p>
+<p>这之后还有 Return Oriented Programming，Dynamic Allocator Misuse 等模块，讲解更多复杂场景下的利用方式，还会涉及 Race Condition 和 Kernel Security。</p>
+<p>以上仅仅只是 2021 年的版本，pwn.college 会根据学生的反馈不断优化课程设计，从下图教学团队统计的学生得分数据可以直观地看出不同模块的难度，为之后调整课程内容编排提供了依据。</p>
+<p><img src="/post_img/pwn/grades.webp" alt="Grades"></p>
+<p>如果把教学看作学生与教师之间的攻防互动，那么好的教学需要做到“安全”和“高效”。教师需要检测出学生的真实学习成效，确保学生在掌握知识点的情况下才能拿到对应分数，防止学生走捷径不劳而获。只有最懂攻击的黑客才能设计出最健全的防御体系，pwn.college 放手让学生在服务器中自由发挥，又确保其无法造成破坏，最终只能在理解对应知识点后用预想的方式解题。不过若是学生真能发现实验系统中的非预期漏洞并上报，还会得到额外加分。pwn.college 的形式也让抄袭再无用处，每个人每道题对应的 flag 都是不同的，乃至对应的程序也在数据上有变化，即使拿到他人代码也无法直接抄袭过关。但这绝不意味着学生遇到困难只能闭门造车闷头苦想，pwn.college 鼓励不涉及直接答案的讨论和互助，所有关于课程和题目的疑问都可以在 Discord 中提出，群聊机器人会自动统计每个人收到感谢的次数，在计算 ASU 本校学生课程绩点时会对助人行为予以额外加分。这样学生非但不会为绩点而恶性竞争，反而会积极帮助他人，营造了良好的学习氛围，让学生更加高效地学习。</p>
+<p><img src="/post_img/pwn/help_ec.webp" alt="Helper Extra Credit"></p>
+<p>除此之外，我还总结了 pwn.college 在教学安排上与传统课程的两个不同点：</p>
+<p><strong>可复用性和可扩展性</strong>：pwn.college 最近三年讲解知识点的视频和幻灯片都只有一版，但这并不意味着老师每年翻来覆去念同一套 PPT，恰恰相反，日常课程的固定让师生的精力都得到了解放：教学团队只需开设直播答疑课来有针对性地进行讲解，不用花时间维护已有课程或批改作业，而能持续迭代出新的课程内容；学生可以灵活安排自己的学习时间，观看视频和幻灯片掌握知识点并进行大量实践，遇到难题时可以参考之前的答疑课录像和 Discord 内的聊天记录。由于充分调动了学生自主学习和社区互助的积极性，当越来越多来自世界各地的学生参与学习，教学团队非但不会担心人数太多影响教学质量，反而乐于见到更多学生参与讨论，教师所付出的时间成本几乎不受学生数量影响，而学生得到帮助的机会却随着参与人数的增加而增加，这就以“大班课”的规模实现了媲美“小班化教学”的互动程度。</p>
+<p><strong>用户友好和精神激励</strong>：其实国内外重视实验的计算机课程也有许多，但大多仍需学生在个人电脑上下载实验材料，繁琐的环境配置会削弱初学者的学习动力并耗费大量时间，由于环境不统一也容易产生各种无法复现的特殊问题。而 pwn.college 扩展了 <a href="https://ctfd.io/" target="_blank">CTFd</a> 这个用于 CTF 竞赛的框架，打造了强大的基础设施，服务器中预装了二进制安全的常用软件和库，真正做到了开箱即用的体验，如果学生觉得 ssh 命令行操作不便，可以在使用自带的网页版 VS Code 编写代码，甚至启动虚拟桌面使用 IDA 和 Ghidra 等 GUI 逆向工具。学生的数据是持久化的，可以复用之前的脚本而不用担心丢失。除了良好的交互体验，pwn.college 还有一些娱乐元素来为枯燥的学习增添乐趣，老师鼓励学生创作 meme （模因，即通常所说的梗图），在 Discord 指定频道中发送自制 meme 并得到助教点赞可以额外加分，每周课上还会挑选有趣的 meme 当众展示。为了给学生带来类似黑客的荣誉感，pwn.college 设置了类似跆拳道的授带机制，当学生完成一个 dojo 中所有题目时能获得对应腰带，比如我在去年完成了 CSE 466 对应的全部题目后就获得了蓝带，提供自己的收货地址甚至还能收到腰带的实物。pwn.college 中每个模块的最后几题往往最难，而每道题的分数却是相同的，正是对荣誉的追求激励着学生挑战自我，不眠不休地解决最后的难题。</p>
+<p><img src="/post_img/pwn/meme_ec.webp" alt="Meme Credit"></p>
+<p><img src="/post_img/pwn/belts.webp" alt="Belts"></p>
+<p>pwn.college 能达成这样完美的用户体验，和开源也有着密不可分的关系。pwn.college 的基础设施都是开源的，包括一整套 Docker 环境和所有题目预生成的二进制程序，理论上其他人可以直接部署。而打造这样一套全自动的系统安全实验环境也依赖于许多开源软件，判题程序中模拟执行 shellcode 用到了 <a href="https://www.capstone-engine.org/" target="_blank">Capstone</a>, <a href="https://www.keystone-engine.org/" target="_blank">Keystone</a> 和 <a href="https://www.unicorn-engine.org/" target="_blank">Unicorn</a>，内核安全的学习环境离不开 <a href="https://www.qemu.org/" target="_blank">QEMU</a>，在终端中进行逆向分析可以使用如瑞士军刀一般小巧而强大的 <a href="https://www.radare.org/" target="_blank">Radare2</a>，而 Yan 教授本人更是打造了自动化二进制分析的利器 <a href="https://angr.io/" target="_blank">angr</a>。若是没有这些蓬勃发展乃至成为行业标杆的开源软件，学生想动手实践可能还需采购厂商专门开发的实验环境，付出昂贵代价的同时还受到更多限制，正是开源软件的存在才使得人人都能探索计算机的奥秘。</p>
+<p><img src="/post_img/pwn/github.webp" alt="Dojo GitHub Repo"></p>
+<p>2023 年春季学期即将到来，ASU 也开出了新课 CSE 494 Software Exploitation 讲授二进制安全漏洞的利用，我们期待着 Yan 教授及其团队能继续为我们带来精彩的课程，同时也期待着将来有一天，国内的同学也能在自己的学校体验这样的课程，体会到 hacking 的乐趣。</p>
+<p><img src="/post_img/pwn/youtube.webp" alt="Youtube"></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chinggg</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        <span title="2023-03-07 10:42:54 &#43;0800 &#43;0800">2023-03-07</span>
+        <a href="https://github.com/chinggg/hugo-blog/commit/bd29d478a18706e88f96759b2c9737b477c11141" title="pwn.college promotion" target="_blank">(bd29d47)</a>
+        ，<a href="https://github.com/chinggg/hugo-blog/commits/master/content/post/pwncollege.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
+          <a href="/tags/%E5%BC%80%E6%BA%90/">开源</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/witcher-sp23/">
+            <span class="next-text nav-default">Toss a Fault to Your Witcher</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+  <div class="comments">
+    <div class="loading post">
+      <img src="/img/spinner.svg">
+      <p class="post-content">
+        评论正在加载中...如果评论较长时间无法加载，你可以
+        <a href='https://github.com/chinggg/chinggg.github.io/issues?q=is%3Aissue+is%3Aopen+"%e6%8b%bc%e6%90%8f%e7%99%be%e5%a4%a9%ef%bc%8c%e6%88%91%e5%9c%a8pwn.college%e6%8b%bf%e5%88%b0%e4%ba%86%e8%93%9d%e5%b8%a6%e2%80%94%e2%80%94%e9%bb%91%e5%ae%a2%e3%80%81%e5%bc%80%e6%ba%90%e5%92%8cCS%e6%95%99%e8%82%b2%e7%9a%84%e9%9d%a9%e6%96%b0 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2"' target="_blank">搜索对应的 issue</a>
+        或者
+        <a href="https://github.com/chinggg/chinggg.github.io/issues/new?title=%e6%8b%bc%e6%90%8f%e7%99%be%e5%a4%a9%ef%bc%8c%e6%88%91%e5%9c%a8pwn.college%e6%8b%bf%e5%88%b0%e4%ba%86%e8%93%9d%e5%b8%a6%e2%80%94%e2%80%94%e9%bb%91%e5%ae%a2%e3%80%81%e5%bc%80%e6%ba%90%e5%92%8cCS%e6%95%99%e8%82%b2%e7%9a%84%e9%9d%a9%e6%96%b0 - chinggg%e7%9a%84%e5%8d%9a%e5%ae%a2" target="_blank">新建一个 issue</a>
+        。
+      </p>
+    </div>
+    <script src="https://utteranc.es/client.js"
+            repo="chinggg/chinggg.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 来查看评论。</a></noscript>
+  </div>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:liuchinggg@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/chinggg" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://chinggg.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/chinggg/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">chinggg</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/tomorrow.min.css" rel="stylesheet"/>
+  <script>hljs.configure({tabReplace: '    '});</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/slideout@1/dist/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script type="text/javascript" src="/js/main.min.959fe0c07c3b2fcb923fb17e40bdcbf406ad5c8b8543391a2abc1728f469d080.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-215618742-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>
