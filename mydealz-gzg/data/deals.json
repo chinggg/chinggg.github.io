@@ -3,75 +3,10 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-06-06T10:03:57.995Z",
-    "enrichedCount": 43
+    "generatedAt": "2026-06-06T10:28:15.213Z",
+    "enrichedCount": 42
   },
   "deals": [
-    {
-      "id": "mydealz-2742539-danone-activia-kefir",
-      "dealStableId": "mydealz:2742539",
-      "sourceFingerprint": "fd4a9a2fc1355b8762e889b9395d9f5d06c8ffcc17ebc1f89b70759b227e6336",
-      "rowNumber": 7,
-      "titleDe": "Danone Activia kefir | mild Erdbeer-Geschmack und/oder mild Natur | bis zu zwei Flaschen - max. 2x 1,39€ Erstattung",
-      "titleZh": "Danone Activia 开菲尔酸奶饮品 草莓味或原味",
-      "category": {
-        "key": "food",
-        "de": "Lebensmittel",
-        "zh": "食品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/xKqt9/2742539_1/re/1024x1024/qt/60/2742539_1.jpg",
-      "quota": "Deutschland 🇩🇪 40.000 Teilnehmer | | Österreich 🇦🇹 4.000 Teilnehmer insgesamt",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "Deutschland 🇩🇪: 03.05.2026 | Österreich 🇦🇹: 07. Juni 2026",
-      "purchaseDeadlineIso": "2026-05-03",
-      "submitDeadlineRaw": "Deutschland 🇩🇪: 04.05.2026 | Österreich 🇦🇹: 08. Juni 2026",
-      "submitDeadlineIso": "2026-05-04",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://gratis.activia.de/",
-      "mydealzUrl": "https://www.mydealz.de/2742539",
-      "agency": "UGW Communication GmbH | Zahlungsdienstleister: secupay AG",
-      "added": "06.03.2026",
-      "addedIso": "2026-03-06",
-      "summaryZh": "购买最多两瓶 Danone Activia kefir，可按活动规则每瓶最高返 1.39 欧。",
-      "productTypeZh": "开菲尔酸奶饮品",
-      "shoppingHintZh": "注意买 Activia kefir mild 的草莓味或原味；不限具体门店，但德国购买期已过，奥地利购买截止到 2026-06-07。",
-      "submitHintZh": "需要上传小票照片或扫描件；德国提交截止 2026-05-04，奥地利提交截止 2026-06-08。",
-      "priority": "low",
-      "tagsZh": [
-        "食品",
-        "酸奶饮品",
-        "开菲尔",
-        "Danone",
-        "可买两瓶"
-      ],
-      "enrichment": {
-        "titleZh": "Danone Activia 开菲尔酸奶饮品 草莓味或原味",
-        "summaryZh": "购买最多两瓶 Danone Activia kefir，可按活动规则每瓶最高返 1.39 欧。",
-        "productTypeZh": "开菲尔酸奶饮品",
-        "shoppingHintZh": "注意买 Activia kefir mild 的草莓味或原味；不限具体门店，但德国购买期已过，奥地利购买截止到 2026-06-07。",
-        "submitHintZh": "需要上传小票照片或扫描件；德国提交截止 2026-05-04，奥地利提交截止 2026-06-08。",
-        "priority": "low",
-        "tagsZh": [
-          "食品",
-          "酸奶饮品",
-          "开菲尔",
-          "Danone",
-          "可买两瓶"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.88,
-        "categoryKey": "food"
-      },
-      "enrichmentStatus": "enriched"
-    },
     {
       "id": "mydealz-2754653-heineken-bier-0-0",
       "dealStableId": "mydealz:2754653",

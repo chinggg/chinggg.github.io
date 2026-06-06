@@ -138,6 +138,15 @@ function pickLastDate(raw) {
   return dates.at(-1) ?? "";
 }
 
+function todayIso() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function isExpiredForPublishing(deal, today = todayIso()) {
+  const expiry = deal.submitDeadlineIso || deal.purchaseDeadlineIso;
+  return Boolean(expiry && expiry !== "9999-12-31" && expiry < today);
+}
+
 function classify(text) {
   const rule = CATEGORY_RULES.find(([, , , regex]) => regex.test(text));
   if (!rule) return { key: "other", de: "Sonstiges", zh: "其他" };
@@ -445,13 +454,15 @@ function buildDeals(csvText, htmlText) {
     imageIndex += 1;
   }
 
-  deals.sort((a, b) => {
+  const activeDeals = deals.filter((deal) => !isExpiredForPublishing(deal));
+
+  activeDeals.sort((a, b) => {
     const aDate = a.purchaseDeadlineIso || "9999-12-30";
     const bDate = b.purchaseDeadlineIso || "9999-12-30";
     return aDate.localeCompare(bDate) || a.rowNumber - b.rowNumber;
   });
 
-  disambiguateStableIds(deals);
+  disambiguateStableIds(activeDeals);
 
   return {
     source: {
@@ -460,7 +471,7 @@ function buildDeals(csvText, htmlText) {
       csvUrl: CSV_URL,
       generatedAt: new Date().toISOString(),
     },
-    deals,
+    deals: activeDeals,
   };
 }
 
