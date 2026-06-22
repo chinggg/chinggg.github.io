@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-06-20T06:06:48.191Z",
-    "enrichedCount": 38
+    "generatedAt": "2026-06-22T06:01:10.762Z",
+    "enrichedCount": 37
   },
   "deals": [
     {
@@ -206,71 +206,6 @@
         ],
         "confidence": 0.94,
         "categoryKey": "health"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2700642-tena-produkte-fu-r-frauen-ma-nner",
-      "dealStableId": "mydealz:2700642",
-      "sourceFingerprint": "d45800452e445375c86a963cb743a00d8071f38df41364380c7b80d7a27e3759",
-      "rowNumber": 8,
-      "titleDe": "TENA Produkte für Frauen & Männer",
-      "titleZh": "TENA 男女护理产品",
-      "category": {
-        "key": "personal",
-        "de": "Drogerie / Pflege",
-        "zh": "个护日化"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://try.tena.com/media/fninh1co/2760x1000px.png?width",
-      "quota": "50.000 Teilnehmer insgesamt",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "31.05.2026 | 21.06.2026",
-      "purchaseDeadlineIso": "2026-06-21",
-      "submitDeadlineRaw": "31.05.2026 | 21.06.2026",
-      "submitDeadlineIso": "2026-06-21",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://try.tena.com/de/aktionen/gratis-testen/",
-      "mydealzUrl": "https://www.mydealz.de/2700642",
-      "agency": "CH Couponing House GmbH | Zahlungsdienstleister: secupay AG",
-      "added": "03.01.2026",
-      "addedIso": "2026-01-03",
-      "summaryZh": "购买 TENA 指定女士或男士护理产品，按活动规则申请返现。",
-      "productTypeZh": "成人护理用品",
-      "shoppingHintZh": "不限具体门店，注意选择活动指定的 TENA Frauen 或 Manner 产品；名额总量有限。",
-      "submitHintZh": "需要上传小票照片或扫描件，提交窗口到名额用完为止，截止日期以表格为准。",
-      "priority": "normal",
-      "tagsZh": [
-        "个护",
-        "成人护理",
-        "TENA",
-        "总名额",
-        "小票上传"
-      ],
-      "enrichment": {
-        "titleZh": "TENA 男女护理产品",
-        "summaryZh": "购买 TENA 指定女士或男士护理产品，按活动规则申请返现。",
-        "productTypeZh": "成人护理用品",
-        "shoppingHintZh": "不限具体门店，注意选择活动指定的 TENA Frauen 或 Manner 产品；名额总量有限。",
-        "submitHintZh": "需要上传小票照片或扫描件，提交窗口到名额用完为止，截止日期以表格为准。",
-        "priority": "normal",
-        "tagsZh": [
-          "个护",
-          "成人护理",
-          "TENA",
-          "总名额",
-          "小票上传"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.9,
-        "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
     },
