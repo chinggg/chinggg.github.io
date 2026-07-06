@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-04T06:04:36.990Z",
-    "enrichedCount": 31
+    "generatedAt": "2026-07-06T06:03:24.077Z",
+    "enrichedCount": 29
   },
   "deals": [
     {
@@ -76,72 +76,6 @@
         ],
         "confidence": 0.94,
         "categoryKey": "health"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2782467-nivea-derma-control-clinical-deo",
-      "dealStableId": "mydealz:2782467",
-      "sourceFingerprint": "3cacf7c85e67873b708b77a3524b74882217d5c9cae66cbe2200980154c55cad",
-      "rowNumber": 5,
-      "titleDe": "NIVEA Derma Control Clinical Deo",
-      "titleZh": "NIVEA Derma Control Clinical 止汗除味剂",
-      "category": {
-        "key": "personal",
-        "de": "Drogerie / Pflege",
-        "zh": "个护日化"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://img.nivea.com/-/media/miscellaneous/media-center-items/9/0/5/019e45473665764c9e829631bf98bb37-print.jpg?rx",
-      "quota": "4.000 Teilnehmer pro Tag",
-      "purchaseTime": "täglich ab 04:00 Uhr",
-      "purchaseDeadlineRaw": "21.06.2026",
-      "purchaseDeadlineIso": "2026-06-21",
-      "submitDeadlineRaw": "05.07.2026",
-      "submitDeadlineIso": "2026-07-05",
-      "submitWindow": "-",
-      "participation": "Begründung",
-      "receiptType": "Foto",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://www.nivea.de/gratisdeo",
-      "mydealzUrl": "https://www.mydealz.de/2782467",
-      "agency": "JustSnap GmbH",
-      "added": "19.05.2026",
-      "addedIso": "2026-05-19",
-      "summaryZh": "购买指定 NIVEA Derma Control Clinical Deo 后，可按原活动规则申请返现。",
-      "productTypeZh": "止汗除味剂",
-      "shoppingHintZh": "每天 04:00 开放新名额，当天有 4000 个参与资格；去店前先确认名额是否还在。",
-      "submitHintZh": "需要上传小票照片；购买截止 21.06.2026，提交截止 05.07.2026，不需要短信确认。",
-      "priority": "high",
-      "tagsZh": [
-        "个护",
-        "止汗",
-        "NIVEA",
-        "每日名额",
-        "04:00开抢"
-      ],
-      "enrichment": {
-        "titleZh": "NIVEA Derma Control Clinical 止汗除味剂",
-        "summaryZh": "购买指定 NIVEA Derma Control Clinical Deo 后，可按原活动规则申请返现。",
-        "productTypeZh": "止汗除味剂",
-        "shoppingHintZh": "每天 04:00 开放新名额，当天有 4000 个参与资格；去店前先确认名额是否还在。",
-        "submitHintZh": "需要上传小票照片；购买截止 21.06.2026，提交截止 05.07.2026，不需要短信确认。",
-        "priority": "high",
-        "tagsZh": [
-          "个护",
-          "止汗",
-          "NIVEA",
-          "每日名额",
-          "04:00开抢"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "daily_window",
-          "receipt_photo"
-        ],
-        "confidence": 0.97,
-        "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
     },
@@ -334,70 +268,12 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2717239-whiskas-katzennahrungsprodukte",
-      "dealStableId": "mydealz:2717239",
-      "sourceFingerprint": "1249670b4d0e8c46265a3ab2eb50a42e55d33f31af0040558e190dc805ac0aae",
-      "rowNumber": 9,
-      "titleDe": "WHISKAS Katzennahrungsprodukte | max. 5€ Erstattung",
-      "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
-      "category": {
-        "key": "pet",
-        "de": "Tierbedarf",
-        "zh": "宠物用品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/LERAD/2717239_1/re/1024x1024/qt/60/2717239_1.jpg",
-      "quota": "1.000 Teilnehmer pro Woche",
-      "purchaseTime": "stündlich neue Kontingente zwischen 07:00 und 22:00 Uhr",
-      "purchaseDeadlineRaw": "05.07.2026",
-      "purchaseDeadlineIso": "2026-07-05",
-      "submitDeadlineRaw": "05.07.2026",
-      "submitDeadlineIso": "2026-07-05",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://purrorpass.whiskas.de/aktion/de-de/claim/enter/",
-      "mydealzUrl": "https://www.mydealz.de/2717239",
-      "agency": "BE:TWO GmbH / VCG - The PromoRisk People Ltd | Zahlungsdienstleister: Musalek Werbeservice GmbH",
-      "added": "15.01.2026",
-      "addedIso": "2026-01-15",
-      "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-      "productTypeZh": "宠物用品",
-      "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-      "submitHintZh": "跳过时无需提交。",
-      "priority": "low",
-      "tagsZh": [
-        "宠物",
-        "默认跳过"
-      ],
-      "enrichment": {
-        "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
-        "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-        "productTypeZh": "宠物用品",
-        "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-        "submitHintZh": "跳过时无需提交。",
-        "priority": "low",
-        "tagsZh": [
-          "宠物",
-          "默认跳过"
-        ],
-        "riskFlags": [
-          "user_skip_category"
-        ],
-        "confidence": 1,
-        "categoryKey": "pet"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
       "id": "mydealz-2776857-hengstenberg-salate-to-go",
       "dealStableId": "mydealz:2776857",
-      "sourceFingerprint": "48848b8eff877a8cf7e7c9fd1688623aadd01a84a3c97feb6fb29dc9f67bd7eb",
+      "sourceFingerprint": "08d26279d8539f657cec89b2d7758f137de2d39d91eec98b07bd1ff8dddbb67c",
       "rowNumber": 10,
       "titleDe": "HENGSTENBERG Salate to Go | - CousCousSalat Pflaume, Paprika und Ingwer | - Bulgur Tomate & Karotte | - Bulgur rote Beete, Senfsaat & Dill",
-      "titleZh": "HENGSTENBERG Salate to Go 即食沙拉",
+      "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -408,9 +284,9 @@
       "imageUrl": "https://static.mydealz.de/threads/raw/rBkpD/2776857_1/re/1024x1024/qt/60/2776857_1.jpg",
       "quota": "unbekanntes (monatliches) Budget",
       "purchaseTime": "",
-      "purchaseDeadlineRaw": "15.07.2026",
+      "purchaseDeadlineRaw": "30.06.2026 | 15.07.2026",
       "purchaseDeadlineIso": "2026-07-15",
-      "submitDeadlineRaw": "15.07.2026",
+      "submitDeadlineRaw": "30.06.2026 | 15.07.2026",
       "submitDeadlineIso": "2026-07-15",
       "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
       "participation": "",
@@ -421,40 +297,41 @@
       "agency": "Viva Marketing GmbH | Zahlungsdienstleister: secupay AG",
       "added": "12.05.2026",
       "addedIso": "2026-05-12",
-      "summaryZh": "购买指定 HENGSTENBERG Salate to Go 即食沙拉三种口味之一后，可按活动规则申请返现。",
+      "summaryZh": "购买指定 HENGSTENBERG Salate to Go 三种口味之一后，可按活动规则申请返现。",
       "productTypeZh": "即食谷物沙拉",
-      "shoppingHintZh": "认准活动里的三种指定口味：CousCous 西梅甜椒姜味、Bulgur 番茄胡萝卜、Bulgur 甜菜根芥末籽莳萝；源数据不限店，但这是月度预算活动，名额满了会提前结束。",
-      "submitHintZh": "需要上传小票照片或扫描件；购买截止和提交截止都是 15.07.2026，且提交窗口到参与名额用完为止。",
-      "priority": "high",
+      "shoppingHintZh": "不限指定门店，但要认准活动里的三种口味：CousCousSalat Pflaume, Paprika und Ingwer、Bulgur Tomate & Karotte、Bulgur rote Beete, Senfsaat & Dill；结账前看清包装名称。",
+      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止字段都写了 30.06.2026 | 15.07.2026 两组日期，且名额满了会提前结束，提交前先以官网表单为准。",
+      "priority": "normal",
       "tagsZh": [
         "食品",
         "即食沙拉",
         "HENGSTENBERG",
-        "三种口味",
+        "CousCous",
+        "Bulgur",
         "不限店",
-        "小票上传"
+        "小票照片"
       ],
       "enrichment": {
-        "titleZh": "HENGSTENBERG Salate to Go 即食沙拉",
-        "summaryZh": "购买指定 HENGSTENBERG Salate to Go 即食沙拉三种口味之一后，可按活动规则申请返现。",
+        "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
+        "summaryZh": "购买指定 HENGSTENBERG Salate to Go 三种口味之一后，可按活动规则申请返现。",
         "productTypeZh": "即食谷物沙拉",
-        "shoppingHintZh": "认准活动里的三种指定口味：CousCous 西梅甜椒姜味、Bulgur 番茄胡萝卜、Bulgur 甜菜根芥末籽莳萝；源数据不限店，但这是月度预算活动，名额满了会提前结束。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买截止和提交截止都是 15.07.2026，且提交窗口到参与名额用完为止。",
-        "priority": "high",
+        "shoppingHintZh": "不限指定门店，但要认准活动里的三种口味：CousCousSalat Pflaume, Paprika und Ingwer、Bulgur Tomate & Karotte、Bulgur rote Beete, Senfsaat & Dill；结账前看清包装名称。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止字段都写了 30.06.2026 | 15.07.2026 两组日期，且名额满了会提前结束，提交前先以官网表单为准。",
+        "priority": "normal",
         "tagsZh": [
           "食品",
           "即食沙拉",
           "HENGSTENBERG",
-          "三种口味",
+          "CousCous",
+          "Bulgur",
           "不限店",
-          "小票上传"
+          "小票照片"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.93,
+        "confidence": 0.92,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"

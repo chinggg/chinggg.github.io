@@ -142,32 +142,32 @@
       }
     },
     "mydealz:2776857": {
-      "sourceFingerprint": "48848b8eff877a8cf7e7c9fd1688623aadd01a84a3c97feb6fb29dc9f67bd7eb",
-      "generatedAt": "2026-07-04T06:02:52Z",
-      "model": "gpt-5-codex",
+      "sourceFingerprint": "08d26279d8539f657cec89b2d7758f137de2d39d91eec98b07bd1ff8dddbb67c",
+      "generatedAt": "2026-07-06T08:00:00.000Z",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "HENGSTENBERG Salate to Go 即食沙拉",
-        "summaryZh": "购买指定 HENGSTENBERG Salate to Go 即食沙拉三种口味之一后，可按活动规则申请返现。",
+        "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
+        "summaryZh": "购买指定 HENGSTENBERG Salate to Go 三种口味之一后，可按活动规则申请返现。",
         "productTypeZh": "即食谷物沙拉",
-        "shoppingHintZh": "认准活动里的三种指定口味：CousCous 西梅甜椒姜味、Bulgur 番茄胡萝卜、Bulgur 甜菜根芥末籽莳萝；源数据不限店，但这是月度预算活动，名额满了会提前结束。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买截止和提交截止都是 15.07.2026，且提交窗口到参与名额用完为止。",
+        "shoppingHintZh": "不限指定门店，但要认准活动里的三种口味：CousCousSalat Pflaume, Paprika und Ingwer、Bulgur Tomate & Karotte、Bulgur rote Beete, Senfsaat & Dill；结账前看清包装名称。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止字段都写了 30.06.2026 | 15.07.2026 两组日期，且名额满了会提前结束，提交前先以官网表单为准。",
         "categoryKey": "food",
-        "priority": "high",
+        "priority": "normal",
         "tagsZh": [
           "食品",
           "即食沙拉",
           "HENGSTENBERG",
-          "三种口味",
+          "CousCous",
+          "Bulgur",
           "不限店",
-          "小票上传"
+          "小票照片"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.93
+        "confidence": 0.92
       }
     },
     "mydealz:2743054": {
