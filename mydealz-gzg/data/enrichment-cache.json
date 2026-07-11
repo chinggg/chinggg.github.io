@@ -252,33 +252,31 @@
       }
     },
     "mydealz:2730139": {
-      "sourceFingerprint": "d1d8b58ca972a43f188a099d09844442c8edd9bcac9069582823c22b9a2e4760",
-      "generatedAt": "2026-07-04T06:03:16Z",
-      "model": "gpt-5-codex",
+      "sourceFingerprint": "386af7988033060611f1af0db7b14701a17b3a2a44fa40c1b63d34bbd6ca12d0",
+      "generatedAt": "2026-07-11T06:02:52Z",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
         "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
         "productTypeZh": "花生酱/花生泥",
-        "shoppingHintZh": "注意规格只限活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额按月放出，08:30 开始。",
-        "submitHintZh": "需要上传小票照片或扫描件；提交窗口到名额满为止，购买和提交截止按源数据里的对应日期为准。",
+        "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
         "categoryKey": "food",
         "priority": "normal",
         "tagsZh": [
           "食品",
           "花生酱",
           "花生泥",
-          "多规格",
-          "08:30开抢"
+          "08:30开抢",
+          "小票上传"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "quota_limited",
           "daily_window",
-          "early_end_possible",
           "receipt_photo"
         ],
-        "confidence": 0.95
+        "confidence": 0.93
       }
     },
     "mydealz:2780510": {
@@ -392,30 +390,30 @@
       }
     },
     "mydealz:2764431": {
-      "sourceFingerprint": "6cf5176ad31a76b67578e2c9b252a974c87b131a75afc13a0d966dec8ad89e39",
-      "generatedAt": "2026-06-06T00:00:00.000Z",
-      "model": "manual/subagent",
+      "sourceFingerprint": "fb4169ea68cdad4a30e3a98f97b7916b36e2f977a87990ebf7e0cd4765187734",
+      "generatedAt": "2026-07-11T06:03:04Z",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "KUEHNE Spice it up 调味酱 90ml",
-        "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱参与返现。",
+        "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱后，可按活动规则申请返现。",
         "productTypeZh": "调味酱",
-        "shoppingHintZh": "注意买 Spice it up Wuerzsaucen 90ml；不限店，10,000 个总名额，名额满即止。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
+        "shoppingHintZh": "不限门店，注意买 Spice it up Wuerzsaucen 90ml；总名额有限，满额会提前结束，买后保留小票。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 2026-12-31。",
         "categoryKey": "food",
         "priority": "normal",
         "tagsZh": [
           "食品",
           "调味酱",
-          "酱料",
           "KUEHNE",
-          "不限店"
+          "不限店",
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.89
+        "confidence": 0.9
       }
     },
     "mydealz:2754653": {
@@ -473,20 +471,21 @@
       }
     },
     "mydealz:2790687": {
-      "sourceFingerprint": "50753e19f96a282c68e90414019f8c79068a05f2051357e82bc855fe6daa0234",
-      "generatedAt": "2026-06-20T06:04:20.000Z",
-      "model": "codex",
+      "sourceFingerprint": "6b4d12d80c76dbfe6a0b415cfe3ea4f0bb0f5f9fdb44b171b7530430e6effea4",
+      "generatedAt": "2026-07-11T06:02:39Z",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
-        "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐，固定返 1,19€，且每人最多可参加三次。",
+        "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐后，可固定返 1.19 欧，不含 Pfand，每人最多参加 3 次。",
         "productTypeZh": "能量饮料",
-        "shoppingHintZh": "注意买 0.33L EW 单罐版本；每周只有 2.500 次名额，总名额 100.000 次，返现不含 Pfand。",
-        "submitHintZh": "提交时是 nur Code，不是小票照片；购买截止 30.06.2026，提交截止 28.02.2027。",
+        "shoppingHintZh": "不限门店，但要认准 0.33L EW 单罐活动款；这单是提交代码，不是上传小票。每周 2,500 个名额，总名额 100,000 个。",
+        "submitHintZh": "购买截止 2026-06-30，提交截止 2027-02-28；达到参与上限会提前结束。",
         "categoryKey": "drink",
         "priority": "normal",
         "tagsZh": [
           "饮料",
+          "能量饮料",
           "单罐",
           "固定返现",
           "每周名额"
@@ -986,8 +985,8 @@
       }
     },
     "mydealz:2717239": {
-      "sourceFingerprint": "1249670b4d0e8c46265a3ab2eb50a42e55d33f31af0040558e190dc805ac0aae",
-      "generatedAt": "2026-07-04T06:03:00.522Z",
+      "sourceFingerprint": "3e692c047bef634b3e6c9f7ad971abc11629bd3222e7933f52ea7927b84dc15b",
+      "generatedAt": "2026-07-11T06:03:30Z",
       "model": "deterministic-skip",
       "status": "enriched",
       "enrichment": {

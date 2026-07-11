@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-06T06:03:24.077Z",
-    "enrichedCount": 29
+    "generatedAt": "2026-07-11T06:04:05.836Z",
+    "enrichedCount": 30
   },
   "deals": [
     {
@@ -83,7 +83,7 @@
       "id": "mydealz-2772290-purina-gourmet-revelations-katzennahrungsprodukte",
       "dealStableId": "mydealz:2772290",
       "sourceFingerprint": "a0e165efc0cac6bede9a8ba37e6d6e5bdf96b9772af58b3e1d660efd3cb9c1da",
-      "rowNumber": 6,
+      "rowNumber": 5,
       "titleDe": "PURINA Gourmet Revelations Katzennahrungsprodukte | min. zwei Produkte - max. 6,58€ Erstattung",
       "titleZh": "Purina Gourmet Revelations 猫粮（宠物用品，默认跳过）",
       "category": {
@@ -141,7 +141,7 @@
       "id": "mydealz-2755020-somat-power-gel-all-in-1-67-aw-oder",
       "dealStableId": "mydealz:2755020",
       "sourceFingerprint": "3bdc8a37478ab90d80bcf99e766c4fa52482d69139bed8d9c5d6577092284bd8",
-      "rowNumber": 8,
+      "rowNumber": 6,
       "titleDe": "SOMAT Power Gel all in 1 (67 AW) oder | Excellence Premium 5in1 Gel Power & Perls (60 AW)",
       "titleZh": "SOMAT 洗碗机凝胶 67次或 60次",
       "category": {
@@ -206,8 +206,8 @@
     {
       "id": "mydealz-2790687-rockstar-mocktail-0-33l-ew-dose",
       "dealStableId": "mydealz:2790687",
-      "sourceFingerprint": "50753e19f96a282c68e90414019f8c79068a05f2051357e82bc855fe6daa0234",
-      "rowNumber": 31,
+      "sourceFingerprint": "6b4d12d80c76dbfe6a0b415cfe3ea4f0bb0f5f9fdb44b171b7530430e6effea4",
+      "rowNumber": 29,
       "titleDe": "ROCKSTAR Mocktail 0,33l EW Dose | drei Teilnahmen pro Teilnehmer möglich | pauschale Erstattung von 1,19€ (exkl. Pfand)",
       "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
       "category": {
@@ -224,7 +224,7 @@
       "purchaseDeadlineIso": "2026-06-30",
       "submitDeadlineRaw": "28.02.2027",
       "submitDeadlineIso": "2027-02-28",
-      "submitWindow": "-",
+      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
       "participation": "nein",
       "receiptType": "nur Code",
       "smsConfirmation": "nein",
@@ -233,26 +233,28 @@
       "agency": "G.V.K. mbH | caspar company GmbH | Zahlungsdienstleister: secupay AG",
       "added": "05.06.2026",
       "addedIso": "2026-06-05",
-      "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐，固定返 1,19€，且每人最多可参加三次。",
+      "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐后，可固定返 1.19 欧，不含 Pfand，每人最多参加 3 次。",
       "productTypeZh": "能量饮料",
-      "shoppingHintZh": "注意买 0.33L EW 单罐版本；每周只有 2.500 次名额，总名额 100.000 次，返现不含 Pfand。",
-      "submitHintZh": "提交时是 nur Code，不是小票照片；购买截止 30.06.2026，提交截止 28.02.2027。",
+      "shoppingHintZh": "不限门店，但要认准 0.33L EW 单罐活动款；这单是提交代码，不是上传小票。每周 2,500 个名额，总名额 100,000 个。",
+      "submitHintZh": "购买截止 2026-06-30，提交截止 2027-02-28；达到参与上限会提前结束。",
       "priority": "normal",
       "tagsZh": [
         "饮料",
+        "能量饮料",
         "单罐",
         "固定返现",
         "每周名额"
       ],
       "enrichment": {
         "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
-        "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐，固定返 1,19€，且每人最多可参加三次。",
+        "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐后，可固定返 1.19 欧，不含 Pfand，每人最多参加 3 次。",
         "productTypeZh": "能量饮料",
-        "shoppingHintZh": "注意买 0.33L EW 单罐版本；每周只有 2.500 次名额，总名额 100.000 次，返现不含 Pfand。",
-        "submitHintZh": "提交时是 nur Code，不是小票照片；购买截止 30.06.2026，提交截止 28.02.2027。",
+        "shoppingHintZh": "不限门店，但要认准 0.33L EW 单罐活动款；这单是提交代码，不是上传小票。每周 2,500 个名额，总名额 100,000 个。",
+        "submitHintZh": "购买截止 2026-06-30，提交截止 2027-02-28；达到参与上限会提前结束。",
         "priority": "normal",
         "tagsZh": [
           "饮料",
+          "能量饮料",
           "单罐",
           "固定返现",
           "每周名额"
@@ -268,10 +270,68 @@
       "enrichmentStatus": "enriched"
     },
     {
+      "id": "mydealz-2717239-whiskas-katzennahrungsprodukte-max-5-00-erstattung",
+      "dealStableId": "mydealz:2717239",
+      "sourceFingerprint": "3e692c047bef634b3e6c9f7ad971abc11629bd3222e7933f52ea7927b84dc15b",
+      "rowNumber": 7,
+      "titleDe": "WHISKAS Katzennahrungsprodukte - max. 5.00€ Erstattung",
+      "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
+      "category": {
+        "key": "pet",
+        "de": "Tierbedarf",
+        "zh": "宠物用品"
+      },
+      "stores": [],
+      "storeMode": "not_limited",
+      "imageUrl": "https://static.mydealz.de/threads/raw/LERAD/2717239_1/re/1024x1024/qt/60/2717239_1.jpg",
+      "quota": "1.000 Teilnehmer pro Woche",
+      "purchaseTime": "stündlich neue Kontingente zwischen 07:00 und 22:00 Uhr",
+      "purchaseDeadlineRaw": "30.06.2026 | 05.07.2026",
+      "purchaseDeadlineIso": "2026-07-05",
+      "submitDeadlineRaw": "30.06.2026 | 05.07.2026 | 12.07.2026",
+      "submitDeadlineIso": "2026-07-12",
+      "submitWindow": "-",
+      "participation": "Online- Teilnahme",
+      "receiptType": "Foto/Scan",
+      "smsConfirmation": "nein",
+      "officialUrl": "https://purrorpass.whiskas.de/aktion/de-de/claim/enter/",
+      "mydealzUrl": "https://www.mydealz.de/2717239",
+      "agency": "BE:TWO GmbH / VCG - The PromoRisk People Ltd | Zahlungsdienstleister: Musalek Werbeservice GmbH",
+      "added": "15.01.2026",
+      "addedIso": "2026-01-15",
+      "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
+      "productTypeZh": "宠物用品",
+      "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
+      "submitHintZh": "跳过时无需提交。",
+      "priority": "low",
+      "tagsZh": [
+        "宠物",
+        "默认跳过"
+      ],
+      "enrichment": {
+        "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
+        "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
+        "productTypeZh": "宠物用品",
+        "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
+        "submitHintZh": "跳过时无需提交。",
+        "priority": "low",
+        "tagsZh": [
+          "宠物",
+          "默认跳过"
+        ],
+        "riskFlags": [
+          "user_skip_category"
+        ],
+        "confidence": 1,
+        "categoryKey": "pet"
+      },
+      "enrichmentStatus": "enriched"
+    },
+    {
       "id": "mydealz-2776857-hengstenberg-salate-to-go",
       "dealStableId": "mydealz:2776857",
       "sourceFingerprint": "08d26279d8539f657cec89b2d7758f137de2d39d91eec98b07bd1ff8dddbb67c",
-      "rowNumber": 10,
+      "rowNumber": 8,
       "titleDe": "HENGSTENBERG Salate to Go | - CousCousSalat Pflaume, Paprika und Ingwer | - Bulgur Tomate & Karotte | - Bulgur rote Beete, Senfsaat & Dill",
       "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
       "category": {
@@ -340,7 +400,7 @@
       "id": "mydealz-2776393-anheuser-busch-bud",
       "dealStableId": "mydealz:2776393",
       "sourceFingerprint": "f2c1d3cc29b421963a5d258b43a1d6aac6e0670b48d86404c828bf0b3962a934",
-      "rowNumber": 11,
+      "rowNumber": 9,
       "titleDe": "Anheuser-Busch BUD | - Flaschen Sixpack 6x0.3l, max. 8,50€ | - Einzelflasche 0.3L, max. 2,00€ | - Dosen Sixpack 6x0.33L, max. 7,50€ | - Einzeldose 0.33L, max. 2,50€ | - Einzeldose 0.5L, max. 2,50€",
       "titleZh": "BUD 啤酒指定装规格返现",
       "category": {
@@ -403,7 +463,7 @@
       "id": "mydealz-2733998-soda-libre-the-classics-lemonade",
       "dealStableId": "mydealz:2733998",
       "sourceFingerprint": "6ced4ab69536f7e2c65732e321a8b8e6f345ecca063e741b55f92e426c715208",
-      "rowNumber": 12,
+      "rowNumber": 10,
       "titleDe": "Soda Libre The Classics Lemonade | Zitrone und/oder Orange | min. zwei 0.33L Dosen in einem Einkauf | max. 2,18€ Erstattung",
       "titleZh": "Soda Libre The Classics 柠檬汽水返现",
       "category": {
@@ -467,7 +527,7 @@
       "id": "mydealz-2739267-wasa-selection-kna-cke",
       "dealStableId": "mydealz:2739267",
       "sourceFingerprint": "24a2618e2f43f874293af802b4e9351454df8bc99a19aecc51864b7443c441fd",
-      "rowNumber": 13,
+      "rowNumber": 11,
       "titleDe": "WASA Selection Knäcke | - Protein+ 200g | - Mohn & Meersalz 245g | - Chia & Meersalz 245g | max. 2,49€ Erstattung",
       "titleZh": "Wasa Selection 脆片面包 Protein+、罂粟海盐或奇亚海盐",
       "category": {
@@ -532,7 +592,7 @@
       "id": "mydealz-2761516-wasa-crunchy-bites",
       "dealStableId": "mydealz:2761516",
       "sourceFingerprint": "ed6f4f7aa52298ceef13de6735539ba35821c825a52a01814369c5dad2d41337",
-      "rowNumber": 14,
+      "rowNumber": 12,
       "titleDe": "WASA Crunchy Bites | - Sour Cream & Onion 100g | - Cheddar 100g | max. 2,19€ Erstattung",
       "titleZh": "WASA Crunchy Bites 脆饼小食 100g",
       "category": {
@@ -597,7 +657,7 @@
       "id": "mydealz-2772853-bad-liebenwerda-mineralwasser-limette-minze",
       "dealStableId": "mydealz:2772853",
       "sourceFingerprint": "27ea6adf22b102463a79fb2c553f35d826078533193b80283186c1d2b05cb2e4",
-      "rowNumber": 15,
+      "rowNumber": 13,
       "titleDe": "Bad Liebenwerda Mineralwasser+ Limette-Minze | 0.75L Glasflasche",
       "titleZh": "Bad Liebenwerda 青柠薄荷风味矿泉水 0.75L 玻璃瓶",
       "category": {
@@ -661,7 +721,7 @@
       "id": "mydealz-2774776-cillit-bang-expert-kraftreiniger",
       "dealStableId": "mydealz:2774776",
       "sourceFingerprint": "a77fb070709a444a4000ddb8b75335b08748edba0c1c4a5d87a9d9faa424e14d",
-      "rowNumber": 16,
+      "rowNumber": 14,
       "titleDe": "Cillit Bang Expert Kraftreiniger | - Kalk & Schmutz 750ml oder | - Bad & Dusche 750ml oder 1000ml",
       "titleZh": "Cillit Bang Expert 强力清洁剂",
       "category": {
@@ -728,7 +788,7 @@
       "id": "mydealz-2774857-calgon-4in1-wasserentha-rter-gel-750ml",
       "dealStableId": "mydealz:2774857",
       "sourceFingerprint": "6884ff0084c12412844209ee670ad25e74cab2624e8d8490065727e545d310b2",
-      "rowNumber": 17,
+      "rowNumber": 15,
       "titleDe": "Calgon 4in1 Wasserenthärter Gel 750ml | max. 4,99€ Erstattung",
       "titleZh": "Calgon 4合1洗衣机软水防垢凝胶 750ml",
       "category": {
@@ -795,7 +855,7 @@
       "id": "mydealz-2788544-teinacher-mineralwasser-kiste-0-75l",
       "dealStableId": "mydealz:2788544",
       "sourceFingerprint": "04b0c91ee7a8554b82a6283e7efbab201ee4b8dd9d5e96925fc6e3a4ad17a3bd",
-      "rowNumber": 18,
+      "rowNumber": 16,
       "titleDe": "Teinacher Mineralwasser+ Kiste 0,75l | (nur lokale Verfügbarkeit!) | max. 10€ Erstattung",
       "titleZh": "Teinacher Mineralwasser+ 0.75L 整箱矿泉水",
       "category": {
@@ -860,7 +920,7 @@
       "id": "mydealz-2788354-cottonelle-feuchtes-toilettenpapier",
       "dealStableId": "mydealz:2788354",
       "sourceFingerprint": "e5b50ecfe43bc353da7aeaadac468d97cd02273ac3b589478145ec61a0713298",
-      "rowNumber": 19,
+      "rowNumber": 17,
       "titleDe": "COTTONELLE Feuchtes Toilettenpapier | Ultimativ Frisch 42 Tücher | max. 1,79€ Erstattung",
       "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
       "category": {
@@ -924,7 +984,7 @@
       "id": "mydealz-2757299-always-discreet-inkontinenz-maxi",
       "dealStableId": "mydealz:2757299",
       "sourceFingerprint": "23277d36a84b01599fd311d788473b7372ad08a79cf53aa35da264de7f0a094e",
-      "rowNumber": 20,
+      "rowNumber": 18,
       "titleDe": "always Discreet Inkontinenz Maxi",
       "titleZh": "always Discreet Maxi 成人护理垫",
       "category": {
@@ -989,7 +1049,7 @@
       "id": "mydealz-2780510-ben-s-original-street-food-fertiggerichte",
       "dealStableId": "mydealz:2780510",
       "sourceFingerprint": "aacc9b9977587eea1280452500d167db3e0a993d36878994d8c03011543d89cd",
-      "rowNumber": 21,
+      "rowNumber": 19,
       "titleDe": "Ben's Original Street Food Fertiggerichte",
       "titleZh": "Ben's Original Street Food 即食餐",
       "category": {
@@ -1055,7 +1115,7 @@
       "id": "mydealz-2788993-felix-doppelt-lecker-katzennahrungsprodukte",
       "dealStableId": "mydealz:2788993",
       "sourceFingerprint": "aabc451313b55e740baf78137cd29d4d1b2af44b361ffd63b01c0b711f0536e0",
-      "rowNumber": 22,
+      "rowNumber": 20,
       "titleDe": "FELIX Doppelt Lecker Katzennahrungsprodukte | 1x Trockenprodukt & 1x Nassprodukt kaufen | max. 7€ Erstattung",
       "titleZh": "FELIX Doppelt Lecker 猫粮（宠物用品，默认跳过）",
       "category": {
@@ -1112,8 +1172,8 @@
     {
       "id": "mydealz-2730139-andros-be-nuts",
       "dealStableId": "mydealz:2730139",
-      "sourceFingerprint": "d1d8b58ca972a43f188a099d09844442c8edd9bcac9069582823c22b9a2e4760",
-      "rowNumber": 23,
+      "sourceFingerprint": "386af7988033060611f1af0db7b14701a17b3a2a44fa40c1b63d34bbd6ca12d0",
+      "rowNumber": 21,
       "titleDe": "ANDROS Be Nuts! | - Erdnusscreme Creamy 325g | - Erdnusscreme Crunchy 325g | - Erdnusscreme Kakao 335g | - Erdnussmus 100% 320g",
       "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
       "category": {
@@ -1124,8 +1184,8 @@
       "stores": [],
       "storeMode": "not_limited",
       "imageUrl": "https://static.mydealz.de/threads/raw/St9Yh/2730139_1/re/1024x1024/qt/60/2730139_1.jpg",
-      "quota": "5.000 2.500 Teilnahmen pro Monat, 20.000 25.000 Teilnahmen insgesamt",
-      "purchaseTime": "jeweils ab 08:30 Uhr",
+      "quota": "5.000 2.500 Teilnahmen pro Monat, 20.000 25.000 30.000 Teilnahmen insgesamt",
+      "purchaseTime": "jeweils ab 08:30 Uhr | Erst ab August wieder möglich für 2.500 Einlösungen",
       "purchaseDeadlineRaw": "31.07.2026 | 31.08.2026",
       "purchaseDeadlineIso": "2026-08-31",
       "submitDeadlineRaw": "31.07.2026 | 31.08.2026",
@@ -1141,38 +1201,36 @@
       "addedIso": "2026-02-16",
       "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
       "productTypeZh": "花生酱/花生泥",
-      "shoppingHintZh": "注意规格只限活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额按月放出，08:30 开始。",
-      "submitHintZh": "需要上传小票照片或扫描件；提交窗口到名额满为止，购买和提交截止按源数据里的对应日期为准。",
+      "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
+      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
       "priority": "normal",
       "tagsZh": [
         "食品",
         "花生酱",
         "花生泥",
-        "多规格",
-        "08:30开抢"
+        "08:30开抢",
+        "小票上传"
       ],
       "enrichment": {
         "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
         "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
         "productTypeZh": "花生酱/花生泥",
-        "shoppingHintZh": "注意规格只限活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额按月放出，08:30 开始。",
-        "submitHintZh": "需要上传小票照片或扫描件；提交窗口到名额满为止，购买和提交截止按源数据里的对应日期为准。",
+        "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
         "priority": "normal",
         "tagsZh": [
           "食品",
           "花生酱",
           "花生泥",
-          "多规格",
-          "08:30开抢"
+          "08:30开抢",
+          "小票上传"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "quota_limited",
           "daily_window",
-          "early_end_possible",
           "receipt_photo"
         ],
-        "confidence": 0.95,
+        "confidence": 0.93,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -1181,7 +1239,7 @@
       "id": "mydealz-2741802-zott-pure-joy-joghurtalternative",
       "dealStableId": "mydealz:2741802",
       "sourceFingerprint": "879fb91956f247e92a61c97ae7b04bc25f2dc415d6f785774abb8688c0a1a335",
-      "rowNumber": 24,
+      "rowNumber": 22,
       "titleDe": "Zott Pure Joy Joghurtalternative | bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich | pro zwei Artikel max. 1,98€ Erstattung",
       "titleZh": "Zott Pure Joy 植物酸奶替代品",
       "category": {
@@ -1245,7 +1303,7 @@
       "id": "mydealz-2785453-deli-reform-omega-3-daily-rein-pflanzliche-halbfettmag",
       "dealStableId": "mydealz:2785453",
       "sourceFingerprint": "c0afeb6e624b9bc24a6238a945db0da6c299a7ae197164d15b0137e53f216c0b",
-      "rowNumber": 25,
+      "rowNumber": 23,
       "titleDe": "Deli Reform Omega-3 Daily rein pflanzliche Halbfettmagerine",
       "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
       "category": {
@@ -1309,7 +1367,7 @@
       "id": "mydealz-2793663-cd-antitranspirant-pure-protect",
       "dealStableId": "mydealz:2793663",
       "sourceFingerprint": "361cc087d776ccf9ed90860213c3a1011a43e218fd5637492e75d47b10b03708",
-      "rowNumber": 26,
+      "rowNumber": 24,
       "titleDe": "CD Antitranspirant Pure & Protect",
       "titleZh": "CD Pure & Protect 止汗产品",
       "category": {
@@ -1372,7 +1430,7 @@
       "id": "mydealz-2780564-wc-ente-frische-siegel-halter",
       "dealStableId": "mydealz:2780564",
       "sourceFingerprint": "85f61351ad55f7b850816b8a52c0ad2fb3ad9e71bea643e4a19c7ac9e7ae596c",
-      "rowNumber": 27,
+      "rowNumber": 25,
       "titleDe": "WC-Ente Frische-Siegel Halter | ab 13.7 exklusiv bei dm-drogerie markt | ab 20.7. bei allen anderen Händlern",
       "titleZh": "WC-Ente 马桶清洁芳香贴支架",
       "category": {
@@ -1441,7 +1499,7 @@
       "id": "mydealz-2737030-zott-monte-ice-cream",
       "dealStableId": "mydealz:2737030",
       "sourceFingerprint": "3abcecbf2b313448015f1f607a38f5e7f2d35f8632ab97d8f6f3fd8f9a72a7dc",
-      "rowNumber": 28,
+      "rowNumber": 26,
       "titleDe": "Zott Monte Ice Cream | max. 5,49€ Erstattung - per wöchentlicher Auslosung!",
       "titleZh": "Zott Monte Ice Cream 冰淇淋",
       "category": {
@@ -1506,8 +1564,8 @@
     {
       "id": "mydealz-2764431-ku-hne-spice-it-up-wu-rzsaucen-90ml",
       "dealStableId": "mydealz:2764431",
-      "sourceFingerprint": "6cf5176ad31a76b67578e2c9b252a974c87b131a75afc13a0d966dec8ad89e39",
-      "rowNumber": 29,
+      "sourceFingerprint": "fb4169ea68cdad4a30e3a98f97b7916b36e2f977a87990ebf7e0cd4765187734",
+      "rowNumber": 27,
       "titleDe": "KÜHNE Spice it up Würzsaucen 90ml",
       "titleZh": "KUEHNE Spice it up 调味酱 90ml",
       "category": {
@@ -1518,7 +1576,7 @@
       "stores": [],
       "storeMode": "not_limited",
       "imageUrl": "https://static.mydealz.de/threads/raw/IHtLE/2764431_1/re/1024x1024/qt/60/2764431_1.jpg",
-      "quota": "10.000 Teilnehmer insgesamt",
+      "quota": "10.000 15.000 Teilnehmer insgesamt",
       "purchaseTime": "-",
       "purchaseDeadlineRaw": "31.12.2026",
       "purchaseDeadlineIso": "2026-12-31",
@@ -1533,37 +1591,37 @@
       "agency": "IMPLIZIT GmbH | Zahlungsdienstleister: secupay AG",
       "added": "14.04.2026",
       "addedIso": "2026-04-14",
-      "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱参与返现。",
+      "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱后，可按活动规则申请返现。",
       "productTypeZh": "调味酱",
-      "shoppingHintZh": "注意买 Spice it up Wuerzsaucen 90ml；不限店，10,000 个总名额，名额满即止。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
+      "shoppingHintZh": "不限门店，注意买 Spice it up Wuerzsaucen 90ml；总名额有限，满额会提前结束，买后保留小票。",
+      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 2026-12-31。",
       "priority": "normal",
       "tagsZh": [
         "食品",
         "调味酱",
-        "酱料",
         "KUEHNE",
-        "不限店"
+        "不限店",
+        "小票上传"
       ],
       "enrichment": {
         "titleZh": "KUEHNE Spice it up 调味酱 90ml",
-        "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱参与返现。",
+        "summaryZh": "购买 KUEHNE Spice it up 90ml 调味酱后，可按活动规则申请返现。",
         "productTypeZh": "调味酱",
-        "shoppingHintZh": "注意买 Spice it up Wuerzsaucen 90ml；不限店，10,000 个总名额，名额满即止。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
+        "shoppingHintZh": "不限门店，注意买 Spice it up Wuerzsaucen 90ml；总名额有限，满额会提前结束，买后保留小票。",
+        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 2026-12-31。",
         "priority": "normal",
         "tagsZh": [
           "食品",
           "调味酱",
-          "酱料",
           "KUEHNE",
-          "不限店"
+          "不限店",
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.89,
+        "confidence": 0.9,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -1572,7 +1630,7 @@
       "id": "mydealz-2571752-royal-canin-tiernahrung",
       "dealStableId": "mydealz:2571752",
       "sourceFingerprint": "55d4b39336035e7d99179b95a10c3cfad8d3fdb6a89d57abd7f88c67765973ba",
-      "rowNumber": 30,
+      "rowNumber": 28,
       "titleDe": "ROYAL CANIN Tiernahrung",
       "titleZh": "ROYAL CANIN Tiernahrung（宠物用品，默认跳过）",
       "category": {
@@ -1630,7 +1688,7 @@
       "id": "mydealz-https-www-platinum-com-geld-zurueck-garantie-platinum-hundefutter",
       "dealStableId": "official:4893b834385cc901",
       "sourceFingerprint": "4480112cd72ff5db6a63d3aec64dd867884865ad5912280021129181e164b914",
-      "rowNumber": 32,
+      "rowNumber": 30,
       "titleDe": "PLATINUM Hundefutter | Rückgabe bei Nichtgefallen | kostenlose Abholung",
       "titleZh": "PLATINUM Hundefutter（宠物用品，默认跳过）",
       "category": {
@@ -1688,7 +1746,7 @@
       "id": "mydealz-https-odaban-de-pages-geld-zuruck-garantie-odaban-spray-gel-fusspuder",
       "dealStableId": "official:13d633bef9318bee",
       "sourceFingerprint": "04631e5528411b46b8932b9b9971a8623769935d85277ab013d8a7e1aed3b8a5",
-      "rowNumber": 33,
+      "rowNumber": 31,
       "titleDe": "odaban® Spray | Gel | Fußpuder | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "odaban 止汗喷雾、凝胶或足粉",
       "category": {
@@ -1750,7 +1808,7 @@
       "id": "mydealz-https-www-okeeffesco-de-o-keefe-s-pflegeprodukte",
       "dealStableId": "official:d35a4485128e4de5",
       "sourceFingerprint": "fad6fcdef6cf7ee8608b12f43698100b33324696db7babb963cc54f605b28aba",
-      "rowNumber": 34,
+      "rowNumber": 32,
       "titleDe": "O'Keefe's Pflegeprodukte | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "O'Keefe's 护理产品",
       "category": {
@@ -1812,7 +1870,7 @@
       "id": "mydealz-2572263-rascals-babywindeln",
       "dealStableId": "mydealz:2572263",
       "sourceFingerprint": "09df2224ff64648b4100b1d833cf2e79f5e7d292f00e661c0e34b7a7e88dd606",
-      "rowNumber": 35,
+      "rowNumber": 33,
       "titleDe": "RASCALS Babywindeln | Erstattung oder Austausch bei Unzufriedenheit",
       "titleZh": "RASCALS Babywindeln（婴儿用品，默认跳过）",
       "category": {
