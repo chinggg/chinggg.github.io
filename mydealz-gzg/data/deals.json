@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-11T06:04:05.836Z",
-    "enrichedCount": 30
+    "generatedAt": "2026-07-13T06:02:00.731Z",
+    "enrichedCount": 28
   },
   "deals": [
     {
@@ -76,64 +76,6 @@
         ],
         "confidence": 0.94,
         "categoryKey": "health"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2772290-purina-gourmet-revelations-katzennahrungsprodukte",
-      "dealStableId": "mydealz:2772290",
-      "sourceFingerprint": "a0e165efc0cac6bede9a8ba37e6d6e5bdf96b9772af58b3e1d660efd3cb9c1da",
-      "rowNumber": 5,
-      "titleDe": "PURINA Gourmet Revelations Katzennahrungsprodukte | min. zwei Produkte - max. 6,58€ Erstattung",
-      "titleZh": "Purina Gourmet Revelations 猫粮（宠物用品，默认跳过）",
-      "category": {
-        "key": "pet",
-        "de": "Tierbedarf",
-        "zh": "宠物用品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/zX8zl/2772290_1/re/1024x1024/qt/60/2772290_1.jpg",
-      "quota": "Es wird ein Gesamtbetrag von 65.800€ ausgeschüttet.",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "28.06.2026",
-      "purchaseDeadlineIso": "2026-06-28",
-      "submitDeadlineRaw": "12.07.2026",
-      "submitDeadlineIso": "2026-07-12",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
-      "participation": "nein",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://www.purina.de/aktion/gourmet",
-      "mydealzUrl": "https://www.mydealz.de/2772290",
-      "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
-      "added": "30.04.2026",
-      "addedIso": "2026-04-30",
-      "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-      "productTypeZh": "宠物用品",
-      "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-      "submitHintZh": "跳过时无需提交。",
-      "priority": "low",
-      "tagsZh": [
-        "宠物",
-        "默认跳过"
-      ],
-      "enrichment": {
-        "titleZh": "Purina Gourmet Revelations 猫粮（宠物用品，默认跳过）",
-        "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-        "productTypeZh": "宠物用品",
-        "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-        "submitHintZh": "跳过时无需提交。",
-        "priority": "low",
-        "tagsZh": [
-          "宠物",
-          "默认跳过"
-        ],
-        "riskFlags": [
-          "user_skip_category"
-        ],
-        "confidence": 1,
-        "categoryKey": "pet"
       },
       "enrichmentStatus": "enriched"
     },
@@ -266,64 +208,6 @@
         ],
         "confidence": 0.95,
         "categoryKey": "drink"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2717239-whiskas-katzennahrungsprodukte-max-5-00-erstattung",
-      "dealStableId": "mydealz:2717239",
-      "sourceFingerprint": "3e692c047bef634b3e6c9f7ad971abc11629bd3222e7933f52ea7927b84dc15b",
-      "rowNumber": 7,
-      "titleDe": "WHISKAS Katzennahrungsprodukte - max. 5.00€ Erstattung",
-      "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
-      "category": {
-        "key": "pet",
-        "de": "Tierbedarf",
-        "zh": "宠物用品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/LERAD/2717239_1/re/1024x1024/qt/60/2717239_1.jpg",
-      "quota": "1.000 Teilnehmer pro Woche",
-      "purchaseTime": "stündlich neue Kontingente zwischen 07:00 und 22:00 Uhr",
-      "purchaseDeadlineRaw": "30.06.2026 | 05.07.2026",
-      "purchaseDeadlineIso": "2026-07-05",
-      "submitDeadlineRaw": "30.06.2026 | 05.07.2026 | 12.07.2026",
-      "submitDeadlineIso": "2026-07-12",
-      "submitWindow": "-",
-      "participation": "Online- Teilnahme",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://purrorpass.whiskas.de/aktion/de-de/claim/enter/",
-      "mydealzUrl": "https://www.mydealz.de/2717239",
-      "agency": "BE:TWO GmbH / VCG - The PromoRisk People Ltd | Zahlungsdienstleister: Musalek Werbeservice GmbH",
-      "added": "15.01.2026",
-      "addedIso": "2026-01-15",
-      "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-      "productTypeZh": "宠物用品",
-      "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-      "submitHintZh": "跳过时无需提交。",
-      "priority": "low",
-      "tagsZh": [
-        "宠物",
-        "默认跳过"
-      ],
-      "enrichment": {
-        "titleZh": "Whiskas 猫粮（宠物用品，默认跳过）",
-        "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-        "productTypeZh": "宠物用品",
-        "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-        "submitHintZh": "跳过时无需提交。",
-        "priority": "low",
-        "tagsZh": [
-          "宠物",
-          "默认跳过"
-        ],
-        "riskFlags": [
-          "user_skip_category"
-        ],
-        "confidence": 1,
-        "categoryKey": "pet"
       },
       "enrichmentStatus": "enriched"
     },
