@@ -2,24 +2,24 @@
   "schemaVersion": 1,
   "items": {
     "mydealz:2774857": {
-      "sourceFingerprint": "6884ff0084c12412844209ee670ad25e74cab2624e8d8490065727e545d310b2",
-      "generatedAt": "2026-06-20T06:04:58.000Z",
-      "model": "gpt-5-codex",
+      "sourceFingerprint": "5e9d698de16832a13ae34baf6e677fe90b59fe4ddb6a31096775019df422baaa",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Calgon 4合1洗衣机软水防垢凝胶 750ml",
-        "summaryZh": "购买 Calgon 4in1 Wasserentharter Gel 750ml，最高可返 4.99 欧。",
-        "productTypeZh": "洗衣机防垢剂",
-        "shoppingHintZh": "注意买 750ml Gel 版本；活动每天 09:00 开放名额，且 5 月、6 月、7 月每日名额逐步减少。",
-        "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+        "titleZh": "Calgon 4合1 防垢凝胶 750ml 返现",
+        "summaryZh": "Calgon 4in1 Gel 750ml 可申请最高 4.99 欧返现，7 月每天 09:00 开放且单日名额已经降到 150 个。",
+        "productTypeZh": "洗衣机软水防垢凝胶",
+        "shoppingHintZh": "只限 750ml Gel 这款，7 月每天 09:00 才放名额，而且每日额度比前两个月更少，适合尽早处理。",
+        "submitHintZh": "提交时需要上传小票照片并完成短信确认；购买和提交都截止到 2026-07-31。",
         "categoryKey": "cleaning",
         "priority": "high",
         "tagsZh": [
-          "清洁",
-          "洗衣机",
+          "Calgon",
           "防垢",
-          "每日名额",
-          "SMS确认"
+          "750ml",
+          "09:00",
+          "短信确认"
         ],
         "riskFlags": [
           "quota_limited",
@@ -27,7 +27,7 @@
           "receipt_photo",
           "sms_confirmation"
         ],
-        "confidence": 0.94
+        "confidence": 0.96
       }
     },
     "mydealz:2742539": {
@@ -198,85 +198,84 @@
       }
     },
     "mydealz:2739267": {
-      "sourceFingerprint": "24a2618e2f43f874293af802b4e9351454df8bc99a19aecc51864b7443c441fd",
-      "generatedAt": "2026-06-20T06:04:58.000Z",
-      "model": "gpt-5-codex",
-      "status": "enriched",
-      "enrichment": {
-        "titleZh": "Wasa Selection 脆片面包 Protein+、罂粟海盐或奇亚海盐",
-        "summaryZh": "购买指定 Wasa Selection Knacke，最高可返 2.49 欧。",
-        "productTypeZh": "脆片面包",
-        "shoppingHintZh": "注意只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款；不限指定门店。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，总名额 40000 个。",
-        "categoryKey": "food",
-        "priority": "normal",
-        "tagsZh": [
-          "食品",
-          "脆片面包",
-          "Wasa",
-          "Selection",
-          "最高2.49欧"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.93
-      }
-    },
-    "mydealz:2761516": {
-      "sourceFingerprint": "ed6f4f7aa52298ceef13de6735539ba35821c825a52a01814369c5dad2d41337",
-      "generatedAt": "2026-06-06T00:00:00.000Z",
-      "model": "manual/subagent",
-      "status": "enriched",
-      "enrichment": {
-        "titleZh": "WASA Crunchy Bites 脆饼小食 100g",
-        "summaryZh": "购买指定 WASA Crunchy Bites 100g，最高返 2.19 欧。",
-        "productTypeZh": "脆饼零食",
-        "shoppingHintZh": "注意买 Crunchy Bites 100g，口味限 Sour Cream & Onion 或 Cheddar；不限店，名额总量有限。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
-        "categoryKey": "food",
-        "priority": "normal",
-        "tagsZh": [
-          "食品",
-          "零食",
-          "脆饼",
-          "WASA",
-          "不限店"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.92
-      }
-    },
-    "mydealz:2730139": {
-      "sourceFingerprint": "386af7988033060611f1af0db7b14701a17b3a2a44fa40c1b63d34bbd6ca12d0",
-      "generatedAt": "2026-07-11T06:02:52Z",
+      "sourceFingerprint": "1d3a0fe8ce97d350ba5a93b570f08e7145c8352dabfad712b788ca97e25b6430",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
-        "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
-        "productTypeZh": "花生酱/花生泥",
-        "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
+        "titleZh": "WASA Selection 薄脆饼干返现",
+        "summaryZh": "WASA Selection 指定口味薄脆饼干可返现，Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 都在活动内。",
+        "productTypeZh": "薄脆饼干",
+        "shoppingHintZh": "重点核对口味和克重，只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，总名额 40,000。",
         "categoryKey": "food",
         "priority": "normal",
         "tagsZh": [
-          "食品",
+          "WASA",
+          "薄脆饼干",
+          "指定口味",
+          "返现"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2761516": {
+      "sourceFingerprint": "3d7bf9bf6fc1b40e2f075c7d39fe1dcc375783571c0677d95a4b8d5c7ebe3f95",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "WASA Crunchy Bites 脆饼零食返现",
+        "summaryZh": "WASA Crunchy Bites 指定口味 100g 可申请最高 2.19 欧返现，限 Sour Cream & Onion 和 Cheddar 两款。",
+        "productTypeZh": "脆饼零食",
+        "shoppingHintZh": "注意只限 100g 的 Sour Cream & Onion 或 Cheddar，先核对包装口味再结账。",
+        "submitHintZh": "提交时需要小票照片或扫描件，购买和提交都截止到 2026-07-31，总名额 40,000。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "WASA",
+          "脆饼",
+          "100g",
+          "指定口味",
+          "返现"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2730139": {
+      "sourceFingerprint": "c24789a44c373748ef0f61195e377576609db82e0834102e86551b69a0f23475",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "ANDROS Be Nuts! 花生酱返现",
+        "summaryZh": "ANDROS Be Nuts! 多款花生酱和花生酱可可款可参加返现，每月名额有限，8 月档会在开放后继续。",
+        "productTypeZh": "花生酱/坚果酱",
+        "shoppingHintZh": "注意规格只限 Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；每轮从 08:30 开始放名额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；要看准对应批次的购买和提交截止日，名额用完会提前结束。",
+        "categoryKey": "food",
+        "priority": "high",
+        "tagsZh": [
           "花生酱",
-          "花生泥",
-          "08:30开抢",
-          "小票上传"
+          "坚果酱",
+          "08:30",
+          "分批名额",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.93
+        "confidence": 0.9
       }
     },
     "mydealz:2780510": {
@@ -308,30 +307,31 @@
       }
     },
     "mydealz:2741802": {
-      "sourceFingerprint": "879fb91956f247e92a61c97ae7b04bc25f2dc415d6f785774abb8688c0a1a335",
-      "generatedAt": "2026-06-20T06:05:12Z",
-      "model": "manual",
+      "sourceFingerprint": "1d7aed93bad1c0b2e1ecbc9abd1b6880b9714c13771c6e1d632925fd1605e25a",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Zott Pure Joy 植物酸奶替代品",
-        "summaryZh": "每次最多买 2 件，每 2 件最高返 1.98 欧；每户最多可参加 3 次。",
-        "productTypeZh": "植物酸奶替代品",
-        "shoppingHintZh": "周一 09:00 开放每周名额；下单时注意活动写的是每人最多 2 件。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
+        "titleZh": "ZOTT Pure Joy 植物基酸奶替代品返现",
+        "summaryZh": "ZOTT Pure Joy 植物基酸奶替代品可返现，每人每次最多买 2 件，每 2 件最高返 1.98 欧，每户最多可参加 3 次。",
+        "productTypeZh": "植物基酸奶替代品",
+        "shoppingHintZh": "单次按 2 件凑单最合适；这单每周一 09:00 开放新名额，同一家庭最多可参加 3 次。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-08-31。",
         "categoryKey": "food",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
-          "食品",
           "植物酸奶",
-          "Zott",
-          "每周名额"
+          "2件",
+          "每户3次",
+          "周一09:00",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.94
+        "confidence": 0.93
       }
     },
     "mydealz:2785453": {
@@ -362,31 +362,30 @@
       }
     },
     "mydealz:2737030": {
-      "sourceFingerprint": "3abcecbf2b313448015f1f607a38f5e7f2d35f8632ab97d8f6f3fd8f9a72a7dc",
-      "generatedAt": "2026-06-06T00:00:00.000Z",
-      "model": "manual/subagent",
+      "sourceFingerprint": "dcde00d9422a7d8cee17f305f50bca09354ceda371a3576cf0c4788d69a13022",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Zott Monte Ice Cream 冰淇淋",
-        "summaryZh": "购买 Zott Monte Ice Cream，最高返 5.49 欧，返现资格按每周抽选。",
+        "titleZh": "Zott Monte 冰淇淋抽奖返现",
+        "summaryZh": "购买 Zott Monte Ice Cream 后可参加每周抽奖，中签者最高返 5.49 欧，这不是人人都能拿到的直接返现。",
         "productTypeZh": "冰淇淋",
-        "shoppingHintZh": "这是每周抽选返现，不是买了必返；每周 200 个名额，周一 00:00 开始。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期；提交后以每周抽选结果为准。",
+        "shoppingHintZh": "先确认买的是 Zott Monte Ice Cream；每周一 00:00 开启新一轮，但返现资格要靠抽奖，不是提交就必中。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-09-28，提交后还要等抽奖结果。",
         "categoryKey": "food",
-        "priority": "low",
+        "priority": "normal",
         "tagsZh": [
-          "食品",
           "冰淇淋",
-          "甜品",
-          "Zott",
-          "抽选"
+          "抽奖返现",
+          "周一00:00",
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.91
+        "confidence": 0.84
       }
     },
     "mydealz:2764431": {
@@ -499,56 +498,55 @@
       }
     },
     "mydealz:2776393": {
-      "sourceFingerprint": "f2c1d3cc29b421963a5d258b43a1d6aac6e0670b48d86404c828bf0b3962a934",
-      "generatedAt": "2026-06-20T06:04:20.000Z",
-      "model": "codex",
+      "sourceFingerprint": "e209e1dd3366f60bb59b7dba74b2164e9807796039b20d2bb99a2b5f295efe20",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "BUD 啤酒指定装规格返现",
-        "summaryZh": "BUD 啤酒可按不同包装返现，包含 6x0.3L 瓶装、0.3L 单瓶、6x0.33L 罐装、0.33L 单罐和 0.5L 单罐。",
+        "titleZh": "BUD 啤酒指定规格返现",
+        "summaryZh": "BUD 啤酒多种单瓶、单听和六连包规格可参加返现，不同包装的报销上限不同，购买和提交都截止到 2026-07-19。",
         "productTypeZh": "啤酒",
-        "shoppingHintZh": "先看清包装规格再买，不同装对应不同返现；这单覆盖瓶装 sixpack、单瓶、罐装 sixpack 和两种单罐规格。",
-        "submitHintZh": "需要上传 Foto/Scan 小票，购买和提交截止都到 19.07.2026。",
+        "shoppingHintZh": "一定要看清是单瓶、单听还是六连包，以及 0.3L、0.33L、0.5L 这些规格，买错包装会影响返现金额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止和提交截止都是 2026-07-19，适合尽快处理。",
         "categoryKey": "drink",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
           "啤酒",
-          "多规格",
-          "小票上传",
-          "按包装区分"
+          "BUD",
+          "听装",
+          "瓶装",
+          "临期"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "receipt_photo"
         ],
-        "confidence": 0.91
+        "confidence": 0.96
       }
     },
     "mydealz:2733998": {
-      "sourceFingerprint": "6ced4ab69536f7e2c65732e321a8b8e6f345ecca063e741b55f92e426c715208",
-      "generatedAt": "2026-06-20T06:04:20.000Z",
-      "model": "codex",
+      "sourceFingerprint": "61a454a3a701c1b0edc2b34810ff84f3cf52de9095cbfea5df2f3a9c64ae2574",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Soda Libre The Classics 柠檬汽水返现",
-        "summaryZh": "Soda Libre The Classics Lemonade 需同次购物至少买两罐 0.33L，可选 Zitrone 和/或 Orange，最高返 2,18€。",
-        "productTypeZh": "汽水饮料",
-        "shoppingHintZh": "关键是同一张小票里至少有两罐 0.33L，口味可以是 Zitrone、Orange，或者两种混买。",
-        "submitHintZh": "需要上传 Foto/Scan 小票，购买截止 31.07.2026，提交截止 07.08.2026。",
+        "titleZh": "Soda Libre The Classics 汽水返现",
+        "summaryZh": "Soda Libre The Classics 柠檬味和橙味活动款可返现，但同一笔购物里至少要买 2 罐 0.33L。",
+        "productTypeZh": "汽水",
+        "shoppingHintZh": "必须同一张小票买满 2 罐 0.33L，并确认是 The Classics 系列的 Zitrone 和/或 Orange 口味。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件，购买截止 2026-07-31，提交截止 2026-08-07。",
         "categoryKey": "drink",
         "priority": "normal",
         "tagsZh": [
           "汽水",
           "两罐起",
-          "同票购买",
-          "小票上传"
+          "0.33L",
+          "柠檬味",
+          "橙味"
         ],
         "riskFlags": [
-          "minimum_quantity",
-          "same_receipt_required",
           "receipt_photo"
         ],
-        "confidence": 0.94
+        "confidence": 0.97
       }
     },
     "mydealz:2772853": {
@@ -578,30 +576,29 @@
       }
     },
     "mydealz:2788544": {
-      "sourceFingerprint": "04b0c91ee7a8554b82a6283e7efbab201ee4b8dd9d5e96925fc6e3a4ad17a3bd",
-      "generatedAt": "2026-06-20T06:04:58.000Z",
-      "model": "gpt-5-codex",
+      "sourceFingerprint": "c8523e1341c30608b739593019e0f66272aded72c553ae221831a7ad6f339927",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Teinacher Mineralwasser+ 0.75L 整箱矿泉水",
-        "summaryZh": "购买 Teinacher Mineralwasser+ 0.75L 整箱装，最高可返 10 欧。",
+        "titleZh": "Teinacher 矿泉水+ 0.75L 整箱返现",
+        "summaryZh": "Teinacher Mineralwasser+ 0.75L 整箱装可申请最高 10 欧返现，但很多地区未必上架，实际更看本地供货。",
         "productTypeZh": "矿泉水整箱装",
-        "shoppingHintZh": "这是 0.75L Kiste 整箱装，页面提示仅本地部分地区有货；活动按月度预算发放，用完即止。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，建议买完尽快提交。",
+        "shoppingHintZh": "重点确认是 Teinacher Mineralwasser+ 0.75L 整箱装；这单最大难点是当地门店可能没有货，最好先看附近是否上架。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，月度预算用完也可能提前结束。",
         "categoryKey": "drink",
-        "priority": "normal",
+        "priority": "low",
         "tagsZh": [
-          "饮料",
           "矿泉水",
           "整箱",
-          "本地有货",
-          "预算有限"
+          "本地铺货",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.9
+        "confidence": 0.84
       }
     },
     "mydealz:2741402": {
@@ -802,24 +799,24 @@
       }
     },
     "mydealz:2774776": {
-      "sourceFingerprint": "a77fb070709a444a4000ddb8b75335b08748edba0c1c4a5d87a9d9faa424e14d",
-      "generatedAt": "2026-06-20T06:04:58.000Z",
-      "model": "gpt-5-codex",
+      "sourceFingerprint": "3795720a23b74ddb2c287d68fd9e1c05de2ba3ba0e321f06559263138d9c4012",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Cillit Bang Expert 强力清洁剂",
-        "summaryZh": "购买指定 Cillit Bang Expert 去水垢污渍或浴室淋浴清洁剂，按活动规则申请返现。",
-        "productTypeZh": "浴室强力清洁剂",
-        "shoppingHintZh": "认准 Kalk & Schmutz 750ml 或 Bad & Dusche 750ml/1000ml；每天 09:00 开放名额。",
-        "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+        "titleZh": "Cillit Bang Expert 强力清洁剂返现",
+        "summaryZh": "Cillit Bang Expert 指定除垢/浴室清洁剂可返现，活动每天 09:00 开放，日名额和总名额都有限。",
+        "productTypeZh": "浴室/除垢清洁剂",
+        "shoppingHintZh": "只限 Kalk & Schmutz 750ml，以及 Bad & Dusche 750ml 或 1000ml；这单每天 09:00 开放，想抢名额最好尽早买并尽快提报。",
+        "submitHintZh": "提交时需要上传小票照片，并完成短信确认；购买和提交都截止到 2026-07-31，名额满会提前结束。",
         "categoryKey": "cleaning",
         "priority": "high",
         "tagsZh": [
-          "清洁",
-          "浴室",
-          "除水垢",
-          "每日名额",
-          "SMS确认"
+          "Cillit Bang",
+          "除垢",
+          "浴室清洁",
+          "09:00",
+          "短信确认"
         ],
         "riskFlags": [
           "quota_limited",
@@ -827,34 +824,35 @@
           "receipt_photo",
           "sms_confirmation"
         ],
-        "confidence": 0.93
+        "confidence": 0.96
       }
     },
     "mydealz:2788354": {
-      "sourceFingerprint": "e5b50ecfe43bc353da7aeaadac468d97cd02273ac3b589478145ec61a0713298",
-      "generatedAt": "2026-06-20T06:05:12Z",
-      "model": "manual",
+      "sourceFingerprint": "8b0d1ee9a57310e6c0ab2163777aeb852fc4c74d46965f3f013e8e45f0d6161e",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
-        "summaryZh": "购买指定 COTTONELLE Ultimativ Frisch 42片湿厕纸，最高返 1.79 欧。",
+        "titleZh": "COTTONELLE 清新款湿厕纸返现",
+        "summaryZh": "COTTONELLE Ultimativ Frisch 42 抽湿厕纸可申请最高 1.79 欧返现，每天 08:00 开放且有每日名额。",
         "productTypeZh": "湿厕纸",
-        "shoppingHintZh": "注意买 Ultimativ Frisch 42片版本；每天 08:00 放名额，每天 604 个。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买截止 31.07.2026，提交截止 15.08.2026。",
+        "shoppingHintZh": "重点核对是不是 Ultimativ Frisch 42 抽这款；活动每天 08:00 才开放，当天想参加最好早点买。",
+        "submitHintZh": "提交需要小票照片或扫描件，最晚 2026-08-15 前完成；每日和总名额都有限，买完尽快提交更稳。",
         "categoryKey": "personal",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
-          "个护",
           "湿厕纸",
-          "Cottonelle",
-          "每日名额"
+          "日化",
+          "42抽",
+          "08:00",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.95
+        "confidence": 0.93
       }
     },
     "mydealz:2757299": {
@@ -885,24 +883,24 @@
       }
     },
     "mydealz:2780564": {
-      "sourceFingerprint": "85f61351ad55f7b850816b8a52c0ad2fb3ad9e71bea643e4a19c7ac9e7ae596c",
-      "generatedAt": "2026-06-06T10:00:00.000Z",
-      "model": "manual/subagent",
+      "sourceFingerprint": "c53b5f26886c7cc2b8ab57a9f69015d11c6ed92a35ceb668db4b4ee3fac91998",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "WC-Ente 马桶清洁芳香贴支架",
-        "summaryZh": "购买 WC-Ente Frische-Siegel Halter 马桶清洁芳香贴支架，按活动规则返现。",
+        "titleZh": "WC-Ente 马桶清洁芳香贴返现",
+        "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
         "productTypeZh": "马桶清洁芳香贴",
-        "shoppingHintZh": "13.7 起先在 dm 独家，20.7 起其他商家也可买；每天 07:00 放名额。",
-        "submitHintZh": "需要上传小票照片或扫描件，提交截止为表格里的日期。",
+        "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
         "categoryKey": "cleaning",
         "priority": "high",
         "tagsZh": [
-          "清洁",
-          "马桶",
-          "WC-Ente",
+          "马桶清洁",
+          "芳香贴",
           "dm",
-          "每日名额"
+          "08:00",
+          "返现"
         ],
         "riskFlags": [
           "store_restricted",
@@ -910,7 +908,7 @@
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.92
+        "confidence": 0.94
       }
     },
     "official:13d633bef9318bee": {
@@ -1008,9 +1006,9 @@
       }
     },
     "mydealz:2788993": {
-      "sourceFingerprint": "aabc451313b55e740baf78137cd29d4d1b2af44b361ffd63b01c0b711f0536e0",
-      "generatedAt": "2026-07-04T06:03:00.522Z",
-      "model": "deterministic-skip",
+      "sourceFingerprint": "ed21394fa7d1209a008262bbce03cb1a31d4d7ac3e28f2fd52f2d90d141598cd",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "manual/subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "FELIX Doppelt Lecker 猫粮（宠物用品，默认跳过）",
@@ -1257,6 +1255,33 @@
           "receipt_photo"
         ],
         "confidence": 0.88
+      }
+    },
+    "mydealz:2804167": {
+      "sourceFingerprint": "eebe8e3121131f5e0abf34993daa9e8d95ce6524a47423e7dbaefca35d9b8283",
+      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Compeed 水泡贴",
+        "summaryZh": "Compeed 水泡贴这单当前只剩提交窗口，最晚可在 2026-07-24 前提交；购买截止日 2026-07-05 已过。",
+        "productTypeZh": "水泡贴",
+        "shoppingHintZh": "这单现在不适合临时去买，只有此前已买过活动商品并保留小票的人还能继续提交。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件，并完成短信确认；最晚 2026-07-24 前完成，预算用完也会提前结束。",
+        "categoryKey": "health",
+        "priority": "low",
+        "tagsZh": [
+          "足部护理",
+          "水泡贴",
+          "短信确认",
+          "提交期"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo",
+          "sms_confirmation"
+        ],
+        "confidence": 0.93
       }
     }
   }

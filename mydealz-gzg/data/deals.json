@@ -3,153 +3,15 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-13T06:02:00.731Z",
-    "enrichedCount": 28
+    "generatedAt": "2026-07-18T06:08:25.856Z",
+    "enrichedCount": 26
   },
   "deals": [
-    {
-      "id": "mydealz-2741402-centrum-biotic-immun-oder-vital-oder-all-in-one",
-      "dealStableId": "mydealz:2741402",
-      "sourceFingerprint": "4c3c680a09b4505d2b7d238eafe1ba68ef85d3b168c63f2ddc298317e6dbf8bd",
-      "rowNumber": 4,
-      "titleDe": "Centrum BIOTIC+ IMMUN oder VITAL oder ALL-IN-ONE | nur bei dm-drogerie markt",
-      "titleZh": "Centrum BIOTIC+ IMMUN/VITAL/ALL-IN-ONE",
-      "category": {
-        "key": "health",
-        "de": "Gesundheit",
-        "zh": "健康保健"
-      },
-      "stores": [
-        "dm"
-      ],
-      "storeMode": "restricted",
-      "imageUrl": "https://www.erlebe-haleon.de/deals/centrum/Content/assets/advertising/werbung-mobile.png",
-      "quota": "10.000 Teilnehmer insgesamt - wechselndes wöchentliches Kontingent",
-      "purchaseTime": "Montags ab 08:00 Uhr",
-      "purchaseDeadlineRaw": "30.04.2026 | 15.06.2026",
-      "purchaseDeadlineIso": "2026-06-15",
-      "submitDeadlineRaw": "30.05.2026 | 15.07.2026",
-      "submitDeadlineIso": "2026-07-15",
-      "submitWindow": "mindestens 30 Tage testen",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "ja",
-      "officialUrl": "https://www.erlebe-haleon.de/deals/centrum/",
-      "mydealzUrl": "https://www.mydealz.de/2741402",
-      "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
-      "added": "03.03.2026",
-      "addedIso": "2026-03-03",
-      "summaryZh": "仅限 dm 购买指定 Centrum 保健品，并按批次规则完成返现申请。",
-      "productTypeZh": "保健品",
-      "shoppingHintZh": "只限 dm-drogerie markt；名额为总量 10000 且按周放出，周一 08:00 开放时更值得先抢。",
-      "submitHintZh": "需要上传小票照片或扫描件并做短信确认；按参加批次对应截止日期提交，且需至少测试 30 天。",
-      "priority": "low",
-      "tagsZh": [
-        "保健品",
-        "dm限定",
-        "周一08:00",
-        "分批截止",
-        "需测试30天",
-        "需短信"
-      ],
-      "enrichment": {
-        "titleZh": "Centrum BIOTIC+ IMMUN/VITAL/ALL-IN-ONE",
-        "summaryZh": "仅限 dm 购买指定 Centrum 保健品，并按批次规则完成返现申请。",
-        "productTypeZh": "保健品",
-        "shoppingHintZh": "只限 dm-drogerie markt；名额为总量 10000 且按周放出，周一 08:00 开放时更值得先抢。",
-        "submitHintZh": "需要上传小票照片或扫描件并做短信确认；按参加批次对应截止日期提交，且需至少测试 30 天。",
-        "priority": "low",
-        "tagsZh": [
-          "保健品",
-          "dm限定",
-          "周一08:00",
-          "分批截止",
-          "需测试30天",
-          "需短信"
-        ],
-        "riskFlags": [
-          "store_restricted",
-          "quota_limited",
-          "daily_window",
-          "receipt_photo",
-          "sms_confirmation"
-        ],
-        "confidence": 0.94,
-        "categoryKey": "health"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2755020-somat-power-gel-all-in-1-67-aw-oder",
-      "dealStableId": "mydealz:2755020",
-      "sourceFingerprint": "3bdc8a37478ab90d80bcf99e766c4fa52482d69139bed8d9c5d6577092284bd8",
-      "rowNumber": 6,
-      "titleDe": "SOMAT Power Gel all in 1 (67 AW) oder | Excellence Premium 5in1 Gel Power & Perls (60 AW)",
-      "titleZh": "SOMAT 洗碗机凝胶 67次或 60次",
-      "category": {
-        "key": "cleaning",
-        "de": "Haushalt / Reinigung",
-        "zh": "居家清洁"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://www.henkel.de/resource/image/1646812/1x1/400/400/a8df70699d4d5eb315ece1af0c12648/575A801EEAF179A1B0BD7718C099A8C0/somat-collage.webp",
-      "quota": "1.208 Teilnahmen täglich - 373.272 Teilnahmen insgesamt",
-      "purchaseTime": "täglich ab 09:00 Uhr",
-      "purchaseDeadlineRaw": "30.06.2026",
-      "purchaseDeadlineIso": "2026-06-30",
-      "submitDeadlineRaw": "15.07.2026",
-      "submitDeadlineIso": "2026-07-15",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://gratis.testen.somat.de",
-      "mydealzUrl": "https://www.mydealz.de/2755020",
-      "agency": "acardo group AG | Zahlungsdienstleister: Novalnet AG",
-      "added": "27.03.2026",
-      "addedIso": "2026-03-27",
-      "summaryZh": "购买 SOMAT Power Gel all in 1 67次或 Excellence Premium 5in1 Gel Power & Perls 60次，按活动规则返现。",
-      "productTypeZh": "洗碗机清洁剂",
-      "shoppingHintZh": "注意规格是 67 AW 或 60 AW 的指定凝胶产品；每天 09:00 放名额。",
-      "submitHintZh": "需要上传小票照片或扫描件，提交截止为表格里的日期。",
-      "priority": "high",
-      "tagsZh": [
-        "清洁",
-        "洗碗机",
-        "SOMAT",
-        "每日名额",
-        "小票上传"
-      ],
-      "enrichment": {
-        "titleZh": "SOMAT 洗碗机凝胶 67次或 60次",
-        "summaryZh": "购买 SOMAT Power Gel all in 1 67次或 Excellence Premium 5in1 Gel Power & Perls 60次，按活动规则返现。",
-        "productTypeZh": "洗碗机清洁剂",
-        "shoppingHintZh": "注意规格是 67 AW 或 60 AW 的指定凝胶产品；每天 09:00 放名额。",
-        "submitHintZh": "需要上传小票照片或扫描件，提交截止为表格里的日期。",
-        "priority": "high",
-        "tagsZh": [
-          "清洁",
-          "洗碗机",
-          "SOMAT",
-          "每日名额",
-          "小票上传"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "daily_window",
-          "receipt_photo"
-        ],
-        "confidence": 0.93,
-        "categoryKey": "cleaning"
-      },
-      "enrichmentStatus": "enriched"
-    },
     {
       "id": "mydealz-2790687-rockstar-mocktail-0-33l-ew-dose",
       "dealStableId": "mydealz:2790687",
       "sourceFingerprint": "6b4d12d80c76dbfe6a0b415cfe3ea4f0bb0f5f9fdb44b171b7530430e6effea4",
-      "rowNumber": 29,
+      "rowNumber": 26,
       "titleDe": "ROCKSTAR Mocktail 0,33l EW Dose | drei Teilnahmen pro Teilnehmer möglich | pauschale Erstattung von 1,19€ (exkl. Pfand)",
       "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
       "category": {
@@ -212,81 +74,76 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2776857-hengstenberg-salate-to-go",
-      "dealStableId": "mydealz:2776857",
-      "sourceFingerprint": "08d26279d8539f657cec89b2d7758f137de2d39d91eec98b07bd1ff8dddbb67c",
-      "rowNumber": 8,
-      "titleDe": "HENGSTENBERG Salate to Go | - CousCousSalat Pflaume, Paprika und Ingwer | - Bulgur Tomate & Karotte | - Bulgur rote Beete, Senfsaat & Dill",
-      "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
+      "id": "mydealz-2804167-compeed-blasenpflaster",
+      "dealStableId": "mydealz:2804167",
+      "sourceFingerprint": "eebe8e3121131f5e0abf34993daa9e8d95ce6524a47423e7dbaefca35d9b8283",
+      "rowNumber": 6,
+      "titleDe": "Compeed®-Blasenpflaster",
+      "titleZh": "Compeed 水泡贴",
       "category": {
-        "key": "food",
-        "de": "Lebensmittel",
-        "zh": "食品"
+        "key": "health",
+        "de": "Gesundheit",
+        "zh": "健康保健"
       },
       "stores": [],
       "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/rBkpD/2776857_1/re/1024x1024/qt/60/2776857_1.jpg",
-      "quota": "unbekanntes (monatliches) Budget",
-      "purchaseTime": "",
-      "purchaseDeadlineRaw": "30.06.2026 | 15.07.2026",
-      "purchaseDeadlineIso": "2026-07-15",
-      "submitDeadlineRaw": "30.06.2026 | 15.07.2026",
-      "submitDeadlineIso": "2026-07-15",
+      "imageUrl": "https://static.mydealz.de/threads/raw/Y0jwO/2804167_1/re/1024x1024/qt/60/2804167_1.jpg",
+      "quota": "Gesamtrückerstattungsbudget: 43.261€",
+      "purchaseTime": "-",
+      "purchaseDeadlineRaw": "05.07.2026",
+      "purchaseDeadlineIso": "2026-07-05",
+      "submitDeadlineRaw": "24.07.2026",
+      "submitDeadlineIso": "2026-07-24",
       "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
       "participation": "",
       "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://www.salate-to-go.de",
-      "mydealzUrl": "https://www.mydealz.de/2776857",
-      "agency": "Viva Marketing GmbH | Zahlungsdienstleister: secupay AG",
-      "added": "12.05.2026",
-      "addedIso": "2026-05-12",
-      "summaryZh": "购买指定 HENGSTENBERG Salate to Go 三种口味之一后，可按活动规则申请返现。",
-      "productTypeZh": "即食谷物沙拉",
-      "shoppingHintZh": "不限指定门店，但要认准活动里的三种口味：CousCousSalat Pflaume, Paprika und Ingwer、Bulgur Tomate & Karotte、Bulgur rote Beete, Senfsaat & Dill；结账前看清包装名称。",
-      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止字段都写了 30.06.2026 | 15.07.2026 两组日期，且名额满了会提前结束，提交前先以官网表单为准。",
-      "priority": "normal",
+      "smsConfirmation": "ja",
+      "officialUrl": "https://hashting.promo/compeedde2/COMPEED-DE-FAL?language=DE",
+      "mydealzUrl": "https://www.mydealz.de/deals/compeed-blasenpflaster-zufrieden-oder-geld-zuruck-2804167",
+      "agency": "Hashting Solutions N.V.",
+      "added": "17.07.2026",
+      "addedIso": "2026-07-17",
+      "summaryZh": "Compeed 水泡贴这单当前只剩提交窗口，最晚可在 2026-07-24 前提交；购买截止日 2026-07-05 已过。",
+      "productTypeZh": "水泡贴",
+      "shoppingHintZh": "这单现在不适合临时去买，只有此前已买过活动商品并保留小票的人还能继续提交。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件，并完成短信确认；最晚 2026-07-24 前完成，预算用完也会提前结束。",
+      "priority": "low",
       "tagsZh": [
-        "食品",
-        "即食沙拉",
-        "HENGSTENBERG",
-        "CousCous",
-        "Bulgur",
-        "不限店",
-        "小票照片"
+        "足部护理",
+        "水泡贴",
+        "短信确认",
+        "提交期"
       ],
       "enrichment": {
-        "titleZh": "HENGSTENBERG Salate to Go 即食谷物沙拉",
-        "summaryZh": "购买指定 HENGSTENBERG Salate to Go 三种口味之一后，可按活动规则申请返现。",
-        "productTypeZh": "即食谷物沙拉",
-        "shoppingHintZh": "不限指定门店，但要认准活动里的三种口味：CousCousSalat Pflaume, Paprika und Ingwer、Bulgur Tomate & Karotte、Bulgur rote Beete, Senfsaat & Dill；结账前看清包装名称。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止字段都写了 30.06.2026 | 15.07.2026 两组日期，且名额满了会提前结束，提交前先以官网表单为准。",
-        "priority": "normal",
+        "titleZh": "Compeed 水泡贴",
+        "summaryZh": "Compeed 水泡贴这单当前只剩提交窗口，最晚可在 2026-07-24 前提交；购买截止日 2026-07-05 已过。",
+        "productTypeZh": "水泡贴",
+        "shoppingHintZh": "这单现在不适合临时去买，只有此前已买过活动商品并保留小票的人还能继续提交。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件，并完成短信确认；最晚 2026-07-24 前完成，预算用完也会提前结束。",
+        "priority": "low",
         "tagsZh": [
-          "食品",
-          "即食沙拉",
-          "HENGSTENBERG",
-          "CousCous",
-          "Bulgur",
-          "不限店",
-          "小票照片"
+          "足部护理",
+          "水泡贴",
+          "短信确认",
+          "提交期"
         ],
         "riskFlags": [
           "quota_limited",
-          "receipt_photo"
+          "receipt_photo",
+          "sms_confirmation"
         ],
-        "confidence": 0.92,
-        "categoryKey": "food"
+        "confidence": 0.93,
+        "categoryKey": "health"
       },
       "enrichmentStatus": "enriched"
     },
     {
       "id": "mydealz-2776393-anheuser-busch-bud",
       "dealStableId": "mydealz:2776393",
-      "sourceFingerprint": "f2c1d3cc29b421963a5d258b43a1d6aac6e0670b48d86404c828bf0b3962a934",
-      "rowNumber": 9,
-      "titleDe": "Anheuser-Busch BUD | - Flaschen Sixpack 6x0.3l, max. 8,50€ | - Einzelflasche 0.3L, max. 2,00€ | - Dosen Sixpack 6x0.33L, max. 7,50€ | - Einzeldose 0.33L, max. 2,50€ | - Einzeldose 0.5L, max. 2,50€",
-      "titleZh": "BUD 啤酒指定装规格返现",
+      "sourceFingerprint": "e209e1dd3366f60bb59b7dba74b2164e9807796039b20d2bb99a2b5f295efe20",
+      "rowNumber": 5,
+      "titleDe": "Anheuser-Busch BUD | * Flaschen Sixpack 6x0.3l, max. 8,50€ | * Einzelflasche 0.3L, max. 2,00€ | * Dosen Sixpack 6x0.33L, max. 7,50€ | * Einzeldose 0.33L, max. 2,50€ | * Einzeldose 0.5L, max. 2,50€",
+      "titleZh": "BUD 啤酒指定规格返现",
       "category": {
         "key": "drink",
         "de": "Getränke",
@@ -310,46 +167,47 @@
       "agency": "Zahlungsdienstleister: Novalnet AG",
       "added": "07.05.2026",
       "addedIso": "2026-05-07",
-      "summaryZh": "BUD 啤酒可按不同包装返现，包含 6x0.3L 瓶装、0.3L 单瓶、6x0.33L 罐装、0.33L 单罐和 0.5L 单罐。",
+      "summaryZh": "BUD 啤酒多种单瓶、单听和六连包规格可参加返现，不同包装的报销上限不同，购买和提交都截止到 2026-07-19。",
       "productTypeZh": "啤酒",
-      "shoppingHintZh": "先看清包装规格再买，不同装对应不同返现；这单覆盖瓶装 sixpack、单瓶、罐装 sixpack 和两种单罐规格。",
-      "submitHintZh": "需要上传 Foto/Scan 小票，购买和提交截止都到 19.07.2026。",
-      "priority": "normal",
+      "shoppingHintZh": "一定要看清是单瓶、单听还是六连包，以及 0.3L、0.33L、0.5L 这些规格，买错包装会影响返现金额。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止和提交截止都是 2026-07-19，适合尽快处理。",
+      "priority": "high",
       "tagsZh": [
         "啤酒",
-        "多规格",
-        "小票上传",
-        "按包装区分"
+        "BUD",
+        "听装",
+        "瓶装",
+        "临期"
       ],
       "enrichment": {
-        "titleZh": "BUD 啤酒指定装规格返现",
-        "summaryZh": "BUD 啤酒可按不同包装返现，包含 6x0.3L 瓶装、0.3L 单瓶、6x0.33L 罐装、0.33L 单罐和 0.5L 单罐。",
+        "titleZh": "BUD 啤酒指定规格返现",
+        "summaryZh": "BUD 啤酒多种单瓶、单听和六连包规格可参加返现，不同包装的报销上限不同，购买和提交都截止到 2026-07-19。",
         "productTypeZh": "啤酒",
-        "shoppingHintZh": "先看清包装规格再买，不同装对应不同返现；这单覆盖瓶装 sixpack、单瓶、罐装 sixpack 和两种单罐规格。",
-        "submitHintZh": "需要上传 Foto/Scan 小票，购买和提交截止都到 19.07.2026。",
-        "priority": "normal",
+        "shoppingHintZh": "一定要看清是单瓶、单听还是六连包，以及 0.3L、0.33L、0.5L 这些规格，买错包装会影响返现金额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止和提交截止都是 2026-07-19，适合尽快处理。",
+        "priority": "high",
         "tagsZh": [
           "啤酒",
-          "多规格",
-          "小票上传",
-          "按包装区分"
+          "BUD",
+          "听装",
+          "瓶装",
+          "临期"
         ],
         "riskFlags": [
-          "variant_sensitive",
           "receipt_photo"
         ],
-        "confidence": 0.91,
+        "confidence": 0.96,
         "categoryKey": "drink"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2733998-soda-libre-the-classics-lemonade",
+      "id": "mydealz-2733998-soda-libre-the-classics-lemonade-max-2-18-erstattung",
       "dealStableId": "mydealz:2733998",
-      "sourceFingerprint": "6ced4ab69536f7e2c65732e321a8b8e6f345ecca063e741b55f92e426c715208",
-      "rowNumber": 10,
-      "titleDe": "Soda Libre The Classics Lemonade | Zitrone und/oder Orange | min. zwei 0.33L Dosen in einem Einkauf | max. 2,18€ Erstattung",
-      "titleZh": "Soda Libre The Classics 柠檬汽水返现",
+      "sourceFingerprint": "61a454a3a701c1b0edc2b34810ff84f3cf52de9095cbfea5df2f3a9c64ae2574",
+      "rowNumber": 7,
+      "titleDe": "Soda Libre The Classics Lemonade - max. 2.18€ Erstattung | * Zitrone und/oder | * Orange | min. zwei 0.33L Dosen in einem Einkauf",
+      "titleZh": "Soda Libre The Classics 汽水返现",
       "category": {
         "key": "drink",
         "de": "Getränke",
@@ -373,47 +231,47 @@
       "agency": "caspar company GmbH | Zahlungsdienstleister: Continental Payment GmbH",
       "added": "03.03.2026",
       "addedIso": "2026-03-03",
-      "summaryZh": "Soda Libre The Classics Lemonade 需同次购物至少买两罐 0.33L，可选 Zitrone 和/或 Orange，最高返 2,18€。",
-      "productTypeZh": "汽水饮料",
-      "shoppingHintZh": "关键是同一张小票里至少有两罐 0.33L，口味可以是 Zitrone、Orange，或者两种混买。",
-      "submitHintZh": "需要上传 Foto/Scan 小票，购买截止 31.07.2026，提交截止 07.08.2026。",
+      "summaryZh": "Soda Libre The Classics 柠檬味和橙味活动款可返现，但同一笔购物里至少要买 2 罐 0.33L。",
+      "productTypeZh": "汽水",
+      "shoppingHintZh": "必须同一张小票买满 2 罐 0.33L，并确认是 The Classics 系列的 Zitrone 和/或 Orange 口味。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件，购买截止 2026-07-31，提交截止 2026-08-07。",
       "priority": "normal",
       "tagsZh": [
         "汽水",
         "两罐起",
-        "同票购买",
-        "小票上传"
+        "0.33L",
+        "柠檬味",
+        "橙味"
       ],
       "enrichment": {
-        "titleZh": "Soda Libre The Classics 柠檬汽水返现",
-        "summaryZh": "Soda Libre The Classics Lemonade 需同次购物至少买两罐 0.33L，可选 Zitrone 和/或 Orange，最高返 2,18€。",
-        "productTypeZh": "汽水饮料",
-        "shoppingHintZh": "关键是同一张小票里至少有两罐 0.33L，口味可以是 Zitrone、Orange，或者两种混买。",
-        "submitHintZh": "需要上传 Foto/Scan 小票，购买截止 31.07.2026，提交截止 07.08.2026。",
+        "titleZh": "Soda Libre The Classics 汽水返现",
+        "summaryZh": "Soda Libre The Classics 柠檬味和橙味活动款可返现，但同一笔购物里至少要买 2 罐 0.33L。",
+        "productTypeZh": "汽水",
+        "shoppingHintZh": "必须同一张小票买满 2 罐 0.33L，并确认是 The Classics 系列的 Zitrone 和/或 Orange 口味。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件，购买截止 2026-07-31，提交截止 2026-08-07。",
         "priority": "normal",
         "tagsZh": [
           "汽水",
           "两罐起",
-          "同票购买",
-          "小票上传"
+          "0.33L",
+          "柠檬味",
+          "橙味"
         ],
         "riskFlags": [
-          "minimum_quantity",
-          "same_receipt_required",
           "receipt_photo"
         ],
-        "confidence": 0.94,
+        "confidence": 0.97,
         "categoryKey": "drink"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2739267-wasa-selection-kna-cke",
+      "id": "mydealz-2739267-wasa-selection-kna-cke-max-2-49-erstattung",
       "dealStableId": "mydealz:2739267",
-      "sourceFingerprint": "24a2618e2f43f874293af802b4e9351454df8bc99a19aecc51864b7443c441fd",
-      "rowNumber": 11,
-      "titleDe": "WASA Selection Knäcke | - Protein+ 200g | - Mohn & Meersalz 245g | - Chia & Meersalz 245g | max. 2,49€ Erstattung",
-      "titleZh": "Wasa Selection 脆片面包 Protein+、罂粟海盐或奇亚海盐",
+      "sourceFingerprint": "1d3a0fe8ce97d350ba5a93b570f08e7145c8352dabfad712b788ca97e25b6430",
+      "rowNumber": 8,
+      "titleDe": "WASA Selection Knäcke - max. 2-49€ Erstattung | * Protein+ 200g | * Mohn & Meersalz 245g | * Chia & Meersalz 245g",
+      "titleZh": "WASA Selection 薄脆饼干返现",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -437,48 +295,46 @@
       "agency": "REINBOLDROST GmbH & Co. KG | Zahlungsdienstleister: savi marketing GmbH",
       "added": "03.03.2026",
       "addedIso": "2026-03-03",
-      "summaryZh": "购买指定 Wasa Selection Knacke，最高可返 2.49 欧。",
-      "productTypeZh": "脆片面包",
-      "shoppingHintZh": "注意只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款；不限指定门店。",
-      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，总名额 40000 个。",
+      "summaryZh": "WASA Selection 指定口味薄脆饼干可返现，Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 都在活动内。",
+      "productTypeZh": "薄脆饼干",
+      "shoppingHintZh": "重点核对口味和克重，只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，总名额 40,000。",
       "priority": "normal",
       "tagsZh": [
-        "食品",
-        "脆片面包",
-        "Wasa",
-        "Selection",
-        "最高2.49欧"
+        "WASA",
+        "薄脆饼干",
+        "指定口味",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "Wasa Selection 脆片面包 Protein+、罂粟海盐或奇亚海盐",
-        "summaryZh": "购买指定 Wasa Selection Knacke，最高可返 2.49 欧。",
-        "productTypeZh": "脆片面包",
-        "shoppingHintZh": "注意只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款；不限指定门店。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，总名额 40000 个。",
+        "titleZh": "WASA Selection 薄脆饼干返现",
+        "summaryZh": "WASA Selection 指定口味薄脆饼干可返现，Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 都在活动内。",
+        "productTypeZh": "薄脆饼干",
+        "shoppingHintZh": "重点核对口味和克重，只限 Protein+ 200g、Mohn & Meersalz 245g、Chia & Meersalz 245g 这几款。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，总名额 40,000。",
         "priority": "normal",
         "tagsZh": [
-          "食品",
-          "脆片面包",
-          "Wasa",
-          "Selection",
-          "最高2.49欧"
+          "WASA",
+          "薄脆饼干",
+          "指定口味",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.93,
+        "confidence": 0.95,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2761516-wasa-crunchy-bites",
+      "id": "mydealz-2761516-wasa-crunchy-bites-max-2-19-erstattung",
       "dealStableId": "mydealz:2761516",
-      "sourceFingerprint": "ed6f4f7aa52298ceef13de6735539ba35821c825a52a01814369c5dad2d41337",
-      "rowNumber": 12,
-      "titleDe": "WASA Crunchy Bites | - Sour Cream & Onion 100g | - Cheddar 100g | max. 2,19€ Erstattung",
-      "titleZh": "WASA Crunchy Bites 脆饼小食 100g",
+      "sourceFingerprint": "3d7bf9bf6fc1b40e2f075c7d39fe1dcc375783571c0677d95a4b8d5c7ebe3f95",
+      "rowNumber": 9,
+      "titleDe": "WASA Crunchy Bites - max. 2,19€ Erstattung | * Sour Cream & Onion 100g | * Cheddar 100g",
+      "titleZh": "WASA Crunchy Bites 脆饼零食返现",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -502,37 +358,37 @@
       "agency": "REINBOLDROST GmbH & Co. KG | Zahlungsdienstleister: savi marketing GmbH",
       "added": "03.03.2026",
       "addedIso": "2026-03-03",
-      "summaryZh": "购买指定 WASA Crunchy Bites 100g，最高返 2.19 欧。",
+      "summaryZh": "WASA Crunchy Bites 指定口味 100g 可申请最高 2.19 欧返现，限 Sour Cream & Onion 和 Cheddar 两款。",
       "productTypeZh": "脆饼零食",
-      "shoppingHintZh": "注意买 Crunchy Bites 100g，口味限 Sour Cream & Onion 或 Cheddar；不限店，名额总量有限。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
+      "shoppingHintZh": "注意只限 100g 的 Sour Cream & Onion 或 Cheddar，先核对包装口味再结账。",
+      "submitHintZh": "提交时需要小票照片或扫描件，购买和提交都截止到 2026-07-31，总名额 40,000。",
       "priority": "normal",
       "tagsZh": [
-        "食品",
-        "零食",
-        "脆饼",
         "WASA",
-        "不限店"
+        "脆饼",
+        "100g",
+        "指定口味",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "WASA Crunchy Bites 脆饼小食 100g",
-        "summaryZh": "购买指定 WASA Crunchy Bites 100g，最高返 2.19 欧。",
+        "titleZh": "WASA Crunchy Bites 脆饼零食返现",
+        "summaryZh": "WASA Crunchy Bites 指定口味 100g 可申请最高 2.19 欧返现，限 Sour Cream & Onion 和 Cheddar 两款。",
         "productTypeZh": "脆饼零食",
-        "shoppingHintZh": "注意买 Crunchy Bites 100g，口味限 Sour Cream & Onion 或 Cheddar；不限店，名额总量有限。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期。",
+        "shoppingHintZh": "注意只限 100g 的 Sour Cream & Onion 或 Cheddar，先核对包装口味再结账。",
+        "submitHintZh": "提交时需要小票照片或扫描件，购买和提交都截止到 2026-07-31，总名额 40,000。",
         "priority": "normal",
         "tagsZh": [
-          "食品",
-          "零食",
-          "脆饼",
           "WASA",
-          "不限店"
+          "脆饼",
+          "100g",
+          "指定口味",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.92,
+        "confidence": 0.94,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -541,7 +397,7 @@
       "id": "mydealz-2772853-bad-liebenwerda-mineralwasser-limette-minze",
       "dealStableId": "mydealz:2772853",
       "sourceFingerprint": "27ea6adf22b102463a79fb2c553f35d826078533193b80283186c1d2b05cb2e4",
-      "rowNumber": 13,
+      "rowNumber": 10,
       "titleDe": "Bad Liebenwerda Mineralwasser+ Limette-Minze | 0.75L Glasflasche",
       "titleZh": "Bad Liebenwerda 青柠薄荷风味矿泉水 0.75L 玻璃瓶",
       "category": {
@@ -604,10 +460,10 @@
     {
       "id": "mydealz-2774776-cillit-bang-expert-kraftreiniger",
       "dealStableId": "mydealz:2774776",
-      "sourceFingerprint": "a77fb070709a444a4000ddb8b75335b08748edba0c1c4a5d87a9d9faa424e14d",
-      "rowNumber": 14,
-      "titleDe": "Cillit Bang Expert Kraftreiniger | - Kalk & Schmutz 750ml oder | - Bad & Dusche 750ml oder 1000ml",
-      "titleZh": "Cillit Bang Expert 强力清洁剂",
+      "sourceFingerprint": "3795720a23b74ddb2c287d68fd9e1c05de2ba3ba0e321f06559263138d9c4012",
+      "rowNumber": 11,
+      "titleDe": "Cillit Bang Expert Kraftreiniger | * Kalk & Schmutz 750ml oder | * Bad & Dusche 750ml oder 1000ml",
+      "titleZh": "Cillit Bang Expert 强力清洁剂返现",
       "category": {
         "key": "cleaning",
         "de": "Haushalt / Reinigung",
@@ -631,31 +487,31 @@
       "agency": "JustSnap GmbH",
       "added": "05.05.2026",
       "addedIso": "2026-05-05",
-      "summaryZh": "购买指定 Cillit Bang Expert 去水垢污渍或浴室淋浴清洁剂，按活动规则申请返现。",
-      "productTypeZh": "浴室强力清洁剂",
-      "shoppingHintZh": "认准 Kalk & Schmutz 750ml 或 Bad & Dusche 750ml/1000ml；每天 09:00 开放名额。",
-      "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+      "summaryZh": "Cillit Bang Expert 指定除垢/浴室清洁剂可返现，活动每天 09:00 开放，日名额和总名额都有限。",
+      "productTypeZh": "浴室/除垢清洁剂",
+      "shoppingHintZh": "只限 Kalk & Schmutz 750ml，以及 Bad & Dusche 750ml 或 1000ml；这单每天 09:00 开放，想抢名额最好尽早买并尽快提报。",
+      "submitHintZh": "提交时需要上传小票照片，并完成短信确认；购买和提交都截止到 2026-07-31，名额满会提前结束。",
       "priority": "high",
       "tagsZh": [
-        "清洁",
-        "浴室",
-        "除水垢",
-        "每日名额",
-        "SMS确认"
+        "Cillit Bang",
+        "除垢",
+        "浴室清洁",
+        "09:00",
+        "短信确认"
       ],
       "enrichment": {
-        "titleZh": "Cillit Bang Expert 强力清洁剂",
-        "summaryZh": "购买指定 Cillit Bang Expert 去水垢污渍或浴室淋浴清洁剂，按活动规则申请返现。",
-        "productTypeZh": "浴室强力清洁剂",
-        "shoppingHintZh": "认准 Kalk & Schmutz 750ml 或 Bad & Dusche 750ml/1000ml；每天 09:00 开放名额。",
-        "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+        "titleZh": "Cillit Bang Expert 强力清洁剂返现",
+        "summaryZh": "Cillit Bang Expert 指定除垢/浴室清洁剂可返现，活动每天 09:00 开放，日名额和总名额都有限。",
+        "productTypeZh": "浴室/除垢清洁剂",
+        "shoppingHintZh": "只限 Kalk & Schmutz 750ml，以及 Bad & Dusche 750ml 或 1000ml；这单每天 09:00 开放，想抢名额最好尽早买并尽快提报。",
+        "submitHintZh": "提交时需要上传小票照片，并完成短信确认；购买和提交都截止到 2026-07-31，名额满会提前结束。",
         "priority": "high",
         "tagsZh": [
-          "清洁",
-          "浴室",
-          "除水垢",
-          "每日名额",
-          "SMS确认"
+          "Cillit Bang",
+          "除垢",
+          "浴室清洁",
+          "09:00",
+          "短信确认"
         ],
         "riskFlags": [
           "quota_limited",
@@ -663,18 +519,18 @@
           "receipt_photo",
           "sms_confirmation"
         ],
-        "confidence": 0.93,
+        "confidence": 0.96,
         "categoryKey": "cleaning"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2774857-calgon-4in1-wasserentha-rter-gel-750ml",
+      "id": "mydealz-2774857-calgon-4in1-wasserentha-rter-gel-750ml-max-4-99-erstat",
       "dealStableId": "mydealz:2774857",
-      "sourceFingerprint": "6884ff0084c12412844209ee670ad25e74cab2624e8d8490065727e545d310b2",
-      "rowNumber": 15,
-      "titleDe": "Calgon 4in1 Wasserenthärter Gel 750ml | max. 4,99€ Erstattung",
-      "titleZh": "Calgon 4合1洗衣机软水防垢凝胶 750ml",
+      "sourceFingerprint": "5e9d698de16832a13ae34baf6e677fe90b59fe4ddb6a31096775019df422baaa",
+      "rowNumber": 12,
+      "titleDe": "Calgon 4in1 Wasserenthärter Gel 750ml - max. 4.99€ Erstattung",
+      "titleZh": "Calgon 4合1 防垢凝胶 750ml 返现",
       "category": {
         "key": "cleaning",
         "de": "Haushalt / Reinigung",
@@ -698,31 +554,31 @@
       "agency": "JustSnap GmbH",
       "added": "05.05.2026",
       "addedIso": "2026-05-05",
-      "summaryZh": "购买 Calgon 4in1 Wasserentharter Gel 750ml，最高可返 4.99 欧。",
-      "productTypeZh": "洗衣机防垢剂",
-      "shoppingHintZh": "注意买 750ml Gel 版本；活动每天 09:00 开放名额，且 5 月、6 月、7 月每日名额逐步减少。",
-      "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+      "summaryZh": "Calgon 4in1 Gel 750ml 可申请最高 4.99 欧返现，7 月每天 09:00 开放且单日名额已经降到 150 个。",
+      "productTypeZh": "洗衣机软水防垢凝胶",
+      "shoppingHintZh": "只限 750ml Gel 这款，7 月每天 09:00 才放名额，而且每日额度比前两个月更少，适合尽早处理。",
+      "submitHintZh": "提交时需要上传小票照片并完成短信确认；购买和提交都截止到 2026-07-31。",
       "priority": "high",
       "tagsZh": [
-        "清洁",
-        "洗衣机",
+        "Calgon",
         "防垢",
-        "每日名额",
-        "SMS确认"
+        "750ml",
+        "09:00",
+        "短信确认"
       ],
       "enrichment": {
-        "titleZh": "Calgon 4合1洗衣机软水防垢凝胶 750ml",
-        "summaryZh": "购买 Calgon 4in1 Wasserentharter Gel 750ml，最高可返 4.99 欧。",
-        "productTypeZh": "洗衣机防垢剂",
-        "shoppingHintZh": "注意买 750ml Gel 版本；活动每天 09:00 开放名额，且 5 月、6 月、7 月每日名额逐步减少。",
-        "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认；购买和提交截止都是 31.07.2026。",
+        "titleZh": "Calgon 4合1 防垢凝胶 750ml 返现",
+        "summaryZh": "Calgon 4in1 Gel 750ml 可申请最高 4.99 欧返现，7 月每天 09:00 开放且单日名额已经降到 150 个。",
+        "productTypeZh": "洗衣机软水防垢凝胶",
+        "shoppingHintZh": "只限 750ml Gel 这款，7 月每天 09:00 才放名额，而且每日额度比前两个月更少，适合尽早处理。",
+        "submitHintZh": "提交时需要上传小票照片并完成短信确认；购买和提交都截止到 2026-07-31。",
         "priority": "high",
         "tagsZh": [
-          "清洁",
-          "洗衣机",
+          "Calgon",
           "防垢",
-          "每日名额",
-          "SMS确认"
+          "750ml",
+          "09:00",
+          "短信确认"
         ],
         "riskFlags": [
           "quota_limited",
@@ -730,18 +586,18 @@
           "receipt_photo",
           "sms_confirmation"
         ],
-        "confidence": 0.94,
+        "confidence": 0.96,
         "categoryKey": "cleaning"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2788544-teinacher-mineralwasser-kiste-0-75l",
+      "id": "mydealz-2788544-teinacher-mineralwasser-kiste-0-75l-max-10-00-erstattu",
       "dealStableId": "mydealz:2788544",
-      "sourceFingerprint": "04b0c91ee7a8554b82a6283e7efbab201ee4b8dd9d5e96925fc6e3a4ad17a3bd",
-      "rowNumber": 16,
-      "titleDe": "Teinacher Mineralwasser+ Kiste 0,75l | (nur lokale Verfügbarkeit!) | max. 10€ Erstattung",
-      "titleZh": "Teinacher Mineralwasser+ 0.75L 整箱矿泉水",
+      "sourceFingerprint": "c8523e1341c30608b739593019e0f66272aded72c553ae221831a7ad6f339927",
+      "rowNumber": 13,
+      "titleDe": "Teinacher Mineralwasser+ Kiste 0,75l - max. 10.00€ Erstattung | (nur lokale Verfügbarkeit!)",
+      "titleZh": "Teinacher 矿泉水+ 0.75L 整箱返现",
       "category": {
         "key": "drink",
         "de": "Getränke",
@@ -765,48 +621,46 @@
       "agency": "Viva Marketing GmbH | Zahlungsdienstleister: secupay AG",
       "added": "02.06.2026",
       "addedIso": "2026-06-02",
-      "summaryZh": "购买 Teinacher Mineralwasser+ 0.75L 整箱装，最高可返 10 欧。",
+      "summaryZh": "Teinacher Mineralwasser+ 0.75L 整箱装可申请最高 10 欧返现，但很多地区未必上架，实际更看本地供货。",
       "productTypeZh": "矿泉水整箱装",
-      "shoppingHintZh": "这是 0.75L Kiste 整箱装，页面提示仅本地部分地区有货；活动按月度预算发放，用完即止。",
-      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，建议买完尽快提交。",
-      "priority": "normal",
+      "shoppingHintZh": "重点确认是 Teinacher Mineralwasser+ 0.75L 整箱装；这单最大难点是当地门店可能没有货，最好先看附近是否上架。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，月度预算用完也可能提前结束。",
+      "priority": "low",
       "tagsZh": [
-        "饮料",
         "矿泉水",
         "整箱",
-        "本地有货",
-        "预算有限"
+        "本地铺货",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "Teinacher Mineralwasser+ 0.75L 整箱矿泉水",
-        "summaryZh": "购买 Teinacher Mineralwasser+ 0.75L 整箱装，最高可返 10 欧。",
+        "titleZh": "Teinacher 矿泉水+ 0.75L 整箱返现",
+        "summaryZh": "Teinacher Mineralwasser+ 0.75L 整箱装可申请最高 10 欧返现，但很多地区未必上架，实际更看本地供货。",
         "productTypeZh": "矿泉水整箱装",
-        "shoppingHintZh": "这是 0.75L Kiste 整箱装，页面提示仅本地部分地区有货；活动按月度预算发放，用完即止。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止都是 31.07.2026，建议买完尽快提交。",
-        "priority": "normal",
+        "shoppingHintZh": "重点确认是 Teinacher Mineralwasser+ 0.75L 整箱装；这单最大难点是当地门店可能没有货，最好先看附近是否上架。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-07-31，月度预算用完也可能提前结束。",
+        "priority": "low",
         "tagsZh": [
-          "饮料",
           "矿泉水",
           "整箱",
-          "本地有货",
-          "预算有限"
+          "本地铺货",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.9,
+        "confidence": 0.84,
         "categoryKey": "drink"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2788354-cottonelle-feuchtes-toilettenpapier",
+      "id": "mydealz-2788354-cottonelle-feuchtes-toilettenpapier-ultimativ-frisch-4",
       "dealStableId": "mydealz:2788354",
-      "sourceFingerprint": "e5b50ecfe43bc353da7aeaadac468d97cd02273ac3b589478145ec61a0713298",
-      "rowNumber": 17,
-      "titleDe": "COTTONELLE Feuchtes Toilettenpapier | Ultimativ Frisch 42 Tücher | max. 1,79€ Erstattung",
-      "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
+      "sourceFingerprint": "8b0d1ee9a57310e6c0ab2163777aeb852fc4c74d46965f3f013e8e45f0d6161e",
+      "rowNumber": 14,
+      "titleDe": "COTTONELLE Feuchtes Toilettenpapier Ultimativ Frisch 42 Tücher - max. 1.79€ Erstattung",
+      "titleZh": "COTTONELLE 清新款湿厕纸返现",
       "category": {
         "key": "personal",
         "de": "Drogerie / Pflege",
@@ -830,36 +684,38 @@
       "agency": "SAVI Marketing GmbH",
       "added": "02.06.2026",
       "addedIso": "2026-06-02",
-      "summaryZh": "购买指定 COTTONELLE Ultimativ Frisch 42片湿厕纸，最高返 1.79 欧。",
+      "summaryZh": "COTTONELLE Ultimativ Frisch 42 抽湿厕纸可申请最高 1.79 欧返现，每天 08:00 开放且有每日名额。",
       "productTypeZh": "湿厕纸",
-      "shoppingHintZh": "注意买 Ultimativ Frisch 42片版本；每天 08:00 放名额，每天 604 个。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买截止 31.07.2026，提交截止 15.08.2026。",
-      "priority": "normal",
+      "shoppingHintZh": "重点核对是不是 Ultimativ Frisch 42 抽这款；活动每天 08:00 才开放，当天想参加最好早点买。",
+      "submitHintZh": "提交需要小票照片或扫描件，最晚 2026-08-15 前完成；每日和总名额都有限，买完尽快提交更稳。",
+      "priority": "high",
       "tagsZh": [
-        "个护",
         "湿厕纸",
-        "Cottonelle",
-        "每日名额"
+        "日化",
+        "42抽",
+        "08:00",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
-        "summaryZh": "购买指定 COTTONELLE Ultimativ Frisch 42片湿厕纸，最高返 1.79 欧。",
+        "titleZh": "COTTONELLE 清新款湿厕纸返现",
+        "summaryZh": "COTTONELLE Ultimativ Frisch 42 抽湿厕纸可申请最高 1.79 欧返现，每天 08:00 开放且有每日名额。",
         "productTypeZh": "湿厕纸",
-        "shoppingHintZh": "注意买 Ultimativ Frisch 42片版本；每天 08:00 放名额，每天 604 个。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买截止 31.07.2026，提交截止 15.08.2026。",
-        "priority": "normal",
+        "shoppingHintZh": "重点核对是不是 Ultimativ Frisch 42 抽这款；活动每天 08:00 才开放，当天想参加最好早点买。",
+        "submitHintZh": "提交需要小票照片或扫描件，最晚 2026-08-15 前完成；每日和总名额都有限，买完尽快提交更稳。",
+        "priority": "high",
         "tagsZh": [
-          "个护",
           "湿厕纸",
-          "Cottonelle",
-          "每日名额"
+          "日化",
+          "42抽",
+          "08:00",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.95,
+        "confidence": 0.93,
         "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
@@ -868,7 +724,7 @@
       "id": "mydealz-2757299-always-discreet-inkontinenz-maxi",
       "dealStableId": "mydealz:2757299",
       "sourceFingerprint": "23277d36a84b01599fd311d788473b7372ad08a79cf53aa35da264de7f0a094e",
-      "rowNumber": 18,
+      "rowNumber": 15,
       "titleDe": "always Discreet Inkontinenz Maxi",
       "titleZh": "always Discreet Maxi 成人护理垫",
       "category": {
@@ -933,7 +789,7 @@
       "id": "mydealz-2780510-ben-s-original-street-food-fertiggerichte",
       "dealStableId": "mydealz:2780510",
       "sourceFingerprint": "aacc9b9977587eea1280452500d167db3e0a993d36878994d8c03011543d89cd",
-      "rowNumber": 19,
+      "rowNumber": 16,
       "titleDe": "Ben's Original Street Food Fertiggerichte",
       "titleZh": "Ben's Original Street Food 即食餐",
       "category": {
@@ -996,11 +852,11 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2788993-felix-doppelt-lecker-katzennahrungsprodukte",
+      "id": "mydealz-2788993-felix-doppelt-lecker-katzennahrungsprodukte-1x-trocken",
       "dealStableId": "mydealz:2788993",
-      "sourceFingerprint": "aabc451313b55e740baf78137cd29d4d1b2af44b361ffd63b01c0b711f0536e0",
-      "rowNumber": 20,
-      "titleDe": "FELIX Doppelt Lecker Katzennahrungsprodukte | 1x Trockenprodukt & 1x Nassprodukt kaufen | max. 7€ Erstattung",
+      "sourceFingerprint": "ed21394fa7d1209a008262bbce03cb1a31d4d7ac3e28f2fd52f2d90d141598cd",
+      "rowNumber": 17,
+      "titleDe": "FELIX Doppelt Lecker Katzennahrungsprodukte - 1x Trockenprodukt & 1x Nassprodukt kaufen (max. 7.00€ Erstattung)",
       "titleZh": "FELIX Doppelt Lecker 猫粮（宠物用品，默认跳过）",
       "category": {
         "key": "pet",
@@ -1054,12 +910,81 @@
       "enrichmentStatus": "enriched"
     },
     {
+      "id": "mydealz-2780564-wc-ente-frische-siegel-halter",
+      "dealStableId": "mydealz:2780564",
+      "sourceFingerprint": "c53b5f26886c7cc2b8ab57a9f69015d11c6ed92a35ceb668db4b4ee3fac91998",
+      "rowNumber": 18,
+      "titleDe": "WC-Ente Frische-Siegel Halter | ab 13.7 exklusiv bei dm-drogerie markt | ab 20.7. bei allen anderen Händlern",
+      "titleZh": "WC-Ente 马桶清洁芳香贴返现",
+      "category": {
+        "key": "cleaning",
+        "de": "Haushalt / Reinigung",
+        "zh": "居家清洁"
+      },
+      "stores": [
+        "dm"
+      ],
+      "storeMode": "not_limited",
+      "imageUrl": "https://static.mydealz.de/threads/raw/znFuv/2725706_1/re/768x768/qt/60/2725706_1.jpg",
+      "quota": "714 Teilnehmer pro Tag | 40.000 Teilnehmer insgesamt",
+      "purchaseTime": "täglich ab 08:00 Uhr",
+      "purchaseDeadlineRaw": "23.08.2026",
+      "purchaseDeadlineIso": "2026-08-23",
+      "submitDeadlineRaw": "30.08.2026",
+      "submitDeadlineIso": "2026-08-30",
+      "submitWindow": "-",
+      "participation": "Online- Teilnahme",
+      "receiptType": "Foto/Scan",
+      "smsConfirmation": "nein",
+      "officialUrl": "https://wc-ente-aktion.com",
+      "mydealzUrl": "https://www.mydealz.de/2780564",
+      "agency": "SAVI Marketing GmbH",
+      "added": "19.05.2026",
+      "addedIso": "2026-05-19",
+      "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
+      "productTypeZh": "马桶清洁芳香贴",
+      "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
+      "priority": "high",
+      "tagsZh": [
+        "马桶清洁",
+        "芳香贴",
+        "dm",
+        "08:00",
+        "返现"
+      ],
+      "enrichment": {
+        "titleZh": "WC-Ente 马桶清洁芳香贴返现",
+        "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
+        "productTypeZh": "马桶清洁芳香贴",
+        "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
+        "priority": "high",
+        "tagsZh": [
+          "马桶清洁",
+          "芳香贴",
+          "dm",
+          "08:00",
+          "返现"
+        ],
+        "riskFlags": [
+          "store_restricted",
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.94,
+        "categoryKey": "cleaning"
+      },
+      "enrichmentStatus": "enriched"
+    },
+    {
       "id": "mydealz-2730139-andros-be-nuts",
       "dealStableId": "mydealz:2730139",
-      "sourceFingerprint": "386af7988033060611f1af0db7b14701a17b3a2a44fa40c1b63d34bbd6ca12d0",
-      "rowNumber": 21,
-      "titleDe": "ANDROS Be Nuts! | - Erdnusscreme Creamy 325g | - Erdnusscreme Crunchy 325g | - Erdnusscreme Kakao 335g | - Erdnussmus 100% 320g",
-      "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
+      "sourceFingerprint": "c24789a44c373748ef0f61195e377576609db82e0834102e86551b69a0f23475",
+      "rowNumber": 19,
+      "titleDe": "ANDROS Be Nuts! | * Erdnusscreme Creamy 325g | * Erdnusscreme Crunchy 325g | * Erdnusscreme Kakao 335g | * Erdnussmus 100% 320g",
+      "titleZh": "ANDROS Be Nuts! 花生酱返现",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -1083,49 +1008,49 @@
       "agency": "HRZN GmbH",
       "added": "16.02.2026",
       "addedIso": "2026-02-16",
-      "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
-      "productTypeZh": "花生酱/花生泥",
-      "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
-      "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
-      "priority": "normal",
+      "summaryZh": "ANDROS Be Nuts! 多款花生酱和花生酱可可款可参加返现，每月名额有限，8 月档会在开放后继续。",
+      "productTypeZh": "花生酱/坚果酱",
+      "shoppingHintZh": "注意规格只限 Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；每轮从 08:30 开始放名额。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；要看准对应批次的购买和提交截止日，名额用完会提前结束。",
+      "priority": "high",
       "tagsZh": [
-        "食品",
         "花生酱",
-        "花生泥",
-        "08:30开抢",
-        "小票上传"
+        "坚果酱",
+        "08:30",
+        "分批名额",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "ANDROS Be Nuts! 花生酱/100%花生泥",
-        "summaryZh": "购买指定 ANDROS Be Nuts! 花生酱或 100% 花生泥后，可按活动规则申请返现。",
-        "productTypeZh": "花生酱/花生泥",
-        "shoppingHintZh": "认准活动列出的 4 款：Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；名额分批放出，08:30 开始，7 月名额结束后 8 月才会再开。",
-        "submitHintZh": "需要上传小票照片或扫描件；购买和提交截止按源数据里的 2026-07-31 或 2026-08-31 为准，名额满了会提前结束。",
-        "priority": "normal",
+        "titleZh": "ANDROS Be Nuts! 花生酱返现",
+        "summaryZh": "ANDROS Be Nuts! 多款花生酱和花生酱可可款可参加返现，每月名额有限，8 月档会在开放后继续。",
+        "productTypeZh": "花生酱/坚果酱",
+        "shoppingHintZh": "注意规格只限 Creamy 325g、Crunchy 325g、Kakao 335g、100% Erdnussmus 320g；每轮从 08:30 开始放名额。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；要看准对应批次的购买和提交截止日，名额用完会提前结束。",
+        "priority": "high",
         "tagsZh": [
-          "食品",
           "花生酱",
-          "花生泥",
-          "08:30开抢",
-          "小票上传"
+          "坚果酱",
+          "08:30",
+          "分批名额",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.93,
+        "confidence": 0.9,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2741802-zott-pure-joy-joghurtalternative",
+      "id": "mydealz-2741802-zott-pure-joy-joghurtalternative-bis-zu-zwei-produkte-",
       "dealStableId": "mydealz:2741802",
-      "sourceFingerprint": "879fb91956f247e92a61c97ae7b04bc25f2dc415d6f785774abb8688c0a1a335",
-      "rowNumber": 22,
-      "titleDe": "Zott Pure Joy Joghurtalternative | bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich | pro zwei Artikel max. 1,98€ Erstattung",
-      "titleZh": "Zott Pure Joy 植物酸奶替代品",
+      "sourceFingerprint": "1d7aed93bad1c0b2e1ecbc9abd1b6880b9714c13771c6e1d632925fd1605e25a",
+      "rowNumber": 20,
+      "titleDe": "ZOTT Pure Joy Joghurtalternative - bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich; pro zwei Artikel max. 1,98€ Erstattung",
+      "titleZh": "ZOTT Pure Joy 植物基酸奶替代品返现",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -1149,36 +1074,38 @@
       "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
       "added": "03.03.2026",
       "addedIso": "2026-03-03",
-      "summaryZh": "每次最多买 2 件，每 2 件最高返 1.98 欧；每户最多可参加 3 次。",
-      "productTypeZh": "植物酸奶替代品",
-      "shoppingHintZh": "周一 09:00 开放每周名额；下单时注意活动写的是每人最多 2 件。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
-      "priority": "normal",
+      "summaryZh": "ZOTT Pure Joy 植物基酸奶替代品可返现，每人每次最多买 2 件，每 2 件最高返 1.98 欧，每户最多可参加 3 次。",
+      "productTypeZh": "植物基酸奶替代品",
+      "shoppingHintZh": "单次按 2 件凑单最合适；这单每周一 09:00 开放新名额，同一家庭最多可参加 3 次。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-08-31。",
+      "priority": "high",
       "tagsZh": [
-        "食品",
         "植物酸奶",
-        "Zott",
-        "每周名额"
+        "2件",
+        "每户3次",
+        "周一09:00",
+        "返现"
       ],
       "enrichment": {
-        "titleZh": "Zott Pure Joy 植物酸奶替代品",
-        "summaryZh": "每次最多买 2 件，每 2 件最高返 1.98 欧；每户最多可参加 3 次。",
-        "productTypeZh": "植物酸奶替代品",
-        "shoppingHintZh": "周一 09:00 开放每周名额；下单时注意活动写的是每人最多 2 件。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
-        "priority": "normal",
+        "titleZh": "ZOTT Pure Joy 植物基酸奶替代品返现",
+        "summaryZh": "ZOTT Pure Joy 植物基酸奶替代品可返现，每人每次最多买 2 件，每 2 件最高返 1.98 欧，每户最多可参加 3 次。",
+        "productTypeZh": "植物基酸奶替代品",
+        "shoppingHintZh": "单次按 2 件凑单最合适；这单每周一 09:00 开放新名额，同一家庭最多可参加 3 次。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-08-31。",
+        "priority": "high",
         "tagsZh": [
-          "食品",
           "植物酸奶",
-          "Zott",
-          "每周名额"
+          "2件",
+          "每户3次",
+          "周一09:00",
+          "返现"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.94,
+        "confidence": 0.93,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -1187,7 +1114,7 @@
       "id": "mydealz-2785453-deli-reform-omega-3-daily-rein-pflanzliche-halbfettmag",
       "dealStableId": "mydealz:2785453",
       "sourceFingerprint": "c0afeb6e624b9bc24a6238a945db0da6c299a7ae197164d15b0137e53f216c0b",
-      "rowNumber": 23,
+      "rowNumber": 21,
       "titleDe": "Deli Reform Omega-3 Daily rein pflanzliche Halbfettmagerine",
       "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
       "category": {
@@ -1251,7 +1178,7 @@
       "id": "mydealz-2793663-cd-antitranspirant-pure-protect",
       "dealStableId": "mydealz:2793663",
       "sourceFingerprint": "361cc087d776ccf9ed90860213c3a1011a43e218fd5637492e75d47b10b03708",
-      "rowNumber": 24,
+      "rowNumber": 22,
       "titleDe": "CD Antitranspirant Pure & Protect",
       "titleZh": "CD Pure & Protect 止汗产品",
       "category": {
@@ -1311,81 +1238,12 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2780564-wc-ente-frische-siegel-halter",
-      "dealStableId": "mydealz:2780564",
-      "sourceFingerprint": "85f61351ad55f7b850816b8a52c0ad2fb3ad9e71bea643e4a19c7ac9e7ae596c",
-      "rowNumber": 25,
-      "titleDe": "WC-Ente Frische-Siegel Halter | ab 13.7 exklusiv bei dm-drogerie markt | ab 20.7. bei allen anderen Händlern",
-      "titleZh": "WC-Ente 马桶清洁芳香贴支架",
-      "category": {
-        "key": "cleaning",
-        "de": "Haushalt / Reinigung",
-        "zh": "居家清洁"
-      },
-      "stores": [
-        "dm"
-      ],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/znFuv/2725706_1/re/768x768/qt/60/2725706_1.jpg",
-      "quota": "714 Teilnehmer pro Tag | 40.000 Teilnehmer insgesamt",
-      "purchaseTime": "täglich ab 7:00 Uhr",
-      "purchaseDeadlineRaw": "05.09.2026",
-      "purchaseDeadlineIso": "2026-09-05",
-      "submitDeadlineRaw": "13.09.2026",
-      "submitDeadlineIso": "2026-09-13",
-      "submitWindow": "-",
-      "participation": "Online- Teilnahme",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://wc-ente-aktion.com",
-      "mydealzUrl": "https://www.mydealz.de/2780564",
-      "agency": "SAVI Marketing GmbH",
-      "added": "19.05.2026",
-      "addedIso": "2026-05-19",
-      "summaryZh": "购买 WC-Ente Frische-Siegel Halter 马桶清洁芳香贴支架，按活动规则返现。",
-      "productTypeZh": "马桶清洁芳香贴",
-      "shoppingHintZh": "13.7 起先在 dm 独家，20.7 起其他商家也可买；每天 07:00 放名额。",
-      "submitHintZh": "需要上传小票照片或扫描件，提交截止为表格里的日期。",
-      "priority": "high",
-      "tagsZh": [
-        "清洁",
-        "马桶",
-        "WC-Ente",
-        "dm",
-        "每日名额"
-      ],
-      "enrichment": {
-        "titleZh": "WC-Ente 马桶清洁芳香贴支架",
-        "summaryZh": "购买 WC-Ente Frische-Siegel Halter 马桶清洁芳香贴支架，按活动规则返现。",
-        "productTypeZh": "马桶清洁芳香贴",
-        "shoppingHintZh": "13.7 起先在 dm 独家，20.7 起其他商家也可买；每天 07:00 放名额。",
-        "submitHintZh": "需要上传小票照片或扫描件，提交截止为表格里的日期。",
-        "priority": "high",
-        "tagsZh": [
-          "清洁",
-          "马桶",
-          "WC-Ente",
-          "dm",
-          "每日名额"
-        ],
-        "riskFlags": [
-          "store_restricted",
-          "quota_limited",
-          "daily_window",
-          "receipt_photo"
-        ],
-        "confidence": 0.92,
-        "categoryKey": "cleaning"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
       "id": "mydealz-2737030-zott-monte-ice-cream",
       "dealStableId": "mydealz:2737030",
-      "sourceFingerprint": "3abcecbf2b313448015f1f607a38f5e7f2d35f8632ab97d8f6f3fd8f9a72a7dc",
-      "rowNumber": 26,
-      "titleDe": "Zott Monte Ice Cream | max. 5,49€ Erstattung - per wöchentlicher Auslosung!",
-      "titleZh": "Zott Monte Ice Cream 冰淇淋",
+      "sourceFingerprint": "dcde00d9422a7d8cee17f305f50bca09354ceda371a3576cf0c4788d69a13022",
+      "rowNumber": 23,
+      "titleDe": "Zott Monte Ice Cream | max. 5.49€ Erstattung - per wöchentlicher Auslosung!",
+      "titleZh": "Zott Monte 冰淇淋抽奖返现",
       "category": {
         "key": "food",
         "de": "Lebensmittel",
@@ -1409,38 +1267,36 @@
       "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
       "added": "08.04.2026",
       "addedIso": "2026-04-08",
-      "summaryZh": "购买 Zott Monte Ice Cream，最高返 5.49 欧，返现资格按每周抽选。",
+      "summaryZh": "购买 Zott Monte Ice Cream 后可参加每周抽奖，中签者最高返 5.49 欧，这不是人人都能拿到的直接返现。",
       "productTypeZh": "冰淇淋",
-      "shoppingHintZh": "这是每周抽选返现，不是买了必返；每周 200 个名额，周一 00:00 开始。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期；提交后以每周抽选结果为准。",
-      "priority": "low",
+      "shoppingHintZh": "先确认买的是 Zott Monte Ice Cream；每周一 00:00 开启新一轮，但返现资格要靠抽奖，不是提交就必中。",
+      "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-09-28，提交后还要等抽奖结果。",
+      "priority": "normal",
       "tagsZh": [
-        "食品",
         "冰淇淋",
-        "甜品",
-        "Zott",
-        "抽选"
+        "抽奖返现",
+        "周一00:00",
+        "小票上传"
       ],
       "enrichment": {
-        "titleZh": "Zott Monte Ice Cream 冰淇淋",
-        "summaryZh": "购买 Zott Monte Ice Cream，最高返 5.49 欧，返现资格按每周抽选。",
+        "titleZh": "Zott Monte 冰淇淋抽奖返现",
+        "summaryZh": "购买 Zott Monte Ice Cream 后可参加每周抽奖，中签者最高返 5.49 欧，这不是人人都能拿到的直接返现。",
         "productTypeZh": "冰淇淋",
-        "shoppingHintZh": "这是每周抽选返现，不是买了必返；每周 200 个名额，周一 00:00 开始。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都是表格里的日期；提交后以每周抽选结果为准。",
-        "priority": "low",
+        "shoppingHintZh": "先确认买的是 Zott Monte Ice Cream；每周一 00:00 开启新一轮，但返现资格要靠抽奖，不是提交就必中。",
+        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-09-28，提交后还要等抽奖结果。",
+        "priority": "normal",
         "tagsZh": [
-          "食品",
           "冰淇淋",
-          "甜品",
-          "Zott",
-          "抽选"
+          "抽奖返现",
+          "周一00:00",
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.91,
+        "confidence": 0.84,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -1449,7 +1305,7 @@
       "id": "mydealz-2764431-ku-hne-spice-it-up-wu-rzsaucen-90ml",
       "dealStableId": "mydealz:2764431",
       "sourceFingerprint": "fb4169ea68cdad4a30e3a98f97b7916b36e2f977a87990ebf7e0cd4765187734",
-      "rowNumber": 27,
+      "rowNumber": 24,
       "titleDe": "KÜHNE Spice it up Würzsaucen 90ml",
       "titleZh": "KUEHNE Spice it up 调味酱 90ml",
       "category": {
@@ -1514,7 +1370,7 @@
       "id": "mydealz-2571752-royal-canin-tiernahrung",
       "dealStableId": "mydealz:2571752",
       "sourceFingerprint": "55d4b39336035e7d99179b95a10c3cfad8d3fdb6a89d57abd7f88c67765973ba",
-      "rowNumber": 28,
+      "rowNumber": 25,
       "titleDe": "ROYAL CANIN Tiernahrung",
       "titleZh": "ROYAL CANIN Tiernahrung（宠物用品，默认跳过）",
       "category": {
@@ -1572,7 +1428,7 @@
       "id": "mydealz-https-www-platinum-com-geld-zurueck-garantie-platinum-hundefutter",
       "dealStableId": "official:4893b834385cc901",
       "sourceFingerprint": "4480112cd72ff5db6a63d3aec64dd867884865ad5912280021129181e164b914",
-      "rowNumber": 30,
+      "rowNumber": 27,
       "titleDe": "PLATINUM Hundefutter | Rückgabe bei Nichtgefallen | kostenlose Abholung",
       "titleZh": "PLATINUM Hundefutter（宠物用品，默认跳过）",
       "category": {
@@ -1630,7 +1486,7 @@
       "id": "mydealz-https-odaban-de-pages-geld-zuruck-garantie-odaban-spray-gel-fusspuder",
       "dealStableId": "official:13d633bef9318bee",
       "sourceFingerprint": "04631e5528411b46b8932b9b9971a8623769935d85277ab013d8a7e1aed3b8a5",
-      "rowNumber": 31,
+      "rowNumber": 28,
       "titleDe": "odaban® Spray | Gel | Fußpuder | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "odaban 止汗喷雾、凝胶或足粉",
       "category": {
@@ -1692,7 +1548,7 @@
       "id": "mydealz-https-www-okeeffesco-de-o-keefe-s-pflegeprodukte",
       "dealStableId": "official:d35a4485128e4de5",
       "sourceFingerprint": "fad6fcdef6cf7ee8608b12f43698100b33324696db7babb963cc54f605b28aba",
-      "rowNumber": 32,
+      "rowNumber": 29,
       "titleDe": "O'Keefe's Pflegeprodukte | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "O'Keefe's 护理产品",
       "category": {
@@ -1754,7 +1610,7 @@
       "id": "mydealz-2572263-rascals-babywindeln",
       "dealStableId": "mydealz:2572263",
       "sourceFingerprint": "09df2224ff64648b4100b1d833cf2e79f5e7d292f00e661c0e34b7a7e88dd606",
-      "rowNumber": 33,
+      "rowNumber": 30,
       "titleDe": "RASCALS Babywindeln | Erstattung oder Austausch bei Unzufriedenheit",
       "titleZh": "RASCALS Babywindeln（婴儿用品，默认跳过）",
       "category": {
