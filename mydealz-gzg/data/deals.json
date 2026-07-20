@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-18T06:08:25.856Z",
-    "enrichedCount": 26
+    "generatedAt": "2026-07-20T06:01:34.782Z",
+    "enrichedCount": 25
   },
   "deals": [
     {
@@ -134,70 +134,6 @@
         ],
         "confidence": 0.93,
         "categoryKey": "health"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2776393-anheuser-busch-bud",
-      "dealStableId": "mydealz:2776393",
-      "sourceFingerprint": "e209e1dd3366f60bb59b7dba74b2164e9807796039b20d2bb99a2b5f295efe20",
-      "rowNumber": 5,
-      "titleDe": "Anheuser-Busch BUD | * Flaschen Sixpack 6x0.3l, max. 8,50€ | * Einzelflasche 0.3L, max. 2,00€ | * Dosen Sixpack 6x0.33L, max. 7,50€ | * Einzeldose 0.33L, max. 2,50€ | * Einzeldose 0.5L, max. 2,50€",
-      "titleZh": "BUD 啤酒指定规格返现",
-      "category": {
-        "key": "drink",
-        "de": "Getränke",
-        "zh": "饮料"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://charip.de/media/image/product/9962/lg/anheuser-busch-bud-6x033-l-mehrweg.webp",
-      "quota": "-",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "19.07.2026",
-      "purchaseDeadlineIso": "2026-07-19",
-      "submitDeadlineRaw": "19.07.2026",
-      "submitDeadlineIso": "2026-07-19",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://scan.anheuser-busch-bud.de/qr/c29d91/landing",
-      "mydealzUrl": "https://www.mydealz.de/2776393",
-      "agency": "Zahlungsdienstleister: Novalnet AG",
-      "added": "07.05.2026",
-      "addedIso": "2026-05-07",
-      "summaryZh": "BUD 啤酒多种单瓶、单听和六连包规格可参加返现，不同包装的报销上限不同，购买和提交都截止到 2026-07-19。",
-      "productTypeZh": "啤酒",
-      "shoppingHintZh": "一定要看清是单瓶、单听还是六连包，以及 0.3L、0.33L、0.5L 这些规格，买错包装会影响返现金额。",
-      "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止和提交截止都是 2026-07-19，适合尽快处理。",
-      "priority": "high",
-      "tagsZh": [
-        "啤酒",
-        "BUD",
-        "听装",
-        "瓶装",
-        "临期"
-      ],
-      "enrichment": {
-        "titleZh": "BUD 啤酒指定规格返现",
-        "summaryZh": "BUD 啤酒多种单瓶、单听和六连包规格可参加返现，不同包装的报销上限不同，购买和提交都截止到 2026-07-19。",
-        "productTypeZh": "啤酒",
-        "shoppingHintZh": "一定要看清是单瓶、单听还是六连包，以及 0.3L、0.33L、0.5L 这些规格，买错包装会影响返现金额。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止和提交截止都是 2026-07-19，适合尽快处理。",
-        "priority": "high",
-        "tagsZh": [
-          "啤酒",
-          "BUD",
-          "听装",
-          "瓶装",
-          "临期"
-        ],
-        "riskFlags": [
-          "receipt_photo"
-        ],
-        "confidence": 0.96,
-        "categoryKey": "drink"
       },
       "enrichmentStatus": "enriched"
     },
