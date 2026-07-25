@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-07-20T06:01:34.782Z",
-    "enrichedCount": 25
+    "generatedAt": "2026-07-25T06:03:02.299Z",
+    "enrichedCount": 24
   },
   "deals": [
     {
@@ -70,70 +70,6 @@
         ],
         "confidence": 0.95,
         "categoryKey": "drink"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2804167-compeed-blasenpflaster",
-      "dealStableId": "mydealz:2804167",
-      "sourceFingerprint": "eebe8e3121131f5e0abf34993daa9e8d95ce6524a47423e7dbaefca35d9b8283",
-      "rowNumber": 6,
-      "titleDe": "Compeed®-Blasenpflaster",
-      "titleZh": "Compeed 水泡贴",
-      "category": {
-        "key": "health",
-        "de": "Gesundheit",
-        "zh": "健康保健"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/Y0jwO/2804167_1/re/1024x1024/qt/60/2804167_1.jpg",
-      "quota": "Gesamtrückerstattungsbudget: 43.261€",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "05.07.2026",
-      "purchaseDeadlineIso": "2026-07-05",
-      "submitDeadlineRaw": "24.07.2026",
-      "submitDeadlineIso": "2026-07-24",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "ja",
-      "officialUrl": "https://hashting.promo/compeedde2/COMPEED-DE-FAL?language=DE",
-      "mydealzUrl": "https://www.mydealz.de/deals/compeed-blasenpflaster-zufrieden-oder-geld-zuruck-2804167",
-      "agency": "Hashting Solutions N.V.",
-      "added": "17.07.2026",
-      "addedIso": "2026-07-17",
-      "summaryZh": "Compeed 水泡贴这单当前只剩提交窗口，最晚可在 2026-07-24 前提交；购买截止日 2026-07-05 已过。",
-      "productTypeZh": "水泡贴",
-      "shoppingHintZh": "这单现在不适合临时去买，只有此前已买过活动商品并保留小票的人还能继续提交。",
-      "submitHintZh": "提交时需要上传小票照片或扫描件，并完成短信确认；最晚 2026-07-24 前完成，预算用完也会提前结束。",
-      "priority": "low",
-      "tagsZh": [
-        "足部护理",
-        "水泡贴",
-        "短信确认",
-        "提交期"
-      ],
-      "enrichment": {
-        "titleZh": "Compeed 水泡贴",
-        "summaryZh": "Compeed 水泡贴这单当前只剩提交窗口，最晚可在 2026-07-24 前提交；购买截止日 2026-07-05 已过。",
-        "productTypeZh": "水泡贴",
-        "shoppingHintZh": "这单现在不适合临时去买，只有此前已买过活动商品并保留小票的人还能继续提交。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件，并完成短信确认；最晚 2026-07-24 前完成，预算用完也会提前结束。",
-        "priority": "low",
-        "tagsZh": [
-          "足部护理",
-          "水泡贴",
-          "短信确认",
-          "提交期"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo",
-          "sms_confirmation"
-        ],
-        "confidence": 0.93,
-        "categoryKey": "health"
       },
       "enrichmentStatus": "enriched"
     },
@@ -814,7 +750,7 @@
       "smsConfirmation": "nein",
       "officialUrl": "https://www.purina.de/felix/testen",
       "mydealzUrl": "https://www.mydealz.de/2788993",
-      "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
+      "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: secupay AG",
       "added": "04.06.2026",
       "addedIso": "2026-06-04",
       "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
