@@ -883,32 +883,29 @@
       }
     },
     "mydealz:2780564": {
-      "sourceFingerprint": "c53b5f26886c7cc2b8ab57a9f69015d11c6ed92a35ceb668db4b4ee3fac91998",
-      "generatedAt": "2026-07-18T00:00:00+02:00",
-      "model": "subagent",
+      "sourceFingerprint": "7aca6d02cb3d393fd1b2b57ae8aaee770b266398d58c0815ed4aa75ac94e4de7",
+      "generatedAt": "2026-08-10T00:00:00.000Z",
+      "model": "codex",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "WC-Ente 马桶清洁芳香贴返现",
-        "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
+        "titleZh": "WC-Ente 马桶清洁芳香贴",
+        "summaryZh": "购买指定 WC-Ente Frische-Siegel Halter，最高返 3.29 欧。",
         "productTypeZh": "马桶清洁芳香贴",
-        "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
+        "shoppingHintZh": "注意买活动指定的 WC-Ente Frische-Siegel Halter；名额每天 08:00 开放，先看活动页当日是否还能参加。",
+        "submitHintZh": "需上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30。",
         "categoryKey": "cleaning",
-        "priority": "high",
+        "priority": "normal",
         "tagsZh": [
           "马桶清洁",
-          "芳香贴",
           "dm",
-          "08:00",
-          "返现"
+          "每日名额"
         ],
         "riskFlags": [
-          "store_restricted",
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.94
+        "confidence": 0.9
       }
     },
     "official:13d633bef9318bee": {

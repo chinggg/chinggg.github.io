@@ -3,15 +3,15 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-08-01T06:02:07.093Z",
-    "enrichedCount": 18
+    "generatedAt": "2026-08-10T06:04:37.858Z",
+    "enrichedCount": 15
   },
   "deals": [
     {
       "id": "mydealz-2790687-rockstar-mocktail-0-33l-ew-dose",
       "dealStableId": "mydealz:2790687",
       "sourceFingerprint": "6b4d12d80c76dbfe6a0b415cfe3ea4f0bb0f5f9fdb44b171b7530430e6effea4",
-      "rowNumber": 23,
+      "rowNumber": 17,
       "titleDe": "ROCKSTAR Mocktail 0,33l EW Dose | drei Teilnahmen pro Teilnehmer möglich | pauschale Erstattung von 1,19€ (exkl. Pfand)",
       "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
       "category": {
@@ -74,74 +74,10 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2733998-soda-libre-the-classics-lemonade-max-2-18-erstattung",
-      "dealStableId": "mydealz:2733998",
-      "sourceFingerprint": "61a454a3a701c1b0edc2b34810ff84f3cf52de9095cbfea5df2f3a9c64ae2574",
-      "rowNumber": 4,
-      "titleDe": "Soda Libre The Classics Lemonade - max. 2.18€ Erstattung | * Zitrone und/oder | * Orange | min. zwei 0.33L Dosen in einem Einkauf",
-      "titleZh": "Soda Libre The Classics 汽水返现",
-      "category": {
-        "key": "drink",
-        "de": "Getränke",
-        "zh": "饮料"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/C1lLj/2733998_1/re/1024x1024/qt/60/2733998_1.jpg",
-      "quota": "-",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "31.07.2026",
-      "purchaseDeadlineIso": "2026-07-31",
-      "submitDeadlineRaw": "07.08.2026",
-      "submitDeadlineIso": "2026-08-07",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://www.sodalibre-gratistesten.de",
-      "mydealzUrl": "https://www.mydealz.de/2733998",
-      "agency": "caspar company GmbH | Zahlungsdienstleister: Continental Payment GmbH",
-      "added": "03.03.2026",
-      "addedIso": "2026-03-03",
-      "summaryZh": "Soda Libre The Classics 柠檬味和橙味活动款可返现，但同一笔购物里至少要买 2 罐 0.33L。",
-      "productTypeZh": "汽水",
-      "shoppingHintZh": "必须同一张小票买满 2 罐 0.33L，并确认是 The Classics 系列的 Zitrone 和/或 Orange 口味。",
-      "submitHintZh": "提交时需要上传小票照片或扫描件，购买截止 2026-07-31，提交截止 2026-08-07。",
-      "priority": "normal",
-      "tagsZh": [
-        "汽水",
-        "两罐起",
-        "0.33L",
-        "柠檬味",
-        "橙味"
-      ],
-      "enrichment": {
-        "titleZh": "Soda Libre The Classics 汽水返现",
-        "summaryZh": "Soda Libre The Classics 柠檬味和橙味活动款可返现，但同一笔购物里至少要买 2 罐 0.33L。",
-        "productTypeZh": "汽水",
-        "shoppingHintZh": "必须同一张小票买满 2 罐 0.33L，并确认是 The Classics 系列的 Zitrone 和/或 Orange 口味。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件，购买截止 2026-07-31，提交截止 2026-08-07。",
-        "priority": "normal",
-        "tagsZh": [
-          "汽水",
-          "两罐起",
-          "0.33L",
-          "柠檬味",
-          "橙味"
-        ],
-        "riskFlags": [
-          "receipt_photo"
-        ],
-        "confidence": 0.97,
-        "categoryKey": "drink"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
       "id": "mydealz-2788354-cottonelle-feuchtes-toilettenpapier-ultimativ-frisch-4",
       "dealStableId": "mydealz:2788354",
       "sourceFingerprint": "8b0d1ee9a57310e6c0ab2163777aeb852fc4c74d46965f3f013e8e45f0d6161e",
-      "rowNumber": 11,
+      "rowNumber": 5,
       "titleDe": "COTTONELLE Feuchtes Toilettenpapier Ultimativ Frisch 42 Tücher - max. 1.79€ Erstattung",
       "titleZh": "COTTONELLE 清新款湿厕纸返现",
       "category": {
@@ -207,7 +143,7 @@
       "id": "mydealz-2757299-always-discreet-inkontinenz-maxi",
       "dealStableId": "mydealz:2757299",
       "sourceFingerprint": "23277d36a84b01599fd311d788473b7372ad08a79cf53aa35da264de7f0a094e",
-      "rowNumber": 12,
+      "rowNumber": 6,
       "titleDe": "always Discreet Inkontinenz Maxi",
       "titleZh": "always Discreet Maxi 成人护理垫",
       "category": {
@@ -269,136 +205,12 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2780510-ben-s-original-street-food-fertiggerichte",
-      "dealStableId": "mydealz:2780510",
-      "sourceFingerprint": "aacc9b9977587eea1280452500d167db3e0a993d36878994d8c03011543d89cd",
-      "rowNumber": 13,
-      "titleDe": "Ben's Original Street Food Fertiggerichte",
-      "titleZh": "Ben's Original Street Food 即食餐",
-      "category": {
-        "key": "food",
-        "de": "Lebensmittel",
-        "zh": "食品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/31Ube/2697615_1/re/768x768/qt/60/2697615_1.jpg",
-      "quota": "500 Teilnehmer pro Tag - | 38.500 Teilnehmer insgesamt",
-      "purchaseTime": "täglich ab 09:00 Uhr",
-      "purchaseDeadlineRaw": "02.08.2026",
-      "purchaseDeadlineIso": "2026-08-02",
-      "submitDeadlineRaw": "02.08.2026",
-      "submitDeadlineIso": "2026-08-02",
-      "submitWindow": "-",
-      "participation": "Online- Teilnahme",
-      "receiptType": "Foto",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://bens-streetfood-gratis-testen.de",
-      "mydealzUrl": "https://www.mydealz.de/2780510",
-      "agency": "acardo group AG | Zahlungsdienstleister: Novalnet AG",
-      "added": "19.05.2026",
-      "addedIso": "2026-05-19",
-      "summaryZh": "购买 Ben's Original Street Food Fertiggerichte 即食餐参与返现。",
-      "productTypeZh": "即食餐",
-      "shoppingHintZh": "注意找 Ben's Original Street Food 系列 Fertiggerichte；每天 09:00 放 500 个名额，总名额有限。",
-      "submitHintZh": "需要上传小票照片，购买和提交截止都是表格里的日期；抢名额类活动建议买后尽快提交。",
-      "priority": "normal",
-      "tagsZh": [
-        "食品",
-        "即食餐",
-        "米饭餐",
-        "Ben's Original",
-        "每日名额"
-      ],
-      "enrichment": {
-        "titleZh": "Ben's Original Street Food 即食餐",
-        "summaryZh": "购买 Ben's Original Street Food Fertiggerichte 即食餐参与返现。",
-        "productTypeZh": "即食餐",
-        "shoppingHintZh": "注意找 Ben's Original Street Food 系列 Fertiggerichte；每天 09:00 放 500 个名额，总名额有限。",
-        "submitHintZh": "需要上传小票照片，购买和提交截止都是表格里的日期；抢名额类活动建议买后尽快提交。",
-        "priority": "normal",
-        "tagsZh": [
-          "食品",
-          "即食餐",
-          "米饭餐",
-          "Ben's Original",
-          "每日名额"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "daily_window",
-          "receipt_photo"
-        ],
-        "confidence": 0.88,
-        "categoryKey": "food"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2788993-felix-doppelt-lecker-katzennahrungsprodukte-1x-trocken",
-      "dealStableId": "mydealz:2788993",
-      "sourceFingerprint": "ed21394fa7d1209a008262bbce03cb1a31d4d7ac3e28f2fd52f2d90d141598cd",
-      "rowNumber": 14,
-      "titleDe": "FELIX Doppelt Lecker Katzennahrungsprodukte - 1x Trockenprodukt & 1x Nassprodukt kaufen (max. 7.00€ Erstattung)",
-      "titleZh": "FELIX Doppelt Lecker 猫粮（宠物用品，默认跳过）",
-      "category": {
-        "key": "pet",
-        "de": "Tierbedarf",
-        "zh": "宠物用品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/lQ4VX/2788993_1/re/1024x1024/qt/60/2788993_1.jpg",
-      "quota": "Gesamtbudget: 65.000€",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "02.08.2026",
-      "purchaseDeadlineIso": "2026-08-02",
-      "submitDeadlineRaw": "09.08.2026",
-      "submitDeadlineIso": "2026-08-09",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
-      "participation": "Online- Teilnahme",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://www.purina.de/felix/testen",
-      "mydealzUrl": "https://www.mydealz.de/2788993",
-      "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: secupay AG",
-      "added": "04.06.2026",
-      "addedIso": "2026-06-04",
-      "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-      "productTypeZh": "宠物用品",
-      "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-      "submitHintZh": "跳过时无需提交。",
-      "priority": "low",
-      "tagsZh": [
-        "宠物",
-        "默认跳过"
-      ],
-      "enrichment": {
-        "titleZh": "FELIX Doppelt Lecker 猫粮（宠物用品，默认跳过）",
-        "summaryZh": "宠物相关 GZG，按当前偏好默认不需要关注。",
-        "productTypeZh": "宠物用品",
-        "shoppingHintZh": "默认跳过；如果以后需要这类商品，可以再改成关注。",
-        "submitHintZh": "跳过时无需提交。",
-        "priority": "low",
-        "tagsZh": [
-          "宠物",
-          "默认跳过"
-        ],
-        "riskFlags": [
-          "user_skip_category"
-        ],
-        "confidence": 1,
-        "categoryKey": "pet"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2780564-wc-ente-frische-siegel-halter",
+      "id": "mydealz-2780564-wc-ente-frische-siegel-halter-max-3-29-cashback",
       "dealStableId": "mydealz:2780564",
-      "sourceFingerprint": "c53b5f26886c7cc2b8ab57a9f69015d11c6ed92a35ceb668db4b4ee3fac91998",
-      "rowNumber": 15,
-      "titleDe": "WC-Ente Frische-Siegel Halter | ab 13.7 exklusiv bei dm-drogerie markt | ab 20.7. bei allen anderen Händlern",
-      "titleZh": "WC-Ente 马桶清洁芳香贴返现",
+      "sourceFingerprint": "7aca6d02cb3d393fd1b2b57ae8aaee770b266398d58c0815ed4aa75ac94e4de7",
+      "rowNumber": 9,
+      "titleDe": "WC-Ente Frische-Siegel Halter - max. 3.29€ Cashback | ab 13.7 exklusiv bei dm-drogerie markt | ab 20.7. bei allen anderen Händlern",
+      "titleZh": "WC-Ente 马桶清洁芳香贴",
       "category": {
         "key": "cleaning",
         "de": "Haushalt / Reinigung",
@@ -409,7 +221,7 @@
       ],
       "storeMode": "not_limited",
       "imageUrl": "https://static.mydealz.de/threads/raw/znFuv/2725706_1/re/768x768/qt/60/2725706_1.jpg",
-      "quota": "714 Teilnehmer pro Tag | 40.000 Teilnehmer insgesamt",
+      "quota": "1.000 Teilnehmer pro Tag | 42.000 Teilnehmer insgesamt",
       "purchaseTime": "täglich ab 08:00 Uhr",
       "purchaseDeadlineRaw": "23.08.2026",
       "purchaseDeadlineIso": "2026-08-23",
@@ -424,39 +236,34 @@
       "agency": "SAVI Marketing GmbH",
       "added": "19.05.2026",
       "addedIso": "2026-05-19",
-      "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
+      "summaryZh": "购买指定 WC-Ente Frische-Siegel Halter，最高返 3.29 欧。",
       "productTypeZh": "马桶清洁芳香贴",
-      "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
-      "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
-      "priority": "high",
+      "shoppingHintZh": "注意买活动指定的 WC-Ente Frische-Siegel Halter；名额每天 08:00 开放，先看活动页当日是否还能参加。",
+      "submitHintZh": "需上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30。",
+      "priority": "normal",
       "tagsZh": [
         "马桶清洁",
-        "芳香贴",
         "dm",
-        "08:00",
-        "返现"
+        "每日名额"
       ],
       "enrichment": {
-        "titleZh": "WC-Ente 马桶清洁芳香贴返现",
-        "summaryZh": "WC-Ente Frische-Siegel Halter 可返现，在 2026-07-20 前是 dm 独家，之后其他商家也能买。",
+        "titleZh": "WC-Ente 马桶清洁芳香贴",
+        "summaryZh": "购买指定 WC-Ente Frische-Siegel Halter，最高返 3.29 欧。",
         "productTypeZh": "马桶清洁芳香贴",
-        "shoppingHintZh": "如果在 2026-07-20 前买，只能去 dm；之后才开放其他商家，而且活动每天 08:00 开放日名额。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30，建议买完尽快上传。",
-        "priority": "high",
+        "shoppingHintZh": "注意买活动指定的 WC-Ente Frische-Siegel Halter；名额每天 08:00 开放，先看活动页当日是否还能参加。",
+        "submitHintZh": "需上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30。",
+        "priority": "normal",
         "tagsZh": [
           "马桶清洁",
-          "芳香贴",
           "dm",
-          "08:00",
-          "返现"
+          "每日名额"
         ],
         "riskFlags": [
-          "store_restricted",
           "quota_limited",
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.94,
+        "confidence": 0.9,
         "categoryKey": "cleaning"
       },
       "enrichmentStatus": "enriched"
@@ -465,7 +272,7 @@
       "id": "mydealz-2730139-andros-be-nuts",
       "dealStableId": "mydealz:2730139",
       "sourceFingerprint": "c24789a44c373748ef0f61195e377576609db82e0834102e86551b69a0f23475",
-      "rowNumber": 16,
+      "rowNumber": 10,
       "titleDe": "ANDROS Be Nuts! | * Erdnusscreme Creamy 325g | * Erdnusscreme Crunchy 325g | * Erdnusscreme Kakao 335g | * Erdnussmus 100% 320g",
       "titleZh": "ANDROS Be Nuts! 花生酱返现",
       "category": {
@@ -531,7 +338,7 @@
       "id": "mydealz-2741802-zott-pure-joy-joghurtalternative-bis-zu-zwei-produkte-",
       "dealStableId": "mydealz:2741802",
       "sourceFingerprint": "1d7aed93bad1c0b2e1ecbc9abd1b6880b9714c13771c6e1d632925fd1605e25a",
-      "rowNumber": 17,
+      "rowNumber": 11,
       "titleDe": "ZOTT Pure Joy Joghurtalternative - bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich; pro zwei Artikel max. 1,98€ Erstattung",
       "titleZh": "ZOTT Pure Joy 植物基酸奶替代品返现",
       "category": {
@@ -597,7 +404,7 @@
       "id": "mydealz-2785453-deli-reform-omega-3-daily-rein-pflanzliche-halbfettmag",
       "dealStableId": "mydealz:2785453",
       "sourceFingerprint": "c0afeb6e624b9bc24a6238a945db0da6c299a7ae197164d15b0137e53f216c0b",
-      "rowNumber": 18,
+      "rowNumber": 12,
       "titleDe": "Deli Reform Omega-3 Daily rein pflanzliche Halbfettmagerine",
       "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
       "category": {
@@ -661,7 +468,7 @@
       "id": "mydealz-2793663-cd-antitranspirant-pure-protect",
       "dealStableId": "mydealz:2793663",
       "sourceFingerprint": "361cc087d776ccf9ed90860213c3a1011a43e218fd5637492e75d47b10b03708",
-      "rowNumber": 19,
+      "rowNumber": 13,
       "titleDe": "CD Antitranspirant Pure & Protect",
       "titleZh": "CD Pure & Protect 止汗产品",
       "category": {
@@ -724,7 +531,7 @@
       "id": "mydealz-2737030-zott-monte-ice-cream",
       "dealStableId": "mydealz:2737030",
       "sourceFingerprint": "dcde00d9422a7d8cee17f305f50bca09354ceda371a3576cf0c4788d69a13022",
-      "rowNumber": 20,
+      "rowNumber": 14,
       "titleDe": "Zott Monte Ice Cream | max. 5.49€ Erstattung - per wöchentlicher Auslosung!",
       "titleZh": "Zott Monte 冰淇淋抽奖返现",
       "category": {
@@ -788,7 +595,7 @@
       "id": "mydealz-2764431-ku-hne-spice-it-up-wu-rzsaucen-90ml",
       "dealStableId": "mydealz:2764431",
       "sourceFingerprint": "fb4169ea68cdad4a30e3a98f97b7916b36e2f977a87990ebf7e0cd4765187734",
-      "rowNumber": 21,
+      "rowNumber": 15,
       "titleDe": "KÜHNE Spice it up Würzsaucen 90ml",
       "titleZh": "KUEHNE Spice it up 调味酱 90ml",
       "category": {
@@ -853,7 +660,7 @@
       "id": "mydealz-2571752-royal-canin-tiernahrung",
       "dealStableId": "mydealz:2571752",
       "sourceFingerprint": "55d4b39336035e7d99179b95a10c3cfad8d3fdb6a89d57abd7f88c67765973ba",
-      "rowNumber": 22,
+      "rowNumber": 16,
       "titleDe": "ROYAL CANIN Tiernahrung",
       "titleZh": "ROYAL CANIN Tiernahrung（宠物用品，默认跳过）",
       "category": {
@@ -911,7 +718,7 @@
       "id": "mydealz-https-www-platinum-com-geld-zurueck-garantie-platinum-hundefutter",
       "dealStableId": "official:4893b834385cc901",
       "sourceFingerprint": "4480112cd72ff5db6a63d3aec64dd867884865ad5912280021129181e164b914",
-      "rowNumber": 24,
+      "rowNumber": 18,
       "titleDe": "PLATINUM Hundefutter | Rückgabe bei Nichtgefallen | kostenlose Abholung",
       "titleZh": "PLATINUM Hundefutter（宠物用品，默认跳过）",
       "category": {
@@ -969,7 +776,7 @@
       "id": "mydealz-https-odaban-de-pages-geld-zuruck-garantie-odaban-spray-gel-fusspuder",
       "dealStableId": "official:13d633bef9318bee",
       "sourceFingerprint": "04631e5528411b46b8932b9b9971a8623769935d85277ab013d8a7e1aed3b8a5",
-      "rowNumber": 25,
+      "rowNumber": 19,
       "titleDe": "odaban® Spray | Gel | Fußpuder | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "odaban 止汗喷雾、凝胶或足粉",
       "category": {
@@ -1031,7 +838,7 @@
       "id": "mydealz-https-www-okeeffesco-de-o-keefe-s-pflegeprodukte",
       "dealStableId": "official:d35a4485128e4de5",
       "sourceFingerprint": "fad6fcdef6cf7ee8608b12f43698100b33324696db7babb963cc54f605b28aba",
-      "rowNumber": 26,
+      "rowNumber": 20,
       "titleDe": "O'Keefe's Pflegeprodukte | Rückgabe bei Nichtgefallen | ohne Versandkosten- Erstattung!",
       "titleZh": "O'Keefe's 护理产品",
       "category": {
@@ -1093,7 +900,7 @@
       "id": "mydealz-2572263-rascals-babywindeln",
       "dealStableId": "mydealz:2572263",
       "sourceFingerprint": "09df2224ff64648b4100b1d833cf2e79f5e7d292f00e661c0e34b7a7e88dd606",
-      "rowNumber": 27,
+      "rowNumber": 21,
       "titleDe": "RASCALS Babywindeln | Erstattung oder Austausch bei Unzufriedenheit",
       "titleZh": "RASCALS Babywindeln（婴儿用品，默认跳过）",
       "category": {
