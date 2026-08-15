@@ -307,31 +307,29 @@
       }
     },
     "mydealz:2741802": {
-      "sourceFingerprint": "1d7aed93bad1c0b2e1ecbc9abd1b6880b9714c13771c6e1d632925fd1605e25a",
-      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "sourceFingerprint": "69e1f79bd5901edbb6ba966b1cc8187bd1be62273058b8bbb7b67e940596f6e6",
+      "generatedAt": "2026-08-15T00:00:00+08:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "ZOTT Pure Joy 植物基酸奶替代品返现",
-        "summaryZh": "ZOTT Pure Joy 植物基酸奶替代品可返现，每人每次最多买 2 件，每 2 件最高返 1.98 欧，每户最多可参加 3 次。",
-        "productTypeZh": "植物基酸奶替代品",
-        "shoppingHintZh": "单次按 2 件凑单最合适；这单每周一 09:00 开放新名额，同一家庭最多可参加 3 次。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-08-31。",
+        "titleZh": "ZOTT Pure Joy 植物酸奶替代品",
+        "summaryZh": "ZOTT Pure Joy 植物酸奶替代品可参加返现，每两件最高返 1.98 欧；每人最多两件，同一家庭最多可参加三次。",
+        "productTypeZh": "植物酸奶替代品",
+        "shoppingHintZh": "货架上先认准 ZOTT Pure Joy Joghurtalternative；这单按两件算更合适，因为返现上限是每两件最高 1.98 欧，而且每人最多买两件。",
+        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-08-31；名额按周和总量限制，别拖到最后一天。",
         "categoryKey": "food",
-        "priority": "high",
+        "priority": "normal",
         "tagsZh": [
+          "食品",
           "植物酸奶",
-          "2件",
-          "每户3次",
-          "周一09:00",
-          "返现"
+          "ZOTT",
+          "两件返现"
         ],
         "riskFlags": [
           "quota_limited",
-          "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.93
+        "confidence": 0.95
       }
     },
     "mydealz:2785453": {
@@ -362,30 +360,29 @@
       }
     },
     "mydealz:2737030": {
-      "sourceFingerprint": "dcde00d9422a7d8cee17f305f50bca09354ceda371a3576cf0c4788d69a13022",
-      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "sourceFingerprint": "3c609682a8b6194306139340b260d97ebe89a5a93439e00a51565d88d25911c5",
+      "generatedAt": "2026-08-15T00:00:00+08:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "Zott Monte 冰淇淋抽奖返现",
-        "summaryZh": "购买 Zott Monte Ice Cream 后可参加每周抽奖，中签者最高返 5.49 欧，这不是人人都能拿到的直接返现。",
+        "titleZh": "Zott Monte 冰淇淋",
+        "summaryZh": "Zott Monte Ice Cream 最高可返 5.49 欧，但是否拿到返现要看每周抽奖结果，不是买了就稳返。",
         "productTypeZh": "冰淇淋",
-        "shoppingHintZh": "先确认买的是 Zott Monte Ice Cream；每周一 00:00 开启新一轮，但返现资格要靠抽奖，不是提交就必中。",
-        "submitHintZh": "提交时需要上传小票照片或扫描件；购买和提交都截止到 2026-09-28，提交后还要等抽奖结果。",
+        "shoppingHintZh": "先认准 Zott Monte Ice Cream；不限具体门店，但这是每周抽奖型活动，如果你只想买稳返现的单，这单优先级就不高。",
+        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-09-28；提交后是否成功返现取决于每周抽奖。",
         "categoryKey": "food",
-        "priority": "normal",
+        "priority": "low",
         "tagsZh": [
+          "食品",
           "冰淇淋",
-          "抽奖返现",
-          "周一00:00",
-          "小票上传"
+          "Monte",
+          "每周抽奖"
         ],
         "riskFlags": [
           "quota_limited",
-          "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.84
+        "confidence": 0.96
       }
     },
     "mydealz:2764431": {
@@ -470,31 +467,30 @@
       }
     },
     "mydealz:2790687": {
-      "sourceFingerprint": "6b4d12d80c76dbfe6a0b415cfe3ea4f0bb0f5f9fdb44b171b7530430e6effea4",
-      "generatedAt": "2026-07-11T06:02:39Z",
+      "sourceFingerprint": "effc19ffcac77247f2ae1b2c89091c2fc9cb340711c31a0dfb92f8731c2162ac",
+      "generatedAt": "2026-08-15T00:00:00.000+08:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐",
-        "summaryZh": "购买 ROCKSTAR Mocktail 0.33L 单罐后，可固定返 1.19 欧，不含 Pfand，每人最多参加 3 次。",
-        "productTypeZh": "能量饮料",
-        "shoppingHintZh": "不限门店，但要认准 0.33L EW 单罐活动款；这单是提交代码，不是上传小票。每周 2,500 个名额，总名额 100,000 个。",
-        "submitHintZh": "购买截止 2026-06-30，提交截止 2027-02-28；达到参与上限会提前结束。",
+        "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐饮料",
+        "summaryZh": "买指定 ROCKSTAR Mocktail 0.33L 易拉罐，按活动规则可报销每罐 1.19 欧元，不含押金。",
+        "productTypeZh": "罐装能量饮料",
+        "shoppingHintZh": "这单购买截止已过；如果你之前参加过，重点核对自己留的是 0.33L 易拉罐对应的活动码，不是别的包装。",
+        "submitHintZh": "这单只认 code，不靠小票；提交截止是 2027-02-28，但达到名额上限也可能提前结束。",
         "categoryKey": "drink",
-        "priority": "normal",
+        "priority": "low",
         "tagsZh": [
           "饮料",
           "能量饮料",
-          "单罐",
-          "固定返现",
-          "每周名额"
+          "易拉罐",
+          "Mocktail",
+          "三次参与",
+          "按码提交"
         ],
         "riskFlags": [
-          "weekly_quota",
-          "code_submission",
-          "multi_participation"
+          "quota_limited"
         ],
-        "confidence": 0.95
+        "confidence": 0.92
       }
     },
     "mydealz:2776393": {
@@ -828,31 +824,31 @@
       }
     },
     "mydealz:2788354": {
-      "sourceFingerprint": "8b0d1ee9a57310e6c0ab2163777aeb852fc4c74d46965f3f013e8e45f0d6161e",
-      "generatedAt": "2026-07-18T00:00:00+02:00",
+      "sourceFingerprint": "f770bc318c2e4447d5e6b51494a1ea89e95acd8914c2621dcaf72e7bbf793cfc",
+      "generatedAt": "2026-08-15T00:00:00.000+08:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "COTTONELLE 清新款湿厕纸返现",
-        "summaryZh": "COTTONELLE Ultimativ Frisch 42 抽湿厕纸可申请最高 1.79 欧返现，每天 08:00 开放且有每日名额。",
+        "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
+        "summaryZh": "买 COTTONELLE Ultimativ Frisch 42片装湿厕纸，按活动规则上传凭证申请返现。",
         "productTypeZh": "湿厕纸",
-        "shoppingHintZh": "重点核对是不是 Ultimativ Frisch 42 抽这款；活动每天 08:00 才开放，当天想参加最好早点买。",
-        "submitHintZh": "提交需要小票照片或扫描件，最晚 2026-08-15 前完成；每日和总名额都有限，买完尽快提交更稳。",
+        "shoppingHintZh": "这单购买截止已过；如果你之前在 2026-07-31 前买过，认准 Ultimativ Frisch 42片装，不要和别的香型或片数混买。",
+        "submitHintZh": "需要上传小票照片或扫描件；提交截止就是 2026-08-15，今天还没交的话要尽快完成。",
         "categoryKey": "personal",
         "priority": "high",
         "tagsZh": [
+          "个护",
           "湿厕纸",
-          "日化",
-          "42抽",
-          "08:00",
-          "返现"
+          "Cottonelle",
+          "42片",
+          "小票上传",
+          "今日截止"
         ],
         "riskFlags": [
           "quota_limited",
-          "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.93
+        "confidence": 0.95
       }
     },
     "mydealz:2757299": {
@@ -883,26 +879,27 @@
       }
     },
     "mydealz:2780564": {
-      "sourceFingerprint": "7aca6d02cb3d393fd1b2b57ae8aaee770b266398d58c0815ed4aa75ac94e4de7",
-      "generatedAt": "2026-08-10T00:00:00.000Z",
-      "model": "codex",
+      "sourceFingerprint": "a8c8ae7f29529eb15bb77d11d676979cf6a4887f1679422362168b02b3d1462a",
+      "generatedAt": "2026-08-15T00:00:00.000+08:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "WC-Ente 马桶清洁芳香贴",
-        "summaryZh": "购买指定 WC-Ente Frische-Siegel Halter，最高返 3.29 欧。",
+        "titleZh": "WC-Ente 马桶清洁芳香贴挂架装",
+        "summaryZh": "买指定 WC-Ente Frische-Siegel Halter，按活动规则上传小票申请返现。",
         "productTypeZh": "马桶清洁芳香贴",
-        "shoppingHintZh": "注意买活动指定的 WC-Ente Frische-Siegel Halter；名额每天 08:00 开放，先看活动页当日是否还能参加。",
-        "submitHintZh": "需上传小票照片或扫描件；购买截止 2026-08-23，提交截止 2026-08-30。",
+        "shoppingHintZh": "重点看清是不是 Frische-Siegel Halter 这个挂架装，不要买成单独补充装、别的 WC-Ente 清洁剂，或外观相似但名字不同的款。",
+        "submitHintZh": "提交时用完整清晰的小票照片，确保商品名、购买日期、店名和金额可读；最晚提交到 2026-08-30。",
         "categoryKey": "cleaning",
         "priority": "normal",
         "tagsZh": [
-          "马桶清洁",
-          "dm",
-          "每日名额"
+          "清洁",
+          "马桶",
+          "WC-Ente",
+          "芳香贴",
+          "挂架装"
         ],
         "riskFlags": [
           "quota_limited",
-          "daily_window",
           "receipt_photo"
         ],
         "confidence": 0.9
@@ -1279,6 +1276,33 @@
           "sms_confirmation"
         ],
         "confidence": 0.93
+      }
+    },
+    "mydealz:2797188": {
+      "sourceFingerprint": "46532041ec564c42eaabdc2c60d5995ee04f073577722d81492f2aaa36433f2f",
+      "generatedAt": "2026-08-15T00:00:00.000+08:00",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "BiFi Tasty Bites 50g 零食肉棒",
+        "summaryZh": "买指定 BiFi Tasty Bites 50g 口味，按活动规则上传小票申请返现。",
+        "productTypeZh": "肉肠零食棒",
+        "shoppingHintZh": "只拿活动里这两款 50g 规格：匈牙利红椒萨拉米味，或意式帕玛森百里香鸡肉味。不要买成别的 BiFi 系列、别的口味或别的克重。",
+        "submitHintZh": "小票要拍完整，商品名、日期、店名和金额都要清楚；这单购买截止和提交截止都是 2026-08-23，别拖到最后。",
+        "categoryKey": "food",
+        "priority": "high",
+        "tagsZh": [
+          "食品",
+          "肉肠零食",
+          "BiFi",
+          "50g",
+          "两种口味"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.89
       }
     }
   }
