@@ -3,17 +3,17 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-08-15T06:42:01.026Z",
-    "enrichedCount": 14
+    "generatedAt": "2026-08-29T06:43:18.073Z",
+    "enrichedCount": 13
   },
   "deals": [
     {
-      "id": "mydealz-2790687-rockstar-mocktail-0-33l-ew-dose",
+      "id": "mydealz-2790687-rockstar-energy-mocktail-0-33l-dose",
       "dealStableId": "mydealz:2790687",
-      "sourceFingerprint": "effc19ffcac77247f2ae1b2c89091c2fc9cb340711c31a0dfb92f8731c2162ac",
-      "rowNumber": 13,
-      "titleDe": "ROCKSTAR Mocktail 0,33l EW Dose | drei Teilnahmen pro Teilnehmer möglich | pauschale Erstattung von 1,19€ (exkl. Pfand) pro Dose",
-      "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐饮料",
+      "sourceFingerprint": "dd53de9dbebabb046c4d3816ea1e794b627530bcaa2b8fb45fbd9e875cc93f5c",
+      "rowNumber": 11,
+      "titleDe": "ROCKSTAR Energy Mocktail 0,33l Dose | - Berry Spritz, Pina Colada, Mojito | drei Teilnahmen pro Person möglich | pauschale Erstattung von 1,19€ (exkl. Pfand) pro Dose | nur mit Aktionscode unter der Lasche!",
+      "titleZh": "ROCKSTAR Mocktail 0.33L 罐装饮料",
       "category": {
         "key": "drink",
         "de": "Getränke",
@@ -21,14 +21,14 @@
       },
       "stores": [],
       "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/fXM52/2790687_1/re/1024x1024/qt/60/2790687_1.jpg",
+      "imageUrl": "https://i.imgur.com/7hQu4dr.jpeg",
       "quota": "2.500 Einlösungen pro Woche - 100.000 insgesamt",
       "purchaseTime": "-",
       "purchaseDeadlineRaw": "30.06.2026",
       "purchaseDeadlineIso": "2026-06-30",
       "submitDeadlineRaw": "28.02.2027",
       "submitDeadlineIso": "2027-02-28",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
+      "submitWindow": "-",
       "participation": "nein",
       "receiptType": "nur Code",
       "smsConfirmation": "nein",
@@ -37,106 +37,39 @@
       "agency": "G.V.K. mbH | caspar company GmbH | Zahlungsdienstleister: secupay AG",
       "added": "05.06.2026",
       "addedIso": "2026-06-05",
-      "summaryZh": "买指定 ROCKSTAR Mocktail 0.33L 易拉罐，按活动规则可报销每罐 1.19 欧元，不含押金。",
-      "productTypeZh": "罐装能量饮料",
-      "shoppingHintZh": "这单购买截止已过；如果你之前参加过，重点核对自己留的是 0.33L 易拉罐对应的活动码，不是别的包装。",
-      "submitHintZh": "这单只认 code，不靠小票；提交截止是 2027-02-28，但达到名额上限也可能提前结束。",
+      "summaryZh": "购买指定 ROCKSTAR Mocktail 0.33L 罐装，符合活动条件可返每罐 1.19 欧，不含押金。",
+      "productTypeZh": "能量饮料",
+      "shoppingHintZh": "认准 Berry Spritz、Pina Colada、Mojito 三种口味和 0.33L 易拉罐；这单购买截止 2026-06-30，按 2026-08-29 当前日期已经过期，不建议再专门去找货购买。",
+      "submitHintZh": "这单只认拉环下的活动码，不需要短信确认；如果你在购买期内已经买过，最晚可在 2027-02-28 前提交。",
       "priority": "low",
       "tagsZh": [
         "饮料",
         "能量饮料",
-        "易拉罐",
+        "ROCKSTAR",
         "Mocktail",
-        "三次参与",
-        "按码提交"
+        "0.33L",
+        "活动码"
       ],
       "enrichment": {
-        "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐饮料",
-        "summaryZh": "买指定 ROCKSTAR Mocktail 0.33L 易拉罐，按活动规则可报销每罐 1.19 欧元，不含押金。",
-        "productTypeZh": "罐装能量饮料",
-        "shoppingHintZh": "这单购买截止已过；如果你之前参加过，重点核对自己留的是 0.33L 易拉罐对应的活动码，不是别的包装。",
-        "submitHintZh": "这单只认 code，不靠小票；提交截止是 2027-02-28，但达到名额上限也可能提前结束。",
+        "titleZh": "ROCKSTAR Mocktail 0.33L 罐装饮料",
+        "summaryZh": "购买指定 ROCKSTAR Mocktail 0.33L 罐装，符合活动条件可返每罐 1.19 欧，不含押金。",
+        "productTypeZh": "能量饮料",
+        "shoppingHintZh": "认准 Berry Spritz、Pina Colada、Mojito 三种口味和 0.33L 易拉罐；这单购买截止 2026-06-30，按 2026-08-29 当前日期已经过期，不建议再专门去找货购买。",
+        "submitHintZh": "这单只认拉环下的活动码，不需要短信确认；如果你在购买期内已经买过，最晚可在 2027-02-28 前提交。",
         "priority": "low",
         "tagsZh": [
           "饮料",
           "能量饮料",
-          "易拉罐",
+          "ROCKSTAR",
           "Mocktail",
-          "三次参与",
-          "按码提交"
+          "0.33L",
+          "活动码"
         ],
         "riskFlags": [
           "quota_limited"
         ],
-        "confidence": 0.92,
+        "confidence": 0.97,
         "categoryKey": "drink"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2788354-cottonelle-feuchtes-toilettenpapier-ultimativ-frisch-4",
-      "dealStableId": "mydealz:2788354",
-      "sourceFingerprint": "f770bc318c2e4447d5e6b51494a1ea89e95acd8914c2621dcaf72e7bbf793cfc",
-      "rowNumber": 4,
-      "titleDe": "COTTONELLE Feuchtes Toilettenpapier Ultimativ Frisch 42 Tücher",
-      "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
-      "category": {
-        "key": "personal",
-        "de": "Drogerie / Pflege",
-        "zh": "个护日化"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/hhseJ/2788354_1/re/1024x1024/qt/60/2788354_1.jpg",
-      "quota": "604 Teilnehmer pro Tag - | 36.871 Teilnehmer insgesamt",
-      "purchaseTime": "täglich ab 08:00 Uhr",
-      "purchaseDeadlineRaw": "31.07.2026",
-      "purchaseDeadlineIso": "2026-07-31",
-      "submitDeadlineRaw": "15.08.2026",
-      "submitDeadlineIso": "2026-08-15",
-      "submitWindow": "-",
-      "participation": "nein",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://cottonelle-aktion.de/cashback",
-      "mydealzUrl": "https://www.mydealz.de/2788354",
-      "agency": "SAVI Marketing GmbH",
-      "added": "02.06.2026",
-      "addedIso": "2026-06-02",
-      "summaryZh": "买 COTTONELLE Ultimativ Frisch 42片装湿厕纸，按活动规则上传凭证申请返现。",
-      "productTypeZh": "湿厕纸",
-      "shoppingHintZh": "这单购买截止已过；如果你之前在 2026-07-31 前买过，认准 Ultimativ Frisch 42片装，不要和别的香型或片数混买。",
-      "submitHintZh": "需要上传小票照片或扫描件；提交截止就是 2026-08-15，今天还没交的话要尽快完成。",
-      "priority": "high",
-      "tagsZh": [
-        "个护",
-        "湿厕纸",
-        "Cottonelle",
-        "42片",
-        "小票上传",
-        "今日截止"
-      ],
-      "enrichment": {
-        "titleZh": "COTTONELLE Ultimativ Frisch 湿厕纸 42片",
-        "summaryZh": "买 COTTONELLE Ultimativ Frisch 42片装湿厕纸，按活动规则上传凭证申请返现。",
-        "productTypeZh": "湿厕纸",
-        "shoppingHintZh": "这单购买截止已过；如果你之前在 2026-07-31 前买过，认准 Ultimativ Frisch 42片装，不要和别的香型或片数混买。",
-        "submitHintZh": "需要上传小票照片或扫描件；提交截止就是 2026-08-15，今天还没交的话要尽快完成。",
-        "priority": "high",
-        "tagsZh": [
-          "个护",
-          "湿厕纸",
-          "Cottonelle",
-          "42片",
-          "小票上传",
-          "今日截止"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.95,
-        "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
     },
@@ -206,75 +139,10 @@
       "enrichmentStatus": "enriched"
     },
     {
-      "id": "mydealz-2797188-bifi-tasty-bites",
-      "dealStableId": "mydealz:2797188",
-      "sourceFingerprint": "46532041ec564c42eaabdc2c60d5995ee04f073577722d81492f2aaa36433f2f",
-      "rowNumber": 6,
-      "titleDe": "BiFi Tasty Bites | - Hungarian Paprika Salami Stick 50g | - Italian Parmesan Thyme Chicken 50g",
-      "titleZh": "BiFi Tasty Bites 50g 零食肉棒",
-      "category": {
-        "key": "food",
-        "de": "Lebensmittel",
-        "zh": "食品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://pub-9774af4745cf4aaa85d43da46fe78dfc.r2.dev/Bi_Fi_Tasty_Bites_Hero_Banner_DE_95de447cf7.jpg",
-      "quota": "333 Teilnehmer pro Tag",
-      "purchaseTime": "täglich ab 08:00 Uhr",
-      "purchaseDeadlineRaw": "23.08.2026",
-      "purchaseDeadlineIso": "2026-08-23",
-      "submitDeadlineRaw": "23.08.2026",
-      "submitDeadlineIso": "2026-08-23",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://bifi-promotion.de/",
-      "mydealzUrl": "https://www.mydealz.de/2797188",
-      "agency": "REINBOLDROST GmbH & Co. KG | Zahlungsdienstleister: savi marketing GmbH",
-      "added": "13.07.2026",
-      "addedIso": "2026-07-13",
-      "summaryZh": "买指定 BiFi Tasty Bites 50g 口味，按活动规则上传小票申请返现。",
-      "productTypeZh": "肉肠零食棒",
-      "shoppingHintZh": "只拿活动里这两款 50g 规格：匈牙利红椒萨拉米味，或意式帕玛森百里香鸡肉味。不要买成别的 BiFi 系列、别的口味或别的克重。",
-      "submitHintZh": "小票要拍完整，商品名、日期、店名和金额都要清楚；这单购买截止和提交截止都是 2026-08-23，别拖到最后。",
-      "priority": "high",
-      "tagsZh": [
-        "食品",
-        "肉肠零食",
-        "BiFi",
-        "50g",
-        "两种口味"
-      ],
-      "enrichment": {
-        "titleZh": "BiFi Tasty Bites 50g 零食肉棒",
-        "summaryZh": "买指定 BiFi Tasty Bites 50g 口味，按活动规则上传小票申请返现。",
-        "productTypeZh": "肉肠零食棒",
-        "shoppingHintZh": "只拿活动里这两款 50g 规格：匈牙利红椒萨拉米味，或意式帕玛森百里香鸡肉味。不要买成别的 BiFi 系列、别的口味或别的克重。",
-        "submitHintZh": "小票要拍完整，商品名、日期、店名和金额都要清楚；这单购买截止和提交截止都是 2026-08-23，别拖到最后。",
-        "priority": "high",
-        "tagsZh": [
-          "食品",
-          "肉肠零食",
-          "BiFi",
-          "50g",
-          "两种口味"
-        ],
-        "riskFlags": [
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 0.89,
-        "categoryKey": "food"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
       "id": "mydealz-2780564-wc-ente-frische-siegel-halter",
       "dealStableId": "mydealz:2780564",
       "sourceFingerprint": "a8c8ae7f29529eb15bb77d11d676979cf6a4887f1679422362168b02b3d1462a",
-      "rowNumber": 7,
+      "rowNumber": 6,
       "titleDe": "WC-Ente Frische-Siegel Halter",
       "titleZh": "WC-Ente 马桶清洁芳香贴挂架装",
       "category": {
@@ -338,9 +206,9 @@
     {
       "id": "mydealz-2741802-zott-pure-joy-joghurtalternative",
       "dealStableId": "mydealz:2741802",
-      "sourceFingerprint": "69e1f79bd5901edbb6ba966b1cc8187bd1be62273058b8bbb7b67e940596f6e6",
-      "rowNumber": 8,
-      "titleDe": "ZOTT Pure Joy Joghurtalternative | bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich | pro zwei Artikel max. 1,98€ Erstattung",
+      "sourceFingerprint": "57aaf1406cf95e3b8351f280038d44c011edac1980bbd273ab19f93f12637cf9",
+      "rowNumber": 7,
+      "titleDe": "ZOTT Pure Joy Joghurtalternative | bis zu zwei Produkte pro Person | pro Haushalt bis zu drei Mal möglich | pro zwei Artikel max. 1,98€ Erstattung(",
       "titleZh": "ZOTT Pure Joy 植物酸奶替代品",
       "category": {
         "key": "food",
@@ -365,35 +233,37 @@
       "agency": "Baudek & Schierhorn Shopper Marketing GmbH | Zahlungsdienstleister: finXP Limited",
       "added": "03.03.2026",
       "addedIso": "2026-03-03",
-      "summaryZh": "ZOTT Pure Joy 植物酸奶替代品可参加返现，每两件最高返 1.98 欧；每人最多两件，同一家庭最多可参加三次。",
+      "summaryZh": "购买指定 ZOTT Pure Joy 植物酸奶替代品，每两件最高可返 1.98 欧。",
       "productTypeZh": "植物酸奶替代品",
-      "shoppingHintZh": "货架上先认准 ZOTT Pure Joy Joghurtalternative；这单按两件算更合适，因为返现上限是每两件最高 1.98 欧，而且每人最多买两件。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-08-31；名额按周和总量限制，别拖到最后一天。",
-      "priority": "normal",
+      "shoppingHintZh": "每次最多买 2 件、每户最多参加 3 次；周一 09:00 放新名额，购买截止 2026-08-31，只剩最后几天。",
+      "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；购买和提交都截止 2026-08-31。",
+      "priority": "high",
       "tagsZh": [
         "食品",
-        "植物酸奶",
+        "植物基",
+        "酸奶替代品",
         "ZOTT",
-        "两件返现"
+        "小票上传"
       ],
       "enrichment": {
         "titleZh": "ZOTT Pure Joy 植物酸奶替代品",
-        "summaryZh": "ZOTT Pure Joy 植物酸奶替代品可参加返现，每两件最高返 1.98 欧；每人最多两件，同一家庭最多可参加三次。",
+        "summaryZh": "购买指定 ZOTT Pure Joy 植物酸奶替代品，每两件最高可返 1.98 欧。",
         "productTypeZh": "植物酸奶替代品",
-        "shoppingHintZh": "货架上先认准 ZOTT Pure Joy Joghurtalternative；这单按两件算更合适，因为返现上限是每两件最高 1.98 欧，而且每人最多买两件。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-08-31；名额按周和总量限制，别拖到最后一天。",
-        "priority": "normal",
+        "shoppingHintZh": "每次最多买 2 件、每户最多参加 3 次；周一 09:00 放新名额，购买截止 2026-08-31，只剩最后几天。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；购买和提交都截止 2026-08-31。",
+        "priority": "high",
         "tagsZh": [
           "食品",
-          "植物酸奶",
+          "植物基",
+          "酸奶替代品",
           "ZOTT",
-          "两件返现"
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.95,
+        "confidence": 0.94,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -401,8 +271,8 @@
     {
       "id": "mydealz-2785453-deli-reform-omega-3-daily-rein-pflanzliche-halbfettmag",
       "dealStableId": "mydealz:2785453",
-      "sourceFingerprint": "c0afeb6e624b9bc24a6238a945db0da6c299a7ae197164d15b0137e53f216c0b",
-      "rowNumber": 9,
+      "sourceFingerprint": "6a1b892f966588509c788bba2335559209704b928c77b3cbe6989495e93a0907",
+      "rowNumber": 8,
       "titleDe": "Deli Reform Omega-3 Daily rein pflanzliche Halbfettmagerine",
       "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
       "category": {
@@ -419,7 +289,7 @@
       "purchaseDeadlineIso": "2026-08-31",
       "submitDeadlineRaw": "31.08.2026",
       "submitDeadlineIso": "2026-08-31",
-      "submitWindow": "",
+      "submitWindow": "-",
       "participation": "",
       "receiptType": "Foto/Scan",
       "smsConfirmation": "nein",
@@ -428,11 +298,11 @@
       "agency": "REINBOLDROST GmbH & Co. KG | Zahlungsdienstleister: savi marketing GmbH",
       "added": "01.06.2026",
       "addedIso": "2026-06-01",
-      "summaryZh": "购买 Deli Reform Omega-3 Daily 植物半脂人造黄油，按活动规则申请返现。",
+      "summaryZh": "购买指定 Deli Reform Omega-3 Daily 植物半脂人造黄油，可按活动规则申请返现。",
       "productTypeZh": "植物半脂人造黄油",
-      "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额，每天 100 个。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
-      "priority": "normal",
+      "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额、每日仅 100 人，购买截止 2026-08-31。",
+      "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；最晚 2026-08-31 前提交。",
+      "priority": "high",
       "tagsZh": [
         "食品",
         "人造黄油",
@@ -441,11 +311,11 @@
       ],
       "enrichment": {
         "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
-        "summaryZh": "购买 Deli Reform Omega-3 Daily 植物半脂人造黄油，按活动规则申请返现。",
+        "summaryZh": "购买指定 Deli Reform Omega-3 Daily 植物半脂人造黄油，可按活动规则申请返现。",
         "productTypeZh": "植物半脂人造黄油",
-        "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额，每天 100 个。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
-        "priority": "normal",
+        "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额、每日仅 100 人，购买截止 2026-08-31。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；最晚 2026-08-31 前提交。",
+        "priority": "high",
         "tagsZh": [
           "食品",
           "人造黄油",
@@ -457,7 +327,7 @@
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.9,
+        "confidence": 0.91,
         "categoryKey": "food"
       },
       "enrichmentStatus": "enriched"
@@ -465,8 +335,8 @@
     {
       "id": "mydealz-2793663-cd-antitranspirant-pure-protect",
       "dealStableId": "mydealz:2793663",
-      "sourceFingerprint": "361cc087d776ccf9ed90860213c3a1011a43e218fd5637492e75d47b10b03708",
-      "rowNumber": 10,
+      "sourceFingerprint": "265ad039c401fa51b8fa17c8ca9e70f9139d791515b86c5e824e6a077c2f33b7",
+      "rowNumber": 9,
       "titleDe": "CD Antitranspirant Pure & Protect",
       "titleZh": "CD Pure & Protect 止汗产品",
       "category": {
@@ -483,7 +353,7 @@
       "purchaseDeadlineIso": "2026-08-31",
       "submitDeadlineRaw": "31.08.2026",
       "submitDeadlineIso": "2026-08-31",
-      "submitWindow": "bis zur Erreichung des Teilnehmerlimits",
+      "submitWindow": "-",
       "participation": "",
       "receiptType": "Foto/Scan",
       "smsConfirmation": "nein",
@@ -492,35 +362,35 @@
       "agency": "Viva Marketing GmbH | Zahlungsdienstleister: secupay AG",
       "added": "11.06.2026",
       "addedIso": "2026-06-11",
-      "summaryZh": "购买 CD Pure & Protect 止汗产品，名额内可按活动规则申请返现。",
+      "summaryZh": "购买指定 CD Pure & Protect 止汗产品，可按活动规则申请返现。",
       "productTypeZh": "止汗产品",
-      "shoppingHintZh": "注意认准 Pure & Protect 系列；不限店，总名额 50,000 个，满额即止。",
-      "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026，活动满额会提前结束。",
-      "priority": "normal",
+      "shoppingHintZh": "认准 Pure & Protect 版本；总名额 50,000，购买和提交都截止 2026-08-31，只剩最后几天。",
+      "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；买完尽快提交，最晚 2026-08-31 前完成。",
+      "priority": "high",
       "tagsZh": [
         "个护",
         "止汗",
         "CD",
-        "总名额"
+        "小票上传"
       ],
       "enrichment": {
         "titleZh": "CD Pure & Protect 止汗产品",
-        "summaryZh": "购买 CD Pure & Protect 止汗产品，名额内可按活动规则申请返现。",
+        "summaryZh": "购买指定 CD Pure & Protect 止汗产品，可按活动规则申请返现。",
         "productTypeZh": "止汗产品",
-        "shoppingHintZh": "注意认准 Pure & Protect 系列；不限店，总名额 50,000 个，满额即止。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026，活动满额会提前结束。",
-        "priority": "normal",
+        "shoppingHintZh": "认准 Pure & Protect 版本；总名额 50,000，购买和提交都截止 2026-08-31，只剩最后几天。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；买完尽快提交，最晚 2026-08-31 前完成。",
+        "priority": "high",
         "tagsZh": [
           "个护",
           "止汗",
           "CD",
-          "总名额"
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.88,
+        "confidence": 0.89,
         "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
@@ -529,7 +399,7 @@
       "id": "mydealz-2737030-zott-monte-ice-cream",
       "dealStableId": "mydealz:2737030",
       "sourceFingerprint": "3c609682a8b6194306139340b260d97ebe89a5a93439e00a51565d88d25911c5",
-      "rowNumber": 11,
+      "rowNumber": 10,
       "titleDe": "Zott Monte Ice Cream | max. 5,49€ Erstattung | Teilnahme per wöchentlicher Auslosung!",
       "titleZh": "Zott Monte 冰淇淋",
       "category": {
@@ -539,7 +409,7 @@
       },
       "stores": [],
       "storeMode": "not_limited",
-      "imageUrl": "https://www.monte-eis-testen.de/Content/assets/header/header-desktop.png",
+      "imageUrl": "https://monte-eis-testen.de/Content/assets/how-to/step-1.png",
       "quota": "200 Teilnehmer pro Woche - 5.000 Erstattungen insgesamt",
       "purchaseTime": "montags ab 00:00 Uhr",
       "purchaseDeadlineRaw": "28.09.2026",
@@ -589,10 +459,74 @@
       "enrichmentStatus": "enriched"
     },
     {
+      "id": "mydealz-2805536-rockstar-energy-drink-0-5l-dose",
+      "dealStableId": "mydealz:2805536",
+      "sourceFingerprint": "4c36b805afcadc84cba33116603bba8f266d8d33f15f9b99d38faf28b9bb3a1a",
+      "rowNumber": 12,
+      "titleDe": "ROCKSTAR Energy Drink 0,5l Dose | - Original Sugar und/oder Blueberry Açai Sugar | zwei Teilnahmen pro Person möglich | pauschale Erstattung von 1,49€ (exkl. Pfand) pro Dose | nur mit Aktionscode unter der Lasche oder Foto von geöffneter Dose im Aktionsdesign!",
+      "titleZh": "ROCKSTAR Energy Drink 0.5L 罐装饮料",
+      "category": {
+        "key": "drink",
+        "de": "Getränke",
+        "zh": "饮料"
+      },
+      "stores": [],
+      "storeMode": "not_limited",
+      "imageUrl": "https://static.mydealz.de/threads/raw/m2Tu7/2805536_1/re/768x768/qt/60/2805536_1.jpg",
+      "quota": "60.000 Teilnehmer insgesamt",
+      "purchaseTime": "-",
+      "purchaseDeadlineRaw": "31.12.2026",
+      "purchaseDeadlineIso": "2026-12-31",
+      "submitDeadlineRaw": "31.12.2026",
+      "submitDeadlineIso": "2026-12-31",
+      "submitWindow": "-",
+      "participation": "",
+      "receiptType": "nur Code",
+      "smsConfirmation": "nein",
+      "officialUrl": "https://www.rockstarenergy.de/geschmacksgarantie",
+      "mydealzUrl": "https://www.mydealz.de/2805536",
+      "agency": "G.V.K. mbH | caspar company GmbH | Zahlungsdienstleister: secupay AG",
+      "added": "01.06.2026",
+      "addedIso": "2026-06-01",
+      "summaryZh": "购买指定 ROCKSTAR 0.5L 罐装，符合活动条件可返每罐 1.49 欧，不含押金。",
+      "productTypeZh": "能量饮料",
+      "shoppingHintZh": "认准 Original Sugar 或 Blueberry Acai Sugar 两种口味的 0.5L 易拉罐；每人最多参加 2 次，总名额 60,000，看到活动包装可顺手买。",
+      "submitHintZh": "提交重点是保留活动码；标题还提到活动设计开罐照片，稳妥起见两者都留。无需短信确认，购买和提交都截止 2026-12-31。",
+      "priority": "normal",
+      "tagsZh": [
+        "饮料",
+        "能量饮料",
+        "ROCKSTAR",
+        "0.5L",
+        "活动码"
+      ],
+      "enrichment": {
+        "titleZh": "ROCKSTAR Energy Drink 0.5L 罐装饮料",
+        "summaryZh": "购买指定 ROCKSTAR 0.5L 罐装，符合活动条件可返每罐 1.49 欧，不含押金。",
+        "productTypeZh": "能量饮料",
+        "shoppingHintZh": "认准 Original Sugar 或 Blueberry Acai Sugar 两种口味的 0.5L 易拉罐；每人最多参加 2 次，总名额 60,000，看到活动包装可顺手买。",
+        "submitHintZh": "提交重点是保留活动码；标题还提到活动设计开罐照片，稳妥起见两者都留。无需短信确认，购买和提交都截止 2026-12-31。",
+        "priority": "normal",
+        "tagsZh": [
+          "饮料",
+          "能量饮料",
+          "ROCKSTAR",
+          "0.5L",
+          "活动码"
+        ],
+        "riskFlags": [
+          "quota_limited"
+        ],
+        "confidence": 0.9,
+        "categoryKey": "drink"
+      },
+      "enrichmentStatus": "enriched"
+    },
+    {
       "id": "mydealz-2571752-royal-canin-tiernahrung",
       "dealStableId": "mydealz:2571752",
       "sourceFingerprint": "55d4b39336035e7d99179b95a10c3cfad8d3fdb6a89d57abd7f88c67765973ba",
-      "rowNumber": 12,
+      "rowNumber": 13,
       "titleDe": "ROYAL CANIN Tiernahrung",
       "titleZh": "ROYAL CANIN Tiernahrung（宠物用品，默认跳过）",
       "category": {

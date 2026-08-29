@@ -307,44 +307,45 @@
       }
     },
     "mydealz:2741802": {
-      "sourceFingerprint": "69e1f79bd5901edbb6ba966b1cc8187bd1be62273058b8bbb7b67e940596f6e6",
-      "generatedAt": "2026-08-15T00:00:00+08:00",
+      "sourceFingerprint": "57aaf1406cf95e3b8351f280038d44c011edac1980bbd273ab19f93f12637cf9",
+      "generatedAt": "2026-08-29T00:00:00+02:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "ZOTT Pure Joy 植物酸奶替代品",
-        "summaryZh": "ZOTT Pure Joy 植物酸奶替代品可参加返现，每两件最高返 1.98 欧；每人最多两件，同一家庭最多可参加三次。",
+        "summaryZh": "购买指定 ZOTT Pure Joy 植物酸奶替代品，每两件最高可返 1.98 欧。",
         "productTypeZh": "植物酸奶替代品",
-        "shoppingHintZh": "货架上先认准 ZOTT Pure Joy Joghurtalternative；这单按两件算更合适，因为返现上限是每两件最高 1.98 欧，而且每人最多买两件。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-08-31；名额按周和总量限制，别拖到最后一天。",
+        "shoppingHintZh": "每次最多买 2 件、每户最多参加 3 次；周一 09:00 放新名额，购买截止 2026-08-31，只剩最后几天。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；购买和提交都截止 2026-08-31。",
         "categoryKey": "food",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
           "食品",
-          "植物酸奶",
+          "植物基",
+          "酸奶替代品",
           "ZOTT",
-          "两件返现"
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.95
+        "confidence": 0.94
       }
     },
     "mydealz:2785453": {
-      "sourceFingerprint": "c0afeb6e624b9bc24a6238a945db0da6c299a7ae197164d15b0137e53f216c0b",
-      "generatedAt": "2026-06-20T06:05:12Z",
-      "model": "manual",
+      "sourceFingerprint": "6a1b892f966588509c788bba2335559209704b928c77b3cbe6989495e93a0907",
+      "generatedAt": "2026-08-29T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "Deli Reform Omega-3 Daily 植物半脂人造黄油",
-        "summaryZh": "购买 Deli Reform Omega-3 Daily 植物半脂人造黄油，按活动规则申请返现。",
+        "summaryZh": "购买指定 Deli Reform Omega-3 Daily 植物半脂人造黄油，可按活动规则申请返现。",
         "productTypeZh": "植物半脂人造黄油",
-        "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额，每天 100 个。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026。",
+        "shoppingHintZh": "认准 Omega-3 Daily rein pflanzliche Halbfettmargarine；每天 08:00 放名额、每日仅 100 人，购买截止 2026-08-31。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；最晚 2026-08-31 前提交。",
         "categoryKey": "food",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
           "食品",
           "人造黄油",
@@ -356,7 +357,7 @@
           "daily_window",
           "receipt_photo"
         ],
-        "confidence": 0.9
+        "confidence": 0.91
       }
     },
     "mydealz:2737030": {
@@ -467,30 +468,30 @@
       }
     },
     "mydealz:2790687": {
-      "sourceFingerprint": "effc19ffcac77247f2ae1b2c89091c2fc9cb340711c31a0dfb92f8731c2162ac",
-      "generatedAt": "2026-08-15T00:00:00.000+08:00",
+      "sourceFingerprint": "dd53de9dbebabb046c4d3816ea1e794b627530bcaa2b8fb45fbd9e875cc93f5c",
+      "generatedAt": "2026-08-29T00:00:00+02:00",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "ROCKSTAR Mocktail 0.33L 易拉罐饮料",
-        "summaryZh": "买指定 ROCKSTAR Mocktail 0.33L 易拉罐，按活动规则可报销每罐 1.19 欧元，不含押金。",
-        "productTypeZh": "罐装能量饮料",
-        "shoppingHintZh": "这单购买截止已过；如果你之前参加过，重点核对自己留的是 0.33L 易拉罐对应的活动码，不是别的包装。",
-        "submitHintZh": "这单只认 code，不靠小票；提交截止是 2027-02-28，但达到名额上限也可能提前结束。",
+        "titleZh": "ROCKSTAR Mocktail 0.33L 罐装饮料",
+        "summaryZh": "购买指定 ROCKSTAR Mocktail 0.33L 罐装，符合活动条件可返每罐 1.19 欧，不含押金。",
+        "productTypeZh": "能量饮料",
+        "shoppingHintZh": "认准 Berry Spritz、Pina Colada、Mojito 三种口味和 0.33L 易拉罐；这单购买截止 2026-06-30，按 2026-08-29 当前日期已经过期，不建议再专门去找货购买。",
+        "submitHintZh": "这单只认拉环下的活动码，不需要短信确认；如果你在购买期内已经买过，最晚可在 2027-02-28 前提交。",
         "categoryKey": "drink",
         "priority": "low",
         "tagsZh": [
           "饮料",
           "能量饮料",
-          "易拉罐",
+          "ROCKSTAR",
           "Mocktail",
-          "三次参与",
-          "按码提交"
+          "0.33L",
+          "活动码"
         ],
         "riskFlags": [
           "quota_limited"
         ],
-        "confidence": 0.92
+        "confidence": 0.97
       }
     },
     "mydealz:2776393": {
@@ -1226,29 +1227,29 @@
       }
     },
     "mydealz:2793663": {
-      "sourceFingerprint": "361cc087d776ccf9ed90860213c3a1011a43e218fd5637492e75d47b10b03708",
-      "generatedAt": "2026-06-20T06:05:12Z",
-      "model": "manual",
+      "sourceFingerprint": "265ad039c401fa51b8fa17c8ca9e70f9139d791515b86c5e824e6a077c2f33b7",
+      "generatedAt": "2026-08-29T00:00:00+02:00",
+      "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "CD Pure & Protect 止汗产品",
-        "summaryZh": "购买 CD Pure & Protect 止汗产品，名额内可按活动规则申请返现。",
+        "summaryZh": "购买指定 CD Pure & Protect 止汗产品，可按活动规则申请返现。",
         "productTypeZh": "止汗产品",
-        "shoppingHintZh": "注意认准 Pure & Protect 系列；不限店，总名额 50,000 个，满额即止。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 31.08.2026，活动满额会提前结束。",
+        "shoppingHintZh": "认准 Pure & Protect 版本；总名额 50,000，购买和提交都截止 2026-08-31，只剩最后几天。",
+        "submitHintZh": "需要上传小票照片或扫描件，不需要短信确认；买完尽快提交，最晚 2026-08-31 前完成。",
         "categoryKey": "personal",
-        "priority": "normal",
+        "priority": "high",
         "tagsZh": [
           "个护",
           "止汗",
           "CD",
-          "总名额"
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.88
+        "confidence": 0.89
       }
     },
     "mydealz:2804167": {
@@ -1303,6 +1304,32 @@
           "receipt_photo"
         ],
         "confidence": 0.89
+      }
+    },
+    "mydealz:2805536": {
+      "sourceFingerprint": "4c36b805afcadc84cba33116603bba8f266d8d33f15f9b99d38faf28b9bb3a1a",
+      "generatedAt": "2026-08-29T00:00:00+02:00",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "ROCKSTAR Energy Drink 0.5L 罐装饮料",
+        "summaryZh": "购买指定 ROCKSTAR 0.5L 罐装，符合活动条件可返每罐 1.49 欧，不含押金。",
+        "productTypeZh": "能量饮料",
+        "shoppingHintZh": "认准 Original Sugar 或 Blueberry Acai Sugar 两种口味的 0.5L 易拉罐；每人最多参加 2 次，总名额 60,000，看到活动包装可顺手买。",
+        "submitHintZh": "提交重点是保留活动码；标题还提到活动设计开罐照片，稳妥起见两者都留。无需短信确认，购买和提交都截止 2026-12-31。",
+        "categoryKey": "drink",
+        "priority": "normal",
+        "tagsZh": [
+          "饮料",
+          "能量饮料",
+          "ROCKSTAR",
+          "0.5L",
+          "活动码"
+        ],
+        "riskFlags": [
+          "quota_limited"
+        ],
+        "confidence": 0.9
       }
     }
   }
