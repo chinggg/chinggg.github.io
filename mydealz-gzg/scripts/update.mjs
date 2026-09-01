@@ -765,6 +765,7 @@ function renderHtml(payload) {
         <div class="sync">更新：${esc(generated)} · ${payload.deals.length} 个活动</div>
       </div>
       <div class="actions">
+        <a id="sourceSheet" class="link-button" target="_blank" rel="noreferrer">原始 Google Sheet</a>
         <button id="exportState">导出状态</button>
         <label><input id="importState" type="file" accept="application/json"><span class="link-button">导入</span></label>
       </div>
@@ -786,6 +787,9 @@ function renderHtml(payload) {
   <script>
     const payload = JSON.parse(document.getElementById("dealData").textContent);
     const deals = payload.deals;
+    const sourceSheet = document.getElementById("sourceSheet");
+    if (payload.source.sheetUrl) sourceSheet.href = payload.source.sheetUrl;
+    else sourceSheet.hidden = true;
     const statusKey = "mydealz-gzg-status-v1";
     const state = JSON.parse(localStorage.getItem(statusKey) || "{}");
     const filters = { store: "all", status: "open", deadline: "active", sort: "buy", category: "all", query: "" };
