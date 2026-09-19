@@ -3,8 +3,8 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-09-14T06:02:01.598Z",
-    "enrichedCount": 9
+    "generatedAt": "2026-09-19T06:00:38.117Z",
+    "enrichedCount": 8
   },
   "deals": [
     {
@@ -70,71 +70,6 @@
         ],
         "confidence": 0.97,
         "categoryKey": "drink"
-      },
-      "enrichmentStatus": "enriched"
-    },
-    {
-      "id": "mydealz-2757299-always-discreet-inkontinenz-maxi",
-      "dealStableId": "mydealz:2757299",
-      "sourceFingerprint": "23277d36a84b01599fd311d788473b7372ad08a79cf53aa35da264de7f0a094e",
-      "rowNumber": 5,
-      "titleDe": "always Discreet Inkontinenz Maxi",
-      "titleZh": "always Discreet Maxi 成人护理垫",
-      "category": {
-        "key": "personal",
-        "de": "Drogerie / Pflege",
-        "zh": "个护日化"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://static.mydealz.de/threads/raw/Dg7q5/2757299_1/re/1024x1024/qt/60/2757299_1.jpg",
-      "quota": "-",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "31.07.2026",
-      "purchaseDeadlineIso": "2026-07-31",
-      "submitDeadlineRaw": "15.09.2026",
-      "submitDeadlineIso": "2026-09-15",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto",
-      "smsConfirmation": "ja",
-      "officialUrl": "https://www.for-me-online.de/always-discreet",
-      "mydealzUrl": "https://www.mydealz.de/2757299",
-      "agency": "JustSnap GmbH",
-      "added": "01.04.2026",
-      "addedIso": "2026-04-01",
-      "summaryZh": "购买 always Discreet Inkontinenz Maxi，按活动规则申请返现。",
-      "productTypeZh": "成人护理垫",
-      "shoppingHintZh": "不限具体门店，注意选择 always Discreet Inkontinenz Maxi 指定产品。",
-      "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认，提交截止为表格里的日期。",
-      "priority": "normal",
-      "tagsZh": [
-        "个护",
-        "成人护理",
-        "always",
-        "小票照片",
-        "SMS确认"
-      ],
-      "enrichment": {
-        "titleZh": "always Discreet Maxi 成人护理垫",
-        "summaryZh": "购买 always Discreet Inkontinenz Maxi，按活动规则申请返现。",
-        "productTypeZh": "成人护理垫",
-        "shoppingHintZh": "不限具体门店，注意选择 always Discreet Inkontinenz Maxi 指定产品。",
-        "submitHintZh": "需要上传小票照片，并按页面要求完成 SMS 确认，提交截止为表格里的日期。",
-        "priority": "normal",
-        "tagsZh": [
-          "个护",
-          "成人护理",
-          "always",
-          "小票照片",
-          "SMS确认"
-        ],
-        "riskFlags": [
-          "receipt_photo",
-          "sms_confirmation"
-        ],
-        "confidence": 0.9,
-        "categoryKey": "personal"
       },
       "enrichmentStatus": "enriched"
     },
