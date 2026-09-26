@@ -361,29 +361,30 @@
       }
     },
     "mydealz:2737030": {
-      "sourceFingerprint": "3c609682a8b6194306139340b260d97ebe89a5a93439e00a51565d88d25911c5",
-      "generatedAt": "2026-08-15T00:00:00+08:00",
+      "sourceFingerprint": "2ae1a5285a783a607703992f18fb527024c5cc758b6c26cea043cbd05446d6d3",
+      "generatedAt": "2026-09-26T06:10:00.000Z",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
         "titleZh": "Zott Monte 冰淇淋",
-        "summaryZh": "Zott Monte Ice Cream 最高可返 5.49 欧，但是否拿到返现要看每周抽奖结果，不是买了就稳返。",
+        "summaryZh": "购买 Zott Monte 冰淇淋，最高返现 5.49 欧元；每周抽签参与。",
         "productTypeZh": "冰淇淋",
-        "shoppingHintZh": "先认准 Zott Monte Ice Cream；不限具体门店，但这是每周抽奖型活动，如果你只想买稳返现的单，这单优先级就不高。",
-        "submitHintZh": "需要上传小票照片或扫描件，购买和提交截止都到 2026-09-28；提交后是否成功返现取决于每周抽奖。",
+        "shoppingHintZh": "活动每周一 00:00 开放参与；每周仅 200 个名额，需先抢到资格再购买。",
+        "submitHintZh": "购买及提交截止均为 2026 年 9 月 28 日；上传购物小票照片或扫描件。",
         "categoryKey": "food",
-        "priority": "low",
+        "priority": "high",
         "tagsZh": [
-          "食品",
           "冰淇淋",
-          "Monte",
-          "每周抽奖"
+          "最高返5.49欧",
+          "每周抽签",
+          "每周名额",
+          "小票上传"
         ],
         "riskFlags": [
           "quota_limited",
           "receipt_photo"
         ],
-        "confidence": 0.96
+        "confidence": 0.94
       }
     },
     "mydealz:2764431": {
@@ -468,25 +469,25 @@
       }
     },
     "mydealz:2790687": {
-      "sourceFingerprint": "dd53de9dbebabb046c4d3816ea1e794b627530bcaa2b8fb45fbd9e875cc93f5c",
-      "generatedAt": "2026-08-29T00:00:00+02:00",
+      "sourceFingerprint": "873ed700b851d10d3d135715557cbd248e039fbc8dadb4099542c2201e6343a7",
+      "generatedAt": "2026-09-26T06:05:00.000Z",
       "model": "subagent",
       "status": "enriched",
       "enrichment": {
-        "titleZh": "ROCKSTAR Mocktail 0.33L 罐装饮料",
-        "summaryZh": "购买指定 ROCKSTAR Mocktail 0.33L 罐装，符合活动条件可返每罐 1.19 欧，不含押金。",
-        "productTypeZh": "能量饮料",
-        "shoppingHintZh": "认准 Berry Spritz、Pina Colada、Mojito 三种口味和 0.33L 易拉罐；这单购买截止 2026-06-30，按 2026-08-29 当前日期已经过期，不建议再专门去找货购买。",
-        "submitHintZh": "这单只认拉环下的活动码，不需要短信确认；如果你在购买期内已经买过，最晚可在 2027-02-28 前提交。",
+        "titleZh": "Rockstar Energy Mocktail 能量饮料 330ml 罐装",
+        "summaryZh": "购买 Berry Spritz、Pina Colada 或 Mojito 口味，每罐固定返 1.19 欧（不含押金），每人最多参加 3 次。",
+        "productTypeZh": "罐装能量饮料",
+        "shoppingHintZh": "只买 330ml Mocktail 罐装，口味为 Berry Spritz、Pina Colada 或 Mojito；务必保留拉环下方的活动码。每周仅 2,500 个名额。",
+        "submitHintZh": "无需上传小票，只提交拉环下方的活动码；购买和提交均截止至 2027 年 2 月 28 日，每人最多 3 次。",
         "categoryKey": "drink",
-        "priority": "low",
+        "priority": "normal",
         "tagsZh": [
           "饮料",
           "能量饮料",
-          "ROCKSTAR",
-          "Mocktail",
-          "0.33L",
-          "活动码"
+          "330ml",
+          "活动码",
+          "每周名额",
+          "最多3次"
         ],
         "riskFlags": [
           "quota_limited"
@@ -1330,6 +1331,142 @@
           "quota_limited"
         ],
         "confidence": 0.9
+      }
+    },
+    "mydealz:2821084": {
+      "sourceFingerprint": "2dbf9dbd276723b7fd5d43d6f134687977c3d55c616f1f6c6c19d7e062013449",
+      "generatedAt": "2026-09-26T06:05:00.000Z",
+      "model": "default-category-skip",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Edgard & Cooper 犬猫粮",
+        "summaryZh": "Edgard & Cooper 犬猫食品最高可返现 10 欧；宠物类别按默认规则标为低优先级跳过。",
+        "productTypeZh": "犬猫食品",
+        "shoppingHintZh": "宠物用品默认跳过；如需参与，注意每周仅 1,000 个名额。",
+        "submitHintZh": "如参与，请上传小票照片或扫描件，并在 2026-09-27 前提交。",
+        "categoryKey": "pet",
+        "priority": "low",
+        "tagsZh": [
+          "宠物",
+          "犬粮",
+          "猫粮",
+          "默认跳过"
+        ],
+        "riskFlags": [
+          "user_skip_category",
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 1
+      }
+    },
+    "mydealz:2823305": {
+      "sourceFingerprint": "1bae79ca807c8e1b1cafdad39b6d1ad3d8a3865bf27cd71294d4af0f5c92d99b",
+      "generatedAt": "2026-09-26T06:10:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Jacobs 3合1或2合1速溶咖啡条",
+        "summaryZh": "购买 Jacobs 3合1或2合1咖啡条，按活动要求提交小票申请返现。",
+        "productTypeZh": "速溶咖啡条",
+        "shoppingHintZh": "只买 Jacobs 3合1或2合1咖啡条；每天 08:00 至 10:00 开放，日限 555 个名额。",
+        "submitHintZh": "购买及提交截止均为 2026 年 9 月 30 日；上传购物小票照片或扫描件。",
+        "categoryKey": "drink",
+        "priority": "high",
+        "tagsZh": [
+          "速溶咖啡",
+          "3合1",
+          "2合1",
+          "每日名额",
+          "限时参与",
+          "小票上传"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2827925": {
+      "sourceFingerprint": "461870879b2682ef3705964ed06c5a31db95e8a5826e14513deba3ae5a7da82b",
+      "generatedAt": "2026-09-26T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Lipton Sensations Pink 冰茶 1L",
+        "summaryZh": "购买 Lipton Sensations Pink 1L 冰茶，按活动规则上传小票申请返现。",
+        "productTypeZh": "即饮冰茶",
+        "shoppingHintZh": "认准 Sensations Pink 的 1L 规格；每天 09:00 开放 1,200 个名额，名额有限，购买截止 2026-10-25。",
+        "submitHintZh": "提交时上传清晰的小票照片或扫描件；最晚于 2026-11-08 前完成提交。",
+        "categoryKey": "drink",
+        "priority": "normal",
+        "tagsZh": [
+          "冰茶",
+          "1L",
+          "每日名额",
+          "小票返现"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.9
+      }
+    },
+    "mydealz:2819890": {
+      "sourceFingerprint": "e159c0168671259e820dd9d7d520567f421e319c7d3736ba30fbf098b4f1f879",
+      "generatedAt": "2026-09-26T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Sensodyne Proschmelz Clinical Zahnschmelz Protect 护牙釉质牙膏",
+        "summaryZh": "购买指定 Sensodyne Proschmelz Clinical Zahnschmelz Protect 产品，按活动规则上传小票申请返现。",
+        "productTypeZh": "护牙釉质牙膏",
+        "shoppingHintZh": "认准 Proschmelz Clinical Zahnschmelz Protect 系列；总名额 25,000 个，购买截止 2026-10-31。",
+        "submitHintZh": "需要上传清晰的小票照片或扫描件；购买和提交都截止 2026-10-31，买后尽快提交。",
+        "categoryKey": "health",
+        "priority": "normal",
+        "tagsZh": [
+          "牙膏",
+          "口腔护理",
+          "护牙釉质",
+          "小票返现"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.9
+      }
+    },
+    "mydealz:2832778": {
+      "sourceFingerprint": "20ffe9412c06e7d6a01359a4d3e4c421f6ac2d516462dc3208169fa7af45d83f",
+      "generatedAt": "2026-09-26T06:05:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Always Ultra 卫生巾大包装",
+        "summaryZh": "购买指定 Always Ultra 卫生巾大包装后可参加返现活动。",
+        "productTypeZh": "卫生巾",
+        "shoppingHintZh": "认准 Always Ultra 的大包装；活动购买截止至 2026 年 10 月 31 日。",
+        "submitHintZh": "需上传购买小票照片并完成 SMS 确认；提交截止至 2026 年 11 月 15 日。",
+        "categoryKey": "personal",
+        "priority": "normal",
+        "tagsZh": [
+          "个护",
+          "卫生巾",
+          "大包装",
+          "小票",
+          "短信确认"
+        ],
+        "riskFlags": [
+          "receipt_photo",
+          "sms_confirmation"
+        ],
+        "confidence": 0.94
       }
     }
   }
