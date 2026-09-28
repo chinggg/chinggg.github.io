@@ -3,74 +3,10 @@
     "sheetId": "1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/edit",
     "csvUrl": "https://docs.google.com/spreadsheets/d/1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E/export?format=csv",
-    "generatedAt": "2026-09-26T06:04:01.363Z",
-    "enrichedCount": 13
+    "generatedAt": "2026-09-28T00:01:38.587Z",
+    "enrichedCount": 12
   },
   "deals": [
-    {
-      "id": "mydealz-2821084-edgard-cooper-hunde-und-katzennahrung",
-      "dealStableId": "mydealz:2821084",
-      "sourceFingerprint": "2dbf9dbd276723b7fd5d43d6f134687977c3d55c616f1f6c6c19d7e062013449",
-      "rowNumber": 4,
-      "titleDe": "Edgard & Cooper Hunde- und Katzennahrung | max. 10€ Erstattung",
-      "titleZh": "Edgard & Cooper 犬猫粮",
-      "category": {
-        "key": "pet",
-        "de": "Tierbedarf",
-        "zh": "宠物用品"
-      },
-      "stores": [],
-      "storeMode": "not_limited",
-      "imageUrl": "https://fls-9fa1ee46-fbc1-45ad-9866-0356a48443c7.laravel.cloud/3009/01KJA1Y5ANNKYME1J07BZZBY0H.png",
-      "quota": "1.000 Teilnehmer pro Woche - 5.000 Teilnehmer insgesamt",
-      "purchaseTime": "-",
-      "purchaseDeadlineRaw": "20.09.2026",
-      "purchaseDeadlineIso": "2026-09-20",
-      "submitDeadlineRaw": "27.09.2026",
-      "submitDeadlineIso": "2026-09-27",
-      "submitWindow": "-",
-      "participation": "",
-      "receiptType": "Foto/Scan",
-      "smsConfirmation": "nein",
-      "officialUrl": "https://cashu-club.de/aktion/edgardcooper",
-      "mydealzUrl": "https://www.mydealz.de/2821084",
-      "agency": "REINBOLDROST GmbH & Co. KG | Zahlungsdienstleister: CashU",
-      "added": "24.08.2026",
-      "addedIso": "2026-08-24",
-      "summaryZh": "Edgard & Cooper 犬猫食品最高可返现 10 欧；宠物类别按默认规则标为低优先级跳过。",
-      "productTypeZh": "犬猫食品",
-      "shoppingHintZh": "宠物用品默认跳过；如需参与，注意每周仅 1,000 个名额。",
-      "submitHintZh": "如参与，请上传小票照片或扫描件，并在 2026-09-27 前提交。",
-      "priority": "low",
-      "tagsZh": [
-        "宠物",
-        "犬粮",
-        "猫粮",
-        "默认跳过"
-      ],
-      "enrichment": {
-        "titleZh": "Edgard & Cooper 犬猫粮",
-        "summaryZh": "Edgard & Cooper 犬猫食品最高可返现 10 欧；宠物类别按默认规则标为低优先级跳过。",
-        "productTypeZh": "犬猫食品",
-        "shoppingHintZh": "宠物用品默认跳过；如需参与，注意每周仅 1,000 个名额。",
-        "submitHintZh": "如参与，请上传小票照片或扫描件，并在 2026-09-27 前提交。",
-        "priority": "low",
-        "tagsZh": [
-          "宠物",
-          "犬粮",
-          "猫粮",
-          "默认跳过"
-        ],
-        "riskFlags": [
-          "user_skip_category",
-          "quota_limited",
-          "receipt_photo"
-        ],
-        "confidence": 1,
-        "categoryKey": "pet"
-      },
-      "enrichmentStatus": "enriched"
-    },
     {
       "id": "mydealz-2737030-zott-monte-ice-cream",
       "dealStableId": "mydealz:2737030",
