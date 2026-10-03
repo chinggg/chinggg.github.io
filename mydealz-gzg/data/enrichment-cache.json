@@ -1468,6 +1468,117 @@
         ],
         "confidence": 0.94
       }
+    },
+    "sheet:1wcqckNai9SyRbQLt-pj6FHzGM7sypoET9glyAE05u2E:row:4": {
+      "sourceFingerprint": "6e4909230d646eaa688b342cbe98690f21846f282e3d208ee8e012bc9a522041",
+      "generatedAt": "2026-10-03T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Air Wick 香薰机＋补充装",
+        "summaryZh": "购买 Air Wick 香薰机和补充装，可参加全额返现活动。",
+        "productTypeZh": "室内香薰机及补充装",
+        "shoppingHintZh": "注意要同时购买 Air Wick 香薰机和补充装；每天 09:00 开放 1,000 个名额，建议准时参与。",
+        "submitHintZh": "提交时需上传购物小票照片；购买和提交截止日期均为 2026 年 11 月 8 日。",
+        "categoryKey": "cleaning",
+        "priority": "normal",
+        "tagsZh": [
+          "清洁",
+          "室内香薰",
+          "Air Wick",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2830762": {
+      "sourceFingerprint": "d6ba943d242a4f3f608eb38f33e7f6f00fdea20c484d5e42ec2614f6139bc9c9",
+      "generatedAt": "2026-10-03T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Arla Skyr 高蛋白酸奶饮品",
+        "summaryZh": "购买 Arla Skyr Drink，可参加免费试用返现活动。",
+        "productTypeZh": "高蛋白酸奶饮品",
+        "shoppingHintZh": "购买 Arla Skyr Drink；每天 09:00 开放 555 个名额，购买截止为 11 月 8 日。",
+        "submitHintZh": "提交时需上传小票照片，提交截止为 11 月 8 日。",
+        "categoryKey": "drink",
+        "priority": "high",
+        "tagsZh": [
+          "酸奶饮品",
+          "高蛋白",
+          "免费试用",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.91
+      }
+    },
+    "mydealz:2831122": {
+      "sourceFingerprint": "61cf13890579b20db9af15d05c91f59a8968fbcaa0a9a84f8af2ea8d9f5699e5",
+      "generatedAt": "2026-10-03T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Milka 夹心巧克力礼盒",
+        "summaryZh": "购买 Milka Pralinen 巧克力礼盒，可参加免费试用返现活动。",
+        "productTypeZh": "夹心巧克力礼盒",
+        "shoppingHintZh": "购买 Milka Pralinen 巧克力礼盒；每周一 07:00 开放名额，每周可兑换 5,000 次，购买截止为 12 月 27 日。",
+        "submitHintZh": "提交时需上传小票照片，提交截止为 12 月 27 日。",
+        "categoryKey": "food",
+        "priority": "high",
+        "tagsZh": [
+          "巧克力",
+          "礼盒",
+          "免费试用",
+          "每周名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.91
+      }
+    },
+    "mydealz:2822978": {
+      "sourceFingerprint": "c2d3197f90ea76a7b63bf4ad096d25586fab5246843abffecbff90c56e33b0e7",
+      "generatedAt": "2026-10-03T00:00:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Endori 纯素替代食品",
+        "summaryZh": "购买 Endori 指定纯素替代食品，可参加免费试用返现活动。",
+        "productTypeZh": "纯素肉类替代食品",
+        "shoppingHintZh": "选择 Endori 的纯素替代食品；总名额为 20,000 个，购买截止为 11 月 1 日。",
+        "submitHintZh": "提交时需上传小票照片，提交截止为 11 月 1 日。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "纯素",
+          "植物基",
+          "免费试用",
+          "小票",
+          "限额"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.9
+      }
     }
   }
 }
