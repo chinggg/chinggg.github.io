@@ -1579,6 +1579,512 @@
         ],
         "confidence": 0.9
       }
+    },
+    "mydealz:2839287": {
+      "sourceFingerprint": "e82ed60a39721635615ec62aa8a58ba55bde5eb9fd2f16904f7cc1cf2574c74a",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Opflanzda 纯素欧巴兹达奶酪替代品",
+        "summaryZh": "购买 Opflanzda 纯素欧巴兹达替代品，可参加免费试用返现活动。",
+        "productTypeZh": "纯素奶酪酱替代品",
+        "shoppingHintZh": "认准 Opflanzda 纯素欧巴兹达替代品；购买截止为 10 月 9 日。",
+        "submitHintZh": "提交时上传小票照片，并在 10 月 9 日前完成。",
+        "categoryKey": "food",
+        "priority": "high",
+        "tagsZh": [
+          "食品",
+          "纯素",
+          "奶酪替代",
+          "小票"
+        ],
+        "riskFlags": [
+          "receipt_photo"
+        ],
+        "confidence": 0.9
+      }
+    },
+    "mydealz:2846109": {
+      "sourceFingerprint": "b10d7ea41da437728740ebcdab50cd8418cfe888f6ea216f77d4005991bc578e",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Zirkulin Vital Super Greens 微量营养补充剂",
+        "summaryZh": "购买 Zirkulin Vital Super Greens 微量营养补充剂，可参加免费试用返现。",
+        "productTypeZh": "营养补充剂",
+        "shoppingHintZh": "活动每天 08:00 开放，全天仅 285 个名额；购买截止为 10 月 11 日。",
+        "submitHintZh": "提交时上传小票照片，并在 10 月 11 日前完成。",
+        "categoryKey": "health",
+        "priority": "high",
+        "tagsZh": [
+          "健康保健",
+          "营养补充",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.91
+      }
+    },
+    "mydealz:2839144": {
+      "sourceFingerprint": "36cb4efa3a30cb81d3f32c588229b13aa14a5895f177b12e7ee851291f7fcfe5",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Solero Bon Bon 水果冰淇淋",
+        "summaryZh": "购买 Solero Bon Bon 水果冰淇淋，可参加 100% 返现试用活动。",
+        "productTypeZh": "冰淇淋",
+        "shoppingHintZh": "选择 Solero Bon Bon 冰淇淋；活动每天 08:00 开放，仅 500 个名额。",
+        "submitHintZh": "提交时上传小票照片，并在 10 月 11 日前完成。",
+        "categoryKey": "food",
+        "priority": "high",
+        "tagsZh": [
+          "食品",
+          "冰淇淋",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2848127": {
+      "sourceFingerprint": "08f700e990ee5d4c469a072e95a9bb9c78ac46727455d9cf1c65d2c13b93e134",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Doppelherz med 伤口修复软膏",
+        "summaryZh": "购买 Doppelherz med 伤口修复软膏，可参加免费试用返现活动。",
+        "productTypeZh": "伤口修复软膏",
+        "shoppingHintZh": "认准 Doppelherz med Wund- & Heilsalbe；每天名额 715 个，总计 10,000 个。",
+        "submitHintZh": "提交时上传小票照片，并在 10 月 18 日前完成。",
+        "categoryKey": "health",
+        "priority": "high",
+        "tagsZh": [
+          "健康保健",
+          "修复软膏",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2845209": {
+      "sourceFingerprint": "c43ff9e9a977022680fc5feaf9fff8f4e8403c614c2d596dfba2c9176fdcf31e",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Kraft 奶酪",
+        "summaryZh": "购买 Kraft 奶酪，可参加免费试用返现活动。",
+        "productTypeZh": "奶酪",
+        "shoppingHintZh": "认准 Kraft 奶酪；活动周一 08:00 起开放，每周名额为 5,000 至 10,000 个。",
+        "submitHintZh": "提交时上传小票照片，并在 11 月 8 日前完成。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "食品",
+          "奶酪",
+          "每周名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.96
+      }
+    },
+    "mydealz:2832876": {
+      "sourceFingerprint": "11fd4d27e38a559ab6ecfe26686a320a1e2881bd8ad534752406438f283ecc0b",
+      "generatedAt": "2026-10-05T07:12:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Air Wick 香薰机及补充装",
+        "summaryZh": "购买 Air Wick 香薰机和补充装，可参加免费试用返现活动。",
+        "productTypeZh": "室内香薰机与补充装",
+        "shoppingHintZh": "需要购买 Air Wick 设备加补充装；每天 09:00 开放 1,000 个名额。",
+        "submitHintZh": "提交时上传小票照片，并在 11 月 8 日前完成。",
+        "categoryKey": "cleaning",
+        "priority": "normal",
+        "tagsZh": [
+          "家居清洁",
+          "室内香氛",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2847927": {
+      "sourceFingerprint": "aa24ba17a7a101a58e4db9dbdc49b79fe9ad816cf31b7b0d1c5012a5d10db3b8",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "BiFi Tasty Bites 咸味小点心",
+        "summaryZh": "购买指定 BiFi Tasty Bites 产品后可参加返现活动。",
+        "productTypeZh": "肉类咸味零食",
+        "shoppingHintZh": "仅限指定 BiFi Tasty Bites；每天 07:00 开放 333 个名额，先确认名额再购买。",
+        "submitHintZh": "按活动页面要求上传小票照片；购买和提交截止均为 11 月 15 日。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "BiFi",
+          "零食",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.9
+      }
+    },
+    "mydealz:2834412": {
+      "sourceFingerprint": "a929136ea4054604f6f761397f987479ca441982508194bc39bf6a0472449498",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Herta 新鲜披萨（仅限 GLOBUS）",
+        "summaryZh": "仅在 GLOBUS 购买指定 Herta 新鲜披萨后可参加返现活动。",
+        "productTypeZh": "冷藏新鲜披萨",
+        "shoppingHintZh": "活动仅限 GLOBUS 门店，购买前确认是指定 Herta 新鲜披萨。",
+        "submitHintZh": "保留并上传 GLOBUS 小票照片；购买和提交截止均为 11 月 29 日。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "Herta",
+          "披萨",
+          "GLOBUS 限店",
+          "小票"
+        ],
+        "riskFlags": [
+          "store_restricted",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2842672": {
+      "sourceFingerprint": "643cb6d8573fa46417f87be52703e95167ecb97d89cc1017d7913c36b6901652",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Simply V 植物基芝士片替代品",
+        "summaryZh": "购买指定 Simply V 芝士替代品后可参加返现活动。",
+        "productTypeZh": "植物基芝士片",
+        "shoppingHintZh": "注意买指定 Simply V Scheiben 芝士片；每天 07:00 开放 333 个名额。",
+        "submitHintZh": "按活动页面上传小票照片；购买和提交截止均为 11 月 30 日。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "Simply V",
+          "植物基",
+          "芝士片",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2833246": {
+      "sourceFingerprint": "e82bcc5ad1cd1468cd7eab571f9bfb427ebc2a8df215206e558096c0d5052de9",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "VoltaHeat 热敷贴／热感凝胶或 VoltaCool 冷感凝胶",
+        "summaryZh": "购买指定 VoltaHeat 或 VoltaCool 产品后可参加返现活动。",
+        "productTypeZh": "冷热舒缓外用产品",
+        "shoppingHintZh": "可选 VoltaHeat 热敷贴、热感凝胶或 VoltaCool 冷感凝胶；每周一 10:00 开放名额。",
+        "submitHintZh": "保留并上传小票照片；购买和提交截止均为 11 月 30 日。",
+        "categoryKey": "health",
+        "priority": "normal",
+        "tagsZh": [
+          "VoltaHeat",
+          "VoltaCool",
+          "热敷",
+          "冷感",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:01092026": {
+      "sourceFingerprint": "39d8f359e9b20fc6f05179c8e4a3bb9403acb10dd533ad7841649a80ffe1cc85",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Claro 洗碗机洗涤块",
+        "summaryZh": "购买指定 Claro 洗碗机洗涤块后可参加返现活动。",
+        "productTypeZh": "洗碗机洗涤块",
+        "shoppingHintZh": "注意购买 Claro Spültabs 洗碗机洗涤块；每天 09:00 开放活动名额。",
+        "submitHintZh": "按活动页面上传小票照片；购买和提交截止均为 11 月 30 日。",
+        "categoryKey": "cleaning",
+        "priority": "normal",
+        "tagsZh": [
+          "Claro",
+          "洗碗机",
+          "洗涤块",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.97
+      }
+    },
+    "mydealz:2839270": {
+      "sourceFingerprint": "903264fd7254bfd8a22cb4219108e41934b5c42a68fff6558394f01e433cf7d0",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "MyLove MyLife 植物基产品（最多 3 件）",
+        "summaryZh": "购买 MyLove MyLife 指定植物基产品，最多可参加 3 次返现。",
+        "productTypeZh": "植物基食品",
+        "shoppingHintZh": "确认购买的是指定 MyLove MyLife 产品；活动商品可在奥地利 Biomarkt Verbund、Knuspr，后续可能加入 Alnatura。",
+        "submitHintZh": "通过 WhatsApp 参加，按页面要求发送购买凭证；购买和提交截止均为 12 月 13 日。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "MyLove MyLife",
+          "植物基",
+          "最多3件",
+          "WhatsApp"
+        ],
+        "riskFlags": [
+          "sms_confirmation",
+          "receipt_photo"
+        ],
+        "confidence": 0.87
+      }
+    },
+    "mydealz:2835317": {
+      "sourceFingerprint": "475156390d63d758b64ed84cbc8c4cdaa6dbb6ee555506c7febfcda7fe57008e",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Schwartau the jam 果酱",
+        "summaryZh": "购买 Schwartau the jam 果酱，可参加全额返现活动。",
+        "productTypeZh": "果酱",
+        "shoppingHintZh": "认准 Schwartau the jam 系列；每天 08:00 开放 555 个名额，建议先领名额再购买。",
+        "submitHintZh": "按活动页面要求上传购物小票照片，并在 12 月 15 日前提交。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "果酱",
+          "早餐",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.94
+      }
+    },
+    "mydealz:2832877": {
+      "sourceFingerprint": "73a2334b85fd945e10ae36382ecb627b0f29dcdf33bb1fa37e2d44c76dbbd944",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "TENA 轻度尿失禁护垫",
+        "summaryZh": "购买指定 TENA 护垫，可参加免费试用返现。",
+        "productTypeZh": "轻度尿失禁护垫",
+        "shoppingHintZh": "购买 TENA Slipeinlagen 护垫，注意不要与普通卫生巾系列混淆。",
+        "submitHintZh": "保留并上传清晰的小票照片，最晚于 12 月 15 日提交。",
+        "categoryKey": "personal",
+        "priority": "normal",
+        "tagsZh": [
+          "个护",
+          "护垫",
+          "小票"
+        ],
+        "riskFlags": [
+          "receipt_photo"
+        ],
+        "confidence": 0.96
+      }
+    },
+    "mydealz:2847185": {
+      "sourceFingerprint": "a63e60dae21130b332fc4c0520aade57360cbd35e1f7d43b585d7be522aa03c2",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Tulip 培根片或培根条",
+        "summaryZh": "10 月 12 日起购买指定 Tulip 培根，可参加免费试用返现。",
+        "productTypeZh": "培根",
+        "shoppingHintZh": "活动从 10 月 12 日开始；购买 Tulip Bacon Scheiben 或 Baconstreifen，留意包装规格。",
+        "submitHintZh": "购买后上传购物小票照片，并在 12 月 24 日前完成提交。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "培根",
+          "冷藏食品",
+          "10月12日开始",
+          "小票"
+        ],
+        "riskFlags": [
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2844862": {
+      "sourceFingerprint": "f88434c5998d9739858c0a9f82ba0d7d1ecba7635739d6ffabd660faa9119f51",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "yfood 即饮代餐",
+        "summaryZh": "购买 yfood 即饮代餐，可参加免费试用返现；每天名额有限。",
+        "productTypeZh": "即饮代餐",
+        "shoppingHintZh": "认准 yfood Trinkmahlzeit；每天 09:00 开放 555 个名额，建议先确认名额。",
+        "submitHintZh": "提交时上传清晰的小票照片，截止日期为 12 月 24 日。",
+        "categoryKey": "drink",
+        "priority": "normal",
+        "tagsZh": [
+          "代餐",
+          "饮料",
+          "每日名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.96
+      }
+    },
+    "mydealz:2840660": {
+      "sourceFingerprint": "ff3d4945a8a44053d57ed739ca981961ee577264e21ef405682db6595b6b6780",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Zewa Wisch & Weg 厨房纸",
+        "summaryZh": "购买带“Gratis Testen”标识的 Zewa Wisch & Weg 厨房纸，可参加返现。",
+        "productTypeZh": "厨房纸",
+        "shoppingHintZh": "必须认准包装上的“Gratis Testen”促销字样；每周名额自 08:00 起开放。",
+        "submitHintZh": "上传带有商品和日期的小票照片，并在 12 月 31 日前提交。",
+        "categoryKey": "cleaning",
+        "priority": "normal",
+        "tagsZh": [
+          "厨房纸",
+          "家居清洁",
+          "每周名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "mydealz:2837829": {
+      "sourceFingerprint": "db23b4b192dd25f017c1a63c9214b834825a4423d3b721f17001e3f77e47990b",
+      "generatedAt": "2026-10-05T07:15:00.000Z",
+      "model": "subagent",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "TREK 蛋白燕麦棒三条装",
+        "summaryZh": "购买 TREK Protein Oat Bars 三条装，可参加免费试用返现。",
+        "productTypeZh": "蛋白燕麦棒",
+        "shoppingHintZh": "购买 3er Pack 三条装；每周二 06:00 开放名额，数量有限。",
+        "submitHintZh": "按活动页面上传购物小票照片，并在 12 月 31 日前提交。",
+        "categoryKey": "food",
+        "priority": "normal",
+        "tagsZh": [
+          "蛋白棒",
+          "燕麦",
+          "三条装",
+          "每周名额",
+          "小票"
+        ],
+        "riskFlags": [
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 0.96
+      }
+    },
+    "mydealz:2836515": {
+      "sourceFingerprint": "e2c3fe559e2b60ae53a785ea5c8afd486039e1ece5d9109f880cb6952f3682db",
+      "generatedAt": "2026-10-05T07:09:00.877Z",
+      "model": "default-skip-category",
+      "status": "enriched",
+      "enrichment": {
+        "titleZh": "Cesar 狗粮免费试用",
+        "summaryZh": "宠物用品活动，默认低优先级跳过。",
+        "productTypeZh": "狗粮",
+        "shoppingHintZh": "默认跳过宠物用品；如需参加，留意每周名额和每人最多两次。",
+        "submitHintZh": "如参加，按活动要求上传小票照片，并在截止日前提交。",
+        "categoryKey": "pet",
+        "priority": "low",
+        "tagsZh": [
+          "宠物用品",
+          "默认跳过"
+        ],
+        "riskFlags": [
+          "user_skip_category",
+          "quota_limited",
+          "daily_window",
+          "receipt_photo"
+        ],
+        "confidence": 1
+      }
     }
   }
 }
